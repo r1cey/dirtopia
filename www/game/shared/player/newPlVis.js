@@ -10,7 +10,7 @@ import newInvSlot	from "../items/newInvSlot.js"
 
 /** Class for visible players. Has limited information. */
 
-export default function ( InvSlot =newInvSlot() )
+export default function( InvSlot =newInvSlot() )
 {
 	class PlVis extends InvSlot
 	{
@@ -44,13 +44,6 @@ export default function ( InvSlot =newInvSlot() )
 			}
 		}
 		return this
-	}
-
-
-
-	Pl.prototype. addsbag	=function( sbag )
-	{
-		//this.inv.
 	}
 
 

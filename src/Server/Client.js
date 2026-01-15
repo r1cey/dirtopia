@@ -1,10 +1,10 @@
 import out	from "./ClientSend.js"
 
-import get from "./ClientGet.js"
+import get from "./newClientGet.js"
 
 import V from '../../www/game/shared/Vec.js'
 
-import ClG from './ClientGet.js'
+import ClG from './newClientGet.js'
 
 import MapG	from "../maps/Ground.js"
 

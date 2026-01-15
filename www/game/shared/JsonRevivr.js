@@ -12,52 +12,55 @@ export default class JR
 
 	constructor()
 	{
-		this.addclassa([ Loc ,Col ])
+		this.addifacea([ Loc ,Col ])
 
 		this.fn	=this.revivr.bind(this)
 	}
 }
 
 
-JR.prototype. addclassa	=function( arr )
+JR.prototype. addifacea	=function( arr )
 {
-	for(var clss of arr )
+	for(var iface of arr )
 	{
-		this.addclass( clss )
+		this.addiface( iface )
 	}
 	return this
 }
 
+JR.prototype. adda	=JR.prototype.addifacea
 
-JR.prototype. addclasso	=function( o )
+
+JR.prototype. addifaceo	=function( o )
 {
 	for(var key in o )
 	{
-		this.addclass( o[key] )
+		this.addiface( o[key] )
 	}
 	return this
 }
 
+JR.prototype. addo	=JR.prototype.addifaceo
 
 
-JR.prototype. addtmplclss	=function( clss )
+JR.prototype. addtmplkey	=function( key )
 {
-	this.revfns[clss.key]	=clss.newrevfn( this )
+	this.revfns[key]	=this.parsetmpl.bind(this)
 
 	return this
 }
 
+JR.prototype. addtmpl	=JR.prototype.addtmplkey
 
 
-JR.prototype. addclass	=function( clss )
+JR.prototype. addiface	=function( iface )
 {
-	this.revfns[clss.key]	=clss.fromJSON.bind(clss)
+	this.revfns[iface.key]	=iface.fromJSON.bind(iface)
 
 	return this
 }
 
-
-JR.prototype. add	=JR.prototype. addclass
+JR.prototype. add	=JR.prototype. addiface
 
 
 
@@ -66,4 +69,14 @@ JR.prototype. revivr	=function( key, val, str )
 	var revfn	=this.revfns[key]
 
 	return revfn	? revfn( val )	: val
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+
+JR.prototype. parsetmpl	=function( arr )
+{
+	return this.revfns[arr[0]]( arr[1] )
 }

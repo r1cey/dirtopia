@@ -24,6 +24,6 @@ export default function(Base)
 
 		isblock()	{return null }
 
-		/**@method msg2navo( arrfrom ,i ,arrto ) */
+		/**@method getnavo( nav ,_i ,key [, id ]) */
 	}
 }

@@ -3,35 +3,17 @@
 import Loc from "../../www/game/shared/Loc.js"
 
 
-/********
- * ALL OF THE PROTOTYPE METHODS WILL RECEIVE "s_" and "send_" PREFIXES 
- * ***
 
-
-export default class SSe
+export default( Base )=>class SrvSend	extends Base
 {
-}*/
-
-
-var out	={}
-
 
 ///////////////////////////////////////////////////////////////////////////////
 
 
-/*
-out. mapaddobj	=function( map, loc, o )
-{
-	for(var n in this.cls.o )
+	send_mapadditem( map, loc, item )
 	{
-		var cl	=this.cls.o[n]
-
-		if( cl.pl.sees( loc ))
-		{
-			cl.send("map_additem" ,map ,loc ,item )
-		}
+		this.sendvis( loc ,"additem" ,{ path :["maps",loc] ,item })
 	}
-}*/
 
 /** @arg {string} act 
  * @arg {array} vals */
@@ -71,7 +53,7 @@ out. mapobjset	=function( map, loc, key )
 
 
 
-
+/*
 out. plmov	=function( pl, oldloc )
 {
 	var newloc	=pl.loc
@@ -158,13 +140,11 @@ out. setplitem	=function( pl ,item )
 
 	this.sendplvis( pl ,"setplitem" ,[ pl.name ,pl.loc ,item ])
 }*/
-
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 
 
-
-export default out
 
 
 /*

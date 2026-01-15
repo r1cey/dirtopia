@@ -1,7 +1,7 @@
 // import Cnt from "./newContainer.js"
 
 
-export function newBag( Box )
+export default function newBag( Box )
 {
 	class Bag extends Box
 	{

@@ -7,39 +7,40 @@ import newInv from "./newInv.js"
 
 
 
-export default function( Item =Item ,newInv =newInv )
+export default( Base =newInv(Item) )=>class Cnt	extends Base
 {
-	class Cnt	extends newInv( Item )
-	{
-		id	=0
+	id	=0
 
-		/**@static
-		@var Stack */
+	/**@static
+	@var Stack */
+
+	openedby	=new Set()
+
 
 /*
-		constructor( init )
-		{
-			/** the difference is only relevant between server and client machines *
-			
-			if( init )	this.set( init )
+	constructor( init )
+	{
+		/** the difference is only relevant between server and client machines *
+		
+		if( init )	this.set( init )
 
-			else	this.id	=Cnt.idpool.new()
-		}*/
-
-
-		iscnt()	{return this }
+		else	this.id	=Cnt.idpool.new()
+	}*/
 
 
-		calcvol()	{return this.constructor.vol + this.itemvol() }
-	}
+	get iscnt()	{return this }
+	
+
+
+	calcvol()	{return this.constructor.vol + this.itemvol() }
 
 
 	///////////////////////////////////////////////////////////////////////////
-
+	
 
 	/** Check if dads can also contain the item */
 
-	Cnt. canadditem	=function( nav ,_i ,item ,len )
+	static canadditem( nav ,_i ,item ,len )
 	{
 		if( nav.dad(_i).isbox() )
 		{
@@ -67,12 +68,15 @@ export default function( Item =Item ,newInv =newInv )
 	///////////////////////////////////////////////////////////////////////////
 
 
+
+	newstck()	{return new this.constructor.Stack() }
+
 	
-	Cnt. newStck	=function( StckC )
+	static newStck( StckC )
 	{
 		var Cnt	=this
 
-		var cname	=this.name+StckC.suffix
+		var cname	=this.key+StckC.suffix
 
 		var o	={}
 		
@@ -88,11 +92,14 @@ export default function( Item =Item ,newInv =newInv )
 	}
 
 
+	gstckkey()	{return this.constructor.Stack.key }
+
+
 	///////////////////////////////////////////////////////////////////////////
 
 
 
-	Cnt.prototype. itemvol	=function()
+	itemvol()
 	{
 		var vol	=0
 
@@ -105,7 +112,4 @@ export default function( Item =Item ,newInv =newInv )
 
 
 	///////////////////////////////////////////////////////////////////////////
-
-
-	return Cnt
 }

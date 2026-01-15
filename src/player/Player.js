@@ -1,4 +1,4 @@
-import newPl from '../../www/game/shared/player/newPlayer.js'
+import newPlMsg from '../../www/game/shared/player/newPlayer.js'
 import Hands from '../../www/game/shared/player/Hands.js'
 
 import V from '../../www/game/shared/Vec.js'
@@ -52,7 +52,7 @@ class PlSlp extends SrvPl( PlMsg.Vis )
 }*/
 
 
-export default class Player extends PlMsg	//SrvPl( PlMsg )
+export default class Player extends newPlMsg()	//SrvPl( PlMsg )
 {	
 	game
 
@@ -267,85 +267,22 @@ Player.prototype. additemcnt	=function( path ,item ,len )
 /** From/To root is either a player or map location.
  * from|to{ loc, pln, boxes[str] } */
 
-Player.prototype. movitem	=function( from, key, len$id, to )
+Player.prototype. movitem	=function( from, item, len, to )
 {
 	/** @TODO !!! : check that to and from are viable */
 
-	var{ game }	=this
+	var{ game ,loc }	=this
 
-	var fromcnt	=game
-
-	for(var key of from )
+	if( from.loc().disth( loc ) > 1 || to.loc().disth( loc ) > 1 )
 	{
-		fromcnt	=fromcnt.getinv( key )
+		return false
 	}
-	var tocnt	=game
+	return game.movitem( from ,item ,len ,to ,this )
 
-	for(var key of to )
-	{
-		tocnt	=tocnt.getinv( key )
-	}
 
-	PlMsg.prototype.movitem. call(this, fromcnt, itemid, len, tocnt )
+	// PlMsg.prototype.movitem. call(this, fromcnt, itemid, len, tocnt )
 		
-//		frombox, fromdadbox, itemn, len, boxi, tobox, todadbox )
 
-
-
-
-	
-	var cntfrom	=new Holder()
-	
-	from.pln ? cntfrom.frompl( game.pls.g(from.pln), from.boxes ) :
-
-		cntfrom.loc2map( game.maps, from.loc, from.boxes )
-
-	PlMsg.prototype.movitem. call(this, cntfrom, itemn, len, boxi, cntto )
-
-
-
-	/** How many items can destination accept? */
-
-	if( to.pln )
-	{
-
-	}
-
-	if( from.pln )
-	{
-		let pl	=game.pls.g(from.pln)
-
-		// if( ! from.boxes.length )
-	}
-	var frombox	=from.pln ? game.pls.g(from.pln) : game.maps.objfromloc(from.loc)
-
-	if( ! frombox )
-	{
-		console.error(`ERR! pl.movobj{pln:${from.pln},loc:${from.loc}}`)
-
-		return
-	}
-	var fromdadbox
-
-	for(var boxn of from.boxes )
-	{
-		fromdadbox	=frombox
-
-		frombox	=frombox[boxn]
-	}
-	var tobox	=to.pln ? game.pls.g(to.pln) : game.maps.objfromloc(to.loc)
-
-	var todadbox
-
-	for(var boxn of to.boxes )
-	{
-		todadbox	=tobox
-
-		tobox	=tobox[boxn]
-	}
-	PlMsg.prototype.movitem. call(this,
-		
-		frombox, fromdadbox, itemn, len, boxi, tobox, todadbox )
 }
 
 

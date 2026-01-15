@@ -17,6 +17,8 @@ export default class Map extends ShMap
 {
 	game()	{return this.maps.game }
 
+	srv()	{return this.game().srv }
+
 	/** define in derived class
 	@static
 	@var name */
@@ -142,6 +144,8 @@ Map.prototype. newshiftboard	=function( loc, r, dir )
 
 ///////////////////////////////////////////////////////////////////////////
 
+
+///////////////////////////////////////////////////////////////////////////
 
 
 class Grid

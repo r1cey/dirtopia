@@ -12,13 +12,13 @@ import JRev from "../JsonRevivr.js"
 
 export default class Obj extends ShObj
 {
-	static jrev	=new JRev().add([
+	static jrev	=new JRev().add(
 		{
 			key :"spawns"
 			,
 			fromJSON :( arr )=> arr.map(( val )=> new Loc().seta(val) )
 		}		
-	])
+	)
 
 	/*constructor( ...args )
 	{

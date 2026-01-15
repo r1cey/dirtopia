@@ -1,13 +1,11 @@
-import PathO	from '../www/game/shared/newPathable.js'
+import newPathe	from "../www/game/shared/newPathable.js"
 import Maps	from './maps/Maps.js'
 import Srv from './Server/Server.js'
 // import Errors from './Errors.js'
 import Players from './player/Pls.js'
 import Loc	from './Loc.js'
-import Pl from './player/Player.js'
 // import { constrainedMemory } from 'process'
-import Con from "./Console.js"
-// import Admin from "./Admin.js"
+// import Con from "./Console.js"
 import Nav	from '../www/game/shared/Nav.js'
 
 
@@ -29,7 +27,7 @@ Function.prototype. c	=function(...args)
  */
 
 
-export default class G extends PathO
+export default class G// extends PathO
 {
 	conf	=
 	{
@@ -62,7 +60,7 @@ export default class G extends PathO
 
 	constructor( confpa )
 	{
-		super()
+		// super()
 		// this.start(confpa)
 	}
 }
@@ -154,45 +152,53 @@ G.prototype. save	=async function()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-/** @todo what if no place to move stacks too */
-
-G.prototype. additem	=function( nav ,item ,len ,ismov )
+G.prototype. canadditem	=function( to ,item ,len )
 {
-
-	if( nav.last().isstcnt() )
+	if( to.isscnt() )
 	{
-		if( nav.dadl().isloc() )
-		{
-			let[ maps ,loc ,stcnt ]	=nav.a
 
-			this.movitem(
-				
-				new Nav([ maps ,loc ]),
-				
-				stcnt ,stcnt.len-1 ,
-				
-				new Nav([ maps ,maps.findempty( loc ,dpush) ])
-			)
-		}
-		var cnt	=this.stck2cnt( nav )
 	}
-	if( ! ismov )	this.srv.send("additem",[ nav ,item ,len ,cnt ])
+}
 
-	nav.exl("additem" ,[ item ,len ,cnt ])
+/** @todo what if no place to move stacks too and lots of error handling!! */
 
-	return cnt
+G.prototype. additem	=function( to ,item )
+{
+	var addmsg	=
+	{
+		item ,to
+		,
+		newcntid	:undefined
+		,
+		pushed2loc	:undefined
+		,
+		newslotcnts	:undefined
+	}
 }
 
 
+/**@arg {Nav} from
+ * @arg {Nav} to */
+
 G.prototype. movitem	=function( from ,item ,len ,to ,mover )
 {
-	this.srv.send("movitem" ,[ from ,item ,len ,to ,mover ])
+	var movmsg	=
+	{
+		from ,item ,len ,to ,mover ,
 
-	to.exl( "additem" ,[ item ,len ])
-	
-	// var cnt	=this.additem( to ,item ,len ,true )
+		newcntid	:undefined
+		,
+		pushed2loc	:undefined
+		,
+		newslotcnts	:undefined
+	}
+	var movitem	= item.isstck && item.len > len ?	item.clone( len )	: item
 
-	from.exl("delitem" ,[ item ,len ])
+	to.at(-1).additem( movitem ,to )?.tonetmsg( movmsg )
+
+	from.at(-1).delitem( item ,len ,from )
+
+	this.srv.send2loc( this.nav2loc(from) ,this.nav2loc(to) ,"movitem" ,movmsg )
 }
 
 
@@ -214,53 +220,45 @@ G.prototype. rempls	=async function()
 }
 
 
-G.prototype. stck2cnt	=function( nav )
-{
-	var cnt	=nav.last().newcnt()
-
-	this.srv.send("stck2cnt",[ nav ,cnt ])
-
-	return cnt
-}
-
-
 /**@todo do all of the error handling */
 
-G.prototype. stra2nav	=function( amsg )
+G.prototype. path2nav	=function( path )
 {
-	var aobj	=[]
+	var nava	=[]
 
-	switch( amsg[0] )
+	switch( path[0] )
 	{
 		case "maps"	:
 			
-			aobj[0]	=this.maps
+			nava[0]	=this.maps
 		break
 		case "pls"	:
 			
-			aobj[0]	=this.pls
+			nava[0]	=this.pls
 		break
 	}
-	for( var i =1 ,len= amsg.length ;i<len;++i)
+	for( var i =1 ,len= path.length ;i<len;++i)
 	{
-		i	+=aobj[i-1].msg2navo( amsg ,i ,aobj ) || 0
+		i	+=nava[i-1].msg2navo( path ,i ,nava ) || 0
+
+		i	+=nav.add( path ,i )
 	}
-	return new Nav(aobj)
+	return new Nav(nava)
 }
 
 
 
-G.prototype. path2loc	=function( path )
+G.prototype. nav2loc	=function( nav )
 {
-	switch( this.getobj(path[0]) )
+	switch( nav[0] )
 	{
 		case this.pls :
 
-			return this.pls.getobj( path[1] ).loc
+			return nav[1].loc
 		break
 		case this.maps :
 
-			return new Loc().seta( path[1] )
+			return nav[1]
 	}
 }
 
@@ -468,11 +466,9 @@ G.prototype. hour	=function()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-/**@arg	id	-[ loc, pln ] */
-
-G.prototype. getobj	=function( n )
+G.prototype. getobj	=function( key )
 {
-	switch( n )
+	switch( key )
 	{
 		case "map" :
 

@@ -1,9 +1,9 @@
-import Item	from "./Item.js"
+import Item2	from "./Item.js"
 
 // import newJable	from "../newJsonable.js"
 
 
-export default function( Item =Item )
+export default function( Item =Item2 )
 {
 	class St	extends Item
 	{
@@ -23,10 +23,22 @@ export default function( Item =Item )
 		}
 
 
-		// isstck()	{return this }
+		get isstck()	{return this }
 
 
 		calcvol()	{return this.vol() * this.len }
+
+
+		clone( len )
+		{
+			var newst	=new this.constructor().set(this)
+
+			newst.len	=len
+
+			// this.len	-=len
+
+			return newst
+		}
 
 		/**	Doesn't reduce the num of this item. 
 		 * @returns new obj or this. */

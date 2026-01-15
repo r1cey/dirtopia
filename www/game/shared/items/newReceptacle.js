@@ -3,35 +3,29 @@ import newSlot from "./newInvSlot.js"
 import newCnt from "./newContainer.js"
 
 
-export default function( Cnt =newCnt() ,newSlot =newSlot )
+export default( Base =newSlot(newCnt()) )=>class Rcpt	extends Base
 {
-	class Rcpt	extends newSlot( Cnt )
+	canadditem( item ,len )
 	{
-	}
+		/*var lenallow	=Rcpt.canadditem( item ,len )
 
+		var curlen	=this.inv[item.gkey()]?.len || 0
 
+		lenallow	-= curlen*/
 
-	Rcpt.prototype. canadditem	=function( nav, _i ,item ,len )
-	{
-		var lenallow	=this.constructor.canadditem( nav ,_i ,item ,len )
-
-		var curlen	=this.inv[item.gkey()]?.len
-
-		if( curlen )	lenallow	-= curlen
-
-		return lenallow
+		return Rcpt.canadditem( item ,len ) - ( this.inv[item.gkey()]?.len || 0)
 	}
 	
 
-	Rcpt. canadditem	=function( nav ,_i ,item ,len )
+	static canadditem(item ,len )
 	{
-		var lenallow	=Math.min( this.allowed[item.gkey()] ,len )
-
-		if( ! lenallow )	return 0
-
-		return Math.min( lenallow ,Cnt.canadditem( nav ,_i ,item ,len ))
+		return Math.min( this.allowed[item.gkey()] || 0 ,len )
 	}
+}
 
 
-	return Rcpt
+class LiveRcpt
+{
+	canchildadditem( child, item ,len )
+	{}
 }

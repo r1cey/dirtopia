@@ -4,7 +4,7 @@ import { WebSocketServer, WebSocket } from "ws"
 // import Vec from '../www/game/shared/Vec.js'
 // import Player from './Player.js'
 import Cls from "./Clients.js"
-import out from './ServSend.js'
+import out from './newServSend.js'
 
 import JRev from "../../www/game/shared/JsonRevivr.js"
 
@@ -123,7 +123,7 @@ Server.prototype. sendplvis	=function( pl ,fnk ,args )
 }
 
 
-Server.prototype. senditemmoved	=function( from ,item ,len ,to ,mover )
+Server.prototype. senditemmoved	=function( from ,item ,to ,mover )
 {
 	var cls	=new Set()
 

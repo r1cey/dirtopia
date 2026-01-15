@@ -1,4 +1,4 @@
-import newRcpt	from "../../www/game/shared/item/newReceptacle.js"
+import newRcpt	from "../../www/game/shared/items/newReceptacle.js"
 
 import Cnt	from "./Container.js"
 

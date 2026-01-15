@@ -19,7 +19,7 @@ import Loc from "../Loc.js"
 
 
 
-export default class Maps	extends PObj
+export default class Maps//	extends PObj
 {
 	/** Define in derived
 	@var ground */
@@ -47,7 +47,7 @@ export default class Maps	extends PObj
 
 		this.trees	=this.tr	=new Tr( this )
 		
-		super()
+		// super()
 	}
 }
 
@@ -120,12 +120,34 @@ Maps.prototype. canpushitem	=function( loc )
 }
 
 
+
+Maps.prototype. additem	=function( loc ,item )
+{
+	this.loc2map(loc).additem( loc ,item )
+}
+
+
+
+Maps.prototype. delitem	=function( loc ,item ,len )
+{
+	this.loc2map(loc).delitem( loc ,item ,len )
+}
+
+
+
 Maps.prototype. delpls	=function( pls )
 {
 	for(var[ pln ,plloc ] of pls )
 	{
 		delete this.loc2map(plloc).g(plloc).pl
 	}
+}
+
+
+
+Maps.prototype. stck2cnt	=function( loc ,stck )
+{
+	return this.loc2map(loc).stck2cnt( loc )
 }
 
 

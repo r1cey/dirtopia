@@ -4,4 +4,7 @@ import Cnt	from "./Container.js"
 
 
 
-export default newBox(Cnt)
+export default class Box	extends newBox(Cnt)
+{
+	
+}

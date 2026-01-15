@@ -4,7 +4,9 @@ import Obj from './Obj.js'
 
 import Loc from '../Loc.js'
 
-import Cell from './Cell.js'
+// import Cell from '../../../../src/maps/Cell.js'
+
+// import { AddMsg } from '../Msgs.js'
 
 
 /** Hexagonally round version of Board.
@@ -123,13 +125,56 @@ Map.prototype. canplmov	=function( dest, pl )
 
 
 
+Map.prototype. additem	=function( loc ,item )
+{
+	this.obj.s(loc).item	=item
+}
+
+
+Map.prototype. delitem	=function( loc ,item ,len )
+{
+	var cell	=this.obj.g(loc)
+
+	if( item.isstck )
+	{
+		var item	=cell.item
+
+		item.len	-= len
+
+		if( item.len > 0 )	return
+	}
+	this.obj.del( loc ,"item" ,cell )
+}
+
+
+
+Map.prototype. stack2cnt	=function( loc ,stck )
+{
+	var cell	=this.g(loc)
+
+	var stck	=cell.item
+
+	var newcnt	=stck.spawncnt()
+
+	var pushed2loc	=this.findempty( loc ,1 )
+
+	this.obj.s(pushed2loc).item	=stck
+
+	cell.item	=newcnt
+
+	return { newcnt ,pushed2loc }
+}
+
+
+
 Map.prototype. findempty	=function( loc ,r )
 {
 	return this.fore(( v )=>
 		{
 			if( ! this.obj.g(v)?.item )	return true
-		}
-		, r ,loc )
+		},
+		r ,loc
+	)
 }
 
 

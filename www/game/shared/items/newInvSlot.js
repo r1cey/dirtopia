@@ -1,22 +1,51 @@
 import newInv from "./newInv.js";
 
+import { AddMsg } from "../Msgs.js";
 
 
-export default function( newInv =newInv )
+
+export default( Base =newInv() )=>class InvSlot extends Base
 {
-    const Slt =newInv( class
-    {
-        static allowed  ={}
+    static allowed  ={}
 
 
-        static canadditem( nav ,_i ,item ,len )
-        {
-            return Math.min( this.allowed[item.gkey()] ,len )
-        }
-    })    
+	additem( item )
+	{
+		var msg
+
+		if( item.isstcnt )
+		{
+			msg	=new AddMsg()
+			
+			msg.newslotcnts	=new Array(item.len)
+			
+			for(var i =0 ;i< item.len ;++i)
+			{
+				var cnt	=item.spawncnt()
+
+				msg.newslotcnts[i]	=cnt
+
+				super.additem( cnt )
+			}
+		}
+		else	super.additem( item )
+
+		return msg
+	}
 
 
-	Slt. newallow	=function( stcks ,cnts )
+    static canadditem( item ,len )
+	{
+		var allowlen	=this.allowed[item.gkey()]
+
+		if( ! allowlen )	return 0
+
+		return Math.min( allowlen ,len )
+	}
+
+
+
+	static newallow( stcks ,cnts )
 	{
 		var allowed	=Object.assign( {} ,stcks )
 
@@ -30,7 +59,4 @@ export default function( newInv =newInv )
 		}
 		return allowed
 	}
-
-
-    return Slt
 }

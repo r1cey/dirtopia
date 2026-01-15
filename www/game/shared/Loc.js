@@ -1,10 +1,10 @@
 import V	from './Vec.js'
 
-import newPathable from './newPathable.js'
+// import newPathable from './newPathable.js'
 
 
 
-export default class Loc extends newPathable( V )
+export default class Loc extends V //newPathable( V )
 {
 	h
 
@@ -29,16 +29,16 @@ export default class Loc extends newPathable( V )
 	}
 
 
-	isloc()	{return this }
+	get isloc()	{return true }
 
 
-	getcell( maps )	{return maps.loc2map(this).obj.g(this) }
+	/*getcell( maps )	{return maps.loc2map(this).obj.g(this) }
 
 
 	getitem( key ,maps ){	return this.getcell( maps )?.item }
 
 	
-	isempty( nav ,_i )	{return this.getcell( nav.dad(_i) )?.item }
+	isempty( nav ,_i )	{return this.getcell( nav.dad(_i) )?.item }*/
 
 	
 	fromJSON( a )	{return new this( ...a )}
@@ -121,12 +121,12 @@ Loc.prototype. toString	=function()
 Loc.prototype. tovstr	=V.prototype. toString
 
 
-/** Questionable use */
+/** Questionable use *
 
 Loc.prototype. isloc	=function( str )
 {
 	return ! isNaN(parseInt( str ))
-}
+}*/
 
 
 
@@ -163,9 +163,31 @@ Loc.prototype. subv	=function( v )
 
 
 
-Loc.prototype. iscell	=function()
+Loc.prototype. additem	=function( item ,nav )
 {
-	return tr
+	nav.at(-2).loc2map(this).setitem( this ,item )
+}
+
+
+Loc.prototype. delitem	=function( item ,len ,nav )
+{
+	nav.at(-2).loc2map(this).delitem( this ,item ,len )
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+
+Loc.prototype. stck2cnt	=function( stck ,nav )
+{
+	return nav[0].stck2cnt( this ,stck )
+}
+
+
+Loc.prototype. cnt2stck	=function( cnt ,nav )
+{
+	nav[0].loc2map(this).setitem( this ,cnt.newstck() )
 }
 
 

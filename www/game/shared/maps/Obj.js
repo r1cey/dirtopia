@@ -41,17 +41,30 @@ Obj.prototype. g	=Obj.prototype. get
 
 
 
-Obj.prototype. del	=function( loc, n )
+Obj.prototype. del	=function( loc, key ,cell )
 {
 	var str	=loc.tovstr()
 
-	delete this.o[str][n]
+	cell	??=this.o[str]
 
-	for( n in this.o[str] )
+	delete cell[key]
+
+	for( key in cell )
 	{
 		return
 	}
 	delete this.o[str]
+}
+
+
+
+Obj.prototype. mov	=function( fromloc, key ,toloc )
+{
+	var cell	=this.g(fromloc)
+
+	this.s(toloc)[key]	=cell[key]
+
+	this.del( fromloc ,key )
 }
 
 
