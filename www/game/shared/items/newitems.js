@@ -1,28 +1,99 @@
-import newstacks	from "./newstacks.js"
-import newcnts	from "./newcnts.js"
-import newblocks	from "./newblocks.js"
-import newbags	from "./newbags.js"
+// import newstacks	from "./newstacks.js"
+// import newcnts	from "./newcnts.js"
+// import newblocks	from "./newblocks.js"
+// import newbags	from "./newbags.js"
+import { mm3perunit as mm3pu } from "./Item.js"
+
+import Loc	from "../Loc.js"
+import{ rnd }	from "../utils.js"
 
 
-export default function newitems( Stack ,Rcpt ,Box ,Bag ,Block )
+export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt })=>
 {
-	var stacks	=newstacks( Stack )
+	var items	={}
 
-	var o	={}
+	addsrcpt( "belt" ,15*15*10 ,
+		{
+			"multi"	:1,
+			"seedbag"	:5
+		}
+	)
+	addbag( "seedbag", 40*25*20/125 ,55*45*45 ,Bag )
 
-	for(var n in stacks )
+	addst( "cuc_seeds" ,1 ,Stack )
+
+	addst( "multi" ,30*20*150 ,Stack )
+
+	addblock( "dewd" ,class Dewd extends Block
 	{
-		o[stacks[n].key]	=stacks[n]
+		dir
+
+
+		constructor()
+		{
+			this.dir	??=rnd(6)
+		}
+
+		sim_rot( ddir )
+		{
+			return Loc.roth( this.dir, ddir )
+		}
+	})
+
+
+	return items
+
+
+
+	function addst( key ,vol ,Base )
+	{
+		items[key]	=class extends Base
+		{
+			static key	=key
+
+			static vol	=Math.floor( vol / mm3pu )
+		}
 	}
 
-	/*newBag( class
+	function addbag( key ,vol ,bagvol ,Base )
 	{
-		static vol	=Math.floor(40*25*20/125)
-	
-		static boxvol	=Math.floor(55*45*45/125)
+		cnt2stack( items[key] =class extends Base
+			{
+				static key	=key
 
-		static key	="seedbag"
-	}*/
-	
-	return o
+				static vol	=Math.floor( vol / mm3pu )
+
+				static boxvol	=Math.floor( bagvol / mm3pu )
+			}
+		)
+	}
+
+	function addsrcpt( key ,vol ,allow )
+	{
+		var cl	=items[key]	=class extends SoftRcpt
+		{
+			static key	=key
+
+			static vol	=Math.floor( vol / mm3pu )
+
+			static allowed	=allow
+		}
+		cnt2stack( cl )
+	}
+
+	function addblock( key ,Base )
+	{
+		items[key]	=class extends Base
+		{
+			static key	=key
+		}
+	}
+
+
+	function cnt2stack( Cnt )
+	{
+		var SC	=Cnt.newStck( StackCnt )
+
+		items[SC.key]	=SC
+	}
 }

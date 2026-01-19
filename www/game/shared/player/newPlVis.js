@@ -10,31 +10,30 @@ import newInvSlot	from "../items/newInvSlot.js"
 
 /** Class for visible players. Has limited information. */
 
-export default function( InvSlot =newInvSlot() )
+export default( InvSlot =newInvSlot() )=>class PlVis extends InvSlot
 {
-	class PlVis extends InvSlot
-	{
-		name
+	name
 
-		r	= 0.62
+	r	= 0.62
 
-		col	=new Col(0, 100, 50)
-		
-		loc	=new Loc(0,0,0)	//when this is derived on client, it can become a getter function
+	col	=new Col(0, 100, 50)
+	
+	loc	=new Loc(0,0,0)	//when this is derived on client, it can become a getter function
 
-		cl	=null
+	cl	=null
 
-		sleep	=0
+	sleep	=0
 
-		hands	=new Hands()
-
-		ispl()	{return this }
-	}
+	hands	=new Hands()
 
 
 
+	
+	get ispl()	{return this }
 
-	PlVis.prototype. set	=function( pl )
+
+
+	set( pl )
 	{
 		for(var key in pl )
 		{
@@ -47,8 +46,8 @@ export default function( InvSlot =newInvSlot() )
 	}
 
 
-	/*
-	PlVis.prototype. additem	=function( item ,len )
+	
+	/*additem( item )
 	{
 		len	??=item.num
 
@@ -98,7 +97,7 @@ export default function( InvSlot =newInvSlot() )
 	///////////////////////////////////////////////////////////////////////////
 
 
-	/**@arg out	- [next item ,index step ] */
+	/**@arg out	- [next item ,index step ] *
 
 	PlVis.prototype. msg2navo	=function( afrom ,i ,ato )
 	{
@@ -116,5 +115,5 @@ export default function( InvSlot =newInvSlot() )
 	///////////////////////////////////////////////////////////////////////////
 
 
-	return PlVis
+	return PlVis*/
 }

@@ -1,104 +1,88 @@
-// import Cnt from "./newContainer.js"
+import newCnt from "./newContainer.js"
+
+// import newLive from "../newLiveObj.js"
+
+// import { AddMsg } from "../Msgs.js"
 
 
-export default function newBag( Box )
+export default( Base =newCnt() )=>class Bag extends Base
 {
-	class Bag extends Box
+	static boxvol	=8000	//10cm^3
+
+	// get isbox	=true
+
+	// static Live	=newLive( LiveBox )
+
+
+
+	gboxvol()	{return this.constructor.boxvol }
+
+
+	remvol()	{return this.constructor.boxvol - this.itemvol() }
+
+
+	canadditem( item ,len )
 	{
-		isbag()	{return this }
+		return Math.min(
+			
+			Math.floor( this.remvol() / item.vol() ),
+
+			len
+		)
 	}
 
 
-	/*
-	Bag.prototype. getobj	=function( id )
+	stck2cnt( stck )
 	{
-		return typeof id==="number"	? this.cnts[id]	: this.items[id]
+		var newcnt	=stck.spawncnt()
+
+		this.additem( newcnt )
+
+		return { newcnt }
 	}
 
 
-	/** Modifies given items if portion was taken.
-	 * @returns how many items were transfered *
 
-	Bag.prototype. additem	=function( item ,len )
+	cnt2stck( cnt )
 	{
-		len	??=item.num
+		var skey	=cnt.gstckkey()
 
-		// calc len and volume
+		if( this.inv[skey] )
 		{
-			var maxvol	=this.constructor.boxvol
-
-			if( len > 1 )
-			{
-				let maxlen	=Math.floor((maxvol - this.calcitemvol())/item.constructor.vol)
-
-				len	=Math.min( maxlen, len )
-
-				if( len <= 0 )	return 0
-			}
-			else if( item.calcvol() + this.calcitemvol() >= maxvol )
-			{
-				return 0
-			}
+			++ this.inv[skey].len
 		}
-		var bag	=Cnt.prototype.additem. call(this, item )
-
-		if( item.constructor.idpool )	item.dad	=bag
-
-		if( item.id )
-		{
-			bag.cnts[item.id]	=item
-		}
-		else
-		{
-			let itemk	=item.constructor.key
-
-			if( bag.items[itemk] )
-			{
-				let bagits	=bag.items[itemk]
-
-				bagits.spoil	=( bagits.spoil*bagits.num + item.spoil*len )/( bagits.num + len )
-
-				bagits.num	+= len
-			}
-			else
-			{
-				bag.items[itemk]	=item.take( len )
-			}
-		}
-		return len
+		else	this.inv[skey]	=cnt.newstck()
 	}
 
 
-
-	Bag.prototype. delitem	=function( item, num =1, dadbox )
+	static canadditem( item ,len )
 	{
-		var itemn	=item.constructor.name
-
-		item.notempty	? this.set.delete(item)	:
-		
-			(this.o[itemn].num	-= num) > 0	? 0	: delete this.o[itemn]
-
-		this.calcempty()	? dadbox.set.delete(this) && Bag.prototype.additem. call(dadbox, this ) : 0
+		return Math.min(
+			
+			Math.floor( this.boxvol / item.vol() ),
+			
+			len
+		)
 	}
-	*
 
 
-	///////////////////////////////////////////////////////////////////////////////
-
-
-	/*
-	Bag.prototype. mov2uniq	=function( cnt )
+	canchildadd( item ,len ,nav ,_i )
 	{
-		var key	=cnt.constructor.key
+		return Math.min(
+			
+			this.canadditem( item ,len )
+			,
+			nav[_i-1].canchildadd?.( item ,len ,nav ,_i - 1) || 0
+		)
+	}
+}
 
-		if( this.items[key].num <= 0 )	delete this.items[key]
 
-		this.cnts[cnt.id]	=cnt
-	}*/
+///////////////////////////////////////////////////////////////////////////////
 
 
-	///////////////////////////////////////////////////////////////////////////
 
-
-	return Bag
+class LiveBox
+{
+	
 }

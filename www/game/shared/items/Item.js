@@ -3,6 +3,11 @@ import newJable from "../newJsonable.js"
 // import newPathable from "../newPathable.js"
 
 
+/** A volume unit is 125 cubic mm which is a sunflower seed */
+
+export var mm3perunit	=125
+
+
 export default newJable( class It
 {
 	static key	="item"
@@ -10,8 +15,7 @@ export default newJable( class It
 	/**@static
 	@var vol */
 	
-	/** A unit is 125 cubic mm which is a sunflower seed */
-	static mm3perunit	=125
+	// static mm3pu	=mm3perunit
 
 
 

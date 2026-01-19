@@ -125,6 +125,19 @@ Map.prototype. canplmov	=function( dest, pl )
 
 
 
+Map.prototype. canadditem	=function( loc ,item ,len )
+{
+	var curitem	=this.obj.g(loc)?.item
+
+	if( curitem?.isstck && curitem.gkey() === item.gkey() )	return 100
+
+	if( curitem )	return 0
+
+	return 100
+}
+
+
+
 Map.prototype. additem	=function( loc ,item )
 {
 	this.obj.s(loc).item	=item
@@ -148,7 +161,18 @@ Map.prototype. delitem	=function( loc ,item ,len )
 
 
 
-Map.prototype. stack2cnt	=function( loc ,stck )
+Map.prototype. canchildadd	=function( loc ,item ,len )
+{
+	var canlen	=this.obj.g(loc)?.item?.isstcnt && ! this.findempty( loc ,1 ) ?
+	
+		0	: 100
+
+	return Math.min( canlen ,len )
+}
+
+
+
+Map.prototype. stck2cnt	=function( loc ,stck )
 {
 	var cell	=this.g(loc)
 

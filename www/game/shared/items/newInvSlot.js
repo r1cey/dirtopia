@@ -1,13 +1,50 @@
-import newInv from "./newInv.js";
+// import newInv from "./newInv.js";
 
 import { AddMsg } from "../Msgs.js";
 
+import{ suffix as StCnt_suff }	from "./newStackCnt.js"
 
 
-export default( Base =newInv() )=>class InvSlot extends Base
+
+export default( Base )=>class InvSlot extends Base
 {
     static allowed  ={}
 
+
+
+	/*static newallow( stcks ,cnts )
+	{
+		var allowed	=Object.assign( {} ,stcks )
+
+		// Object.assign( allowed  )
+
+		for(var k in cnts )
+		{
+			allowed[k]	=cnts[k]
+
+			allowed[k+this.Stack.suffix]	=cnts[k]
+		}
+		return allowed
+	}*/
+
+
+	canadditem( item ,len ,nav )
+	{
+		var key	=InvSlot.parsekey( item.key )
+		
+		let maxlen	=InvSlot.maxlen(key) - this.glen(key)
+
+		var canlen	=Math.min( maxlen, len )
+
+		if( canlen > 0 && nav.at(-2).canchildadd )
+		{
+			canlen	=nav.at(-2).canchildadd( item ,canlen ,nav ,nav.length - 2 )
+		}
+		return canlen
+	}
+
+
+	/**@ret {AddMsg} msg */
 
 	additem( item )
 	{
@@ -34,29 +71,28 @@ export default( Base =newInv() )=>class InvSlot extends Base
 	}
 
 
-    static canadditem( item ,len )
+	static canadditem( item, len )
 	{
-		var allowlen	=this.allowed[item.gkey()]
-
-		if( ! allowlen )	return 0
-
-		return Math.min( allowlen ,len )
+		return Math.min( this.maxlen(item.gkey()) ,len )
 	}
 
 
-
-	static newallow( stcks ,cnts )
+	glen( key )
 	{
-		var allowed	=Object.assign( {} ,stcks )
+		return super.glen( InvSlot.parsekey(key) )
+	}
 
-		// Object.assign( allowed  )
 
-		for(var k in cnts )
-		{
-			allowed[k]	=cnts[k]
+    static maxlen( key )
+	{
+		return this.allowed[this.parsekey(key)] || 0
+	}
 
-			allowed[k+this.Stack.suffix]	=cnts[k]
-		}
-		return allowed
+
+	static parsekey( key )
+	{
+		return key.endsWith( StCnt_suff )	?
+		
+			key.substring( 0 ,StCnt_suff.length - 3 )	: key 
 	}
 }

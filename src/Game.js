@@ -152,14 +152,6 @@ G.prototype. save	=async function()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-G.prototype. canadditem	=function( to ,item ,len )
-{
-	if( to.isscnt() )
-	{
-
-	}
-}
-
 /** @todo what if no place to move stacks too and lots of error handling!! */
 
 G.prototype. additem	=function( to ,item )
@@ -174,6 +166,9 @@ G.prototype. additem	=function( to ,item )
 		,
 		newslotcnts	:undefined
 	}
+	to.at(-1).additem( item ,to )?.tonetmsg( addmsg )
+
+	this.srv.sendvis( this.nav2loc(to) ,"additem" ,addmsg )
 }
 
 
@@ -182,31 +177,23 @@ G.prototype. additem	=function( to ,item )
 
 G.prototype. movitem	=function( from ,item ,len ,to ,mover )
 {
-	var movmsg	=
-	{
-		from ,item ,len ,to ,mover ,
+	var movmsg	={ from ,item ,len ,to ,mover }
 
-		newcntid	:undefined
-		,
-		pushed2loc	:undefined
-		,
-		newslotcnts	:undefined
-	}
 	var movitem	= item.isstck && item.len > len ?	item.clone( len )	: item
 
 	to.at(-1).additem( movitem ,to )?.tonetmsg( movmsg )
 
 	from.at(-1).delitem( item ,len ,from )
 
-	this.srv.send2loc( this.nav2loc(from) ,this.nav2loc(to) ,"movitem" ,movmsg )
+	this.srv.sendvis2( this.nav2loc(from) ,this.nav2loc(to) ,"movitem" ,movmsg )
 }
 
 
-G.prototype. delitem	=function( nav ,item ,len )
+G.prototype. delitem	=function( from ,item ,len )
 {
-	this.srv.send("delitem",[ nav ,item ,len ])
+	this.srv.sendvis( this.nav2loc(from) ,"delitem" ,[ from ,item ,len ])
 
-	nav.exl("delitem", item ,len )
+	from.at(-1).delitem( item ,len ,from )
 }
 
 

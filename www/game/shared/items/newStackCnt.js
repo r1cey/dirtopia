@@ -1,21 +1,25 @@
 import newStack from "./newStackable.js";
 
-import newLive	from "../newLiveObj.js"
+// import newLive	from "../newLiveObj.js"
+
 import { AddMsg } from "../Msgs.js";
 
 
-/** Supposed to inherit from Stack */
 
-export default( Base =newStack() )=>class SC
+export var suffix	="_vc"
+
+
+
+export default( Base =newStack() )=>class SC	extends Base
 {
 	/**@static
 	@var Cnt	*/
 
-	static suffix	="_vc"
+	static suffix	=suffix
 
 	get isstcnt()	{return true }
 
-	static Live	=newLive( LiveStackCnt )
+	// static Live	=newLive( LiveStackCnt )
 
 
 
@@ -27,14 +31,15 @@ export default( Base =newStack() )=>class SC
 
 
 
-	canadditem( item ,len ,nav ,_i )
+	canadditem( item ,len ,nav )
 	{
-		return Math.min(
-			
-			this.gCnt().canadditem( item ,len )
-			,
-			nav.g(_i - 1).canchildadditem?.( item ,len ,nav ,_i - 1 ) || 0
-		)
+		var canlen	=this.gCnt().canadditem( item.gkey() ,len )
+
+		if( canlen > 0 && nav.at(-2).canchildadd )
+		{
+			canlen	=nav.at(-2).canchildadd( item ,canlen ,nav ,nav.length - 2 )
+		}
+		return canlen
 	}
 
 
@@ -43,7 +48,7 @@ export default( Base =newStack() )=>class SC
 	{
 		var _i	=nav.length - 1
 
-		var ret	=nav.at(-1).stck2cnt( this ,nav ,_i - 1 )
+		var ret	=nav[_i-1].stck2cnt( this ,nav ,_i-1 )
 
 		var msg	=ret.newcnt.additem( item )
 
@@ -51,26 +56,19 @@ export default( Base =newStack() )=>class SC
 	}
 
 
+	spawncnt()
+	{
+		this.del( 1 )
+
+		return this.gCnt()
+	}
+
+
 
 	gCnt()	{return this.constructor.Cnt }
 
 
-	gLive()	{return this.constructor.Live }
-
-
-
-	newcntlive( dad )
-	{
-		return this.gLive( new this.gCnt().setuniq() ,dad )
-	}
-
-
-
-
-	newlive( dad )
-	{
-		return new this.constructor.Live( this ,dad )
-	}
+	// gLive()	{return this.constructor.Live }
 }
 
 
@@ -79,27 +77,5 @@ export default( Base =newStack() )=>class SC
 
 class LiveStackCnt
 {
-	canadditem( item ,len )
-	{
-		var{ _this ,dad }	=this
 
-		return Math.min(
-			
-			_this.canadditem( item ,len )
-			,
-			dad.canchildadditem( this ,item, len )
-		)
-	}
-
-
-	additem( item )
-	{
-		var{ _this ,dad }	=this
-
-		// var livecnt	=new _this.newcntlive()
-
-		this.del(1)
-
-		dad.additem( new _this.newcnt().additem( item ))
-	}
 }

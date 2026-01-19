@@ -7,14 +7,17 @@ import newInv from "./newInv.js"
 
 
 
-export default( Base =newInv(Item) )=>class Cnt	extends Base
+export default( key ,vol, Base =newInv(Item) )=>class Cnt	extends Base
 {
 	id	=0
 
+
+	static key	=key
+
+	static vol	=vol
+
 	/**@static
 	@var Stack */
-
-	openedby	=new Set()
 
 
 /*
@@ -31,23 +34,9 @@ export default( Base =newInv(Item) )=>class Cnt	extends Base
 	get iscnt()	{return this }
 	
 
-
-	calcvol()	{return this.constructor.vol + this.itemvol() }
-
-
 	///////////////////////////////////////////////////////////////////////////
-	
 
-	/** Check if dads can also contain the item */
 
-	static canadditem( nav ,_i ,item ,len )
-	{
-		if( nav.dad(_i).isbox() )
-		{
-			return nav.exdad(_i, "canadditem" ,item ,len )
-		}
-		return len
-	}
 
 
 	/*
@@ -76,19 +65,19 @@ export default( Base =newInv(Item) )=>class Cnt	extends Base
 	{
 		var Cnt	=this
 
-		var cname	=this.key+StckC.suffix
+		var newkey	=this.key+StckC.suffix
 
 		var o	={}
 		
-		o[cname]	=class extends StckC
+		o[newkey]	=class extends StckC
 		{
-			static key	=Cnt.key+StckC.suffix
+			static key	=newkey
 
 			static vol	=Cnt.vol
 
 			static Cnt	=Cnt
 		}
-		return	this.Stack	=o[cname]
+		return	this.Stack	=o[newkey]
 	}
 
 
@@ -97,18 +86,6 @@ export default( Base =newInv(Item) )=>class Cnt	extends Base
 
 	///////////////////////////////////////////////////////////////////////////
 
-
-
-	itemvol()
-	{
-		var vol	=0
-
-		var{ inv }	=this
-
-		for(var k in inv )	vol += inv[k].calcvol()
-
-		return vol
-	}
 
 
 	///////////////////////////////////////////////////////////////////////////

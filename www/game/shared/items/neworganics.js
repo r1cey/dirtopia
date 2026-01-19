@@ -1,8 +1,6 @@
-export default function( Stack )
+import newStack from "./newStackable.js"
+
+export default( Base =newStack() )=>class Org	extends Base
 {
-	class Org	extends Stack
-	{
 		spoil	=1
-	}
-	return Org
 }

@@ -163,6 +163,12 @@ Loc.prototype. subv	=function( v )
 
 
 
+Loc.prototype. canadditem	=function( item ,len , nav )
+{
+	return nav.at(-2).loc2map(this).canadditem( this ,item ,len )
+}
+
+
 Loc.prototype. additem	=function( item ,nav )
 {
 	nav.at(-2).loc2map(this).setitem( this ,item )
@@ -172,6 +178,12 @@ Loc.prototype. additem	=function( item ,nav )
 Loc.prototype. delitem	=function( item ,len ,nav )
 {
 	nav.at(-2).loc2map(this).delitem( this ,item ,len )
+}
+
+
+Loc.prototype.canchildadd	=function( item ,len ,nav ,_i )
+{
+	return nav.at(-2).loc2map(this).canchildadd( this ,item ,len )
 }
 
 
