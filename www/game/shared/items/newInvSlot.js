@@ -35,11 +35,6 @@ export default( Base )=>class InvSlot extends Base
 		let maxlen	=InvSlot.maxlen(key) - this.glen(key)
 
 		var canlen	=Math.min( maxlen, len )
-
-		if( canlen > 0 && nav.at(-2).canchildadd )
-		{
-			canlen	=nav.at(-2).canchildadd( item ,canlen ,nav ,nav.length - 2 )
-		}
 		return canlen
 	}
 

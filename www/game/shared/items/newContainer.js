@@ -7,14 +7,9 @@ import newInv from "./newInv.js"
 
 
 
-export default( key ,vol, Base =newInv(Item) )=>class Cnt	extends Base
+export default( Base =newInv(Item) )=>class Cnt	extends Base
 {
 	id	=0
-
-
-	static key	=key
-
-	static vol	=vol
 
 	/**@static
 	@var Stack */
