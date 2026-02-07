@@ -1,5 +1,5 @@
-import out from './ServSend.js'
-import on	from "./ServGet.js"
+import newSS from './newServSend.js'
+import newSG	from "./newServGet.js"
 
 import Gr from './maps/Ground.js'
 import Tr from './maps/Trees.js'
@@ -14,7 +14,7 @@ import JRev from "./JsonRevivr.js"
 
 
 
-export default class Serv
+export default newSS( newSG (class Serv
 {
 	cl
 
@@ -31,13 +31,14 @@ export default class Serv
 	buf	=new Buf(this)
 
 
+
 	constructor(client)
 	{
 		// super()
 
 		this.cl	=client
 
-		this.jrev	=new JRev().add( [
+		this.jrev	=new JRev().add(
 			{
 				key	:"pl"
 				,
@@ -49,138 +50,118 @@ export default class Serv
 					) :
 					new Pl.Vis(val,client)
 			}
-		] )
+		)
 	}
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////
 
 
 
-Serv.prototype. test	=function()
-{
-
-}
-
-
-/** @arg	o	- whatever is sent to server */
-
-Serv.prototype. sendlogin	=function( o )
-{
-	try
+	test()
 	{
-		this.ws	=new WebSocket(this.url)
-	}
-	catch(err)
-	{
-		this.con().write(`WebSocket error: ${err}`)
-		return
+
 	}
 
-	let ws	=this.ws
 
-	ws.binaryType	="arraybuffer"
+	/** @arg	o	- whatever is sent to server */
 
-	ws.onerror	=(ev)=>
+	sendlogin( o )
 	{
-		this.con().write(`WebSocket error! ${ev.code}`)
-
-		this.cl.html.ps.login?.reset()
-	}
-
-	ws.onopen	=this.sendjson. bind(this, o )
-
-	ws.onmessage	=this.onmsg. bind(this)
-
-	ws.onclose	=(ev)=>
-	{
-		// console.log(`Connection closed:`,ev)
-
-		this.cl.html.con.write
-			(`Connection closed: ${ev.code} ${ev.reason}`)
-		
-		this.cl.html.ps.login?.reset()
-	}
-}
-
-
-
-Serv.prototype. send	=function( fn, ...args )
-{
-	var[ outa, rep ]	=out[fn]. apply(this, args )
-
-	if( outa )	this.sendjson([ fn, outa ], rep )
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-
-Serv.prototype. sendjson	=function( o, replcr )
-{
-	this.ws.send(JSON.stringify( o, replcr ))
-}
-
-
-
-Serv.prototype. onmsg	=function( ev )
-{	
-	let msg	=ev.data
-
-	// console.log( 'Recvd: '+msg)
-
-	var cl	=this.cl
-
-	if(msg instanceof ArrayBuffer)
-	{
-		// debugger
-
-		let code	=Gr.Bin.getcode( msg )
-
-		switch( code )
+		try
 		{
-			case Gr.Bin.code :
+			this.ws	=new WebSocket(this.url)
+		}
+		catch(err)
+		{
+			this.con().write(`WebSocket error: ${err}`)
+			return
+		}
 
-			case Gr.MapShiftBo.Bin.code :
-		
-				this.buf.addbinbuf( msg, code )
+		let ws	=this.ws
+
+		ws.binaryType	="arraybuffer"
+
+		ws.onerror	=(ev)=>
+		{
+			this.con().write(`WebSocket error! ${ev.code}`)
+
+			this.cl.html.ps.login?.reset()
+		}
+
+		ws.onopen	=this.sendjson. bind(this, o )
+
+		ws.onmessage	=this.onmsg. bind(this)
+
+		ws.onclose	=(ev)=>
+		{
+			// console.log(`Connection closed:`,ev)
+
+			this.cl.html.con.write
+				(`Connection closed: ${ev.code} ${ev.reason}`)
+			
+			this.cl.html.ps.login?.reset()
 		}
 	}
-	else if(typeof msg === 'string')
+
+
+
+	send( fn, ...args )
 	{
-		let[ act, args ]	=JSON.parse(ev.data, this.jrev.fn )
+		var[ outa, rep ]	=this["em_"+fn]( ...args )
 
-		on[act]?. apply(this, args )
-
-		console.log(act, args )
+		if( outa )	this.sendjson([ fn, outa ], rep )
 	}
-}
 
 
-///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
 
 
 
-Serv.prototype. jsonparse	=function( obj, key )
-{
-	switch( key )
+	sendjson( o, replcr )
 	{
-		case "belt" :
-			
-			return new tools.Belt( obj )
-		break
-		case "seedbag" :
-			
-			return obj.map(( val )=> new tools.Seedbag(val) )
-		break
-		case "dewd"	:
-			
-			return new tools.Dewd(val)
-		break
+		this.ws.send(JSON.stringify( o, replcr ))
 	}
-}
+
+
+
+	onmsg( ev )
+	{	
+		let msg	=ev.data
+
+		// console.log( 'Recvd: '+msg)
+
+		var cl	=this.cl
+
+		if(msg instanceof ArrayBuffer)
+		{
+			// debugger
+
+			let code	=Gr.Bin.getcode( msg )
+
+			switch( code )
+			{
+				case Gr.Bin.code :
+
+				case Gr.MapShiftBo.Bin.code :
+			
+					this.buf.addbinbuf( msg, code )
+			}
+		}
+		else if(typeof msg === 'string')
+		{
+			let[ act, args ]	=JSON.parse(ev.data, this.jrev.fn )
+
+			this["on_"+act]?.( ...args )
+
+			console.log(act, ...args )
+		}
+	}
+}))
+
+	///////////////////////////////////////////////////////////////////////////////
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////

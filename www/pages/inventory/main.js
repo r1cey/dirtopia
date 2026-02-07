@@ -12,7 +12,7 @@ export default class Inv extends P
 
 	belt
 
-	seedbags	={}
+	seedbags	=[]
 
 	cl()	{return this.html.cl }
 
@@ -48,13 +48,13 @@ export default class Inv extends P
 
 		// pl.attachhtmlinv( this )
 
-		if( pl.inv.belt )
+		for(var id in pl.inv.belt )
 		{
-			this.belt	=new Belt(this, pl.inv.belt )
+			this.belt	=new Belt(this, pl.inv.belt[id] )
 		}
-		for(var id in pl.inv.seedbags )
+		for(var id in pl.inv.seedbag )
 		{
-			this.seedbags[id]	=new Seedbag(this, pl.inv.seedbags[id] )
+			this.seedbags.push( new Seedbag(this, pl.inv.seedbag[id] ))
 		}
 	}
 }
@@ -135,7 +135,7 @@ class HtmlCnt
 
 		el.className	=itemk
 
-		el.textContent	=num
+		if( item.isstck )	el.textContent	=item.len
 
 		// el.onclick	=( ev )=>
 			
@@ -192,13 +192,17 @@ class HtmlCnt
 	}
 
 
-	delitem( itemn, num )
+	delitem( item, len =1 )
 	{
-		var el	=this.el.querySelector("."+itemn)
+		var el	=this.el.querySelector("."+item.gkey())
 
-		var rem	=el.textContent - num
+		if( item.isstck )
+		{
+			var rem	=parseInt(el.textContent) - len
 
-		rem > 0	? el.textContent =rem	: this.el.removeChild( el )
+			rem > 0	? el.textContent =rem	: this.el.removeChild( el )
+		}
+		this.el.removeChild( el )
 	}
 }
 

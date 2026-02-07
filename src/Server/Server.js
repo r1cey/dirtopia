@@ -91,7 +91,7 @@ Server.prototype. send	=function( fnk ,...args )
 
 
 
-Server.prototype. sendvis	=function( loc ,fnk ,args )
+Server.prototype. sendvis	=function( loc ,fnk ,...args )
 {
 	var dict	=this.cls.o
 
@@ -101,13 +101,13 @@ Server.prototype. sendvis	=function( loc ,fnk ,args )
 
 		if( cl.pl.sees(loc) )
 		{
-			cl.send( fnk ,args )
+			cl.send( fnk ,...args )
 		}
 	}
 }
 
 
-Server.prototype. sendplvis	=function( pl ,fnk ,args )
+Server.prototype. sendplvis	=function( pl ,fnk ,...args )
 {
 	var dict	=this.cls.o
 
@@ -117,7 +117,23 @@ Server.prototype. sendplvis	=function( pl ,fnk ,args )
 
 		if( cl.pl.seespl(pl) )
 		{
-			cl.send( fnk ,args )
+			cl.send( fnk ,...args )
+		}
+	}
+}
+
+
+Server.prototype. sendvis2	=function( loc1, loc2 ,fnk ,...args )
+{
+	var dict	=this.cls.o
+
+	for(var n in dict )
+	{
+		var cl	=dict[n]
+
+		if( cl.pl.sees(loc1) || cl.pl.sees(loc2) )
+		{
+			cl.send( fnk ,...args )
 		}
 	}
 }

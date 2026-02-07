@@ -1,13 +1,15 @@
-import PlSh from '../shared/player/Player.js'
-import PlVSh from '../shared/player/PlVis.js'
+// import newInv from '../items/newInv.js'
+// import newInvSlot from '../shared/items/newInvSlot.js'
+import newHold from '../newHolder.js'
+import ShPlV from '../shared/player/PlVis.js'
+import ShPl from '../shared/player/Player.js'
 import Hands from './Hands.js'
 import PCl from '../PeerCl.js'
 import Loc from '../shared/Loc.js'
 
 
-/** Also extends Holder */
 
-const ClPl =(c) => class extends c
+const newPl	=( Base )=>class ClPl	extends newHold( Base )
 {
 	lcl
 
@@ -99,7 +101,7 @@ const ClPl =(c) => class extends c
 
 
 
-class PlVis extends ClPl( PlVSh )
+class PlVis extends newPl( ShPlV )
 {
 	onmov( newloc )
 	{
@@ -117,17 +119,16 @@ class PlVis extends ClPl( PlVSh )
 			delete this.lcl.vispls[this.name]
 		}*/
 	}
+
+	newcl()
+	{
+		this.cl	=new PCl(this)
+	}
 }
 
-PlVis.prototype. newcl	=function()
-{
-	this.cl	=new PCl(this)
-}
 
 
-
-
-export default class Player extends ClPl( PlSh )
+export default class Player extends newPl( ShPl )
 {
 	/** Is tile move acknowledged from server? */
 	ismovack	=true

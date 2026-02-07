@@ -8,7 +8,8 @@ import{ suffix as StCnt_suff }	from "./newStackCnt.js"
 
 export default( Base )=>class InvSlot extends Base
 {
-    static allowed  ={}
+	/**@static
+    @var allowed  ={} */
 
 
 

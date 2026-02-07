@@ -22,7 +22,30 @@ import newSlot from "../shared/items/newInvSlot.js"
 
 
 
-var cls	=
+export var Block	=newBlock(Item)
+	
+export var Stack	=newStack(Item)
+
+export var Organic	=newOrg( Stack)
+	
+export var StackCnt	=newStCnt(Stack)
+
+var Cnt	=newCnt(newInv(Item))
+
+var ShBag	=newBag(Cnt)
+	
+export var Bag	=newSoft(ShBag)
+	
+export var Box	=newHard(ShBag)
+
+var Slot	=newSlot(Cnt)
+	
+export var SoftRcpt	=newSoft(Slot)
+	
+export var HardRcpt	=newHard(Slot)
+
+
+/*var cls	=
 {
 	"Block"	:newBlock(Item)
 	,
@@ -47,4 +70,4 @@ cls.SoftRcpt	=newSoft(Slot)
 cls.HardRcpt	=newHard(Slot)
 
 
-export default cls
+export default cls*/

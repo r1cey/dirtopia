@@ -4,7 +4,7 @@
 
 
 
-export default( Base )=>class Inv extends Base
+export default( Base =Object )=>class Inv extends Base
 {
 	inv	={}
 
@@ -16,6 +16,10 @@ export default( Base )=>class Inv extends Base
 
 		var invobj	=this.inv[key]
 
+		if( item.iscnt && item.isempty() )
+		{
+			item	=item.newstck()
+		}
 		if( item.isstck )
 		{
 			if( invobj )	invobj.len	+= item.len
@@ -28,6 +32,7 @@ export default( Base )=>class Inv extends Base
 
 			else	this.inv[key]	={ [item.id] :item }
 		}
+		return item
 	}
 
 

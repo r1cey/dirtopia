@@ -93,7 +93,7 @@ Map.prototype. inside	=function( loc )
 
 Map.prototype. canplmov	=function( dest, pl )
 {
-	if( ! this.inside(dest) )	return false
+	/*if( ! this.inside(dest) )	return false
 
 	var c	=this.obj.g(dest)
 
@@ -111,16 +111,18 @@ Map.prototype. canplmov	=function( dest, pl )
 
 		areaS	+= area
 
-		if( areaS >= 50421 /* (7**5)*3 */ )
+		if( areaS >= 50421 /* (7**5)*3 * )
 		{
 			return false
 		}
 	}
-	return true
+	return true*/
 
-	/*return this.inside(dest) && ( !o ||
+	var o	=this.obj.g(dest)
 
-		(!o.pl || o.pl===pl) && !o.block )*/
+	return this.inside(dest) && ( !o ||
+
+		( (!o.pl || o.pl===pl) && ( !o.item || !o.item.isblock )))
 }
 
 
@@ -138,7 +140,7 @@ Map.prototype. canadditem	=function( loc ,item ,len )
 
 
 
-Map.prototype. additem	=function( loc ,item )
+Map.prototype. setitem	=function( loc ,item )
 {
 	this.obj.s(loc).item	=item
 }

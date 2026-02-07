@@ -11,8 +11,8 @@ export default class extends JRev
 	{
 		super()
 
-		for(var itk in its )	this.add([ its[itk] ])
+		this.addo( its )
 
-		this.add([ Hands, Item.newRevObj(this) ])
+		// this.adda([ Hands, Item.newRevObj(this) ])
 	}
 }

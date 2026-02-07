@@ -2,14 +2,7 @@ import newShInv from "../shared/items/newInv.js"
 
 
 
-export default function( Base )
+export default ( Base )=>class ClInv extends newShInv(Base)
 {
-	class ClInv extends newShInv(Base)
-	{
-		htmlinv
-	}
-
-
-
-	return ClInv
+	htmlinv
 }

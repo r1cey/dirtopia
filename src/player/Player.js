@@ -1,4 +1,4 @@
-import newPlMsg from '../../www/game/shared/player/newPlayer.js'
+import ShPl from '../../www/game/shared/player/Player.js'
 import Hands from '../../www/game/shared/player/Hands.js'
 
 import V from '../../www/game/shared/Vec.js'
@@ -27,17 +27,17 @@ const SrvPl	=(c) => class extends c
 
 	setwater( lvl )
 	{
-		PlMsg.prototype.setwater. call(this, lvl )
+		ShPl.prototype.setwater. call(this, lvl )
 	}
 	subwater( lvl )
 	{
-		PlMsg.prototype.subwater. call(this, lvl )
+		ShPl.prototype.subwater. call(this, lvl )
 	}
 }
 
 
 
-class PlSlp extends SrvPl( PlMsg.Vis )
+class PlSlp extends SrvPl( ShPl.Vis )
 {
 	// water	=0.5
 
@@ -52,7 +52,7 @@ class PlSlp extends SrvPl( PlMsg.Vis )
 }*/
 
 
-export default class Player extends newPlMsg()	//SrvPl( PlMsg )
+export default class Player extends ShPl
 {	
 	game
 
@@ -74,7 +74,7 @@ export default class Player extends newPlMsg()	//SrvPl( PlMsg )
 
 	/*static Slp	=PlSlp
 
-	static _msg	=new PlMsg()
+	static _msg	=new ShPl()
 
 	constructor( o, json, game, map )
 	{
@@ -240,7 +240,7 @@ Player.prototype. actonobj	=function( path, act, params )
 
 Player.prototype. additem	=function( item, len )
 {
-	var addl	=PlMsg.prototype.additem. call(this, item, len )
+	var addl	=ShPl.prototype.additem. call(this, item, len )
 
 	if( addl )
 	{
@@ -254,7 +254,7 @@ Player.prototype. additem	=function( item, len )
 
 Player.prototype. additemcnt	=function( path ,item ,len )
 {
-	var addl	=PlMsg.prototype.additemcnt. call(this, path ,item, len )
+	var addl	=ShPl.prototype.additemcnt. call(this, path ,item, len )
 
 	/** @todo Check if any other circumstance pl.cl can be 0 and the check would return true */
 
@@ -280,7 +280,7 @@ Player.prototype. movitem	=function( from, item, len, to )
 	return game.movitem( from ,item ,len ,to ,this )
 
 
-	// PlMsg.prototype.movitem. call(this, fromcnt, itemid, len, tocnt )
+	// ShPl.prototype.movitem. call(this, fromcnt, itemid, len, tocnt )
 		
 
 }
@@ -332,7 +332,7 @@ Player.prototype. setwater	=function( lvl )
 {
 	var oldlvl	=this.water
 
-	lvl	=PlMsg.prototype. setwater.call(this, lvl )
+	lvl	=ShPl.prototype. setwater.call(this, lvl )
 
 	oldlvl !== lvl && this.cl && this.cl.sendjson({ plwater: lvl })
 }
@@ -342,7 +342,7 @@ Player.prototype. setheat	=function( lvl )
 {
 	var oldlvl	=this.heat
 
-	lvl	=PlMsg.prototype. setheat.call(this, lvl )
+	lvl	=ShPl.prototype. setheat.call(this, lvl )
 
 	oldlvl !== lvl && this.cl && this.cl.sendjson({ plheat: lvl })
 }
@@ -377,14 +377,6 @@ Player.prototype. viewscnt	=function( cnt )
 }
 
 
-Player.prototype. setbelt	=function( belt )
-{
-	PlMsg.prototype.setbelt. call(this, belt )
-
-	this.game?.srv.sendplvis( this ,"pl_setbelt" ,[ belt ])
-}
-
-
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -393,7 +385,7 @@ Player. fromJSON	=function( val )
 {
 	var{ game }	=this
 
-	var pl	=PlMsg.fromJSON. call(this, val, game )
+	var pl	=ShPl.fromJSON. call(this, val, game )
 
 	game.pls.s( pl )
 

@@ -1,10 +1,8 @@
-import out	from "./ClientSend.js"
-
-import get from "./newClientGet.js"
+import newClS	from "./newClientSend.js"
 
 import V from '../../www/game/shared/Vec.js'
 
-import ClG from './newClientGet.js'
+import newClG from './newClientGet.js'
 
 import MapG	from "../maps/Ground.js"
 
@@ -13,7 +11,7 @@ import JRev from '../JsonRevivr.js'
 
 
 
-export default class Client
+export default newClG( newClS( class Client
 {
 	ws
 
@@ -22,8 +20,6 @@ export default class Client
 	srv
 
 	get game()	{ return this.srv.game }
-
-	static get	=get
 
 	tc	=new Timecode( MapG.Bin.timecodelen )
 
@@ -53,88 +49,90 @@ export default class Client
 
 		// this.jsonrev	=json.newrevivr()
 	}
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
 
 
 
-Client.prototype. send	=function( fnk, args )
-{
-	/** @todo remove in production */
-	if( ! out[fnk] )
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	send( fnk, ...args )
 	{
-		console.error( `Client.send.${fnk} doesn't exist` )
+		var methk	="em_"+fnk
 
-		return
+		/** @todo remove in production */
+		if( ! this[methk] )
+		{
+			console.error( `Client.${fnk} doesn't exist` )
+
+			return
+		}
+		var[ outa, rep ]	=this[methk]( ...args )
+
+		if( outa )	this.sendjson([ fnk, outa ], rep )
 	}
-	var[ outa, rep ]	=out[fnk]. apply(this, args )
-
-	if( outa )	this.sendjson([ fnk, outa ], rep )
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////
 
 
 
-Client.prototype. onmsg	=function( data, isbin )
-{
-	console.log(`${this.pl.name}: WS msg: ${data.toString()}`)
-
-	var[ act, args ]	=JSON.parse( data.toString(), this.constructor.jrev.fn )
-
-	get[act]?. apply(this, args )
-
-	// this["on_"+act]?.(...args)
-	
-	// console.error( `Client Msg: not found: ${prop}`)
-}
-
-
-
-Client.prototype. onclose	=function( code, reason /*, wsclosed =false*/ )
-{
-	var pl	=this.pl
-
-	console.log( `Client ${pl.name} disconnected: code=${code}, reason=${reason}.` )
-
-	this.srv.cls.del( pl.name )
-
-	pl.cl	=null
-
-	this.srv.sendplvis( pl ,"plconn" ,[ pl, false ])
-
-	for(var cl2 of this.rtcstate)
+	onmsg( data, isbin )
 	{
-		cl2.rtcstate.delete(this)
+		console.log(`${this.pl.name}: WS msg: ${data.toString()}`)
+
+		var[ act, args ]	=JSON.parse( data.toString(), this.constructor.jrev.fn )
+
+		this["on_"+act]?.( ...args )
+
+		// this["on_"+act]?.(...args)
+		
+		// console.error( `Client Msg: not found: ${prop}`)
 	}
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-Client.prototype. sendjson	=function( o, replcr )
-{
-	this.ws.send( JSON.stringify( o, replcr ) )
-}
-
-Client.prototype. sendbin	=function( buf )
-{
-	this.ws.send( buf, {binary: true})
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
 
 
 
-Client.prototype. toJSON	=function()
-{
-	return 1
-}
+	onclose( code, reason /*, wsclosed =false*/ )
+	{
+		var pl	=this.pl
+
+		console.log( `Client ${pl.name} disconnected: code=${code}, reason=${reason}.` )
+
+		this.srv.cls.del( pl.name )
+
+		pl.cl	=null
+
+		this.srv.sendplvis( pl ,"plconn" ,[ pl, false ])
+
+		for(var cl2 of this.rtcstate)
+		{
+			cl2.rtcstate.delete(this)
+		}
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////////
+
+
+	sendjson( o, replcr )
+	{
+		this.ws.send( JSON.stringify( o, replcr ) )
+	}
+
+	sendbin( buf )
+	{
+		this.ws.send( buf, {binary: true})
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////////
+
+
+
+	toJSON()
+	{
+		return 1
+	}
 
 
 
@@ -161,6 +159,7 @@ Client.prototype. onsucclogin	=function( pl, isnew )
 	})
 }
 */
+}))
 
 ///////////////////////////////////////////////////////////////////////////////
 

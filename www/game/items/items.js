@@ -1,4 +1,4 @@
-import cls from "./classes.js"
+import * as cls from "./classes.js"
 
 import newitems from "../shared/items/newitems.js"
 
@@ -30,7 +30,7 @@ its.seedbag	=class	extends its.seedbag
 			this.htmlobj.additem( itemn, this.o[itemn] )
 		}
 	}
-} )
+} 
 
 
 

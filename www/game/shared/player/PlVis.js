@@ -3,15 +3,20 @@ import Col from '../Color.js'
 
 import Hands from "./Hands.js"
 
-import newInvSlot	from "../items/newInvSlot.js"
+import newISlot	from "../items/newInvSlot.js"
+
+import newJable from "../newJsonable.js"
 
 // import items from "../items/items.js"
 
 
 /** Class for visible players. Has limited information. */
 
-export default( InvSlot =newInvSlot() )=>class PlVis extends InvSlot
+
+export default newJable( class PlVis extends newISlot()
 {
+	static key	="pl"
+
 	name
 
 	r	= 0.62
@@ -26,10 +31,20 @@ export default( InvSlot =newInvSlot() )=>class PlVis extends InvSlot
 
 	hands	=new Hands()
 
+	static allowed	=
+	{
+		belt	:1
+	}
 
 
-	
 	get ispl()	{return this }
+
+
+
+	constructor( pl )
+	{
+		this.set(pl)
+	}
 
 
 
@@ -109,11 +124,7 @@ export default( InvSlot =newInvSlot() )=>class PlVis extends InvSlot
 		{
 			return InvSlot.prototype.msg2navo. call(this, afrom ,i ,ato )
 		}
-	}
-
+	}*/
 
 	///////////////////////////////////////////////////////////////////////////
-
-
-	return PlVis*/
-}
+})

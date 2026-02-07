@@ -66,6 +66,22 @@ export default class G// extends PathO
 }
 
 
+export function nav2loc( arr )
+{
+	switch( arr[0] )
+	{
+		case "maps":
+
+			return arr[1]
+		break
+		case "pls" :
+
+			return arr[1].loc
+		break
+	}
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -168,7 +184,7 @@ G.prototype. additem	=function( to ,item )
 	}
 	to.at(-1).additem( item ,to )?.tonetmsg( addmsg )
 
-	this.srv.sendvis( this.nav2loc(to) ,"additem" ,addmsg )
+	this.srv.sendvis( nav2loc(to) ,"additem" ,addmsg )
 }
 
 
@@ -185,13 +201,13 @@ G.prototype. movitem	=function( from ,item ,len ,to ,mover )
 
 	from.at(-1).delitem( item ,len ,from )
 
-	this.srv.sendvis2( this.nav2loc(from) ,this.nav2loc(to) ,"movitem" ,movmsg )
+	this.srv.sendvis2( nav2loc(from) ,nav2loc(to) ,"movitem" ,movmsg )
 }
 
 
 G.prototype. delitem	=function( from ,item ,len )
 {
-	this.srv.sendvis( this.nav2loc(from) ,"delitem" ,[ from ,item ,len ])
+	this.srv.sendvis( nav2loc(from) ,"delitem" ,[ from ,item ,len ])
 
 	from.at(-1).delitem( item ,len ,from )
 }
@@ -231,22 +247,6 @@ G.prototype. path2nav	=function( path )
 		i	+=nav.add( path ,i )
 	}
 	return new Nav(nava)
-}
-
-
-
-G.prototype. nav2loc	=function( nav )
-{
-	switch( nav[0] )
-	{
-		case this.pls :
-
-			return nav[1].loc
-		break
-		case this.maps :
-
-			return nav[1]
-	}
 }
 
 

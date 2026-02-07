@@ -19,5 +19,7 @@ export default class Cnt	extends newContainer()
 
 	setuniq()	{ this.id	=Cnt.idpool.new() ;return this }
 
+	su()	{return this.setuniq() }
+
 	deluniq()	{ Cnt.idpool.del( this.id )}
 }

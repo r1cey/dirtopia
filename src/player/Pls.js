@@ -26,12 +26,13 @@ export default class Pls	extends ShPls
 
 
 	
-	jrev	=new JRev().add([
+	jrev	=new JRev().add(
 		{
 			key :"cl" , fromJSON :()=> null
-		},
-		Hands
-	] )
+		}
+	)//,
+		// Hands
+	// ] )
 
 
 	constructor( game )
@@ -40,12 +41,12 @@ export default class Pls	extends ShPls
 
 		this.game	=game
 
-		this.jrev.add([
+		this.jrev.add(
 			{
 				key :"" , fromJSON :(val)=> new Pl( val, game )
-			}
-			, Stack.newRevObj(this.jrev)
-		] )
+			})
+			// , Stack.newRevObj(this.jrev)
+		// ] )
 	}
 }
 
@@ -169,11 +170,17 @@ Pls.prototype. new	=function( plmsg )
 
 	// add starter items
 	{
-		pl.setbelt( new things.cnts.Belt() )
-	
-		pl.gbelt().addmulti( new things.stacks.Multi() )
+		let belt	=new items.belt().su()
+		
+		belt.additem( new items.multi() )
+		
+		pl.additem( belt )
 
-		pl.addsbag( new things.bags.Seedbag() ).add( new things.stacks.CucumberSeed( null ,15 ) )
+		let sbag	=new items.seedbag().su()
+		
+		sbag.additem( new items.cuc_seeds( 15 ) )
+
+		pl.additem( sbag )
 	}
 	var spawns	=map.obj.o.spawns
 
@@ -197,7 +204,9 @@ Pls.prototype. new	=function( plmsg )
 		{
 			if( ! map.getshade( loc ) && map.canplmov( loc ))
 			{
-				map.setblock( loc ,new items.Dewd() )
+				// map.setblock( loc ,new items.dewd() )
+
+				g.additem([ g.maps,loc ],new items.dewd() )
 
 				// g.con.online("additem "+JSON.stringify({loc, o:{ dewd :null }}))
 
