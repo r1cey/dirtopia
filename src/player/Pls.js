@@ -5,11 +5,10 @@ import Loc	from '../../www/game/shared/Loc.js'
 
 import * as fs from '../fs.js'
 
-// import items from "../items.js"
+import items from "../items/items.js"
 // import Hands from '../../www/game/shared/player/Hands.js'
 // import Stack from "../../www/game/shared/items/Stackable.js"
 import JRev from "../JsonRevivr.js"
-// import things	from "../../www/game/shared/items/newitems.js"
 
 
 
@@ -166,7 +165,7 @@ Pls.prototype. new	=function( plmsg )
 
 	const map	=g.maps.ground
 
-	var pl	=new Pl( plmsg )
+	var pl	=new Pl( plmsg ,g )
 
 	// add starter items
 	{
