@@ -2,7 +2,12 @@ import newHold	from "./shared/newHolder.js"
 
 
 
-export default( Base )=>class Holder	extends newHold( Base )
+export default( Base =newHold(Object) )=>class Holder	extends Base
 {
-	el
+	constructor()
+	{
+		if( ! this.html )	this.html	={}
+
+		this.html.inv	=null
+	}
 }

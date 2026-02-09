@@ -1,13 +1,14 @@
-// import newJable from "../newJsonable.js";
-
-// import newPathable from "../newPathable.js";
+import newHold from "../newHolder.js"
 
 
 
-export default( Base =Object )=>class Inv extends Base
+export default( Base =Object )=>class Inv extends newHold( Base )
 {
 	inv	={}
 
+
+
+	canadditem()	{return true }
 	
 
 	additem( item )

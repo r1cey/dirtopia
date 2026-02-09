@@ -11,6 +11,8 @@ export default( Base )=>class InvSlot extends Base
 	/**@static
     @var allowed  ={} */
 
+	get isslot()	{return this }
+
 
 
 	/*static newallow( stcks ,cnts )

@@ -4,7 +4,7 @@ import Cl	from "../Client.js"
 
 
 
-export default class Item extends ShIt
+export default( Base =ShIt )=>class Item extends Base
 {
 	dad
 

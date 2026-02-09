@@ -1,4 +1,4 @@
-import Item from "./Item.js"
+import newIt from "./newItem.js"
 
 import newBlock from "../shared/items/newBlock.js"
 
@@ -8,7 +8,10 @@ import newOrg	from "../shared/items/newOrganics.js"
 
 import newStCnt from "../shared/items/newStackCnt.js"
 
-import newInv from "./newInv.js"
+import newHold from "../newHolder.js"
+
+// import newInv from "./newInv.js"
+import newInv from "../shared/items/newInv.js"
 
 import newCnt from "../shared/items/newContainer.js"
 
@@ -21,8 +24,9 @@ import newBag from "../shared/items/newBag.js"
 import newSlot from "../shared/items/newInvSlot.js"
 
 
+var Item	=newIt()
 
-export var Block	=newBlock(Item)
+export var Block	=newIt(Item)
 	
 export var Stack	=newStack(Item)
 
@@ -30,7 +34,7 @@ export var Organic	=newOrg( Stack)
 	
 export var StackCnt	=newStCnt(Stack)
 
-var Cnt	=newCnt(newInv(Item))
+var Cnt	=newCnt(newInv(newHold(Item)))
 
 var ShBag	=newBag(Cnt)
 	

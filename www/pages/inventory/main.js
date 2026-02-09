@@ -1,6 +1,9 @@
 import P from '../Page.js'
 import V from "../../game/shared/Vec.js"
 
+import HCnt from '../Cnt.js'
+
+
 
 export default class Inv extends P
 {
@@ -41,6 +44,8 @@ export default class Inv extends P
 		super( html, el, css )
 
 		this.pl	=pl
+
+		pl.html.inv	=this
 		
 		this.dadel	=this.html.screen
 
@@ -50,11 +55,9 @@ export default class Inv extends P
 
 		for(var id in pl.inv.belt )
 		{
-			this.belt	=new Belt(this, pl.inv.belt[id] )
-		}
-		for(var id in pl.inv.seedbag )
-		{
-			this.seedbags.push( new Seedbag(this, pl.inv.seedbag[id] ))
+			this.belt	=new HCnt(this, pl.inv.belt[id] )
+
+			el.appendChild( this.belt.el )
 		}
 	}
 }
@@ -68,9 +71,13 @@ Inv.prototype. show	=function()
 {
 	// Load those containers whose contents are not obvious to the player
 
+	if( this.belt )
+	{
+		this.belt.load()
+	}
 	for(var sb of this.seedbags )
 	{
-		sb.show()
+		sb.load()
 	}
 	this.dadel.appendChild( this.el )
 
@@ -111,35 +118,21 @@ class HtmlCnt
 
 	el
 
-	plcnt
+	gcnt
 
 
 	additem( itemn, item, num )	{}
 
 
-	constructor( inv, el, plcnt )
+	constructor( inv, el, gcnt )
 	{
 		this.inv	=inv
 
 		this.el	=el
 
-		this.plcnt	=plcnt
-	}
+		this.gcnt	=gcnt
 
-
-	setitem( item )
-	{
-		var itemk	=item.constructor.key
-
-		var el	=document.createElement( "ITEM" )
-
-		el.className	=itemk
-
-		if( item.isstck )	el.textContent	=item.len
-
-		// el.onclick	=( ev )=>
-			
-		this.el.appendChild( el )
+		gcnt.html.inv	=this
 	}
 
 
@@ -176,7 +169,7 @@ class HtmlCnt
 			{
 				let pl	=this.inv.pl
 
-				let from	=this.plcnt
+				let from	=this.gcnt
 
 				let to	=pl.hands
 				
@@ -202,7 +195,7 @@ class HtmlCnt
 
 			rem > 0	? el.textContent =rem	: this.el.removeChild( el )
 		}
-		this.el.removeChild( el )
+		else	this.el.removeChild( el )
 	}
 }
 
@@ -217,13 +210,29 @@ class Hands	extends HtmlCnt
 	{
 		super( inv, inv.el.getElementsByTagName("hands")[0], plhands )
 
-		// this.setitem( plhands.item )
+		if( plhands.item )	this.setitem( plhands.item )
+	}
+
+
+	setitem( item )
+	{
+		var itemk	=item.constructor.key
+
+		var el	=document.createElement( "ITEM" )
+
+		el.className	=itemk
+
+		if( item.isstck )	el.textContent	=item.len
+
+		// el.onclick	=( ev )=>
+			
+		this.el.appendChild( el )
 	}
 
 
 	show()
 	{
-		this.setitem( this.plcnt.item )
+		this.setitem( this.gcnt.item )
 	}
 }
 
@@ -234,13 +243,24 @@ class Hands	extends HtmlCnt
 
 class Belt	extends HtmlCnt
 {
+	get gbelt()	{return this.gcnt }
+
+
 	constructor( inv, plbelt )
 	{
 		// super( inv, inv.el.getElementsByTagName("BELT")[0], plbox )
 
 		super( inv, document.createElement( "BELT" ) ,plbelt )
+	}
 
-		inv.el.appendChild( this.el )
+
+	load()
+	{
+		if( this.gbelt.inv.multi )
+		{
+			
+		}
+		this.gcnt
 	}
 }
 
@@ -254,7 +274,5 @@ class Seedbag	extends HtmlCnt
 	constructor( inv, plsb )
 	{
 		super( inv, document.createElement( "SEEDBAG" ) ,plsb )
-
-		inv.el.appendChild( this.el )
 	}
 }

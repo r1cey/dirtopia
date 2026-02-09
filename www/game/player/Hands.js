@@ -1,8 +1,10 @@
 // import Box	from "./Box.js"
 import Hands from "../shared/player/Hands.js"
 
+import newHold from "../newHolder.js"
 
-export default class Ha extends Hands
+
+export default class Ha extends newHold( Hands )
 {
 }
 

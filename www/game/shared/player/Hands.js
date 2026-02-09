@@ -1,19 +1,25 @@
-// import Holder from "../Holder.js"
+import newHold from "../newHolder.js"
+
 import newJable from "../newJsonable.js"
 
 // import newPath from "../newPathable.js"
 
 
-/** Also extends Holder */
 
-export default newJable( class Hand
+export default newHold( newJable( class Hand
 {
-	item
+	item	=null
 
 	static key	="hands"
 
 
 
-	ishands()	{return this }
+	get ishands()	{return this }
 
-})
+
+	canadditem()	{return true }
+
+	additem( item )	{ this.item	=item }
+
+	delitem()	{ this.item	=null }
+}))
