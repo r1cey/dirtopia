@@ -1,3 +1,6 @@
+import{ imgdir }	from "../Html.js"
+
+
 /** In the conflict between game object attaching html object
  * or vice versa: the order is HTML OBJECT ATTACHES GAME OBJ.
  * Why? Because game objs might arrive premade. */
@@ -23,6 +26,10 @@ export default class HtmlCnt
 
 		el.className	="cnt "+gcnt.isslot?"slot ":""+gcnt.gkey()
 
-		el.style.backgroundImage=`url("${})`
+		// el.style.backgroundImage=`url("${})`
+
+		var img	=new Image()
+
+		img.src	=gcnt.gkey()
 	}
 }

@@ -1,3 +1,6 @@
+import{ imgdir }	from "./Html.js"
+
+
 export default class I
 {
 	html
@@ -8,7 +11,6 @@ export default class I
 	constructor(html)
 	{
 		this.html	=html
-
 		var dir	='./imgs/'
 
 		var fns	=

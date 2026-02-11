@@ -4,6 +4,9 @@ import Menu	from "./Menu.js"
 import ContextMenu	from "./ContextMenu.js"
 import Imgs	from "./Imgs.js"
 
+
+export var imgdir	="/imgs/"
+
 export default class Html
 {
 	cl	//client
