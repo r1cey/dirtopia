@@ -30,10 +30,10 @@ its.seedbag	=class	extends its.seedbag
 } 
 
 
-
+/*
 its.Dewd	=mixin([ sh_its.Dewd ,Item ],class
 {
-} )
+} )*/
 
 
 

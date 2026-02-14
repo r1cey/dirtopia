@@ -28,6 +28,8 @@ export default class Map extends newBoard(newBinMap)
 
 	constructor( maps ,O )
 	{
+		super()
+
 		this.maps	=maps
 
 		O	??=Obj

@@ -13,15 +13,7 @@ export default class M extends ShMaps
 
 	constructor( cl )
 	{
-		super()
-
-		this.ground	=new Ground()
-
-		this.trees	=new Trees()
-
-		this.ground.trees	=this.trees
-
-		this.trees.ground	=this.ground
+		super( Ground ,Trees )
 		
 		this.cl	=cl
 	}

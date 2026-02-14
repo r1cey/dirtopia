@@ -98,7 +98,7 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 
 
 
-	isempty(){ for(var k in this.inv) return true; return false }
+	isempty(){ for(var k in this.inv) return false; return true }
 
 	
 

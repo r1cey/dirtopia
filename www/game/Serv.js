@@ -26,8 +26,6 @@ export default newSS( newSG (class Serv
 
 	jrev	//json reviver
 
-	static on	=on
-
 	buf	=new Buf(this)
 
 

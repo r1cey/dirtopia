@@ -237,7 +237,7 @@ Player.prototype. actonobj	=function( path, act, params )
 		this.srv?.send_plactonobj( this, loc, objkey, act, params )
 }
 
-
+/*
 Player.prototype. additem	=function( item, len )
 {
 	var addl	=ShPl.prototype.additem. call(this, item, len )
@@ -256,7 +256,7 @@ Player.prototype. additemcnt	=function( path ,item ,len )
 {
 	var addl	=ShPl.prototype.additemcnt. call(this, path ,item, len )
 
-	/** @todo Check if any other circumstance pl.cl can be 0 and the check would return true */
+	/** @todo Check if any other circumstance pl.cl can be 0 and the check would return true *
 
 	if( addl )	this.cl?.send("setplitemcnt" ,[ this ,path ,item ,addl ])
 
@@ -265,11 +265,11 @@ Player.prototype. additemcnt	=function( path ,item ,len )
 
 
 /** From/To root is either a player or map location.
- * from|to{ loc, pln, boxes[str] } */
+ * from|to{ loc, pln, boxes[str] } *
 
 Player.prototype. movitem	=function( from, item, len, to )
 {
-	/** @TODO !!! : check that to and from are viable */
+	/** @TODO !!! : check that to and from are viable *
 
 	var{ game ,loc }	=this
 
@@ -283,7 +283,7 @@ Player.prototype. movitem	=function( from, item, len, to )
 	// ShPl.prototype.movitem. call(this, fromcnt, itemid, len, tocnt )
 		
 
-}
+}*/
 
 
 /*Player.prototype. cl_send	=function( msg )

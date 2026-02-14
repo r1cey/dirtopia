@@ -1,4 +1,4 @@
-// import newInv from "./newInv.js";
+import newInv from "./newInv.js";
 
 import { AddMsg } from "../Msgs.js";
 
@@ -6,7 +6,7 @@ import{ suffix as StCnt_suff }	from "./newStackCnt.js"
 
 
 
-export default( Base )=>class InvSlot extends Base
+export default( Base =newInv() )=>class InvSlot extends Base
 {
 	/**@static
     @var allowed  ={} */

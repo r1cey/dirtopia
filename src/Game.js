@@ -55,7 +55,7 @@ export default class G// extends PathO
 
 	server	=this.srv
 
-	con	=new Con(this)
+	// con	=new Con(this)
 
 
 	constructor( confpa )

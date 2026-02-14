@@ -1,7 +1,7 @@
 // import PObj from "./newPathable.js";
 
 
-export default( Base )=>class Holder
+export default( Base )=>class Holder	extends Base
 {
 	
 	/** Defined in derived class

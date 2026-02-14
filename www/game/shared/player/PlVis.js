@@ -43,6 +43,8 @@ export default newJable( class PlVis extends newISlot()
 
 	constructor( pl )
 	{
+		super()
+
 		this.set(pl)
 	}
 

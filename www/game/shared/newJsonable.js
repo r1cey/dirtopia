@@ -7,6 +7,10 @@ export default function( Base )
 
 		gkey()	{return this.constructor.key }
 
+
+		constructor(...args)	{ super(...args) }
+		
+
 		set( obj )	{return Object.assign( this, obj ) }
 
 		///////////////////////////////////////////////////////////////////////

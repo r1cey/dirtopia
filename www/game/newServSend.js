@@ -3,10 +3,7 @@
 
 export default( Base )=>class SS extends Base
 {
-	constructor()
-	{
-		super()
-	}
+	constructor(...args)	{ super(...args) }
 
 
 ///////////////////////////////////////////////////////////////////////////////

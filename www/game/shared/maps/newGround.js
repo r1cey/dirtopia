@@ -242,7 +242,7 @@ export default function( Base )
 
 	Gr.prototype. getshade_i	=function( ic )
 	{
-		return this.trees.getleafl_i( ic )
+		return this.maps.trees.getleafl_i( ic )
 	}
 
 
