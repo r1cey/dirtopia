@@ -68,17 +68,11 @@ export default class G// extends PathO
 
 export function nav2loc( arr )
 {
-	switch( arr[0] )
-	{
-		case "maps":
-
-			return arr[1]
-		break
-		case "pls" :
-
-			return arr[1].loc
-		break
-	}
+	if( arr[0] instanceof Maps )	return arr[1]
+	
+	else if( arr[0] instanceof Players )	return arr[1].loc
+	
+	else	console.error( "Game.nav2loc: GRAVE ERROR!")
 }
 
 

@@ -5,7 +5,7 @@ import Loc from '../../www/game/shared/Loc.js'
 
 
 
-export default( Base )=>class ClS extends Base
+export default( Base =Object )=>class ClS extends Base
 {
 	
 ///////////////////////////////////////////////////////////////////////////////

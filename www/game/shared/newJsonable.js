@@ -1,22 +1,18 @@
-export default function( Base )
+export default( Base =Object )=>class Jable extends Base
 {
-	class Jable extends Base
-	{
-		/**@static
-		@var key */
+	/**@static
+	@var key */
 
-		gkey()	{return this.constructor.key }
+	gkey()	{return this.constructor.key }
 
 
-		constructor(...args)	{ super(...args) }
-		
-
-		set( obj )	{return Object.assign( this, obj ) }
-
-		///////////////////////////////////////////////////////////////////////
+	// constructor(...args)	{ super(...args) }
 
 
-		static fromJSON(val, ...args )	{return new this(...args).set( val )}
-	}
-	return Jable
+	set( obj )	{return Object.assign( this, obj ) }
+
+	///////////////////////////////////////////////////////////////////////
+
+
+	static fromJSON(val, ...args )	{return new this(...args).set( val )}
 }

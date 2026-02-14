@@ -201,7 +201,7 @@ Pls.prototype. new	=function( plmsg )
 
 		map.fore(( loc )=>
 		{
-			if( ! map.getshade( loc ) && map.canplmov( loc ))
+			if( ! map.getshade( loc ) && ! map.obj.g( loc )?.item )
 			{
 				// map.setblock( loc ,new items.dewd() )
 

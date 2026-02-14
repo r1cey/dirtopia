@@ -25,22 +25,27 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 	addst( "multi" ,30*20*150 ,Stack )
 
 	addblock( "dewd" ,class Dewd extends Block
+		{
+			dir
+
+
+			constructor()
+			{
+				super()
+
+				this.dir	??=rnd(6)
+			}
+
+			sim_rot( ddir )
+			{
+				return Loc.roth( this.dir, ddir )
+			}
+		}
+	)
+	for(var key in items )
 	{
-		dir
-
-
-		constructor()
-		{
-			this.dir	??=rnd(6)
-		}
-
-		sim_rot( ddir )
-		{
-			return Loc.roth( this.dir, ddir )
-		}
-	})
-
-
+		Object.defineProperty( items[key] ,'name' ,{ value: key })
+	}
 	return items
 
 

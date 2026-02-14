@@ -1,6 +1,6 @@
 import Loc from "./Loc.js"
 import Col from "./Color.js"
-// import Block from "./items/newBlock.js"
+import{ key as itemk }	from "./items/Item.js"
 
 
 export default class JR
@@ -12,7 +12,7 @@ export default class JR
 
 	constructor()
 	{
-		this.addifacea([ Loc ,Col ])
+		this.addifacea([ Loc ,Col ]).addtmpl(itemk)
 
 		this.fn	=this.revivr.bind(this)
 	}

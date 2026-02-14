@@ -15,6 +15,6 @@ export default class extends JRev
 	{
 		super()
 
-		this.addo( items ).adda([ Pl, Hands ]).addtmpl( "item" )
+		this.addo( items ).adda([ Pl, Hands ])
 	}
 }

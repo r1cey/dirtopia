@@ -6,7 +6,7 @@ import Loc from '../../www/game/shared/Loc.js'
 
 
 
-export default( Base )=>class ClientGet extends Base
+export default( Base =Object )=>class ClientGet extends Base
 {
 
 

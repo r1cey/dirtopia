@@ -11,7 +11,7 @@ import JRev from '../JsonRevivr.js'
 
 
 
-export default newClG( newClS( class Client
+export default class Client extends newClG( newClS() )
 {
 	ws
 
@@ -159,7 +159,7 @@ Client.prototype. onsucclogin	=function( pl, isnew )
 	})
 }
 */
-}))
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 

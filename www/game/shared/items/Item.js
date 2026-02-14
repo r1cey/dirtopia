@@ -7,10 +7,12 @@ import newJable from "../newJsonable.js"
 
 export var mm3perunit	=125
 
+export var key	="item"
 
-export default newJable( class It
+
+export default class It	extends newJable()
 {
-	static key	="item"
+	static key	=key
 
 	/**@static
 	@var vol */
@@ -23,4 +25,13 @@ export default newJable( class It
 
 	
 	/**@method calcvol */
-})
+
+
+	toJSON( jkey )
+	{
+		if( jkey === key )
+		{
+			return[ this.constructor.key ,this ]
+		}
+	}
+}
