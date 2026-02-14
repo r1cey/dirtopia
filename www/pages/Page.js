@@ -1,14 +1,14 @@
 export default class Pa
 {
-	html
+	dad
 
 	el
 
 	css
 
 
-	constructor( html, el, css )
+	constructor( dad, el, css )
 	{
-		Object.assign( this ,{html,el,css})
+		Object.assign( this ,{dad,el,css})
 	}
 }

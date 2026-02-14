@@ -1,0 +1,19 @@
+.container {  display: grid;
+  grid-auto-columns: 8em;
+  grid-auto-rows: 8em;
+  gap: 0px 0px;
+  grid-auto-flow: column dense;
+}
+
+a {
+  border: 1px solid green;
+}
+
+b {
+  border: 1px solid red;
+  grid-area: span 2/span 2;
+}
+c {
+  border: 1px solid white;
+  grid-area: span 3/span 2;
+}

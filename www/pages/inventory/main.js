@@ -52,13 +52,17 @@ export default class Inv extends P
 		this.hands	=new Hands(this, pl.hands )
 
 		// pl.attachhtmlinv( this )
-
+/*
 		for(var id in pl.inv.belt )
 		{
-			this.belt	=new HCnt(this, pl.inv.belt[id] )
+			html.loadp( "belt" ,this ,pl.inv.belt[id] ).then(( hbelt )=>
+			{
+				this.belt =hbelt
 
-			el.appendChild( this.belt.el )
-		}
+				el.appendChild( this.belt.el )
+			})
+			break;
+		}*/
 	}
 }
 
@@ -204,29 +208,44 @@ class HtmlCnt
 
 
 
-class Hands	extends HtmlCnt
+class Hands	extends HCnt
 {
-	constructor( inv, plhands )
-	{
-		super( inv, inv.el.getElementsByTagName("hands")[0], plhands )
 
-		if( plhands.item )	this.setitem( plhands.item )
+
+	constructor( inv, ghands )
+	{
+		super( inv, inv.el.getElementsByTagName("hands")[0], null, ghands )
+
+		this.update()
 	}
 
 
-	setitem( item )
+	update()
 	{
-		var itemk	=item.constructor.key
+		var item	=this.gcnt.item
 
-		var el	=document.createElement( "ITEM" )
+		var itemel	=this.el.getElementsByTagName("ITEM")?.[0]
 
-		el.className	=itemk
+		if( item )
+		{
+			if( ! itemel )
+			{
+				itemel	=document.createElement( "ITEM" )
 
-		if( item.isstck )	el.textContent	=item.len
+				this.el.appendChild( itemel )
+			}
+			var itemk	=item.constructor.key
 
-		// el.onclick	=( ev )=>
-			
-		this.el.appendChild( el )
+			itemel.className	=itemk
+
+			if( item.isstck )	itemel.textContent	=item.len
+
+			// el.onclick	=( ev )=>
+		}
+		else if( itemel )
+		{
+			this.el.removeChild( itemel )
+		}
 	}
 
 

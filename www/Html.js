@@ -70,8 +70,10 @@ Html.prototype. injectplinv	=async function( pl )
 
 
 
-Html.prototype. loadp	=async function( name, ...args )
+Html.prototype. loadp	=async function( name, dad ,...args )
 {
+	dad	??=this
+
 	var promis	=[,,]
 
 	promis[0]	=this.fetch(`pages/${name}/main.xhtml`)
@@ -119,7 +121,7 @@ Html.prototype. loadp	=async function( name, ...args )
 	}
 	else
 	{
-		p	=new (res[1].value.default)(this, el, css, ...args)
+		p	=new (res[1].value.default)(dad, el, css, ...args)
 	}
 
 	this.ps[name]	=p

@@ -6,18 +6,15 @@ import newitems from "../shared/items/newitems.js"
 
 var its	=newitems( cls )
 
-its.belt	=class	extends its.belt
+/*its.belt	=class	extends its.belt
 {
-	attachhtmlinv( htmlinv_dad )
+	constructor(...args)
 	{
-		this.htmlinv	=htmlinv.addbelt( this )
-
-		for(var itemn in this.o )
-		{
-			this.htmlobj.additem( itemn, this.o[itemn] )
-		}
+		super( ...args )
+		
+		this.html
 	}
-}
+}*/
 
 its.seedbag	=class	extends its.seedbag
 {
