@@ -29,9 +29,6 @@ export default class It	extends newJable()
 
 	toJSON( jkey )
 	{
-		if( jkey === key )
-		{
-			return[ this.constructor.key ,this ]
-		}
+		return jkey===key ? [ this.constructor.key ,this ] : this
 	}
 }

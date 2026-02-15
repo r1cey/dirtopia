@@ -32,7 +32,7 @@ export default class Client extends newClG( newClS() )
 
 	constructor(ws, pl, srv )
 	{
-		// super()
+		super()
 
 		Object.assign(this,{ srv, ws, pl })
 

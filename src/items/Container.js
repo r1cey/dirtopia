@@ -11,6 +11,12 @@ export default class Cnt	extends newContainer()
 	static idpool	=new IdPool()
 
 
+	constructor(...args)
+	{
+		super(...args)
+
+		this.openedby.toJSON	=()=>undefined
+	}
 	
 	delitem( item ,len ,nav )
 	{
