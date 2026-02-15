@@ -1,5 +1,6 @@
 import Loc from "./Loc.js"
 import Col from "./Color.js"
+import Hands from "./player/Hands.js"
 import{ key as itemk }	from "./items/Item.js"
 
 
@@ -12,7 +13,7 @@ export default class JR
 
 	constructor()
 	{
-		this.addifacea([ Loc ,Col ]).addtmpl(itemk)
+		this.addifacea([ Loc ,Col ,Hands ]).addtmpl(itemk)
 
 		this.fn	=this.revivr.bind(this)
 	}
@@ -68,7 +69,7 @@ JR.prototype. revivr	=function( key, val, str )
 {
 	var revfn	=this.revfns[key]
 
-	return revfn	? revfn( val )	: val
+	return revfn && val	? revfn( val )	: val
 }
 
 
