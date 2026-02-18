@@ -166,16 +166,8 @@ G.prototype. save	=async function()
 
 G.prototype. additem	=function( to ,item )
 {
-	var addmsg	=
-	{
-		item ,to
-		,
-		newcntid	:undefined
-		,
-		pushed2loc	:undefined
-		,
-		newslotcnts	:undefined
-	}
+	var addmsg	={ item ,to }
+	
 	to.at(-1).additem( item ,to )?.tonetmsg( addmsg )
 
 	this.srv.sendvis( nav2loc(to) ,"additem" ,addmsg )
