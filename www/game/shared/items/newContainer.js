@@ -14,6 +14,7 @@ export default( Base =newInv(Item) )=>class Cnt	extends Base
 	/**@static
 	@var Stack */
 
+	static dict_key
 
 /*
 	constructor( init )

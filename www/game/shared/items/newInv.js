@@ -13,9 +13,9 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 
 	additem( item )
 	{
-		var key	=item.gkey()
+		var dkey	=item.constructor.dict_key
 
-		var invobj	=this.inv[key]
+		var invobj	=this.inv[dkey]
 
 		if( item.iscnt && item.isempty() )
 		{
@@ -25,13 +25,13 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 		{
 			if( invobj )	invobj.len	+= item.len
 
-			else	this.inv[key]	=item
+			else	this.inv[dkey]	=item
 		}
 		else
 		{
 			if( invobj )	invobj[item.id]	=item
 
-			else	this.inv[key]	={ [item.id] :item }
+			else	this.inv[dkey]	={ [item.id] :item }
 		}
 		return item
 	}
@@ -41,27 +41,29 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 
 	delitem( item ,len ,nav )
 	{
-		var key	=item.gkey()
+		var dkey	=item.constructor.dict_key
 
-		var invobj	=this.inv[key]
+		var invobj	=this.inv[dkey]
 
 		if( item.isstck )
 		{
 			invobj.len	-= len
 
-			if( invobj.len <= 0 )	delete this.inv[key]
+			if( invobj.len <= 0 )	delete this.inv[dkey]
 		}
 		else
 		{
 			delete invobj[item.id]
+			
+			let isused	=false
 
 			for(var id in invobj )
 			{
-				var isused	=true
+				isused	=true
 
 				break
 			}
-			if( ! isused )	delete this.inv[key]
+			if( ! isused )	delete this.inv[dkey]
 		}
 		if( this.isempty() && nav.at(-2).cnt2stck )
 		{
@@ -102,9 +104,9 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 
 	
 
-	glen( key )
+	glen( itcls )
 	{
-		var invobj	=this.inv[key]
+		var invobj	=this.inv[itcls.dict_key]
 
 		var len	=0
 

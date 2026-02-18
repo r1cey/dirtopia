@@ -184,13 +184,15 @@ Map.prototype. stck2cnt	=function( loc ,stck )
 
 	var newcnt	=stck.spawncnt()
 
-	var pushed2loc	=this.findempty( loc ,1 )
+	if( -- stck.len > 0 )
+	{
+		var pushed2loc	=this.findempty( loc ,1 )
 
-	this.obj.s(pushed2loc).item	=stck
-
+		this.obj.s(pushed2loc).item	=stck
+	}
 	cell.item	=newcnt
 
-	return { newcnt ,pushed2loc }
+	return{ newcnt ,pushed2loc }
 }
 
 

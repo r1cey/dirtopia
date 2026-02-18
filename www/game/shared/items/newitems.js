@@ -66,6 +66,8 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 			{
 				static key	=key
 
+				static dict_key	=key+"s"
+
 				static vol	=Math.floor( vol / mm3pu )
 
 				static boxvol	=Math.floor( bagvol / mm3pu )
@@ -78,6 +80,8 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 		var cl	=items[key]	=class extends SoftRcpt
 		{
 			static key	=key
+
+			static dict_key	=key+"s"
 
 			static vol	=Math.floor( vol / mm3pu )
 

@@ -33,9 +33,11 @@ export default( Base =newInv() )=>class InvSlot extends Base
 
 	canadditem( item ,len ,nav )
 	{
-		var key	=InvSlot.parsekey( item.key )
+		// var dkey	=InvSlot.parse_dkey( item.constructor.dict_key )
+
+		var Item	=item.constructor
 		
-		let maxlen	=InvSlot.maxlen(key) - this.glen(key)
+		let maxlen	=InvSlot.maxlen(Item) - this.glen(Item)
 
 		var canlen	=Math.min( maxlen, len )
 		return canlen
@@ -52,13 +54,13 @@ export default( Base =newInv() )=>class InvSlot extends Base
 		{
 			msg	=new AddMsg()
 			
-			msg.newslotcnts	=new Array(item.len)
+			msg.slotnewids	=new Array(item.len)
 			
 			for(var i =0 ;i< item.len ;++i)
 			{
 				var cnt	=item.spawncnt()
 
-				msg.newslotcnts[i]	=cnt
+				msg.slotnewids[i]	=cnt.id
 
 				super.additem( cnt )
 			}
@@ -71,26 +73,30 @@ export default( Base =newInv() )=>class InvSlot extends Base
 
 	static canadditem( item, len )
 	{
-		return Math.min( this.maxlen(item.gkey()) ,len )
+		return Math.min( this.maxlen(item.constructor) ,len )
 	}
 
 
-	glen( key )
+	glen( Item )
 	{
-		return super.glen( InvSlot.parsekey(key) )
+		return super.glen( Item.isstcnt ? Item.Cnt : Item )
+
+		// return super.glen( InvSlot.parse_dkey(dkey) )
 	}
 
 
-    static maxlen( key )
+    static maxlen( Item )
 	{
-		return this.allowed[this.parsekey(key)] || 0
+		return this.allowed[ Item.isstcnt ? Item.Cnt.key : Item.key ]
+
+		// return this.allowed[this.parse_dkey(dkey)] || 0
 	}
 
 
-	static parsekey( key )
+	/*static parse_dkey( dkey )
 	{
-		return key.endsWith( StCnt_suff )	?
+		return dkey.endsWith( StCnt_suff )	?
 		
-			key.substring( 0 ,StCnt_suff.length - 3 )	: key 
-	}
+			dkey.substring( 0 ,dkey.length - StCnt_suff.length )	: dkey 
+	}*/
 }

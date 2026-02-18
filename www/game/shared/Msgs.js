@@ -1,10 +1,10 @@
 export class AddMsg
 {
-	newcnt
+	newcntid
 
 	pushed2loc
 
-	newslotcnts
+	slotnewids
 
 
 
@@ -21,9 +21,9 @@ export class AddMsg
 
 		msg.pushed2loc	=this.pushed2loc
 
-		if( this.newslotcnts )
+		if( this.slotnewids )
 		{
-			var ncs	=this.newslotcnts
+			var ncs	=this.slotnewids
 
 			msg.newslotcnts	=new Array( ncs.length )
 

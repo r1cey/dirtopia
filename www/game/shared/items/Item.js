@@ -14,6 +14,8 @@ export default class It	extends newJable()
 {
 	static key	=key
 
+	static get dict_key()	{return this.key }
+
 	/**@static
 	@var vol */
 	

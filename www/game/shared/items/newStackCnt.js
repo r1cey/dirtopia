@@ -17,6 +17,8 @@ export default( Base =newStack() )=>class SC	extends Base
 
 	static suffix	=suffix
 
+	static isstcnt	=true
+
 	get isstcnt()	{return true }
 
 	// static Live	=newLive( LiveStackCnt )
@@ -33,7 +35,7 @@ export default( Base =newStack() )=>class SC	extends Base
 
 	canadditem( item ,len ,nav )
 	{
-		var canlen	=this.gCnt().canadditem( item.gkey() ,len )
+		var canlen	=this.gCnt().canadditem( item.constructor ,len )
 
 		if( canlen > 0 && nav.at(-2).canchildadd )
 		{
@@ -48,11 +50,17 @@ export default( Base =newStack() )=>class SC	extends Base
 	{
 		var _i	=nav.length - 1
 
-		var ret	=nav[_i-1].stck2cnt( this ,nav ,_i-1 )
+		var ret	=nav[_i-1].stck2cnt( this ,nav ,_i-1 )	
 
 		var msg	=ret.newcnt.additem( item )
 
-		return msg	? Object.assign( msg ,ret )	: new AddMsg( ret )
+		if( ! msg )	msg	=new AddMsg()
+
+		msg.newcntid	=ret.newcnt.id
+
+		msg.pushed2loc	=ret.pushed2loc
+
+		return msg
 	}
 
 

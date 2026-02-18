@@ -38,7 +38,9 @@ export default( Base =newCnt() )=>class Bag extends Base
 
 		this.additem( newcnt )
 
-		return { newcnt }
+		this.delitem( stck ,1 )
+
+		return{ newcnt }
 	}
 
 
@@ -52,6 +54,8 @@ export default( Base =newCnt() )=>class Bag extends Base
 			++ this.inv[skey].len
 		}
 		else	this.inv[skey]	=cnt.newstck()
+
+		this.delitem( cnt )
 	}
 
 
