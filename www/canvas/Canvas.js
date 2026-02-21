@@ -3,7 +3,7 @@ import Loc	from '../game/shared/Loc.js'
 import Col	from '../game/shared/Color.js'
 // import Mov from './Mov.js'
 import Touch	from './Touch.js'
-import Menu	from './Actions.js'
+import CtxMenu	from './ContextMenu.js'
 
 var rad60	=Math.PI/3
 
@@ -21,6 +21,8 @@ export default class Can
 	h2()	{return this.el.height>>1 }
 
 	ctx
+
+	ctxmenu
 
 	units	=
 	{
@@ -83,7 +85,7 @@ export default class Can
 
 		this.setpos(new V(0,0))
 
-		Menu.can	=this
+		CtxMenu.can	=this
 	}
 }
 
@@ -293,9 +295,9 @@ Can.prototype. clicked	=function( possqel )
 {
 	var can	=this
 
-	if(can.menu)
+	if(can.ctxmenu)
 	{
-		can.menu.del()
+		can.ctxmenu.del()
 	}
 	else
 	{
@@ -305,7 +307,7 @@ Can.prototype. clicked	=function( possqel )
 
 		let ploc	=pl.loc
 
-		let menu	=new Menu()
+		let menu	=new CtxMenu( this )
 
 		menu.setpos( possqel, ploc )
 
@@ -320,7 +322,7 @@ Can.prototype. clicked	=function( possqel )
 				()=>
 				{
 					// this.html.injectplinv( pl )
-					this.html.inv.show()
+					this.html.ps.plinv.show()
 				}
 			)
 		}
@@ -394,7 +396,7 @@ Can.prototype. clicked	=function( possqel )
 		}
 		menu.show()
 
-		if( menu.ready )	can.menu	=menu
+		if( menu.ready )	can.ctxmenu	=menu
 	}
 }
 
@@ -693,7 +695,7 @@ Can.prototype. drawopt	=function( i )
 {
 	var can	=this
 
-	var{ ctx, menu }	=can
+	var{ ctx, ctxmenu: menu }	=can
 
 	var pos	=can.tosq( menu.pos.c(). subv(can.posh) )
 
@@ -704,7 +706,7 @@ Can.prototype. drawmenu	=function()
 {
 	var can	=this
 
-	for(var i=0, len=can.menu.opts.length; i<len; i++ )
+	for(var i=0, len=can.ctxmenu.opts.length; i<len; i++ )
 	{
 		can.drawopt( i )
 	}

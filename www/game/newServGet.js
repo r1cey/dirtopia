@@ -24,7 +24,7 @@ export default( Base )=>class SG extends Base
 	{
 		this.cl.html.delpage('login')
 
-		var pg	=await this.cl.html.loadp('createpl')
+		var pg	=await this.cl.html.loadel('createpl')
 		
 		pg.start( name, this.sendjson. bind(this) )
 	}

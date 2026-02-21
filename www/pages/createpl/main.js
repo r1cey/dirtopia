@@ -1,6 +1,8 @@
-import P from '../Page.js'
+import HTMLEl from "../../HtmlEl.js"
 
-export default class Page extends P
+
+
+export default class Page extends HTMLEl
 {
 	inputels	=[,,]
 
@@ -12,6 +14,8 @@ export default class Page extends P
 
 Page.prototype. start	=function( name, submit )
 {
+	this.show()
+	
 	var el	=this.el
 
 	this.elname.textContent	=name

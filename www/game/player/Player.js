@@ -23,6 +23,8 @@ const newPl	=( Base )=>class ClPl	extends newHold( Base )
 
 	srv()	{return this.lcl.srv }
 
+	static hinv_pth	="plinv"
+
 
 	constructor( msg, lcl )
 	{
@@ -97,12 +99,6 @@ const newPl	=( Base )=>class ClPl	extends newHold( Base )
 
 
 	onmov()	{return true }
-
-
-	async newhinv()
-	{
-		this.html.inv	=await this.lcl.html.loadp( "plinv", this )
-	}
 }
 
 
@@ -146,13 +142,7 @@ export default class Player extends newPl( ShPl )
 	{
 		super( ...args )
 
-		this.newhinv()
-	}
-
-
-	async newhinv()
-	{
-		super.newhinv( this.lcl.html ,await this.lcl.html.loadel( "plinv" ))
+		this.loadhinv( this.lcl.html )
 	}
 }
 

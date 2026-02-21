@@ -36,8 +36,7 @@ Client.prototype. start	=async function()
 {
 	var p	=await this.html.loadel('login')
 
-	p.show().start(this.srv.sendlogin. bind(this.srv))
-
+	p.start(this.srv.sendlogin. bind(this.srv))
 
 	this.stream	=await navigator.mediaDevices.getUserMedia({audio:true})
 

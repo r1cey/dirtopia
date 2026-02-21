@@ -11,6 +11,8 @@ export default class Page extends HTMLEl
 
 Page.prototype. start	=function(submit)
 {
+	this.show()
+	
 	this.elbut.onclick	=( ev )=>
 	{
 		var elinp	=this.el.querySelector('input')

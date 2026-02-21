@@ -38,9 +38,16 @@ export default class Client extends newClG( newClS() )
 
 		if( pl && ws )
 		{
-			pl.conncl( this )
-		}
+			let cl	=this
 
+			pl.cl	=cl
+
+			cl.send("setclpl")
+
+			cl.send("setmap")
+
+			srv.sendplvis( pl ,"plconn" ,pl ,true )
+		}
 		ws.removeAllListeners( 'message' )
 
 		ws.on( 'message', this.onmsg. bind(this))

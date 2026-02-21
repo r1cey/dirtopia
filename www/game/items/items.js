@@ -8,10 +8,7 @@ var its	=newitems( cls )
 
 its.belt	=class	extends its.belt
 {
-	async newhinv( dad )
-	{
-		return	this.html.el	=await dad.loadel( "belt" ,this )
-	}
+	static hinv_pth	=this.key
 }
 
 its.seedbag	=class	extends its.seedbag

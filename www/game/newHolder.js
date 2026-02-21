@@ -8,8 +8,10 @@ export default( Base =newHold(Object) )=>class Holder	extends Base
 {
 	html	=
 	{
-		inv
+		inv	:null
 	}
+
+	static hinv_pth	=null
 
 
 	constructor( ...args )
@@ -22,11 +24,15 @@ export default( Base =newHold(Object) )=>class Holder	extends Base
 	}
 
 
-	/** Call this if you already have the core element.
-	* Otherwise you can call hel.loadel() and assign it directly to html.inv */
-
 	newhinv( dad ,el )
 	{
 		return	this.html.inv	=new HEl( dad ,el ,this )
+	}
+
+	async loadhinv( dad )
+	{
+		var hinvp	=this.constructor.hinv_pth
+
+		return	this.html.inv	=await dad.loadel( hinvp ,this )
 	}
 }

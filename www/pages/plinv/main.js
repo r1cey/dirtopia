@@ -13,9 +13,9 @@ export default class Inv extends HEl
 
 	seedbags	=[]
 
-	cl()	{return this.html.cl }
+	cl()	{return this.html().cl }
 
-
+/*
 	hide()
 	{
 		this.belt.hide()
@@ -31,7 +31,7 @@ export default class Inv extends HEl
 		catch(err) {}
 
 		this.html.can.el.removeEventListener( "click", this.hidebound )
-	}
+	}*/
 	hidebound	=this.hide.bind(this)
 
 
@@ -39,14 +39,53 @@ export default class Inv extends HEl
 	{
 		super( html, el, pl ,css )
 
-		pl.hands.newhinv( this )
+		this.hands	=pl.hands.newhinv( this )
 
 		for(var id in pl.inv.belt )
 		{
-			pl.inv.belt[id].newhinv( this )
-
+			pl.inv.belt[id].loadhinv( this ).then(( hinv )=>
+			{
+				this.belt	=hinv
+			})
 			break;
+		}/*
+		for(var id in pl.inv.seedbag )
+		{
+			pl.inv.seedbag[id].newhinv( this )
+		}*/
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+	
+
+	show()
+	{
+		// Load those containers whose contents are not obvious to the player
+
+		if( this.belt )
+		{
+			// this.belt.load()
 		}
+		for(var sb of this.seedbags )
+		{
+			sb.load()
+		}
+		// this.dadel.appendChild( this.el )
+
+		super.show()
+
+		this.html().can.el.addEventListener("click", this.hidebound,{ once :true})
+
+		/*console.log("B")
+
+		this.html().can.el.addEventListener("click", ()=>
+			{
+				this.hide()
+
+				console.log("A")
+			},{ once :true})*/
 	}
 }
 
@@ -54,23 +93,6 @@ export default class Inv extends HEl
 ///////////////////////////////////////////////////////////////////////////////
 
 
-
-Inv.prototype. show	=function()
-{
-	// Load those containers whose contents are not obvious to the player
-
-	if( this.belt )
-	{
-		this.belt.load()
-	}
-	for(var sb of this.seedbags )
-	{
-		sb.load()
-	}
-	this.dadel.appendChild( this.el )
-
-	this.html.can.el.addEventListener("click", this.hidebound,{ once :true})
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////

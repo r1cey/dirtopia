@@ -8,9 +8,9 @@ export default( Base =ShIt )=>class Item extends Base
 {
 	html	=
 	{
-		inv
+		inv	:null
 	}
-	
+
 	static imgmap
 
 	static img

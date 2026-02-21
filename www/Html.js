@@ -56,9 +56,9 @@ export default class Html	extends HEl
 
 
 
-	async loadel( name )
+	async loadel( name ,gobj )
 	{
-		return	this.ps[name]	=await super.loadel( name )
+		return	this.ps[name]	=await super.loadel( name ,gobj )
 	}
 
 
@@ -147,7 +147,7 @@ Html.prototype. loadp	=async function( name, dad ,...args )
 
 Html.prototype. objchanged	=function( loc, key )
 {
-	var menu	=this.can.menu
+	var menu	=this.can.ctxmenu
 
 	if( ! menu )	return
 

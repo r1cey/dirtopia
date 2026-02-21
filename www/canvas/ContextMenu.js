@@ -1,3 +1,5 @@
+import HEl from '../HtmlEl.js'
+
 import Loc from '../game/shared/Loc.js'
 
 
@@ -30,11 +32,11 @@ class Opt
 
 
 
-export default class M
+export default class M	extends HEl
 {
-	static can
+	get can()	{return this.dad }
 
-	static cl()	{ return this.constructor.can.html.cl }
+	cl()	{return this.html().cl }
 
 	// static opts	={}
 
@@ -44,8 +46,6 @@ export default class M
 
 	opts	=[]
 
-	el
-
 	ready	=false
 
 	// int	=0
@@ -54,9 +54,17 @@ export default class M
 
 
 
+	constructor( cl )
+	{
+		super( cl )
+	}
+
+
+	/** A convenient way to get hex loc from the pixel click pos */
+
 	setpos( possqel, ploc )
 	{
-		var can	=this.constructor.can
+		var can	=this.can
 
 		var pos	=this.pos
 
@@ -67,12 +75,6 @@ export default class M
 		this.loc.set( pos ).tohexc( can ).addv( can.crn ).roundh()
 		
 		this.loc.h	=ploc.h
-	}
-
-
-
-	constructor()
-	{
 	}
 }
 
@@ -101,7 +103,7 @@ M.prototype. show	=function()
 
 	let{ el }	=this
 
-	var can	=this.constructor.can
+	var can	=this.can
 
 	// _pos.set(this.pos).tosqc( can )
 
@@ -121,7 +123,7 @@ M.prototype. del	=function()
 {
 	this.el.remove()
 
-	this.constructor.can.menu	=null
+	this.can.ctxmenu	=null
 }
 
 
@@ -165,9 +167,9 @@ M.prototype. check	=function()
 
 M.prototype. click	=function( act, ev )
 {
-	this.constructor.cl.srv.s.act( act, this.pos.roundh() )
+	// this.cl().srv.s.act( act, this.pos.roundh() )
 
-	this.constructor.can.delmenu()
+	this.can.delmenu()
 }
 
 
