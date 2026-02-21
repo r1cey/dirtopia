@@ -1,16 +1,12 @@
-import P from '../Page.js'
+import HEl from "../../HtmlEl.js"
 import V from "../../game/shared/Vec.js"
 
 import HCnt from '../Cnt.js'
 
 
 
-export default class Inv extends P
+export default class Inv extends HEl
 {
-	pl
-
-	dadel
-
 	hands
 
 	belt
@@ -39,30 +35,18 @@ export default class Inv extends P
 	hidebound	=this.hide.bind(this)
 
 
-	constructor( html, el, css, pl )
+	constructor( html, el, pl, css )
 	{
-		super( html, el, css )
+		super( html, el, pl ,css )
 
-		this.pl	=pl
+		pl.hands.newhinv( this )
 
-		pl.html.inv	=this
-		
-		this.dadel	=this.html.screen
-
-		this.hands	=new Hands(this, pl.hands )
-
-		// pl.attachhtmlinv( this )
-/*
 		for(var id in pl.inv.belt )
 		{
-			html.loadp( "belt" ,this ,pl.inv.belt[id] ).then(( hbelt )=>
-			{
-				this.belt =hbelt
+			pl.inv.belt[id].newhinv( this )
 
-				el.appendChild( this.belt.el )
-			})
 			break;
-		}*/
+		}
 	}
 }
 

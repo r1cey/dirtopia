@@ -1,3 +1,4 @@
+import HEl from './HtmlEl.js'
 import Con from './Console.js'
 import Can from './canvas/Canvas.js'
 import Menu	from "./Menu.js"
@@ -7,13 +8,11 @@ import Imgs	from "./Imgs.js"
 
 export var imgdir	="/imgs/"
 
-export default class Html
+export default class Html	extends HEl
 {
-	cl	//client
+	get cl()	{return this.gobj }
 
 	con	=new Con(this, document.querySelector('console'))
-
-	screen	=document.querySelector("screen")
 
 	fps	=
 	{
@@ -31,8 +30,6 @@ export default class Html
 
 	ps	={}
 
-	inv	//not necessary since should be already in .ps
-
 	contextmenu	=new ContextMenu(this)
 
 	imgs	=new Imgs(this)
@@ -45,9 +42,10 @@ export default class Html
 	}
 
 
+
 	constructor( cl )
 	{
-		this.cl	=cl
+		super( null ,document.querySelector("screen") ,cl )
 
 		this.can.resize()
 
@@ -55,21 +53,34 @@ export default class Html
 
 		window.onresize	=this.onresize. bind(this)
 	}
+
+
+
+	async loadel( name )
+	{
+		return	this.ps[name]	=await super.loadel( name )
+	}
+
+
+	delpage( name )
+	{
+		if( this.ps[name] )
+		{
+			this.ps[name].el?.remove()
+			this.ps[name].css?.remove()
+			delete this.ps[name]
+		}
+	}
+
+
+	html()	{return this }
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 
 
-Html.prototype. injectplinv	=async function( pl )
-{
-	this.inv	=await this.loadp( "inventory", pl )
-
-	this.inv.show()
-}
-
-
-
+/*
 Html.prototype. loadp	=async function( name, dad ,...args )
 {
 	dad	??=this
@@ -127,7 +138,7 @@ Html.prototype. loadp	=async function( name, dad ,...args )
 	this.ps[name]	=p
 
 	return p
-}
+}*/
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -155,25 +166,4 @@ Html.prototype. onresize	=function()
 	if( res.tout )	clearTimeout( res.tout )
 	
 	res.tout	=setTimeout( this.can.resize. bind(this.can), res.delay )
-}
-
-
-
-
-Html.prototype. fetch	=function( url )
-{
-	return fetch(url, {cache: "no-store"})
-}
-
-
-
-
-Html.prototype. delpage	=function( name )
-{
-	if( this.ps[name] )
-	{
-		this.ps[name].el?.remove()
-		this.ps[name].css?.remove()
-		delete this.ps[name]
-	}
 }

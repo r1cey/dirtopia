@@ -1,7 +1,7 @@
-import P from '../Page.js'
+import HTMLEl from "../../HtmlEl.js"
 
 
-export default class Page extends P
+export default class Page extends HTMLEl
 {
 	get elbut()
 	{	

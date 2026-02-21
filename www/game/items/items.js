@@ -6,15 +6,13 @@ import newitems from "../shared/items/newitems.js"
 
 var its	=newitems( cls )
 
-/*its.belt	=class	extends its.belt
+its.belt	=class	extends its.belt
 {
-	constructor(...args)
+	async newhinv( dad )
 	{
-		super( ...args )
-		
-		this.html
+		return	this.html.el	=await dad.loadel( "belt" ,this )
 	}
-}*/
+}
 
 its.seedbag	=class	extends its.seedbag
 {

@@ -16,7 +16,7 @@ export default class CM
 	{
 		document.body.removeChild( this.el )
 
-		this.html.screen.removeEventListener( "click", this.delbound )
+		this.html.el.removeEventListener( "click", this.delbound )
 
 		this.opts.length	=0
 
@@ -71,7 +71,7 @@ CM.prototype. show	=function()
 
 	document.body.appendChild( this.el )
 
-	setTimeout(()=>{ this.html.screen.addEventListener( "click", this.delbound )})
+	setTimeout(()=>{ this.html.el.addEventListener( "click", this.delbound )})
 
 	// this.int	=window.setInterval( this.check.bind(this), 821 )	//73bpm
 }

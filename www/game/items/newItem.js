@@ -6,8 +6,11 @@ import Cl	from "../Client.js"
 
 export default( Base =ShIt )=>class Item extends Base
 {
-	dad
-
+	html	=
+	{
+		inv
+	}
+	
 	static imgmap
 
 	static img

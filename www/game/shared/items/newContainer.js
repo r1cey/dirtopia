@@ -84,11 +84,16 @@ export default( Base =newInv(Item) )=>class Cnt	extends Base
 
 	static fromJSON( val )
 	{
-		for(var id in val )
+		if( val.id )	return super.fromJSON( val )
+
+		else
 		{
-			val[id]	=new this().set(val[id])
+			for(var id in val )
+			{
+				val[id]	=super.fromJSON( val[id] )
+			}
+			return val
 		}
-		return val
 	}
 
 

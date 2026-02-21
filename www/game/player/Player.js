@@ -97,6 +97,12 @@ const newPl	=( Base )=>class ClPl	extends newHold( Base )
 
 
 	onmov()	{return true }
+
+
+	async newhinv()
+	{
+		this.html.inv	=await this.lcl.html.loadp( "plinv", this )
+	}
 }
 
 
@@ -136,7 +142,18 @@ export default class Player extends newPl( ShPl )
 	static Vis	=PlVis
 
 
-	
+	constructor( ...args )
+	{
+		super( ...args )
+
+		this.newhinv()
+	}
+
+
+	async newhinv()
+	{
+		super.newhinv( this.lcl.html ,await this.lcl.html.loadel( "plinv" ))
+	}
 }
 
 

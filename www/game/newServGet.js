@@ -8,7 +8,7 @@ import Maps	from './maps/Maps.js'
 
 export default( Base )=>class SG extends Base
 {
-
+	constructor(...args)	{ super(...args) }
 
 ///////////////////////////////////////////////////////////////////////////////
 

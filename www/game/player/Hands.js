@@ -6,6 +6,13 @@ import newHold from "../newHolder.js"
 
 export default class Ha extends newHold( Hands )
 {
+	newhinv( plhinv )
+	{
+		return 	plhinv.hands	=super.newhinv( plhinv ,
+		
+			plhinv.el.getElementsByTagName("hands")[0]
+		)
+	}
 }
 
 

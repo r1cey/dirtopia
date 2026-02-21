@@ -11,7 +11,7 @@ export default class Client
 {
 	V	=V
 
-	html	=new Html(this)
+	html	=new Html( this )
 
 	con()	{ return this.html.con }
 
@@ -34,9 +34,9 @@ export default class Client
 
 Client.prototype. start	=async function()
 {
-	var p	=await this.html.loadp('login')
+	var p	=await this.html.loadel('login')
 
-	p.start(this.srv.sendlogin. bind(this.srv))
+	p.show().start(this.srv.sendlogin. bind(this.srv))
 
 
 	this.stream	=await navigator.mediaDevices.getUserMedia({audio:true})
@@ -65,8 +65,6 @@ Client.prototype. setpl	=async function( plmsg )
 	this.html.delpage('createpl')
 
 	var pl	=this.pl	=new Player( plmsg ,this)
-
-	this.html.inv	=await this.html.loadp( "inventory", this.pl )
 
 	var can	=this.html.can
 
