@@ -334,7 +334,7 @@ Player.prototype. setwater	=function( lvl )
 
 	lvl	=ShPl.prototype. setwater.call(this, lvl )
 
-	oldlvl !== lvl && this.cl && this.cl.sendjson({ plwater: lvl })
+	oldlvl !== lvl && this.cl && this.cl.sendjson([ "plwater" ,[ lvl ]])
 }
 
 

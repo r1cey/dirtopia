@@ -7,6 +7,8 @@ import Hands from './Hands.js'
 import PCl from '../PeerCl.js'
 import Loc from '../shared/Loc.js'
 
+import PageInv from '../../PageInv.js'
+
 
 
 const newPl	=( Base )=>class ClPl	extends newHold( Base )
@@ -99,6 +101,12 @@ const newPl	=( Base )=>class ClPl	extends newHold( Base )
 
 
 	onmov()	{return true }
+
+
+	newhinv()
+	{
+		this.html.inv	=new PageInv( this.lcl.html ,this )
+	}
 }
 
 
@@ -142,39 +150,12 @@ export default class Player extends newPl( ShPl )
 	{
 		super( ...args )
 
-		this.loadhinv( this.lcl.html )
+		this.newhinv()
 	}
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
-
-
-
-Player.prototype. attachhtmlinv	=function( htmlinv )
-{
-	// htmlinv.pl	=this
-
-	this.hands.attachhtmlinv( htmlinv )
-
-	for(var invn in this.inv )
-	{
-		switch( invn )
-		{
-			case "belt" :
-
-				this.inv[invn].attachhtmlinv( htmlinv.newinv( invn ))
-			break
-			case "seedbags" :
-		
-				for(var id in this.inv[invn] )
-				{
-					this.inv[invn][id].attachhtmlinv( htmlinv.newinv( invn ))
-				}
-			break
-		}
-	}
-}
 
 
 /*

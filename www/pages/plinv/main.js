@@ -1,11 +1,9 @@
-import HEl from "../../HtmlEl.js"
+import HInv from "../../HtmlInv.js"
 import V from "../../game/shared/Vec.js"
 
-import HCnt from '../Cnt.js'
 
 
-
-export default class Inv extends HEl
+export default class Inv extends HInv
 {
 	hands
 
@@ -46,6 +44,8 @@ export default class Inv extends HEl
 			pl.inv.belt[id].loadhinv( this ).then(( hinv )=>
 			{
 				this.belt	=hinv
+
+				hinv.show()
 			})
 			break;
 		}/*
@@ -213,7 +213,7 @@ class HtmlCnt
 ///////////////////////////////////////////////////////////////////////////////
 
 
-
+/*
 class Hands	extends HCnt
 {
 
@@ -300,4 +300,4 @@ class Seedbag	extends HtmlCnt
 	{
 		super( inv, document.createElement( "SEEDBAG" ) ,plsb )
 	}
-}
+}*/

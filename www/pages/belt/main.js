@@ -1,25 +1,17 @@
-import HCnt from "../Cnt.js"
-
-import PlInv	from "./inventory/main.js"
+import HInv from "../../HtmlInv.js"
 
 
-
-export default class HBelt extends HCnt
+export default class HBelt extends HInv
 {
-	constructor( dad ,el ,css ,gbelt )
+	constructor( dad ,el ,gbelt ,css )
 	{
-		super( dad ,el ,css ,gbelt )
+		super( dad ,el ,gbelt ,css )
 
 		if( gbelt.inv.multi )
 		{
 			let multiel	=el.getElementsByTagName("multi")[0]
 
-			multiel.appendChild( gbelt.inv.multi.newel() )
+			// multiel.appendChild( gbelt.inv.multi.newhinv( this ))
 		}
-		for(var id in gbelt.inv.seedbag )
-		{
-			
-		}
-		if( dad instanceof PlInv )
 	}
 }

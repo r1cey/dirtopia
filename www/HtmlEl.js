@@ -13,6 +13,14 @@ export default class HTMLEl
 	{
 		this.dad	=dad
 
+		if(typeof el === "string" )
+		{
+			el	=document.createElement( el )
+
+			el.style.display	="none"
+
+			dad.el.appendChild( el )
+		}
 		this.el	=el
 
 		this.gobj	=gobj
@@ -26,7 +34,7 @@ export default class HTMLEl
 
 
 
-	async loadel( name, gobj )
+	async loadel( name, gobj ,append =true )
 	{
 		var dad	=this
 
@@ -81,7 +89,7 @@ export default class HTMLEl
 		}
 		hel.hide()
 
-		this.el.appendChild( el )
+		if( append )	this.el.appendChild( el )
 
 		return hel
 	}

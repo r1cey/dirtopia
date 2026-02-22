@@ -1,10 +1,11 @@
 inv
 {
 	position: absolute;
+	display: block;
 	overflow: auto;
 
 	left: 10px;
-	top: 34%;
+	top: 17%;
 	right: 10px;
 	bottom: 10px;
 
@@ -15,11 +16,31 @@ inv
 	border: 3px outset rgb(221 192 125) ;
 }
 
-inv>hands
+/*inv>h1
 {
-	display: block ;
+	grid-column: 1 / span 999 ;
+}*/
+
+inv>grid
+{
+	display: grid;
+	width: 100%;
+
+	/* grid-auto-columns: 9mm; */
+	grid-template-columns: repeat(auto-fit ,minmax( 9mm, 9mm));
+	/* grid-auto-rows: 9mm; */
+	gap: 2mm 2mm;
+	grid-auto-flow: row dense;
+}
+
+inv hands
+{
+	/*display: block ;
 	width: 85% ;
-	height: 60% ;
+	height: 60% ;*/
+
+	grid-area: span 5 / span 5 ;
+	aspect-ratio: 1;
 
 	background: #c7bb8f url(hands.png) ;
 	background-size: contain ;
@@ -27,10 +48,10 @@ inv>hands
 	background-repeat: no-repeat ;
 
 	border: 1px inset rgb(174, 148, 64) ;
-	margin: 1ex ;
+	/* margin: 1ex ; */
 }
 
-inv>hands>item
+inv hands>item
 {
 	display: inline-block;
 	width: 33mm ;
@@ -44,11 +65,14 @@ inv>hands>item
 }
 
 
-inv>belt
+inv belt
 {
-	display: block ;
+	/*display: block ;
 	width: 85% ;
-	height: 23% ;
+	height: 23% ;*/
+
+	grid-area: span 2 / span 5 ;
+	aspect-ratio: 5 /2 ;
 
 	background: #50ab49 url(belt.png) ;
 	background-size: contain ;
@@ -57,7 +81,7 @@ inv>belt
 	border: 1px inset #21a750a8;
 }
 
-inv>belt>item
+inv belt>item
 {
 	display: block;
 
@@ -76,7 +100,7 @@ inv .multitool
 
 
 
-inv>seedbag
+inv seedbag
 {
 	display: block ;
 	width: 50% ;
@@ -90,7 +114,7 @@ inv>seedbag
 	border: 1px inset rgb(30, 90, 65) ;
 }
 
-inv>seedbag>item
+inv seedbag>item
 {
 	display: inline-block;
 	width: 10mm ;

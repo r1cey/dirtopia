@@ -6,20 +6,15 @@ import newHold from "../newHolder.js"
 
 export default class Ha extends newHold( Hands )
 {
+	static size	=[5,5]
+
+
+
 	newhinv( plhinv )
 	{
-		return 	plhinv.hands	=super.newhinv( plhinv ,
+		return super.newhinv( plhinv ,
 		
 			plhinv.el.getElementsByTagName("hands")[0]
 		)
 	}
-}
-
-
-
-Ha.prototype. attachhtmlinv	=function( htmlinv )
-{
-	this.htmlobj	=htmlinv.hands
-
-	this.htmlobj.plobj	=this
 }

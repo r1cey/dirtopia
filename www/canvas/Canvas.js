@@ -322,7 +322,7 @@ Can.prototype. clicked	=function( possqel )
 				()=>
 				{
 					// this.html.injectplinv( pl )
-					this.html.ps.plinv.show()
+					pl.html.inv.show()
 				}
 			)
 		}

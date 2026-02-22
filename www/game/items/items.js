@@ -9,20 +9,19 @@ var its	=newitems( cls )
 its.belt	=class	extends its.belt
 {
 	static hinv_pth	=this.key
+
+	static size	=[5,2]
 }
 
 its.seedbag	=class	extends its.seedbag
 {
-	attachhtmlinv( htmlinv )
-	{
-		this.htmlobj	=htmlinv.addseedbag( this )
+	static size	=[2,2]
+}
 
-		for(var itemn in this.o )
-		{
-			this.htmlobj.additem( itemn, this.o[itemn] )
-		}
-	}
-} 
+its.multi	=class extends its.multi
+{
+	static size	=[3,1]
+}
 
 
 /*

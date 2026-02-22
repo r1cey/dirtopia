@@ -15,6 +15,8 @@ export default( Base =ShIt )=>class Item extends Base
 
 	static img
 
+	static size =[1,1]
+
 
 
 	getcl()

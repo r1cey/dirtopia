@@ -129,3 +129,22 @@ actions>button
 {
 	margin: 1ex;
 }
+
+
+.page
+{
+	position: absolute;
+	display: none;
+	overflow: auto;
+
+	left: 10px;
+	top: 17%;
+	right: 10px;
+	bottom: 10px;
+
+	background-color: rgb(174, 148, 64);
+
+	padding: 1ex ;
+	text-align: center ;
+	border: 3px outset rgb(221 192 125) ;
+}
