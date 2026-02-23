@@ -40,6 +40,9 @@ export default class V
 
 		return this
 	}
+
+
+	area()	{return this.x * this.y }
 }
 
 

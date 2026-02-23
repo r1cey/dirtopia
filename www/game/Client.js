@@ -26,6 +26,17 @@ export default class Client
 	peercls	={}
 
 	stream
+
+
+
+	newpinv( ghold )
+	{
+		var p	=ghold.newpinv( this.html )
+
+		this.html.el.appendChild( p.el )
+
+		return p
+	}
 }
 
 
@@ -64,6 +75,8 @@ Client.prototype. setpl	=async function( plmsg )
 	this.html.delpage('createpl')
 
 	var pl	=this.pl	=new Player( plmsg ,this)
+
+	this.newpinv( pl ,false )
 
 	var can	=this.html.can
 
@@ -194,3 +207,9 @@ Client.prototype. delpcl	=function( name )
 
 	delete pcls[name]
 }
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+

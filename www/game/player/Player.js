@@ -103,9 +103,13 @@ const newPl	=( Base )=>class ClPl	extends newHold( Base )
 	onmov()	{return true }
 
 
-	newhinv()
+	newpinv( html )
 	{
-		this.html.inv	=new PageInv( this.lcl.html ,this )
+		var pinv	=super.newpinv( html )
+
+		pinv.grid.add( this.hands )
+
+		return pinv
 	}
 }
 
@@ -149,8 +153,6 @@ export default class Player extends newPl( ShPl )
 	constructor( ...args )
 	{
 		super( ...args )
-
-		this.newhinv()
 	}
 }
 

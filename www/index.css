@@ -148,3 +148,16 @@ actions>button
 	text-align: center ;
 	border: 3px outset rgb(221 192 125) ;
 }
+
+
+grid
+{
+	display: grid;
+	width: 100%;
+
+	/* grid-auto-columns: 9mm; */
+	grid-template-columns: repeat(auto-fit ,minmax( 9mm, 9mm));
+	/* grid-auto-rows: 9mm; */
+	gap: 2mm 2mm;
+	grid-auto-flow: row dense;
+}

@@ -1,21 +1,16 @@
 import ShIt	from "../shared/items/Item.js"
 
+import newGridObj from "../newGridObj.js"
+
 import Cl	from "../Client.js"
 
 
 
-export default( Base =ShIt )=>class Item extends Base
+export default( Base =ShIt )=>class Item extends newGridObj( Base )
 {
-	html	=
-	{
-		inv	:null
-	}
-
 	static imgmap
 
 	static img
-
-	static size =[1,1]
 
 
 

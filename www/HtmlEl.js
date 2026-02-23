@@ -16,10 +16,10 @@ export default class HTMLEl
 		if(typeof el === "string" )
 		{
 			el	=document.createElement( el )
-
+/*
 			el.style.display	="none"
 
-			dad.el.appendChild( el )
+			dad.el.appendChild( el )*/
 		}
 		this.el	=el
 

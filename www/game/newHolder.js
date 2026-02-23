@@ -1,32 +1,22 @@
 import newHold	from "./shared/newHolder.js"
 
-import HEl from "../HtmlEl.js"
+import newInvO from "./newInvObj.js"
+
+import PageInv from "../PageInv.js"
 
 
 
-export default( Base =newHold(Object) )=>class Holder	extends Base
+export default( Base =newHold(Object) )=>class Holder extends newInvO( Base )
 {
-	html	=
-	{
-		inv	:null
-	}
-
-	static hinv_pth	=null
-
-
-	constructor( ...args )
+	/*constructor( ...args )
 	{
 		super( ...args )
-		/*
-		if( ! this.html )	this.html	={}
-
-		this.html.inv	=null*/
-	}
+	}*/
 
 
-	newhinv( dad ,el )
+	newpinv( html )
 	{
-		return	this.html.inv	=new HEl( dad ,el ,this )
+		return	this.html.inv	=new PageInv( html ,this )
 	}
 
 	async loadhinv( dad )

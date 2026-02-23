@@ -2,25 +2,25 @@ import * as cls from "./classes.js"
 
 import newitems from "../shared/items/newitems.js"
 
+import V from "../shared/Vec.js"
+
 
 
 var its	=newitems( cls )
 
 its.belt	=class	extends its.belt
 {
-	static hinv_pth	=this.key
-
-	static size	=[5,2]
+	static size	=new V(5,2)
 }
 
 its.seedbag	=class	extends its.seedbag
 {
-	static size	=[2,2]
+	static size	=new V(2,2)
 }
 
 its.multi	=class extends its.multi
 {
-	static size	=[3,1]
+	static size	=new V(3,1)
 }
 
 
