@@ -109,6 +109,8 @@ const newPl	=( Base )=>class ClPl	extends newHold( Base )
 
 		pinv.grid.add( this.hands )
 
+		pinv.grid.fill()
+
 		return pinv
 	}
 }

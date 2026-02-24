@@ -3,39 +3,38 @@ import HEl from "./HtmlEl.js"
 
 export default class Grid	extends HEl
 {
-	gridos	=[]
+	gridels	=[]
 
-	constructor( dad )
+
+
+	constructor( dad ,dictholder )
 	{
-		var gobj	=dad.gobj
+		// var gobj	=dad.gobj
 
-		super( dad ,"grid" ,gobj )
+		super( dad ,"grid" ,dictholder )
 
-		for(var invkey in gobj.inv )
+		dictholder.fore(( item )=>
 		{
-			var invo	=gobj.inv[invkey]
+			this.add( item )
+		})
+		this.sort()
 
-			if( invo.isstck )	this.add( invo )
-
-			else
-			{
-				for(var id in invo)	this.add( invo[id] )
-			}
+		for(var gridel of this.gridels )
+		{
+			this.el.appendChild( gridel.el )
 		}
 	}
 
 
 	add( grido )
 	{
-		this.gridos.push( { area :grido.calcarea() ,o :grido })
+		this.gridels.push( grido.newelinv( this.dad ))
 	}
+
 
 
 	sort()
 	{
-		this.gridos.sort(( a ,b )=>
-		{
-			b.area - a.area
-		})
+		this.gridels.sort(( a ,b )=> b.area - a.area )
 	}
 }

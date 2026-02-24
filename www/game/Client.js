@@ -29,9 +29,9 @@ export default class Client
 
 
 
-	newpinv( ghold )
+	newpinv( holder )
 	{
-		var p	=ghold.newpinv( this.html )
+		var p	=holder.newpinv( this.html )
 
 		this.html.el.appendChild( p.el )
 

@@ -16,7 +16,15 @@ export default( Base =newHold(Object) )=>class Holder extends newInvO( Base )
 
 	newpinv( html )
 	{
-		return	this.html.inv	=new PageInv( html ,this )
+		var pinv	=this.html.inv	=new PageInv( html ,this )
+
+		/*this.fore(( item )=>
+		{
+			var griditem	=item.newelinv( pinv )
+
+			pinv.add( griditem )
+		})*/
+		return pinv
 	}
 
 	async loadhinv( dad )

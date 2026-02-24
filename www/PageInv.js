@@ -5,7 +5,6 @@ import Grid from "./Grid.js"
 
 export default class PageInv	extends Page
 {
-
 	grid
 
 
@@ -15,7 +14,11 @@ export default class PageInv	extends Page
 
 		super( html ,gobj.gkey() ,gobj )
 
-		this.grid	=new Grid( this )
+		this.el.classList.add( "inv" )
+
+		this.grid	=new Grid( this ,gobj )
+
+		this.el.appendChild( this.grid.el )
 	}
 
 

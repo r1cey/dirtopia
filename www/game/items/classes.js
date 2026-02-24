@@ -24,9 +24,10 @@ import newBag from "../shared/items/newBag.js"
 import newSlot from "../shared/items/newInvSlot.js"
 
 
+
 var Item	=newIt()
 
-export var Block	=newIt(Item)
+export var Block	=newBlock(Item)
 	
 export var Stack	=newStack(Item)
 

@@ -72,6 +72,26 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 	}
 
 
+	///////////////////////////////////////////////////////////////////////////
+
+
+	fore( fn )
+	{
+		for(var key in this.inv )
+		{
+			var invo	=this.inv[key]
+
+			if( invo.iscnt )
+			{
+				for(var id in invo)	fn( invo[id] )
+			}
+			else	fn( invo )
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+
+
 
 	itemvol()
 	{

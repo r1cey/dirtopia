@@ -321,7 +321,6 @@ Can.prototype. clicked	=function( possqel )
 				,
 				()=>
 				{
-					// this.html.injectplinv( pl )
 					pl.html.inv.show()
 				}
 			)
