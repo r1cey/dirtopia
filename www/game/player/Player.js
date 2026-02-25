@@ -1,6 +1,6 @@
-// import newInv from '../items/newInv.js'
-// import newInvSlot from '../shared/items/newInvSlot.js'
-import newHold from '../newHolder.js'
+import newGObj from '../newGameObj.js'
+import newInvO from '../newInvObj.js'
+import newDHold from '../newDictHolder.js'
 import ShPlV from '../shared/player/PlVis.js'
 import ShPl from '../shared/player/Player.js'
 import Hands from './Hands.js'
@@ -11,11 +11,9 @@ import PageInv from '../../PageInv.js'
 
 
 
-const newPl	=( Base )=>class ClPl	extends newHold( Base )
+const newPl	=( Base )=>class ClPl	extends newDHold(newInvO(newGObj( Base )))
 {
-	lcl
-
-	gmap (){return this.lcl.maps.loc2map( this.loc ) }
+	gmap (){return this.gcl().maps.loc2map( this.loc ) }
 
 	pos	=new Loc()
 
@@ -23,16 +21,13 @@ const newPl	=( Base )=>class ClPl	extends newHold( Base )
 
 	hands	=new Hands()
 
-	srv()	{return this.lcl.srv }
-
-	static hinv_pth	="plinv"
+	srv()	{return this.gcl().srv }
 
 
-	constructor( msg, lcl )
+
+	constructor( cl ,msg )
 	{
-		super( msg )
-
-		this.lcl	=lcl
+		super( cl ,msg )
 
 		this.dest.set( this.loc )
 
@@ -68,7 +63,7 @@ const newPl	=( Base )=>class ClPl	extends newHold( Base )
 		{
 			let mul	=0.22
 
-			let map	=this.lcl.maps.gr
+			let map	=this.gcl().maps.gr
 
 			switch( map.getwaterlvl( pl.loc ) )
 			{
@@ -103,13 +98,13 @@ const newPl	=( Base )=>class ClPl	extends newHold( Base )
 	onmov()	{return true }
 
 
-	newpinv( html )
+	newpinv()
 	{
-		var pinv	=super.newpinv( html )
+		var pinv	=super.newpinv()
 
-		pinv.grid.add( this.hands )
+		// pinv.grid.add( this.hands )
 
-		pinv.grid.fill()
+		// pinv.grid.fill()
 
 		return pinv
 	}
@@ -119,11 +114,14 @@ const newPl	=( Base )=>class ClPl	extends newHold( Base )
 
 class PlVis extends newPl( ShPlV )
 {
+	rcl
+
+
 	onmov( newloc )
 	{
-		if( ! this.lcl.pl.sees( newloc ))
+		if( ! this.gcl().pl.sees( newloc ))
 		{
-			delete this.lcl.vispls[this.name]
+			delete this.gcl().vispls[this.name]
 		}
 		
 		return true
@@ -138,7 +136,7 @@ class PlVis extends newPl( ShPlV )
 
 	newcl()
 	{
-		this.cl	=new PCl(this)
+		this.rcl	=new PCl(this)
 	}
 }
 
@@ -155,6 +153,12 @@ export default class Player extends newPl( ShPl )
 	constructor( ...args )
 	{
 		super( ...args )
+
+		var page	=this.newpinv()
+
+		page.hide()
+
+		this.gcl().html.el.appendChild( page.el )
 	}
 }
 
@@ -185,7 +189,7 @@ Player.prototype. onmov	=function( newloc )
 	{
 		this.ismovack	=false
 
-		this.lcl.srv.send("mov", newloc )
+		this.gcl().srv.send("mov", newloc )
 
 		return true
 	}

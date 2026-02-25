@@ -14,15 +14,6 @@ export default( Base =ShIt )=>class Item extends newGridObj( Base )
 
 
 
-	getcl()
-	{
-		var obj	=this.dad
-
-		while( !( obj instanceof Cl ) )	obj	=obj.dad
-	}
-
-
-
 	draw( can, lov, vbuf )
 	{
 	}

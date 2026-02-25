@@ -1,4 +1,4 @@
-export default class HTMLEl
+export default class UiEl
 {
 	dad
 
@@ -9,9 +9,9 @@ export default class HTMLEl
 	css
 
 
-	constructor( dad ,el ,gobj ,css )
+	constructor( el ,gobj ,css )
 	{
-		this.dad	=dad
+		// this.dad	=dad
 
 		if(typeof el === "string" )
 		{
@@ -30,7 +30,7 @@ export default class HTMLEl
 
 
 
-	html()	{return this.dad.html()	}
+	// html()	{return this.dad.html()	}
 
 
 
@@ -40,7 +40,7 @@ export default class HTMLEl
 
 		var promis	=[,,]
 
-		promis[0]	=HTMLEl.fetch(`pages/${name}/main.xhtml`)
+		promis[0]	=UiEl.fetch(`pages/${name}/main.xhtml`)
 
 		promis[1]	=import(`./pages/${name}/main.js?${Math.floor(Math.random()*100)}`)
 
@@ -81,11 +81,11 @@ export default class HTMLEl
 		}
 		if( res[1].status === 'rejected' )
 		{
-			hel	=new HTMLEl( this ,el ,gobj ,css )
+			hel	=new UiEl( el ,gobj ,css )
 		}
 		else
 		{
-			hel	=new (res[1].value.default)( this, el, gobj, css )
+			hel	=new (res[1].value.default)( el, gobj, css )
 		}
 		hel.hide()
 

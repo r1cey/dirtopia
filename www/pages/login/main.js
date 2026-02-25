@@ -1,7 +1,7 @@
-import HTMLEl from "../../HtmlEl.js"
+import Ui from "../../UIElement.js"
 
 
-export default class Page extends HTMLEl
+export default class Page extends Ui
 {
 	get elbut()
 	{	

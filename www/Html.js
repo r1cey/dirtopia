@@ -1,4 +1,4 @@
-import HEl from './HtmlEl.js'
+import Ui from './UIElement.js'
 import Con from './Console.js'
 import Can from './canvas/Canvas.js'
 import Menu	from "./Menu.js"
@@ -8,7 +8,7 @@ import Imgs	from "./Imgs.js"
 
 export var imgdir	="/imgs/"
 
-export default class Html	extends HEl
+export default class Html	extends Ui
 {
 	get cl()	{return this.gobj }
 
@@ -45,7 +45,7 @@ export default class Html	extends HEl
 
 	constructor( cl )
 	{
-		super( null ,document.querySelector("screen") ,cl )
+		super( document.querySelector("screen") ,cl )
 
 		this.can.resize()
 
@@ -73,7 +73,15 @@ export default class Html	extends HEl
 	}
 
 
-	html()	{return this }
+
+	newpinv( pinv )
+	{
+		// var p	=holder.newpinv( this )
+
+		this.el.appendChild( p.el )
+
+		return p
+	}
 }
 
 

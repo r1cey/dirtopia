@@ -2,13 +2,31 @@ import newInvObj from "./newInvObj.js"
 
 import V from "./shared/Vec.js"
 
-import GridItem from "../GridItem.js"
+import GridEl from "../GridItem.js"
+
+import GridCnt from "../GridCnt.js"
 
 
 
 export default( Base =Object )=>class GridObj extends newInvObj( Base )
 {
 	static size	=new V(1,1)
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+	
+
+	newgridel()
+	{
+		return this.html.inv	=this.iscnt ?
+		
+			new GridCnt(this) : new GridEl(this)
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
 
 
 	calcarea()
@@ -19,28 +37,12 @@ export default( Base =Object )=>class GridObj extends newInvObj( Base )
 		{
 			let areain	=1
 
-			for(var k in this.inv )
+			this.fore(( item )=>
 			{
-				var invo	=this.inv[k]
-
-				if( invo.isstck )	areain	+= invo.calcarea()
-
-				else
-				{
-					for(var id in invo )
-					{
-						areain	+= invo[id].calcarea()
-					}
-				}
-			}
+				areain	+= item.calcarea()
+			})
 			if( areain > area )	area	=areain
 		}
 		return area
-	}
-
-
-	newelinv( dad )
-	{
-		return this.html.inv	=new GridItem( dad ,this )
 	}
 }

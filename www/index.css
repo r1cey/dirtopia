@@ -150,7 +150,7 @@ actions>button
 }
 
 
-grid
+.grid
 {
 	display: grid;
 	width: 100%;
@@ -163,7 +163,7 @@ grid
 }
 
 
-grid hands
+.grid hands
 {
 	background: #c7bb8f url(imgs/hands.png) ;
 	background-size: contain ;
@@ -173,7 +173,7 @@ grid hands
 	border: 1px inset rgb(174, 148, 64) ;
 }
 
-grid belt
+.grid belt
 {
 	background: #50ab49 url(imgs/belt.png) ;
 	background-size: contain ;

@@ -29,14 +29,7 @@ export default class Client
 
 
 
-	newpinv( holder )
-	{
-		var p	=holder.newpinv( this.html )
-
-		this.html.el.appendChild( p.el )
-
-		return p
-	}
+	gcl()	{return this }
 }
 
 
@@ -74,9 +67,7 @@ Client.prototype. setpl	=async function( plmsg )
 {
 	this.html.delpage('createpl')
 
-	var pl	=this.pl	=new Player( plmsg ,this)
-
-	this.newpinv( pl ,false )
+	var pl	=this.pl	=new Player( this ,plmsg )
 
 	var can	=this.html.can
 

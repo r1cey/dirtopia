@@ -1,10 +1,11 @@
-export default( Base =Object )=>class InvObj extends Base
+import newGObj from "./newGameObj.js"
+
+
+export default( Base =Object )=>class InvObj extends newGObj( Base )
 {
 	constructor( ...args )
 	{
 		super( ...args )
-
-		if( ! this.html )	this.html	={}
 
 		this.html.inv	=null
 	}

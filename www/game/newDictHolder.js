@@ -1,4 +1,4 @@
-import newHold	from "./shared/newHolder.js"
+import newInv from "./shared/items/newInv.js"
 
 import newInvO from "./newInvObj.js"
 
@@ -6,7 +6,7 @@ import PageInv from "../PageInv.js"
 
 
 
-export default( Base =newHold(Object) )=>class Holder extends newInvO( Base )
+export default( Base =newInvO(newInv()) )=>class DictHolder extends Base
 {
 	/*constructor( ...args )
 	{
@@ -14,9 +14,9 @@ export default( Base =newHold(Object) )=>class Holder extends newInvO( Base )
 	}*/
 
 
-	newpinv( html )
+	newpinv()
 	{
-		var pinv	=this.html.inv	=new PageInv( html ,this )
+		var pinv	=this.html.inv	=new PageInv( this )
 
 		/*this.fore(( item )=>
 		{

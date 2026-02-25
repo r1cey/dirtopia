@@ -1,9 +1,10 @@
-import HEl from '../HtmlEl.js'
+import Ui from '../UIElement.js'
 
 import Loc from '../game/shared/Loc.js'
 
 
 
+/**@todo CONVERT TO UIELEMENT ! */
 
 class Opt
 {
@@ -32,11 +33,11 @@ class Opt
 
 
 
-export default class M	extends HEl
+export default class M
 {
-	get can()	{return this.dad }
+	// get can()	{return this.dad }
 
-	cl()	{return this.html().cl }
+	// cl()	{return this.html().cl }
 
 	// static opts	={}
 
@@ -54,9 +55,9 @@ export default class M	extends HEl
 
 
 
-	constructor( cl )
+	constructor( can )
 	{
-		super( cl )
+		this.can	=can
 	}
 
 

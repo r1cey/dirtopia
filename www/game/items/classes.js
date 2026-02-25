@@ -8,10 +8,12 @@ import newOrg	from "../shared/items/newOrganics.js"
 
 import newStCnt from "../shared/items/newStackCnt.js"
 
-import newHold from "../newHolder.js"
+import newHold from "../shared/newHolder.js"
 
 // import newInv from "./newInv.js"
 import newInv from "../shared/items/newInv.js"
+
+import newDHold from "../newDictHolder.js"
 
 import newCnt from "../shared/items/newContainer.js"
 
@@ -35,7 +37,9 @@ export var Organic	=newOrg( Stack)
 	
 export var StackCnt	=newStCnt(Stack)
 
-var Cnt	=newCnt(newInv(newHold(Item)))
+// var Cnt	=newCnt(newDHold(newInv(newHold(Item))))
+
+var Cnt	=newDHold(newIt(newCnt()))
 
 var ShBag	=newBag(Cnt)
 	

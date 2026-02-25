@@ -1,11 +1,11 @@
-import HEl from "./HtmlEl.js"
+import Ui from "./UIElement.js"
 
 
-export default class Page	extends HEl
+export default class Page	extends Ui
 {
-	constructor( html ,el ,gobj )
+	constructor( el ,gobj )
 	{
-		super( html ,el ,gobj )
+		super( el ,gobj )
 
 		this.el.classList.add("page")
 	}
@@ -15,7 +15,10 @@ export default class Page	extends HEl
 	{
 		this.el.style.display	="block"
 
-		this.dad.can.el.addEventListener( "click" ,this.hide. bind(this),{ once :true })
+		this.gobj.gcl().maps.html.can.el.addEventListener(
+			
+			"click" ,this.hide. bind(this),{ once :true }
+		)
 	}
 
 	hide()
