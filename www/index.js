@@ -6,9 +6,9 @@ window.cl	=new Client()
 
 cl.srv.url	='ws://www.deoraita.co.il:8043'
 
-cl.start()
+// cl.start()
 
-cl.html.can.drawgrid()
+// cl.html.can.drawgrid()
 
 // cl.html.menu.setopts( { symb :"a" } )
 

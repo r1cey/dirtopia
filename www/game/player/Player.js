@@ -102,9 +102,9 @@ const newPl	=( Base )=>class ClPl	extends newDHold(newInvO(newGObj( Base )))
 	{
 		var pinv	=super.newpinv()
 
-		// pinv.grid.add( this.hands )
+		pinv.grid.add( this.hands )
 
-		// pinv.grid.fill()
+		pinv.grid.fill()
 
 		return pinv
 	}

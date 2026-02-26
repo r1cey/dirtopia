@@ -1,3 +1,4 @@
+import Ui from '../UIElement.js'
 import V	from '../game/shared/Vec.js'
 import Loc	from '../game/shared/Loc.js'
 import Col	from '../game/shared/Color.js'
@@ -7,15 +8,13 @@ import CtxMenu	from './ContextMenu.js'
 
 var rad60	=Math.PI/3
 
-export default class Can
+export default class Can	extends Ui
 {
-	html
+	get html()	{return this.cl().html }
 
 	imgs()	{return this.html.imgs }
 
-	cl()	{return this.html.cl }
-
-	el
+	cl()	{return this.gobj.gcl() }
 
 	w2()	{return this.el.width>>1 }
 	h2()	{return this.el.height>>1 }
@@ -71,13 +70,11 @@ export default class Can
 	v3	=new V()
 
 
-	constructor( html, el )
+	constructor( maps )
 	{
-		this.html	=html
+		super( document.getElementById("can") ,maps )
 
-		this.el	=el
-
-		this.ctx	=el.getContext('2d' ,{ alpha :false })
+		this.ctx	=this.el.getContext('2d' ,{ alpha :false })
 
 		this.units.calc(40)
 
@@ -86,6 +83,8 @@ export default class Can
 		this.setpos(new V(0,0))
 
 		CtxMenu.can	=this
+
+		this.drawgrid()
 	}
 }
 

@@ -11,7 +11,7 @@ export default class Client
 {
 	V	=V
 
-	html	=new Html( this )
+	html
 
 	con()	{ return this.html.con }
 
@@ -29,6 +29,21 @@ export default class Client
 
 
 
+	constructor()
+	{
+		if( document.readyState === 'loading' )
+		{
+    		// If the browser is still parsing, wait for the event
+    		document.addEventListener('DOMContentLoaded', this.start. bind(this) )
+		}
+		else
+		{
+    		// If the browser is already done, just run it immediately
+    		this.start()
+		}
+	}
+
+
 	gcl()	{return this }
 }
 
@@ -38,6 +53,10 @@ export default class Client
 
 Client.prototype. start	=async function()
 {
+	this.html	=new Html( this )
+
+	this.maps.setcan()
+
 	var p	=await this.html.loadel('login')
 
 	p.start(this.srv.sendlogin. bind(this.srv))

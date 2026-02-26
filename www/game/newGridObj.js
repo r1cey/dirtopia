@@ -8,7 +8,7 @@ import GridCnt from "../GridCnt.js"
 
 
 
-export default( Base =Object )=>class GridObj extends newInvObj( Base )
+export default( Base =newInvObj() )=>class GridObj extends Base
 {
 	static size	=new V(1,1)
 

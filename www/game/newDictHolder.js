@@ -1,12 +1,12 @@
 import newInv from "./shared/items/newInv.js"
-
+import newGObj from "./newGameObj.js"
 import newInvO from "./newInvObj.js"
 
 import PageInv from "../PageInv.js"
 
 
 
-export default( Base =newInvO(newInv()) )=>class DictHolder extends Base
+export default( Base =newInvO(newGObj(newInv())) )=>class DictHolder extends Base
 {
 	/*constructor( ...args )
 	{

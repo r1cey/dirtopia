@@ -81,11 +81,12 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 		{
 			var invo	=this.inv[key]
 
-			if( invo.iscnt )
+			if( invo.isitem )	fn( invo )
+
+			else
 			{
 				for(var id in invo)	fn( invo[id] )
-			}
-			else	fn( invo )
+			}	
 		}
 	}
 

@@ -2,20 +2,24 @@ import ShMaps	from '../shared/maps/Maps.js'
 import Map	from '../shared/maps/Map.js'
 import Trees	from './Trees.js'
 import Ground	from './Ground.js'
+import newGObj from '../newGameObj.js'
+
+import Can from '../../canvas/Canvas.js'
 
 
 
 
-export default class M extends ShMaps
+export default class Maps extends newGObj( ShMaps )
 {
-	cl
-
-
 	constructor( cl )
 	{
-		super( Ground ,Trees )
-		
-		this.cl	=cl
+		super( cl ,Ground ,Trees )
+	}
+
+
+	setcan()
+	{
+		this.html.can	=new Can( this )
 	}
 }
 
@@ -67,7 +71,7 @@ M.prototype. setbuf	=function( buf, code )
 
 
 
-M.prototype. shift	=function( grbin, grobj, trbin, trobj, dir )
+Maps.prototype. shift	=function( grbin, grobj, trbin, trobj, dir )
 {
 	this.gr.shift( dir, new Ground.MapShiftBo( grbin, grobj ) )
 

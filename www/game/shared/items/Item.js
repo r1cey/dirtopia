@@ -19,6 +19,8 @@ export default class It	extends newJable()
 	
 	// static mm3pu	=mm3perunit
 
+	get isitem()	{return this }
+
 
 
 	vol()	{return this.constructor.vol }

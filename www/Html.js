@@ -24,7 +24,7 @@ export default class Html	extends Ui
 		}
 	}
 
-	can	=new Can(this, document.getElementById('can'))
+	get can()	{return this.gobj.maps.html.can }
 
 	menu	=new Menu(this)
 
@@ -46,10 +46,6 @@ export default class Html	extends Ui
 	constructor( cl )
 	{
 		super( document.querySelector("screen") ,cl )
-
-		this.can.resize()
-
-		this.can.draw()
 
 		window.onresize	=this.onresize. bind(this)
 	}
@@ -173,5 +169,10 @@ Html.prototype. onresize	=function()
 
 	if( res.tout )	clearTimeout( res.tout )
 	
-	res.tout	=setTimeout( this.can.resize. bind(this.can), res.delay )
+	res.tout	=setTimeout(()=>
+		{
+			this.can?.resize()
+		},
+		res.delay
+	)
 }

@@ -157,7 +157,7 @@ actions>button
 
 	/* grid-auto-columns: 9mm; */
 	grid-template-columns: repeat(auto-fit ,minmax( 9mm, 9mm));
-	/* grid-auto-rows: 9mm; */
+	grid-auto-rows: 9mm;
 	gap: 2mm 2mm;
 	grid-auto-flow: row dense;
 }
@@ -175,19 +175,36 @@ actions>button
 
 .grid belt
 {
-	background: #50ab49 url(imgs/belt.png) ;
+	background: #50ab49 url(imgs/items/belt.png) ;
 	background-size: contain ;
 	background-position: center ;
 	background-repeat: no-repeat ;
 	border: 1px inset #21a750a8;
 }
 
-grid seedbag
+.grid seedbag
 {
-	background: rgb(112, 186, 114) url(seed_pouch.png) ;
+	background: rgb(112, 186, 114) url(imgs/items/seed_pouch.png) ;
 	background-size: contain ;
 	background-position: center ;
 	background-repeat: no-repeat ;
-
 	border: 1px inset rgb(30, 90, 65) ;
+}
+
+.grid multi
+{
+	background: url(imgs/items/multitool.png) ;
+	background-size: contain ;
+	background-position: center ;
+	background-repeat: no-repeat ;
+	border: 1px outset #2abfff;
+}
+
+.grid cuc_seeds
+{
+	background: url(imgs/items/cucumber_seeds.png) ;
+	background-size: contain ;
+	background-position: center ;
+	background-repeat: no-repeat ;
+	border: 1px outset #3b2e24;
 }

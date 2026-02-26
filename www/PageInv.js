@@ -18,6 +18,8 @@ export default class PageInv	extends Page
 
 		this.grid	=new Grid( gobj )
 
+		this.grid.setheight()
+
 		this.el.appendChild( this.grid.el )
 	}
 

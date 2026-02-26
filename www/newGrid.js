@@ -5,6 +5,9 @@ export default( Base =Ui )=>class Grid	extends Base
 {
 	gridels	=[]
 
+	height	=0
+
+
 
 	constructor( ...args )
 	{
@@ -16,20 +19,42 @@ export default( Base =Ui )=>class Grid	extends Base
 		{
 			this.add( item )
 		})
-		/*this.sort()
-		
-		for(var gridel of this.gridels )
-		{
-			this.el.appendChild( gridel.el )
-		}*/
 	}
 
 
 	add( grido )
 	{
-		this.gridels.push( grido.newgridel() )
+		var gridel	=grido.newgridel()
+
+		this.gridels.push( gridel )
+
+		if( this.height <= gridel.height )	this.height	=gridel.height + 1
 	}
 
+
+	fill()
+	{
+		this.sort()
+
+		for(var gridel of this.gridels )
+		{
+			this.el.appendChild( gridel.el )
+		}
+	}
+
+
+
+	setheight( height =0 )
+	{
+		if( height > this.height )	this.height	=height
+
+		this.el.style.
+
+		for(var gridel of this.gridels )
+		{
+			if( gridel.height )	gridel.setheight( this.height - 1 )
+		}
+	}
 
 
 	sort()

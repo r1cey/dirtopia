@@ -1,7 +1,7 @@
 import newGObj from "./newGameObj.js"
 
 
-export default( Base =Object )=>class InvObj extends newGObj( Base )
+export default( Base =newGObj() )=>class InvObj extends Base
 {
 	constructor( ...args )
 	{
