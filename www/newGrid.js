@@ -48,8 +48,6 @@ export default( Base =Ui )=>class Grid	extends Base
 	{
 		if( height > this.height )	this.height	=height
 
-		this.el.style.
-
 		for(var gridel of this.gridels )
 		{
 			if( gridel.height )	gridel.setheight( this.height - 1 )
