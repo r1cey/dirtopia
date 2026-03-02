@@ -42,6 +42,8 @@ export default( Base )=>class SG extends Base
 
 		console.log(plmsg)
 
+		
+
 		this.cl.setpl( plmsg )
 	}
 

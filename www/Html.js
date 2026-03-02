@@ -2,7 +2,7 @@ import Ui from './UIElement.js'
 import Con from './Console.js'
 import Can from './canvas/Canvas.js'
 import Menu	from "./Menu.js"
-import ContextMenu	from "./ContextMenu.js"
+// import ContextMenu	from "./ContextMenu.js"
 import Imgs	from "./Imgs.js"
 
 
@@ -30,7 +30,7 @@ export default class Html	extends Ui
 
 	ps	={}
 
-	contextmenu	=new ContextMenu(this)
+	// contextmenu	=new ContextMenu(this)
 
 	imgs	=new Imgs(this)
 
@@ -70,13 +70,31 @@ export default class Html	extends Ui
 
 
 
-	newpinv( pinv )
+	newplinv( pl )
 	{
-		// var p	=holder.newpinv( this )
+		return this.newpinv( pl ,false )
+	}
+
+
+
+	newpinv( dhold ,show =true )
+	{
+		var p	=dhold.newpinv()
 
 		this.el.appendChild( p.el )
 
 		return p
+	}
+
+
+
+	newctxm( gobj ,ev )
+	{
+		var ctxm	=gobj.newctxm( ev )
+		
+		this.el.appendChild( ctxm.el )
+
+		return ctxm
 	}
 }
 

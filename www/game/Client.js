@@ -86,7 +86,9 @@ Client.prototype. setpl	=async function( plmsg )
 {
 	this.html.delpage('createpl')
 
-	var pl	=this.pl	=new Player( this ,plmsg )
+	var pl	=this.pl	=Player.fromJSON( plmsg ,this )
+
+	this.html.newplinv( pl )
 
 	var can	=this.html.can
 

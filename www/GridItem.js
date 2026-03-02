@@ -27,4 +27,11 @@ export default class GridItem	extends Ui
 
 		this.el.style.aspectRatio	=size.x / size.y
 	}
+
+
+
+	movmod()
+	{
+		console.log("AAA")
+	}
 }

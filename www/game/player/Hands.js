@@ -18,7 +18,7 @@ export default class Ha extends newGridO(newInvO(newGObj(Hands )))
 	{
 		var inst	=super.fromJSON( val )
 
-		if(inst.item )	inst.item.dad	=this
+		if( inst.item )	inst.item.dad	=this
 
 		return inst
 	}

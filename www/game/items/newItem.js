@@ -1,13 +1,14 @@
 import ShIt	from "../shared/items/Item.js"
 import newGObj from "../newGameObj.js"
 import newInvO from "../newInvObj.js"
+import newCtxO from "../newContextObj.js"
 import newGridO from "../newGridObj.js"
 
-import Cl	from "../Client.js"
+import CtxM from "../../ContextMenu.js"
 
 
 
-export default( Base =newGridO(newInvO(newGObj(ShIt))))=>class Item extends Base
+export default( Base =newGridO(newCtxO(newInvO(newGObj(ShIt)))))=>class Item extends Base
 {
 	static imgmap
 
@@ -21,4 +22,20 @@ export default( Base =newGridO(newInvO(newGObj(ShIt))))=>class Item extends Base
 
 
 
+	newgridel( ...args )
+	{
+		var gridel	=super.newgridel( ...args )
+
+		gridel.el.onclick	=( ev )=>
+			{
+				this.gcl().html.newctxm( this ,ev )
+			}
+		return gridel
+	}
+
+
+	newctxm( ev )
+	{
+		return this.ui.ctx	=new CtxM( this ,ev )
+	}
 }

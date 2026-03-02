@@ -24,16 +24,26 @@ const newPl	=( Base )=>class ClPl	extends newDHold(newInvO(newGObj( Base )))
 	srv()	{return this.gcl().srv }
 
 
+	static isroot	=true
+
+
 
 	constructor( cl ,msg )
 	{
 		super( cl ,msg )
+	}
+
+
+	set( msg )
+	{
+		super.set( msg )
 
 		this.dest.set( this.loc )
 
 		this.pos.set( this.loc )
-	}
 
+		return this
+	}
 	
 	/*setloc()
 	{
@@ -108,6 +118,18 @@ const newPl	=( Base )=>class ClPl	extends newDHold(newInvO(newGObj( Base )))
 
 		return pinv
 	}
+
+
+	static fromJSON( val ,cl )
+	{
+		var pl	=super.fromJSON( val )
+
+		pl.dad	=cl
+
+		pl.hands.dad	=pl
+
+		return pl
+	}
 }
 
 
@@ -153,12 +175,12 @@ export default class Player extends newPl( ShPl )
 	constructor( ...args )
 	{
 		super( ...args )
-
+/*
 		var page	=this.newpinv()
 
 		page.hide()
 
-		this.gcl().html.el.appendChild( page.el )
+		this.gcl().html.el.appendChild( page.el )*/
 	}
 }
 

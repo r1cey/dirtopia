@@ -13,7 +13,7 @@ import newJable from "../newJsonable.js"
 /** Class for visible players. Has limited information. */
 
 
-export default newJable( class PlVis extends newISlot()
+export default class PlVis extends  newJable(newISlot())
 {
 	static key	="pl"
 
@@ -45,7 +45,7 @@ export default newJable( class PlVis extends newISlot()
 	{
 		super()
 
-		this.set(pl)
+		if( pl )	this.set(pl)
 	}
 
 
@@ -129,4 +129,4 @@ export default newJable( class PlVis extends newISlot()
 	}*/
 
 	///////////////////////////////////////////////////////////////////////////
-})
+}

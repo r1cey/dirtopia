@@ -8,7 +8,14 @@ import newOrg	from "../shared/items/newOrganics.js"
 
 import newStCnt from "../shared/items/newStackCnt.js"
 
-import Cnt	from "./Cnt.js"
+// import It from "../shared/items/Item.js"
+import newHold from "../shared/newHolder.js"
+import newInv from "../shared/items/newInv.js"
+// import newGObj from "../newGameObj.js"
+// import newInvO from "../newInvObj.js"
+// import newGridO from "../newGridObj.js"
+import newDHold from "../newDictHolder.js"
+import newCnt	from "../shared/items/newContainer.js"
 
 import newSoft from "../shared/items/newSoft.js"
 
@@ -29,6 +36,8 @@ export var Stack	=newStack(Item)
 export var Organic	=newOrg( Stack)
 	
 export var StackCnt	=newStCnt(Stack)
+
+var Cnt	=newCnt(newDHold(newInv(newHold(Item))))
 
 var ShBag	=newBag(Cnt)
 	

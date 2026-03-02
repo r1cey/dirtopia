@@ -2,7 +2,9 @@ export default( Base =Object )=>class GameObj	extends Base
 {
 	dad
 
-	html	={}
+	ui	={}
+
+	get html()	{return this.ui }
 
 
 

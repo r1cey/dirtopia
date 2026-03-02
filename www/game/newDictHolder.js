@@ -33,4 +33,15 @@ export default( Base =newInvO(newGObj(newInv())) )=>class DictHolder extends Bas
 
 		return	this.html.inv	=await dad.loadel( hinvp ,this )
 	}*/
+
+	static fromJSON( val )
+	{
+		var obj	=super.fromJSON( val )
+				
+		obj.fore(( item )=>
+		{
+			item.dad	=obj
+		})
+		return obj
+	}
 }

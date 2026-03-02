@@ -1,15 +1,13 @@
+import UiEl from "./UIElement.js"
 import V	from "./game/shared/Vec.js"
 
 
-export default class CM
+export default class CtxM	extends UiEl
 {
-	html
-
-	el	=document.createElement("ACTIONS")
-
 	pos	=new V()
 
 	opts	=[]
+
 
 
 	del()
@@ -25,9 +23,37 @@ export default class CM
 	delbound	=this.del.bind(this)
 
 
-	constructor( html )
+
+	constructor( gobj ,pointev )
 	{
-		this.html	=html
+		super( "ACTIONS" ,gobj )
+
+		this.pos.setev(pointev)
+
+		if( gobj.isitem )
+		{
+			this.addopt( "move" ,()=>
+				{	
+					gobj.ui.inv.movmod()
+				}
+			)
+		}
+		this.setelpos()
+	}
+
+
+	
+	///////////////////////////////////////////////////////////////////////////
+
+
+	setelpos()
+	{
+		var style	=this.el.style
+
+		var pos	=this.pos
+
+		style.left	=`${Math.floor(pos.x)}px`
+		style.top	=`${Math.floor(pos.y)}px`
 	}
 }
 
@@ -36,14 +62,14 @@ export default class CM
 
 
 
-CM.prototype. newev	=function( ev )
+CtxM.prototype. newev	=function( ev )
 {
 	return this.new( this.pos.setev( ev ) )
 }
 
 
 
-CM.prototype. new	=function( pos )
+CtxM.prototype. new	=function( pos )
 {
 	this.pos.set( pos )
 
@@ -52,16 +78,20 @@ CM.prototype. new	=function( pos )
 
 
 
-CM.prototype. addopt	=function( str, act )
+CtxM.prototype. addopt	=function( str, act )
 {
-	this.opts.push( new Opt( str, ()=>{ act(); this.del() }, this.el ))
+	var opt	=new Opt( this.gobj ,str ,act )
+	
+	this.opts.push( opt )
+
+	this.el.appendChild( opt.el )
 
 	return this
 }
 
 
 
-CM.prototype. show	=function()
+CtxM.prototype. show	=function()
 {
 	if( ! this.opts.length )	return
 
@@ -81,7 +111,7 @@ CM.prototype. show	=function()
 
 
 
-CM.prototype. setelpos	=function()
+CtxM.prototype. setelpos	=function()
 {
 	var style	=this.el.style
 
@@ -95,21 +125,23 @@ CM.prototype. setelpos	=function()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-class Opt
+
+class Opt	extends UiEl
 {
-	el
+	check
 
 
-	constructor( str, act, parel )
+
+	constructor( gobj ,str ,act ,check )
 	{
-		var el	=document.createElement('button')
+		super( "button" ,gobj )
+
+		var el	=this.el
 
 		el.textContent	=str
 	
 		el.onclick	=act
 
-		parel.appendChild( el )
-		
-		this.el	=el
+		this.check	=check
 	}
 }
