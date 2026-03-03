@@ -4,6 +4,8 @@ import newInvO from "../newInvObj.js"
 import newCtxO from "../newContextObj.js"
 import newGridO from "../newGridObj.js"
 
+import GridIt from "../../GridItem.js"
+
 import CtxM from "../../ContextMenu.js"
 
 
@@ -24,7 +26,7 @@ export default( Base =newGridO(newCtxO(newInvO(newGObj(ShIt)))))=>class Item ext
 
 	newgridel( ...args )
 	{
-		var gridel	=super.newgridel( ...args )
+		var gridel	=this.ui.inv	=new GridIt( this )
 
 		gridel.el.onclick	=( ev )=>
 			{
