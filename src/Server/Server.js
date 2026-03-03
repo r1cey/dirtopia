@@ -86,7 +86,9 @@ Server.prototype. stop	=function()
 
 Server.prototype. send	=function( fnk ,...args )
 {
-	Server.out[fnk]. apply(this, args )
+	// Server.out[fnk]. apply(this, args )
+
+	this["em_"+fnk]( ...args )
 }
 
 

@@ -148,7 +148,9 @@ Player.prototype. mov	=function( loc )
 
 	map.obj.set(loc).pl	=this
 
-	this.srv?.send( "plmov" ,this ,oldloc )
+	// this.srv?.send( "plmov" ,this ,oldloc )
+
+	this.cl.send( "clplmov" ,new Loc().set(loc).subv(oldloc) )
 
 	if( loc.h === 0 )
 	{

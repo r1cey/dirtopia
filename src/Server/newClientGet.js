@@ -25,7 +25,7 @@ export default( Base =Object )=>class ClientGet extends Base
 
 		if( ! map.canplmov( loc, pl ))
 		{
-			this.send("movrej" ,[ loc ])
+			this.send("movrej" , loc )
 
 			return
 		}
@@ -33,7 +33,7 @@ export default( Base =Object )=>class ClientGet extends Base
 
 		if( curloc.eq( loc ))
 		{
-			this.send("error" ,[ "Already there." ])
+			this.send("error" , "Already there." )
 			
 			return
 		}

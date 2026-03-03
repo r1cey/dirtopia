@@ -208,3 +208,24 @@ actions>button
 	background-repeat: no-repeat ;
 	border: 1px outset #3b2e24;
 }
+
+
+.movoverlay
+{
+    /* 1. Make it cover the whole screen */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    
+    /* 2. The Click-Through Magic */
+    pointer-events: none;
+    
+    /* 3. The Glow Effect (Adjust color and spread here) */
+    /* Use 'inset' to make the shadow crawl inward from the edges */
+    box-shadow: inset 0 0 60px 20px rgba(255, 0, 0, 0.4);
+    
+    /* 4. Ensure it stays on top of everything else */
+    z-index: 9999;
+}

@@ -30,7 +30,7 @@ export default class Html	extends Ui
 
 	ps	={}
 
-	// contextmenu	=new ContextMenu(this)
+	ctxmenu
 
 	imgs	=new Imgs(this)
 
@@ -90,11 +90,36 @@ export default class Html	extends Ui
 
 	newctxm( gobj ,ev )
 	{
-		var ctxm	=gobj.newctxm( ev )
+		if( this.ctxmenu )	this.delctxm()
+			
+		var ctxm	=this.ctxmenu	=gobj.newctxm( ev )
+
+		ev.stopPropagation()
+
+		setTimeout( ()=>{ document.addEventListener('click', this.#touchout )}, 0 )
 		
 		this.el.appendChild( ctxm.el )
 
 		return ctxm
+	}
+
+	touchout( ev )
+	{
+		if( ! this.ctxmenu.el.contains( ev.target ))
+		{
+			this.delctxm()
+		}
+	}
+	#touchout	=this.touchout.bind(this)
+
+
+	delctxm()
+	{
+		document.removeEventListener( "click" ,this.#touchout )
+
+		this.ctxmenu.el.remove()
+
+		this.ctxmenu	=null
 	}
 }
 

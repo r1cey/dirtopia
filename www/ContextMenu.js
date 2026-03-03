@@ -10,20 +10,6 @@ export default class CtxM	extends UiEl
 
 
 
-	del()
-	{
-		document.body.removeChild( this.el )
-
-		this.html.el.removeEventListener( "click", this.delbound )
-
-		this.opts.length	=0
-
-		this.el.textContent = '';
-	}
-	delbound	=this.del.bind(this)
-
-
-
 	constructor( gobj ,pointev )
 	{
 		super( "ACTIONS" ,gobj )
@@ -41,8 +27,23 @@ export default class CtxM	extends UiEl
 		this.setelpos()
 	}
 
-
 	
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	addopt( str, act )
+	{
+		var opt	=new Opt( this.gobj ,str ,act )
+		
+		this.opts.push( opt )
+
+		this.el.appendChild( opt.el )
+
+		return this
+	}
+
+
 	///////////////////////////////////////////////////////////////////////////
 
 
@@ -55,70 +56,6 @@ export default class CtxM	extends UiEl
 		style.left	=`${Math.floor(pos.x)}px`
 		style.top	=`${Math.floor(pos.y)}px`
 	}
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-
-CtxM.prototype. newev	=function( ev )
-{
-	return this.new( this.pos.setev( ev ) )
-}
-
-
-
-CtxM.prototype. new	=function( pos )
-{
-	this.pos.set( pos )
-
-	return this
-}
-
-
-
-CtxM.prototype. addopt	=function( str, act )
-{
-	var opt	=new Opt( this.gobj ,str ,act )
-	
-	this.opts.push( opt )
-
-	this.el.appendChild( opt.el )
-
-	return this
-}
-
-
-
-CtxM.prototype. show	=function()
-{
-	if( ! this.opts.length )	return
-
-	// _pos.set(this.pos).tosqc( can )
-
-	this.setelpos()
-
-	document.body.appendChild( this.el )
-
-	setTimeout(()=>{ this.html.el.addEventListener( "click", this.delbound )})
-
-	// this.int	=window.setInterval( this.check.bind(this), 821 )	//73bpm
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-
-CtxM.prototype. setelpos	=function()
-{
-	var style	=this.el.style
-
-	var pos	=this.pos
-
-	style.left	=`${Math.floor(pos.x)}px`
-	style.top	=`${Math.floor(pos.y)}px`
 }
 
 
@@ -140,8 +77,12 @@ class Opt	extends UiEl
 
 		el.textContent	=str
 	
-		el.onclick	=act
+		el.onclick	=()=>
+			{
+				act()
 
+				this.gobj.gcl().html.delctxm()
+			}
 		this.check	=check
 	}
 }
