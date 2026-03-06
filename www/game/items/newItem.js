@@ -24,14 +24,10 @@ export default( Base =newGridO(newCtxO(newInvO(newGObj(ShIt)))))=>class Item ext
 
 
 
-	newgridel( ...args )
+	newgridel( Class =GridIt )
 	{
-		var gridel	=this.ui.inv	=new GridIt( this )
+		var gridel	=super.newgridel( Class )
 
-		gridel.el.onclick	=( ev )=>
-			{
-				this.gcl().html.newctxm( this ,ev )
-			}
 		return gridel
 	}
 

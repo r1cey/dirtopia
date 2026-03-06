@@ -17,9 +17,9 @@ export default( Base =newInvObj() )=>class GridObj extends Base
 
 	
 
-	newgridel()
+	newgridel( Class =GridEl )
 	{
-		return this.ui.inv	=new GridEl(this)
+		return this.ui.inv	=new Class(this)
 	}
 
 
