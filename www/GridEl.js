@@ -11,7 +11,7 @@ export default class GridEl extends Ui
 	{
 		super( gobj.gkey() ,gobj )
 
-		this.el.classList.add( "griditem" )
+		this.el.classList.add( "gridel" )
 
 		var size	=gobj.constructor.size.c()
 

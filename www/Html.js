@@ -24,7 +24,7 @@ export default class Html	extends Ui
 		}
 	}
 
-	get can()	{return this.gobj.maps.html.can }
+	get can()	{return this.gobj.maps.ui.can }
 
 	menu	=new Menu(this)
 

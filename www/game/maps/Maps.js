@@ -17,9 +17,9 @@ export default class Maps extends newGObj( ShMaps )
 	}
 
 
-	setcan()
+	ui_setcan()
 	{
-		this.html.can	=new Can( this )
+		this.ui.can	=new Can( this )
 	}
 }
 

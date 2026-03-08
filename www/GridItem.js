@@ -1,52 +1,69 @@
 import GridEl from "./GridEl.js"
 
+import Drag from "./Drag.js"
+
 
 export default class GridItem	extends GridEl
 {
-	t 	=new Touch( this)
+	drag 	=new Drag( this )
+	// drag
 
 
 	constructor( gobj )
 	{
 		super( gobj )
 
-		this.el.onmousedown	=this.t.ondown.bind( this )
+		this.drag.start()
 
-		this.el.onmouseup	=( ev )=>
-		{
-			this.t.down	=false
-		}
-		this.el.onclick	=( ev )=>
-		{
-			this.gcl().html.newctxm( this ,ev )
-		}
+		// this.setclick()
 	}
 
 
-	movmod()
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	setdrag()
 	{
-		console.log("AAA")
+		// this.elsel.style.touchAction	="none"
+
+		// this.drag	=new Drag( this )
+
+		// this.el.attachEvent( "onpointerdown"	,this.drag.ondown )
 	}
-}
 
 
-
-class Touch
-{
-	down	=false
-
-
-	ondown( ev )
+	setclick()
 	{
-		this.t.down	=true
-
-		
+		this.el.onclick	=this.onclick.bind(this)
 	}
+
+
+	///////////////////////////////////////////////////////////////////////////
 
 
 	onclick( ev )
 	{
-		this.t.down	=false
+		this.gobj.gcl().html.newctxm( this.gobj ,ev )
+	}
 
+
+	followp( until )
+	{
+		window.document.attachEvent( "onpointermove"	,this.drag.onmove )
+
+		this.el.style.position	="absolute"
+
+		var follow	=()=>{
+			if( this.drag.down )
+			{
+				requestAnimationFrame( follow )
+			}
+			else
+			{
+				this.el.style.position	=""
+			}
+		}
+		requestAnimationFrame( this.drag.onframe )
 	}
 }

@@ -267,13 +267,12 @@ Can.prototype. frame	=function(now)
 		let dest	=can.v.set(deltasq).tohexc(can).addv(pl.dest)
 
 		let destloc	=can.v2.set(dest).roundh()
-		
-		tch.last.set(tch.pos)
 
 		if( pl.gmap().canplmov( destloc, pl ) )
 		{
 			pl.dest.setv( dest )
 		}
+		tch.onframe()
 	}
 
 	pl.step()

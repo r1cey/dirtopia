@@ -72,6 +72,22 @@ fps
 	z-index: -5;
 }
 
+.drag
+{
+    /* 1. Prevents the blue 'highlight' box on text/images */
+    user-select: none;
+    -webkit-user-select: none;
+
+    /* 2. CRITICAL: Stops the browser from trying to scroll or 
+          pinch-zoom while your finger/pointer is moving. */
+    touch-action: none;
+
+    /* 3. Stops the browser's old 'ghost image' drag system */
+    -webkit-user-drag: none;
+    
+    /* 4. Keeps the cursor consistent even if you move fast */
+    cursor: grabbing;
+}
 
 menu
 {

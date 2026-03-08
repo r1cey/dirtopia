@@ -84,6 +84,14 @@ Touch.prototype. onmove	=function( ev )
 }
 
 
+Touch.prototype. onframe	=function()
+{
+	var tch	=this
+	
+	tch.last.set(tch.pos)
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 
 

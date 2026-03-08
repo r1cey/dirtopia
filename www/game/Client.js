@@ -55,7 +55,7 @@ Client.prototype. start	=async function()
 {
 	this.html	=new Html( this )
 
-	this.maps.setcan()
+	this.maps.ui_setcan()
 
 	var p	=await this.html.loadel('login')
 
