@@ -8,7 +8,7 @@ export default class Touch
 
 	down	=false
 
-	start	=new V()
+	startt	=new V()
 
 	// last	=new V()
 
@@ -28,7 +28,7 @@ export default class Touch
 
 
 
-	constructor(uie ,bound =document.body )
+	constructor(uie ,bound =document )
 	{
 		this.uie	=uie
 
@@ -71,17 +71,22 @@ export default class Touch
 
 		tch.down	=true
 
-		tch.start.setev( ev )
+		tch.startt.setev( ev )
 		// tch.last.setev( ev )
 		tch.pos.setev( ev )
 
-		tch.uie.el.classList.add( "drag" )
+		tch.uie.el.style.pointerEvents	="none"
 
 		var bound	=this.bound
 
+		document.body.classList.add( "dragging" )
+
 		bound.addEventListener("pointerup", tch.onup )
-		bound.addEventListener("pointerout", tch.onout )
+		bound.addEventListener("pointercancel", tch.onout )
+		bound.addEventListener("mouseleave" ,tch.onout )
 		bound.addEventListener("pointermove", tch.onmove )
+
+		console.log(tch.uie.el.className ,bound )
 
 		// tch.time	=performance.now()
 
@@ -96,7 +101,7 @@ export default class Touch
 
 		// ev.target.releasePointerCapture( ev.pointerId )
 
-		console.log(ev.target)
+		console.log(ev.target ,tch.bound)
 
 		this.stopdrag()
 
@@ -110,7 +115,7 @@ export default class Touch
 	{
 		var tch	=this
 
-		// console.log(tch.pos)
+		// console.log("move")
 
 		tch.pos.setev( ev )
 
@@ -123,6 +128,8 @@ export default class Touch
 
 		tch.stopdrag()
 
+		console.log("out")
+
 		tch.uie.el.style.transform	=""
 	}
 
@@ -133,7 +140,7 @@ export default class Touch
 
 		// tch.last.set(tch.pos)
 
-		tch.uie.el.style.transform	=`translate(${tch.pos.x-tch.start.x}px, ${tch.pos.y-tch.start.y}px)`
+		tch.uie.el.style.transform	=`translate(${tch.pos.x-tch.startt.x}px, ${tch.pos.y-tch.startt.y}px)`
 
 		if( tch.down )
 		{
@@ -162,12 +169,15 @@ export default class Touch
 
 		tch.down	=false
 
-		tch.uie.el.classList.remove( "drag" )
+		document.body.classList.remove( "dragging" )
+
+		tch.uie.el.style.pointerEvents	=""
 
 		var bound	=tch.bound
 
 		bound.removeEventListener("pointerup", tch.onup )
-		bound.removeEventListener("pointerout", tch.onout )
+		bound.removeEventListener("pointercancel", tch.onout )
+		bound.removeEventListener("mouseleave" ,tch.onout )
 		bound.removeEventListener("pointermove", tch.onmove )
 	}
 }

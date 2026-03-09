@@ -13,6 +13,8 @@ export default class GridItem	extends GridEl
 	{
 		super( gobj )
 
+		this.el.classList.add( "drag" )
+
 		this.drag.start()
 
 		// this.setclick()

@@ -7,7 +7,7 @@ export default class Page	extends Ui
 	{
 		super( el ,gobj )
 
-		this.el.classList.add("page")
+		this.el.classList.add( "page" ,"scroll" )
 	}
 
 
@@ -15,7 +15,7 @@ export default class Page	extends Ui
 	{
 		this.el.style.display	="block"
 
-		this.gobj.gcl().maps.html.can.el.addEventListener(
+		this.gobj.gcl().maps.ui.can.el.addEventListener(
 			
 			"click" ,this.hide. bind(this),{ once :true }
 		)

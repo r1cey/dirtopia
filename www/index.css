@@ -87,7 +87,22 @@ fps
     
     /* 4. Keeps the cursor consistent even if you move fast */
     cursor: grabbing;
+
+	 /* 5. Optional: Add some visual feedback for dragging */
+	/* You can customize this as needed */
+	/* For example, a subtle shadow or color change */
+	/* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
 }
+
+body.dragging .scroll
+{
+	/* Optional: Add a class to the body when dragging starts */
+	/* This can be used to apply global styles during dragging */
+	/* For example, you could dim the background or show a custom cursor */
+	/* background-color: rgba(0, 0, 0, 0.1); */
+
+	touch-action: none; /* Ensure touch actions are disabled during dragging */
+}	
 
 menu
 {
