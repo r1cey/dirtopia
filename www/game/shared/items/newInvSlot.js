@@ -52,13 +52,13 @@ export default( Base =newInv() )=>class InvSlot extends Base
 		{
 			msg	=new AddMsg()
 			
-			msg.newslotcnts	=new Array(item.len)
+			msg.slotnewcnts	=new Array(item.len)
 			
 			for(var i =0 ;i< item.len ;++i)
 			{
 				var cnt	=item.spawncnt()
 
-				msg.newslotcnts[i]	=cnt
+				msg.slotnewcnts[i]	=cnt
 
 				super.additem( cnt )
 			}

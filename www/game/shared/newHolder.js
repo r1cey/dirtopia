@@ -3,9 +3,14 @@
 
 export default( Base )=>class Holder	extends Base
 {
+	get isholder()	{return this }
 	
-	/** Defined in derived class
-	@method canadditem( item ,len )*/
+
+	
+	canadditem( item ,len )
+	{
+		return true
+	}
 		
 	/** Defined in derived class
 	@method additem( item )	{} */

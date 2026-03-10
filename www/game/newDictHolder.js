@@ -16,7 +16,9 @@ export default( Base =newInvO(newGObj(newInv())) )=>class DictHolder extends Bas
 
 	newpinv()
 	{
-		var pinv	=this.html.inv	=new PageInv( this )
+		var pinv	=this.ui.inv	=new PageInv( this )
+
+		this.gcl().html.addui( pinv )
 
 		/*this.fore(( item )=>
 		{

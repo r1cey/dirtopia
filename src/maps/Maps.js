@@ -21,19 +21,16 @@ export default class Ms extends shMaps
 		,
 		dir	:"./maps/"
 	}
-	game
 
 	static Ground	=Ground
 
 	static Trees	=Trees
 
 
-	constructor( game )
+	/*constructor( game )
 	{
-		super( Ground ,Trees )
-
-		this.game	=game
-	}
+		super( game )
+	}*/
 }
 
 

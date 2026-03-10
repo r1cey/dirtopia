@@ -1,4 +1,5 @@
-import newPathe	from "../www/game/shared/newPathable.js"
+import Game	from "../www/game/shared/Game.js"
+// import newPathe	from "../www/game/shared/newPathable.js"
 import Maps	from './maps/Maps.js'
 import Srv from './Server/Server.js'
 // import Errors from './Errors.js'
@@ -7,6 +8,7 @@ import Loc	from './Loc.js'
 // import { constrainedMemory } from 'process'
 // import Con from "./Console.js"
 import Nav	from '../www/game/shared/Nav.js'
+import Pl from "../www/game/shared/player/Player.js"
 
 
 
@@ -27,14 +29,12 @@ Function.prototype. c	=function(...args)
  */
 
 
-export default class G// extends PathO
+export default class G	extends Game
 {
 	conf	=
 	{
 		pa	:'./conf.js'
 	}
-
-	maps	=new Maps( this)
 
 	time	=
 	{
@@ -44,8 +44,6 @@ export default class G// extends PathO
 		,
 		hour	:{ int	:0, i :0 }
 	}
-
-	pls	=new Players( this)
 
 	mode	=null
 
@@ -60,7 +58,8 @@ export default class G// extends PathO
 
 	constructor( confpa )
 	{
-		// super()
+		super( Maps ,Players )
+
 		// this.start(confpa)
 	}
 }

@@ -50,6 +50,31 @@ export default class GridItem	extends GridEl
 	}
 
 
+	dragto( trgt )
+	{
+		const gobj	=this.gobj
+
+		const uis	=gobj.gcl().html.uis
+
+		let el	=trgt
+
+		let tgtgo
+
+		while ( el )
+		{
+			tgtgo	=uis.get( el )
+
+			if( tgtgo )
+			{
+				gobj.dragto( tgtgo )
+
+				break
+			}
+			el	=el.parentElement; 
+		}
+	}
+
+
 	followp( until )
 	{
 		window.document.attachEvent( "onpointermove"	,this.drag.onmove )

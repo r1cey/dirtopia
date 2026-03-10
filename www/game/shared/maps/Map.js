@@ -39,6 +39,21 @@ export default class Map extends newBoard(newBinMap)
 
 
 	newcell( v )	{return new Cell( this ,v )}
+
+
+	/**@todo Also don't allow to put items where tree trunks are.
+	 * And maybe make the search area more humble */
+
+	getloc4item( oloc )
+	{
+		const loc	=this.fore(( loc )=>
+			{
+				if( ! this.obj.g(loc)?.item )	return true
+			},
+			this._r<<1 ,oloc
+		)
+		return loc
+	}
 }
 
 

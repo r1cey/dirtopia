@@ -13,9 +13,9 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 
 	additem( item )
 	{
-		var key	=item.gkey()
+		const key	=item.gkey()
 
-		var invobj	=this.inv[key]
+		const invobj	=this.inv[key]
 
 		if( item.iscnt && item.isempty() )
 		{

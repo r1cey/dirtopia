@@ -1,3 +1,4 @@
+import Game	from './shared/Game.js'
 import Html	from '../Html.js'
 import Serv	from './Serv.js'
 import Player	from './player/Player.js'
@@ -7,10 +8,8 @@ import V	from './shared/Vec.js'
 
 
 
-export default class Client
+export default class Client	extends Game
 {
-	V	=V
-
 	html
 
 	con()	{ return this.html.con }
@@ -18,8 +17,6 @@ export default class Client
 	srv	=new Serv(this)
 
 	pl
-
-	maps	=new Maps(this)
 
 	vispls	={}
 
@@ -31,6 +28,8 @@ export default class Client
 
 	constructor()
 	{
+		super( Maps )
+
 		if( document.readyState === 'loading' )
 		{
     		// If the browser is still parsing, wait for the event
@@ -87,6 +86,8 @@ Client.prototype. setpl	=async function( plmsg )
 	this.html.delpage('createpl')
 
 	var pl	=this.pl	=Player.fromJSON( plmsg ,this )
+
+	this.pls.s(pl)
 
 	this.html.newplinv( pl )
 

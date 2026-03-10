@@ -11,10 +11,20 @@ import Can from '../../canvas/Canvas.js'
 
 export default class Maps extends newGObj( ShMaps )
 {
-	constructor( cl )
+	get cl()	{return this.game }
+
+
+
+	static Ground	=Ground
+
+	static Trees	=Trees
+
+
+
+	/*constructor( cl )
 	{
-		super( cl ,Ground ,Trees )
-	}
+		super( cl )
+	}*/
 
 
 	ui_setcan()

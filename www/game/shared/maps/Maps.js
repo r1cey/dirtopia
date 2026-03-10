@@ -21,15 +21,15 @@ import Loc from "../Loc.js"
 
 export default class Maps//	extends PObj
 {
-	/** Define in derived
-	@var ground */
+	game
+
+	ground
 	
-	// get gr()	{return this.ground }
+	get gr()	{return this.ground }
 
-	/** Define in derived
-	@var trees */
+	trees
 
-	// get tr()	{return this.trees }
+	get tr()	{return this.trees }
 
 
 	/** Define in derived
@@ -41,13 +41,15 @@ export default class Maps//	extends PObj
 	@var Trees */
 
 
-	constructor( Gr ,Tr )
+	constructor( game )
 	{
-		this.ground	=this.gr	=new Gr( this )
+		this.game	=game
 
-		this.trees	=this.tr	=new Tr( this )
-		
-		// super()
+		const This	=this.constructor
+
+		this.ground	=new This.Ground( this )
+
+		this.trees	=new This.Trees( this )
 	}
 }
 

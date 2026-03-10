@@ -13,13 +13,31 @@ export default newHold( newJable( class Hand
 	static key	="hands"
 
 
-
 	get ishands()	{return this }
 
 
-	canadditem()	{return true }
 
-	additem( item )	{ this.item	=item }
+	canadditem( item ,len ,nav )
+	{
+		if( this.item )
+		{
+			const pl		=nav.at(-2)
+
+			const droploc		=pl.map( nav.at(-3) ).getloc4item( pl.loc )
+
+			return droploc
+		}
+		return true
+	}
+
+
+	additem( item ,nav )
+	{
+		this.item	=item
+
+		return this
+	}
+
 
 	delitem()	{ this.item	=null }
 }))

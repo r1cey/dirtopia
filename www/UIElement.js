@@ -25,6 +25,11 @@ export default class UiEl
 
 		this.gobj	=gobj
 
+		if( gobj )
+		{
+			gobj.gcl().html?.addui( this )
+		}
+
 		this.css	=css
 	}
 

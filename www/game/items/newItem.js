@@ -36,4 +36,16 @@ export default( Base =newGridO(newCtxO(newInvO(newGObj(ShIt)))))=>class Item ext
 	{
 		return this.ui.ctx	=new CtxM( this ,ev )
 	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+	dragto( trgt )
+	{
+		if( trgt.isholder )
+		{
+			trgt.canadditem( this )
+		}
+	}
 }

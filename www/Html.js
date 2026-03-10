@@ -30,6 +30,8 @@ export default class Html	extends Ui
 
 	ps	={}
 
+	uis	=new WeakMap()
+
 	ctxmenu
 
 	imgs	=new Imgs(this)
@@ -51,6 +53,9 @@ export default class Html	extends Ui
 	}
 
 
+	////////////////////////////////////////////////////////////////////////////
+
+
 
 	async loadel( name ,gobj )
 	{
@@ -69,6 +74,18 @@ export default class Html	extends Ui
 	}
 
 
+	/** Run this for UI elements with a game object attached to it
+	 * so we can do reverse lookup from HTML element to game object;
+	 * for example when dragging and dropping. */
+
+	addui( ui )
+	{
+		this.uis.set( ui.el ,ui.gobj )
+
+		return ui
+	}
+
+
 
 	newplinv( pl )
 	{
@@ -77,9 +94,9 @@ export default class Html	extends Ui
 
 
 
-	newpinv( dhold ,show =true )
+	newpinv( dholder ,show =true )
 	{
-		var p	=dhold.newpinv()
+		var p	=dholder.newpinv()
 
 		this.el.appendChild( p.el )
 
@@ -96,21 +113,16 @@ export default class Html	extends Ui
 
 		ev.stopPropagation()
 
-		setTimeout( ()=>{ document.addEventListener('click', this.#touchout )}, 0 )
+		setTimeout( ()=>{ document.addEventListener('click', this.touchout )}, 0 )
 		
 		this.el.appendChild( ctxm.el )
 
 		return ctxm
 	}
 
-	touchout( ev )
-	{
-		if( ! this.ctxmenu.el.contains( ev.target ))
-		{
-			this.delctxm()
-		}
-	}
-	#touchout	=this.touchout.bind(this)
+
+	///////////////////////////////////////////////////////////////////////////
+
 
 
 	delctxm()
@@ -121,6 +133,20 @@ export default class Html	extends Ui
 
 		this.ctxmenu	=null
 	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	#touchout( ev )
+	{
+		if( ! this.ctxmenu.el.contains( ev.target ))
+		{
+			this.delctxm()
+		}
+	}
+	touchout	=this.#touchout.bind(this)
 }
 
 

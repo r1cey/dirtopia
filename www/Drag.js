@@ -2,7 +2,7 @@ import V	from './game/shared/Vec.js'
 
 export default class Touch
 {
-	uie
+	ui
 
 	bound
 
@@ -20,17 +20,23 @@ export default class Touch
 
 	onup
 
+	ondrag
+
+	ondragup
+
 	onmove
 
-	onout
+	ondragout
 
 	onframe
 
+	static delay	=500
 
 
-	constructor(uie ,bound =document )
+
+	constructor(ui ,bound =document )
 	{
-		this.uie	=uie
+		this.ui	=ui
 
 		this.bound	=bound
 
@@ -38,9 +44,13 @@ export default class Touch
 
 		this.onup	=this.#onup.bind(this)
 
+		// this.ondrag	=this.#ondrag.bind(this)
+
+		this.ondragup	=this.#ondragup.bind(this)
+
 		this.onmove	=this.#onmove.bind(this)
 
-		this.onout	=this.#onout.bind(this)
+		this.ondragout	=this.#ondragout.bind(this)
 
 		this.onframe	=this.#onframe.bind(this)
 	}
@@ -52,12 +62,12 @@ export default class Touch
 
 	start( isframe =true )
 	{
-		this.uie.el.addEventListener( "pointerdown" ,this.ondown )
+		this.ui.el.addEventListener( "pointerdown" ,this.ondown )
 	}
 
 	stop()
 	{
-		this.uie.el.removeEventListener( "pointerdown" ,this.ondown )
+		this.ui.el.removeEventListener( "pointerdown" ,this.ondown )
 	}
 
 
@@ -67,70 +77,121 @@ export default class Touch
 
 	#ondown( ev )
 	{
-		var tch	=this
+		ev.stopPropagation()
+
+		const tch	=this
 
 		tch.down	=true
 
-		tch.startt.setev( ev )
-		// tch.last.setev( ev )
-		tch.pos.setev( ev )
+		window.addEventListener('pointerup' ,tch.onup )
+		window.addEventListener('pointercancel' ,tch.onup )
+		window.addEventListener('blur' ,tch.onup )
+		window.addEventListener('contextmenu' ,tch.onup )
+		tch.ui.el.addEventListener( "pointerout" ,tch.onup )
 
-		tch.uie.el.style.pointerEvents	="none"
-
-		var bound	=this.bound
-
-		document.body.classList.add( "dragging" )
-
-		bound.addEventListener("pointerup", tch.onup )
-		bound.addEventListener("pointercancel", tch.onout )
-		bound.addEventListener("mouseleave" ,tch.onout )
-		bound.addEventListener("pointermove", tch.onmove )
-
-		console.log(tch.uie.el.className ,bound )
-
-		// tch.time	=performance.now()
-
-		requestAnimationFrame( this.onframe )
-
-		return tch.stopdefs(ev)
+		setTimeout( tch.#ondrag.bind( tch, ev ), Touch.delay )
 	}
 
 	#onup( ev )
 	{
 		var tch	=this
 
-		// ev.target.releasePointerCapture( ev.pointerId )
+		tch.down	=false
 
-		console.log(ev.target ,tch.bound)
+		// console.log( "up" )
 
-		this.stopdrag()
+		window.removeEventListener('pointerup' ,tch.onup )
+		window.removeEventListener('pointercancel' ,tch.onup )
+		window.removeEventListener('blur' ,tch.onup )
+		window.removeEventListener('contextmenu' ,tch.onup )
+		tch.ui.el.removeEventListener( "pointerout" ,tch.onup )
+	}
+
+
+	#ondrag( ev )
+	{
+		const tch	=this
+
+		// console.log( tch.down )
+
+		if( ! tch.down )	return
+
+		tch.startt.setev( ev )
+		// tch.last.setev( ev )
+		tch.pos.setev( ev )
+
+		const el	=tch.ui.el
+
+		el.setPointerCapture( ev.pointerId )
+
+		// el.style.pointerEvents	="none"
+
+		// 1. Capture the EXACT current size and screen position
+		const rect = el.getBoundingClientRect();
+
+		// 2. Set the dimensions explicitly so it doesn't collapse
+		el.style.width = `${rect.width}px`;
+		el.style.height = `${rect.height}px`;
+
+		el.style.position	="fixed"
+
+		el.style.left	=`${ev.clientX+1}px`
+		el.style.top	=`${ev.clientY+1}px`
+
+		const bound	=this.bound
+
+		document.body.classList.add( "dragging" )
+
+		el.addEventListener("pointerup", tch.ondragup )
+		bound.addEventListener("pointercancel", tch.ondragout )
+		bound.addEventListener("mouseleave" ,tch.ondragout )
+		window.addEventListener('blur' ,tch.ondragout )
+		window.addEventListener('contextmenu' ,tch.ondragout )
+		el.addEventListener("pointermove", tch.onmove )
+
+		// tch.time	=performance.now()
+
+		requestAnimationFrame( this.onframe )
+	}
+
+	#ondragup( ev )
+	{
+		const tch	=this
+
+		// var el	=tch.ui.el
+
+		const trgt	=document.elementFromPoint(ev.clientX, ev.clientY)
+
+		// 4. Act on the target
+		/*if (dropTarget && dropTarget.closest('.inventory-slot')) {
+			moveItemToSlot(el, dropTarget.closest('.inventory-slot'));
+		}*/
+
+		tch.ui.dragto?.( trgt )
+
+		this.stopdrag( ev )
 
 		/*if(performance.now() - tch.time <= 200)
 		{
 			tch.uie.clicked?.( tch.pos )
 		}*/
+
 	}
 
 	#onmove( ev )
 	{
 		var tch	=this
 
-		// console.log("move")
-
 		tch.pos.setev( ev )
 
 		return tch.stopdefs(ev)
 	}
 
-	#onout( ev )
+	#ondragout( ev )
 	{
 		var tch	=this
 
-		tch.stopdrag()
-
-		console.log("out")
-
-		tch.uie.el.style.transform	=""
+		tch.stopdrag( ev )
 	}
 
 
@@ -140,10 +201,10 @@ export default class Touch
 
 		// tch.last.set(tch.pos)
 
-		tch.uie.el.style.transform	=`translate(${tch.pos.x-tch.startt.x}px, ${tch.pos.y-tch.startt.y}px)`
-
 		if( tch.down )
 		{
+			tch.ui.el.style.transform	=`translate(${tch.pos.x-tch.startt.x}px, ${tch.pos.y-tch.startt.y}px)`
+
 			requestAnimationFrame( this.onframe )
 		}
 	}
@@ -155,15 +216,15 @@ export default class Touch
 
 	stopdefs( ev )
 	{
-		ev?.stopPropagation();
-		ev?.preventDefault();
-		ev.cancelBubble=true;
-		ev.returnValue=false;
-		return false;
+		// ev?.stopPropagation();
+		ev?.preventDefault()
+		// ev.cancelBubble=true;
+		ev.returnValue	=false
+		return false
 	}
 
 
-	stopdrag()
+	stopdrag( ev )
 	{
 		var tch	=this
 
@@ -171,13 +232,25 @@ export default class Touch
 
 		document.body.classList.remove( "dragging" )
 
-		tch.uie.el.style.pointerEvents	=""
+		const el	=tch.ui.el
+
+		el.style.transform	=""
+		el.style.width	=""
+		el.style.height	=""
+		el.style.position	=""
+		el.style.left	=""
+		el.style.top	=""
+		// el.style.pointerEvents	=""
+
+		el.releasePointerCapture( ev.pointerId )
 
 		var bound	=tch.bound
 
-		bound.removeEventListener("pointerup", tch.onup )
-		bound.removeEventListener("pointercancel", tch.onout )
-		bound.removeEventListener("mouseleave" ,tch.onout )
-		bound.removeEventListener("pointermove", tch.onmove )
+		el.removeEventListener("pointerup", tch.ondragup )
+		bound.removeEventListener("pointercancel", tch.ondragout )
+		bound.removeEventListener("mouseleave" ,tch.ondragout )
+		window.removeEventListener('blur' ,tch.ondragout )
+		window.removeEventListener('contextmenu' ,tch.ondragout )
+		el.removeEventListener("pointermove", tch.onmove )
 	}
 }

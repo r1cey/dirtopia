@@ -1,0 +1,44 @@
+class Pl
+{
+	prop1
+
+	prop2
+
+	prop3
+
+	static meth2prop =
+	{
+		"meth1"	:[ "prop1" ]
+		,
+		"meth2"	:[ "prop2" ,"prop3" ]
+	}
+
+	meth1
+
+	meth2
+}
+
+newPl( props )
+{
+	const pl	=new Pl()
+
+	const NewPl	=class extends newJable(newInvSlot())
+	{
+		constructor()
+		{
+			for(var pk of props )
+			{
+				this[k]	=pl[k]
+			}
+		}
+	}
+	main: for(var mk in Pl.meth2prop )
+	{
+		for(var pk of Pl.meth2prop[mk] )
+		{
+			if( ! props.includes(pk) )	continue main
+		}
+		NewPl.prototype[mk]	=Pl.prototype[mk]
+	}
+	return NewPl
+}

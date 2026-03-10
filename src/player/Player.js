@@ -54,13 +54,13 @@ class PlSlp extends SrvPl( ShPl.Vis )
 
 export default class Player extends ShPl
 {	
-	game
+	game()	{return this.pls.game }
 
 	// hands	=new Hands()
 
-	map()	{return this.game.maps.loc2map( this.loc )}
+	map()	{return super.map( this.pls )}
 
-	get srv()	{return this.map.server }
+	srv()	{return this.map().server }
 
 	// static game
 
@@ -72,18 +72,25 @@ export default class Player extends ShPl
 		this.game	=game
 	}
 
-	/*static Slp	=PlSlp
-
-	static _msg	=new ShPl()
-
-	constructor( o, json, game, map )
+	
+	drop( item )
 	{
-		super()
+		const pl	=this
 
-		Object.assign(this,{ game, map })
+		const map	=pl.map()
 
-		if(o)	this.set(o, json )
-	}*/
+		const loc	=map.getloc4item( pl.loc )
+
+		if( ! loc )
+		{
+			pl.cl.send( "error" ,"No place to drop item" )
+
+			return
+		}
+		map.obj.set( loc ).item	=item
+
+		return loc
+	}
 }
 
 

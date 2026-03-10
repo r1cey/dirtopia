@@ -63,6 +63,12 @@ export default class PlVis extends  newJable(newISlot())
 	}
 
 
+
+	map( pls )
+	{
+		return pls.game.maps.loc2map( this.loc )
+	}
+
 	
 	/*additem( item )
 	{
