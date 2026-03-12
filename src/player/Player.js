@@ -1,5 +1,5 @@
 import ShPl from '../../www/game/shared/player/Player.js'
-import Hands from '../../www/game/shared/player/Hands.js'
+import Hands from './Hands.js'
 
 import V from '../../www/game/shared/Vec.js'
 import Loc from '../Loc.js'
@@ -9,8 +9,7 @@ import * as fs	from '../fs.js'
 // import items	from "../../www/game/shared/items/items.js"
 
 // import items from '../items.js'
-
-// import newjsontrans from "../../www/game/shared/JsonRevivr.js"
+import JRev from "../JsonRevivr.js"
 
 
 // var jsontr	=newjsontrans()
@@ -54,23 +53,51 @@ class PlSlp extends SrvPl( ShPl.Vis )
 
 export default class Player extends ShPl
 {	
-	game()	{return this.pls.game }
-
-	// hands	=new Hands()
-
-	map()	{return super.map( this.pls )}
-
-	srv()	{return this.map().server }
-
-	// static game
+	static jrev	=new JRev().add(
+		{
+			key :"cl" , fromJSON :()=> null
+		}
+	)
 
 
-	constructor( plmsg, game )
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	/*constructor( plmsg, game )
 	{
 		super( plmsg )
+	}*/
 
-		this.game	=game
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	srv()	{return this.pls.game.server }
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+	static async read( dir ,name ,pls )
+	{
+		const pa	=dir+name+'.json'
+	
+		const plo	=await fs.readjson( pa, this.jrev.fn )
+					
+		if( ! plo )
+		{
+			console.error( "Error reading player: "+name )
+	
+			return false
+		}
+		return	new Player( pls ).set( plo )
 	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
 
 	
 	drop( item )
@@ -91,6 +118,13 @@ export default class Player extends ShPl
 
 		return loc
 	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	newhands()	{return new Hands( this ) }
 }
 
 

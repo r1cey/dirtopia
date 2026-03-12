@@ -19,7 +19,7 @@ const newPl	=( Base )=>class ClPl	extends newDHold(newInvO(newGObj( Base )))
 
 	dest	=new Loc()
 
-	hands	=new Hands()
+	hands	=new Hands( this )
 
 	srv()	{return this.gcl().srv }
 

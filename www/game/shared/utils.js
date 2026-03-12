@@ -124,3 +124,16 @@ export function mixin( mums, clss )
 	}
 	return clss
 }
+
+
+export function nonenum( obj, key, val )
+{
+	Object.defineProperty( obj ,key ,
+		{
+			value	:val ,
+			enumerable	:false ,
+			writable	:true ,
+			configurable	:true
+		}
+	)
+}

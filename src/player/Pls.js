@@ -8,14 +8,11 @@ import * as fs from '../fs.js'
 import items from "../items/items.js"
 // import Hands from '../../www/game/shared/player/Hands.js'
 // import Stack from "../../www/game/shared/items/Stackable.js"
-import JRev from "../JsonRevivr.js"
 
 
 
 export default class Pls	extends ShPls
 {
-	game
-
 	conf	=
 	{
 		max	:1000
@@ -24,29 +21,10 @@ export default class Pls	extends ShPls
 	}
 
 
-	
-	jrev	=new JRev().add(
-		{
-			key :"cl" , fromJSON :()=> null
-		}
-	)//,
-		// Hands
-	// ] )
-
-
-	constructor( game )
+	/*constructor( game )
 	{
-		super()
-
-		this.game	=game
-
-		this.jrev.add(
-			{
-				key :"" , fromJSON :(val)=> new Pl( val, game )
-			})
-			// , Stack.newRevObj(this.jrev)
-		// ] )
-	}
+		super( game )
+	}*/
 }
 
 
@@ -103,19 +81,7 @@ Pls.prototype. read	=async function( pllocs )
 
 Pls.prototype. readpl	=async function( name )
 {
-	var game	=this.game
-
-	var pa	=this.conf.dir+name+'.json'
-
-	var pl	=await fs.readjson( pa, this.jrev.fn )
-				
-	if( ! pl)
-	{
-		console.error( "Error reading player: "+pln )
-
-		return false
-	}
-	return pl
+	return await Pl.read( this.conf.dir ,name ,this )
 }
 
 

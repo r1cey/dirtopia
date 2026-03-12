@@ -1,11 +1,11 @@
 import PV	from "./PlVis.js"
 
+import{ nonenum } from "../utils.js"
+
 
 
 export default class Pl extends PV
 {
-	speed	=1
-
 	vision	=50
 
 	water	=1
@@ -13,21 +13,31 @@ export default class Pl extends PV
 	heat	=0
 
 
-	constructor( pl )
+	///////////////////////////////////////////////////////////////////////////////
+
+
+	constructor( pls )
 	{
-		super()
-		
-		if( pl )	this.set( pl )
+		nonenum( this ,"pls" ,pls )
 	}
+
+	///////////////////////////////////////////////////////////////////////////////
+
+
+	map()
+	{
+		return this.pls.game.maps.loc2map( this.loc )
+	}
+
 
 	///////////////////////////////////////////////////////////////////////////////
 
 
 	sees( loc )
 	{
-		var pl	=this
+		const pl	=this
 
-		var dist	=pl.loc.disth( loc )
+		const dist	=pl.loc.disth( loc )
 
 		return dist <= pl.vision
 	}
@@ -73,7 +83,29 @@ export default class Pl extends PV
 	}
 
 
-	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	candrop( item )
+	{
+		return this.map().getloc4item( this.loc )
+	}
+		
+	drop( item )
+	{
+		const pl	=this
+
+		const map	=pl.map()
+
+		const loc	=map.getloc4item( pl.loc )
+
+		if( loc )
+		{
+			map.obj.set( loc ).item	=item
+		}
+		return loc
+	}
 
 
 	/*

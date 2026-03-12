@@ -8,11 +8,18 @@ import newGridO from "../newGridObj.js"
 import V from "../shared/Vec.js"
 
 
-export default class Ha extends newGridO(newInvO(newGObj(Hands )))
+export default class Ha extends newGridO(newInvO(newGObj( Hands )))
 {
 	static size	=new V(5,5)
 
 
+
+	constructor( pl )
+	{
+		super( pl ,pl )		
+	}
+
+	
 
 	static fromJSON( val )
 	{

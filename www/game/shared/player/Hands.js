@@ -1,8 +1,7 @@
 import newHold from "../newHolder.js"
-
 import newJable from "../newJsonable.js"
 
-// import newPath from "../newPathable.js"
+import { nonenum } from "../utils.js"
 
 
 
@@ -16,28 +15,69 @@ export default newHold( newJable( class Hand
 	get ishands()	{return this }
 
 
+	///////////////////////////////////////////////////////////////////////////
 
-	canadditem( item ,len ,nav )
+
+
+	constructor( pl )
+	{
+		nonenum( this ,"pl" ,pl )
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	get pl()	{return this.dad }
+
+	set pl( pl )	{ this.dad	=pl }
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	canadditem( item ,len )
 	{
 		if( this.item )
 		{
-			const pl		=nav.at(-2)
-
-			const droploc		=pl.map( nav.at(-3) ).getloc4item( pl.loc )
-
-			return droploc
+			return this.candrop()
 		}
 		return true
 	}
 
 
-	additem( item ,nav )
-	{
-		this.item	=item
+	/**@returns loc if had to drop holding item */
 
-		return this
+	additem( item )
+	{
+		if( this.item )
+		{
+			return this.drop()
+		}
+		this.item	=item
 	}
 
 
 	delitem()	{ this.item	=null }
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+	candrop()
+	{
+		this.pl.candrop( this.item )
+	}
+
+
+	drop()
+	{
+		const droploc	=this.pl.drop( this.item )
+
+		this.delitem()
+
+		return droploc
+	}
 }))

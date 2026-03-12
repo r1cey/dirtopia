@@ -1,52 +1,21 @@
-import Loc from "../Loc.js"
-import Col from '../Color.js'
+import PlBase from "./PlBase.js"
+import newJable from "../newJsonable.js"
 
 import Hands from "./Hands.js"
 
-import newISlot	from "../items/newInvSlot.js"
 
-import newJable from "../newJsonable.js"
+/** Class for visible players.*/
 
-// import items from "../items/items.js"
-
-
-/** Class for visible players. Has limited information. */
-
-
-export default class PlVis extends  newJable(newISlot())
+export default class PlVis	extends newJable( PlBase )
 {
 	static key	="pl"
 
-	name
+	hands	=this.newhands()
 
-	r	= 0.62
-
-	col	=new Col(0, 100, 50)
-	
-	loc	=new Loc(0,0,0)	//when this is derived on client, it can become a getter function
-
-	cl	=null
-
-	sleep	=0
-
-	hands	=new Hands()
-
-	static allowed	=
-	{
-		belt	:1
-	}
+	speed	=1
 
 
-	get ispl()	{return this }
-
-
-
-	constructor( pl )
-	{
-		super()
-
-		if( pl )	this.set(pl)
-	}
+	///////////////////////////////////////////////////////////////////////////
 
 
 
@@ -63,13 +32,6 @@ export default class PlVis extends  newJable(newISlot())
 	}
 
 
-
-	map( pls )
-	{
-		return pls.game.maps.loc2map( this.loc )
-	}
-
-	
 	/*additem( item )
 	{
 		len	??=item.num
@@ -135,4 +97,8 @@ export default class PlVis extends  newJable(newISlot())
 	}*/
 
 	///////////////////////////////////////////////////////////////////////////
+
+
+
+	newhands()	{return new Hands( this )}
 }
