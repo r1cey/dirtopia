@@ -51,6 +51,13 @@ export default class Maps//	extends PObj
 
 		this.trees	=new This.Trees( this )
 	}
+
+
+
+	setpl( pl )
+	{
+		this.loc2map( pl.loc ).obj.s( pl.loc ).pl	=pl
+	}
 }
 
 

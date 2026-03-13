@@ -21,15 +21,15 @@ export default( Base =Object )=>class ClS extends Base
 
 	em_setmap	=function()
 	{
-		var{ pl }	=this
+		const{ pl }	=this
 
-		var game	=this.srv.game
+		const maps	=this.game().maps
 
-		var slicedgr	=game.maps.gr.slice( pl.loc, pl.vision )
+		var slicedgr	=maps.gr.slice( pl.loc, pl.vision )
 
 		this.sendbin( slicedgr.bin.getbuf())
 
-		var slicedtr	=pl.game.maps.tr.slice( pl.loc, pl.vision )
+		var slicedtr	=maps.tr.slice( pl.loc, pl.vision )
 
 		this.sendbin( slicedtr.bin.getbuf())
 

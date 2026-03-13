@@ -56,12 +56,19 @@ export default class G	extends Game
 	// con	=new Con(this)
 
 
+
 	constructor( confpa )
 	{
-		super( Maps ,Players )
+		super()
 
 		// this.start(confpa)
 	}
+
+
+
+	newmaps()	{return new Maps( this )}
+
+	newpls()	{return new Players( this )}
 }
 
 
@@ -104,10 +111,20 @@ G.prototype. start	=async function( confpa )
 			console.error("Couldn't read conf file: "+confpa )
 		}
 	}
-	var pllocs	=await this.maps.start()
+	const pllocs	=await this.maps.start()
 
-	await this.pls.read( pllocs )
+	const delpls	=await this.pls.read( pllocs )
 
+	for(var pl in this.pls.o )
+	{
+		this.maps.setpl( pl )
+	}
+	for(var pln of delpls )
+	{
+		var loc	=pllocs[pln]
+		
+		this.maps.loc2map( loc ).obj.del( loc ,"pl" )
+	}
 	// await this.pls.fillmissing()
 
 	g.time.hour.int	=setInterval( g.hour.bind(g), 60*1000*60*1.5 )

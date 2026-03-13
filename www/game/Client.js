@@ -28,7 +28,7 @@ export default class Client	extends Game
 
 	constructor()
 	{
-		super( Maps )
+		super()
 
 		if( document.readyState === 'loading' )
 		{
@@ -44,6 +44,8 @@ export default class Client	extends Game
 
 
 	gcl()	{return this }
+
+	newmaps()	{return new Maps( this ) }
 }
 
 
@@ -85,7 +87,7 @@ Client.prototype. setpl	=async function( plmsg )
 {
 	this.html.delpage('createpl')
 
-	var pl	=this.pl	=Player.fromJSON( plmsg ,this )
+	var pl	=this.pl	=Player.fromJSON( plmsg ,this.pls )
 
 	this.pls.s(pl)
 

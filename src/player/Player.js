@@ -99,26 +99,6 @@ export default class Player extends ShPl
 	///////////////////////////////////////////////////////////////////////////
 
 
-	
-	drop( item )
-	{
-		const pl	=this
-
-		const map	=pl.map()
-
-		const loc	=map.getloc4item( pl.loc )
-
-		if( ! loc )
-		{
-			pl.cl.send( "error" ,"No place to drop item" )
-
-			return
-		}
-		map.obj.set( loc ).item	=item
-
-		return loc
-	}
-
 
 	///////////////////////////////////////////////////////////////////////////
 

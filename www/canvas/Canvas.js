@@ -69,6 +69,8 @@ export default class Can	extends Ui
 	v2	=new V()
 	v3	=new V()
 
+	frame
+
 
 	constructor( maps )
 	{
@@ -85,6 +87,52 @@ export default class Can	extends Ui
 		CtxMenu.can	=this
 
 		this.drawgrid()
+
+		this.frame	=this.#frame.bind(this)
+	}
+
+
+
+	#frame(now)
+	{
+		var can	=this
+
+		var dt	=now - this.time
+
+		var pl	=can.pl
+
+		var tch	=can.touch
+
+		this.time	=now
+
+		this.draw( dt )
+
+		this.html.fps.set(Math.floor(1000/dt))
+
+		
+		if(tch.on)
+		{
+			let deltasq	=can.v3.set(tch.pos).subv(tch.last)
+
+			let dest	=can.v.set(deltasq).tohexc(can).addv(pl.dest)
+
+			let destloc	=can.v2.set(dest).roundh()
+
+			if( pl.map().canplmov( destloc, pl ) )
+			{
+				pl.dest.setv( dest )
+			}
+			tch.onframe()
+		}
+
+		pl.step()
+
+		can.setpos(pl.pos)
+
+		if( can.animate )
+		{
+			window.requestAnimationFrame( this.frame. bind(this))
+		}
 	}
 }
 
@@ -243,47 +291,6 @@ Can.prototype. draw	=function( dt )
 
 
 
-Can.prototype. frame	=function(now)
-{
-	var can	=this
-
-	var dt	=now - this.time
-
-	var pl	=can.pl
-
-	var tch	=can.touch
-
-	this.time	=now
-
-	this.draw( dt )
-
-	this.html.fps.set(Math.floor(1000/dt))
-
-	
-	if(tch.on)
-	{
-		let deltasq	=can.v3.set(tch.pos).subv(tch.last)
-
-		let dest	=can.v.set(deltasq).tohexc(can).addv(pl.dest)
-
-		let destloc	=can.v2.set(dest).roundh()
-
-		if( pl.gmap().canplmov( destloc, pl ) )
-		{
-			pl.dest.setv( dest )
-		}
-		tch.onframe()
-	}
-
-	pl.step()
-
-	can.setpos(pl.pos)
-
-	if( can.animate )
-	{
-		window.requestAnimationFrame( this.frame. bind(this))
-	}
-}
 
 
 
@@ -325,7 +332,7 @@ Can.prototype. clicked	=function( possqel )
 		}
 		else if( loc.disth( ploc) === 1 )
 		{
-			let map	=pl.gmap()
+			let map	=pl.map()
 
 			if( map.climbable( loc ))
 			{

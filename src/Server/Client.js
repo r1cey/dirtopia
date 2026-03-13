@@ -19,7 +19,7 @@ export default class Client extends newClG( newClS() )
 
 	srv
 
-	get game()	{ return this.srv.game }
+	game()	{ return this.srv.game }
 
 	tc	=new Timecode( MapG.Bin.timecodelen )
 

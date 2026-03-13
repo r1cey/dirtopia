@@ -239,7 +239,7 @@ Server.prototype. onmsg	=function( ws, ip, data, isbin )
 	}
 	else if( plmsg.col  )
 	{
-		this.cls.new( ws, this.game.pls.new( plmsg ) )
+		this.cls.new( ws, this.game.newpl( plmsg ) )
 	}
 	else
 	{

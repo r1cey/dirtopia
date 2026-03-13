@@ -25,6 +25,10 @@ export default class Pls	extends ShPls
 	{
 		super( game )
 	}*/
+
+
+
+	new( plmsg ,loc )	{return super.new( plmsg ,loc ,Pl )}
 }
 
 
@@ -41,39 +45,37 @@ Pls.prototype. init	=async function()
 }
 
 
-/** Appropriately changes map obj properties. */
+/**@returns Array of player names which couldn't be read. */
 
 Pls.prototype. read	=async function( pllocs )
 {
-	var proms	=[]
+	const proms	=[]
 
-	const maps	=this.game.maps
-
-	var loc
+	const delpls	=[]
 
 	for(const pln in pllocs )
 	{
-		loc	=pllocs[pln]
+		const loc	=pllocs[pln]
 
 		proms.push((async()=>
 		{
-			var pl	=await this.readpl( pln )
+			const pl	=await this.readpl( pln )
 
 			if( ! pl )
 			{
-				delete maps.loc2map(loc).obj.g(loc).pl
+				delpls.push( pln )
 			}
 			else
 			{
 				pl.loc.set( loc )
 
-				maps.loc2map(loc).obj.g(loc).pl	=pl
-
-				this.o[pln]	=pl
+				this.s(pl)
 			}
 		})())
 	}
 	await Promise.all(proms)
+
+	return delpls
 }
 
 
@@ -131,7 +133,13 @@ Pls.prototype. new	=function( plmsg )
 
 	const map	=g.maps.ground
 
-	var pl	=new Pl( plmsg ,g )
+	const spawns	=map.obj.o.spawns
+
+	const loc	=map.getloc4pl( spawns[0] )
+
+	const pl	=new Pl( this ).set( plmsg )
+
+	pl.loc.set( loc )
 
 	// add starter items
 	{
@@ -147,17 +155,7 @@ Pls.prototype. new	=function( plmsg )
 
 		pl.additem( sbag )
 	}
-	var spawns	=map.obj.o.spawns
-
-	// var loc	=spawns[0].c()
-
-	pl.loc.set( spawns[0] )
-
-	map.findfirstplloc( pl.loc )
-
-	this.s( pl )
-
-	map.obj.s(pl.loc).pl	=pl
+	
 
 	pl.save( this.conf.dir )		
 	

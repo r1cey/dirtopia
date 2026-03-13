@@ -15,7 +15,37 @@ export default class Pls
 
 	g( n )	{return this.o[n] }
 
-	s( pl )	{return this.o[pl.name]	=pl }
+	s( pl )
+	{
+		this.o[pl.name]	=pl
+
+		pl.pls	=this
+	}
+
+	new( plmsg ,loc ,Pl )
+	{
+		const pl	=new Pl( this ).set( plmsg )
+		
+		pl.loc.set( loc )
+
+		// add starter items
+		{
+			let belt	=new items.belt().su()
+			
+			belt.additem( new items.multi() )
+			
+			pl.additem( belt )
+
+			let sbag	=new items.seedbag().su()
+			
+			sbag.additem( new items.cuc_seeds( 15 ) )
+
+			pl.additem( sbag )
+		}
+		this.s( pl )
+
+		return pl
+	}
 
 
 	msg2navo( afrom ,i ,ato )	{ ato.push( this.o[afrom[i]] )}

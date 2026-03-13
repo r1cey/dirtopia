@@ -349,22 +349,21 @@ Map.prototype. copycell	=function( loc, map2, loc2 )
 }
 
 
-/** changes loc */
+/**@todo handle if can't find */
 
-Map.prototype. findfirstplloc	=function( loc )
+Map.prototype. getloc4pl	=function( loc )
 {
-	var map	=this
+	const map	=this
 
-	map.fore(( loc2 )=>
-	{
-		if( map.canplmov(loc2) )
+	return map.fore(( loc2 )=>
 		{
-			loc.set(loc2)
-
-			return true
+			if( map.canplmov(loc2) )
+			{
+				return true
+			}
 		}
-	}
-	, null, loc )
+		, null, loc
+	)
 }
 
 

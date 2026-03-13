@@ -13,25 +13,39 @@ import PageInv from '../../PageInv.js'
 
 const newPl	=( Base )=>class ClPl	extends newDHold(newInvO(newGObj( Base )))
 {
-	gmap (){return this.gcl().maps.loc2map( this.loc ) }
-
 	pos	=new Loc()
 
 	dest	=new Loc()
-
-	hands	=new Hands( this )
-
-	srv()	{return this.gcl().srv }
 
 
 	static isroot	=true
 
 
+	///////////////////////////////////////////////////////////////////////////
 
-	constructor( cl ,msg )
+
+
+	constructor( cl )
 	{
-		super( cl ,msg )
+		super( cl )
+
+		delete this.pls
 	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	get pls()	{return this.dad }
+
+	set pls( pls )	{ this.dad	=pls	}
+
+	srv()	{return this.gcl().srv }
+
+
+	///////////////////////////////////////////////////////////////////////////
+
 
 
 	set( msg )
@@ -120,11 +134,12 @@ const newPl	=( Base )=>class ClPl	extends newDHold(newInvO(newGObj( Base )))
 	}
 
 
-	static fromJSON( val ,cl )
-	{
-		var pl	=super.fromJSON( val )
+	newhands()	{return new Hands( this )	}
 
-		pl.dad	=cl
+
+	static fromJSON( val ,pls )
+	{
+		const pl	=super.fromJSON( val ,pls )
 
 		pl.hands.dad	=pl
 
