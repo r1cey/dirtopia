@@ -12,17 +12,21 @@ export default class Client	extends Game
 {
 	html
 
-	con()	{ return this.html.con }
+	con()	{return this.html.con }
 
 	srv	=new Serv(this)
 
 	pl
 
-	vispls	={}
-
 	peercls	={}
 
 	stream
+
+
+	static Maps	=Maps
+
+
+	///////////////////////////////////////////////////////////////////////////
 
 
 
@@ -43,9 +47,9 @@ export default class Client	extends Game
 	}
 
 
-	gcl()	{return this }
+	///////////////////////////////////////////////////////////////////////////
 
-	newmaps()	{return new Maps( this ) }
+
 }
 
 
@@ -55,8 +59,6 @@ export default class Client	extends Game
 Client.prototype. start	=async function()
 {
 	this.html	=new Html( this )
-
-	this.maps.ui_setcan()
 
 	var p	=await this.html.loadel('login')
 
@@ -87,7 +89,9 @@ Client.prototype. setpl	=async function( plmsg )
 {
 	this.html.delpage('createpl')
 
-	var pl	=this.pl	=Player.fromJSON( plmsg ,this.pls )
+	
+
+	var pl	=this.pl	=this.pls.new( plmsg ,plmsg.loc ,Player )
 
 	this.pls.s(pl)
 

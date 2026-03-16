@@ -9,9 +9,13 @@ export default class UiEl
 	css
 
 
-	constructor( el ,gobj ,css )
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	constructor( dad ,el ,gobj ,css )
 	{
-		// this.dad	=dad
+		this.dad	=dad
 
 		if(typeof el === "string" )
 		{
@@ -27,23 +31,26 @@ export default class UiEl
 
 		if( gobj )
 		{
-			gobj.gcl().html?.addui( this )
+			this.html().addui( this )
 		}
-
 		this.css	=css
 	}
 
 
+	///////////////////////////////////////////////////////////////////////////
 
-	// html()	{return this.dad.html()	}
 
+
+	html()	{return this.dad.html()	}
+
+
+
+	///////////////////////////////////////////////////////////////////////////
 
 
 	async loadel( name, gobj ,append =true )
 	{
-		var dad	=this
-
-		var promis	=[,,]
+		const promis	=[,,]
 
 		promis[0]	=UiEl.fetch(`pages/${name}/main.xhtml`)
 
@@ -62,9 +69,9 @@ export default class UiEl
 				document.head.appendChild(el)
 			}
 		)
-		var res	=await Promise.allSettled( promis )
+		const res	=await Promise.allSettled( promis )
 
-		var el, css, hel
+		var el, css, ui
 
 		if( res[0].status === 'rejected' )
 		{
@@ -86,17 +93,17 @@ export default class UiEl
 		}
 		if( res[1].status === 'rejected' )
 		{
-			hel	=new UiEl( el ,gobj ,css )
+			ui	=new UiEl( this ,el ,gobj ,css )
 		}
 		else
 		{
-			hel	=new (res[1].value.default)( el, gobj, css )
+			ui	=new (res[1].value.default)( this, el, gobj, css )
 		}
-		hel.hide()
+		ui.hide()
 
 		if( append )	this.el.appendChild( el )
 
-		return hel
+		return ui
 	}
 
 

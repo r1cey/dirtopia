@@ -35,7 +35,6 @@ export default class G	extends Game
 	{
 		pa	:'./conf.js'
 	}
-
 	time	=
 	{
 		sec	:{ int	:0, i :0 }
@@ -44,7 +43,6 @@ export default class G	extends Game
 		,
 		hour	:{ int	:0, i :0 }
 	}
-
 	mode	=null
 
 	// admin	=new Admin( this )
@@ -56,6 +54,14 @@ export default class G	extends Game
 	// con	=new Con(this)
 
 
+	static Maps	=Maps
+
+	static Pls	=Players
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
 
 	constructor( confpa )
 	{
@@ -63,12 +69,6 @@ export default class G	extends Game
 
 		// this.start(confpa)
 	}
-
-
-
-	newmaps()	{return new Maps( this )}
-
-	newpls()	{return new Players( this )}
 }
 
 

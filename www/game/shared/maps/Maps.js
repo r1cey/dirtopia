@@ -23,11 +23,11 @@ export default class Maps//	extends PObj
 {
 	game
 
-	ground
+	ground	=this.constructor.Ground( this )
 	
 	get gr()	{return this.ground }
 
-	trees
+	trees	=this.constructor.Trees( this )
 
 	get tr()	{return this.trees }
 
@@ -44,12 +44,6 @@ export default class Maps//	extends PObj
 	constructor( game )
 	{
 		this.game	=game
-
-		const This	=this.constructor
-
-		this.ground	=new This.Ground( this )
-
-		this.trees	=new This.Trees( this )
 	}
 
 

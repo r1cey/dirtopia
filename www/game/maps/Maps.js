@@ -25,12 +25,6 @@ export default class Maps extends newGObj( ShMaps )
 	{
 		super( cl )
 	}*/
-
-
-	ui_setcan()
-	{
-		this.ui.can	=new Can( this )
-	}
 }
 
 

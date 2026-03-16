@@ -1,6 +1,6 @@
 export default( Base =Object )=>class GameObj	extends Base
 {
-	dad
+	/*dad
 
 	ui	={}
 
@@ -16,5 +16,5 @@ export default( Base =Object )=>class GameObj	extends Base
 	}
 
 
-	gcl()	{return this.dad.gcl() }
+	gcl()	{return this.dad.gcl() }*/
 }

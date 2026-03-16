@@ -37,13 +37,13 @@ export default class Ha extends newGridO(newInvO(newGObj( Hands )))
 	///////////////////////////////////////////////////////////////////////////
 
 	
-
-	static fromJSON( val )
+/*
+	static fromJSON( ...args )
 	{
-		var inst	=super.fromJSON( val )
+		const inst	=super.fromJSON( ...args )
 
-		if( inst.item )	inst.item.dad	=this
+		inst.item?.dad	=this
 
 		return inst
-	}
+	}*/
 }

@@ -10,11 +10,11 @@ var rad60	=Math.PI/3
 
 export default class Can	extends Ui
 {
-	get html()	{return this.cl().html }
+	get html()	{return super.html() }
 
 	imgs()	{return this.html.imgs }
 
-	cl()	{return this.gobj.gcl() }
+	cl()	{return this.html.cl }
 
 	w2()	{return this.el.width>>1 }
 	h2()	{return this.el.height>>1 }
@@ -42,16 +42,15 @@ export default class Can	extends Ui
 		,
 		_dsq	:new V()
 	}
-
 	crn	=new V(0,0)	// top left corner in hex
 
 	size2	=new V(0,0)	// vector from top left corner to center in hex
 
 	_crn	=new V()	//just cache for corner in pixels
 
-	pl
+	get pl()	{return this.html.cl.pl }
 
-	maps
+	get maps()	{return this.gobj }
 
 	time	=0
 
@@ -72,9 +71,13 @@ export default class Can	extends Ui
 	frame
 
 
-	constructor( maps )
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	constructor( html )
 	{
-		super( document.getElementById("can") ,maps )
+		super( html ,document.getElementById("can") ,html.cl.maps )
 
 		this.ctx	=this.el.getContext('2d' ,{ alpha :false })
 
@@ -92,31 +95,33 @@ export default class Can	extends Ui
 	}
 
 
+	///////////////////////////////////////////////////////////////////////////
+
+
 
 	#frame(now)
 	{
-		var can	=this
+		const can	=this
 
-		var dt	=now - this.time
+		const dt	=now - this.time
 
-		var pl	=can.pl
+		const pl	=can.pl
 
-		var tch	=can.touch
+		const tch	=can.touch
 
 		this.time	=now
 
 		this.draw( dt )
 
 		this.html.fps.set(Math.floor(1000/dt))
-
 		
 		if(tch.on)
 		{
-			let deltasq	=can.v3.set(tch.pos).subv(tch.last)
+			const deltasq	=can.v3.set(tch.pos).subv(tch.last)
 
-			let dest	=can.v.set(deltasq).tohexc(can).addv(pl.dest)
+			const dest	=can.v.set(deltasq).tohexc(can).addv(pl.dest)
 
-			let destloc	=can.v2.set(dest).roundh()
+			const destloc	=can.v2.set(dest).roundh()
 
 			if( pl.map().canplmov( destloc, pl ) )
 			{
@@ -124,14 +129,13 @@ export default class Can	extends Ui
 			}
 			tch.onframe()
 		}
-
 		pl.step()
 
 		can.setpos(pl.pos)
 
 		if( can.animate )
 		{
-			window.requestAnimationFrame( this.frame. bind(this))
+			window.requestAnimationFrame( this.frame )
 		}
 	}
 }

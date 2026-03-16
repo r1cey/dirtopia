@@ -8,9 +8,14 @@ import Imgs	from "./Imgs.js"
 
 export var imgdir	="/imgs/"
 
+
+/** Root HTML class. */
+
 export default class Html	extends Ui
 {
 	get cl()	{return this.gobj }
+
+	uis	=new WeakMap()
 
 	con	=new Con(this, document.querySelector('console'))
 
@@ -23,14 +28,11 @@ export default class Html	extends Ui
 			this.el.textContent	=`${n}fps`
 		}
 	}
-
-	get can()	{return this.gobj.maps.ui.can }
+	can	=new Can( this )
 
 	menu	=new Menu(this)
 
 	ps	={}
-
-	uis	=new WeakMap()
 
 	ctxmenu
 
@@ -44,16 +46,26 @@ export default class Html	extends Ui
 	}
 
 
+	///////////////////////////////////////////////////////////////////////////
+
+
 
 	constructor( cl )
 	{
-		super( document.querySelector("screen") ,cl )
+		super( null ,document.querySelector("screen") ,cl )
 
 		window.onresize	=this.onresize. bind(this)
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////
+
+
+	
+	html()	{return this }
+
+
+	///////////////////////////////////////////////////////////////////////////
 
 
 
@@ -80,7 +92,7 @@ export default class Html	extends Ui
 
 	addui( ui )
 	{
-		this.uis.set( ui.el ,ui.gobj )
+		this.uis.set( ui.el ,ui )
 
 		return ui
 	}
@@ -234,7 +246,7 @@ Html.prototype. objchanged	=function( loc, key )
 
 Html.prototype. onresize	=function()
 {
-	var res	=this.resize
+	const res	=this.resize
 
 	if( res.tout )	clearTimeout( res.tout )
 	

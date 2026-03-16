@@ -10,11 +10,11 @@ export default class PlBase	extends newISlot()
 {
 	name
 
-	r	= 0.62
+	r
 
-	col	=new Col(0, 100, 50)
+	col
 	
-	loc	=new Loc(0,0,0)	//when this is derived on client, it can become a getter function
+	loc	//when this is derived on client, it can become a getter function
 	
 
 	static allowed	=
@@ -23,6 +23,18 @@ export default class PlBase	extends newISlot()
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
+
+
+	constructor( msg )
+	{
+		this.name	=msg?.name
+
+		this.r	=msg?.r	?? 0.62
+		
+		this.col	=msg?.col	??new Col(0, 100, 50)
+
+		this.loc	=msg?.loc	??new Loc(0,0,0)
+	}
 
 
 	

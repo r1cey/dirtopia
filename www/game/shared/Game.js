@@ -5,9 +5,14 @@ import Players from "./player/Players.js"
 
 export default class Game
 {
-	maps	=this.newmaps()
+	maps	=this.constructor.Maps
 
-	pls	=this.newpls()
+	pls	=this.constructor.Pls
+
+
+	static Maps	=Maps
+
+	static Pls	=Players
 
 
 
@@ -29,10 +34,4 @@ export default class Game
 		
 		return pl
 	}
-
-
-
-	newmaps()	{return new Maps( this )}
-	
-	newpls()	{return new Players( this )}
 }

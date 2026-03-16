@@ -19,8 +19,10 @@ export default newHold( newJable( class Hand
 
 
 
-	constructor( pl )
+	constructor( msg ,pl )
 	{
+		this.item	=msg?.item
+
 		nonenum( this ,"pl" ,pl )
 	}
 
