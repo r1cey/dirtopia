@@ -1,4 +1,7 @@
-export default class Pls
+import Pl from "./Player.js"
+
+
+export default class Players
 {
 	o	={}
 
@@ -7,10 +10,20 @@ export default class Pls
 	game
 
 
+	static Player	=Pl
+
+
+	/////////////////////////////////////////////////////////////
+
+
 	constructor( game )
 	{
 		this.game	=game
 	}
+
+
+	/////////////////////////////////////////////////////////////////
+
 
 
 	g( n )	{return this.o[n] }
@@ -22,9 +35,13 @@ export default class Pls
 		pl.pls	=this
 	}
 
-	new( plmsg ,loc ,Pl )
+	fore( fun )	{ for(var pln in this.o )	fun( this.o[pln] )}
+
+
+	
+	new( plmsg ,loc ,items =this.game.constructor.items )
 	{
-		const pl	=new Pl( this ).set( plmsg )
+		const pl	=new this.constructor.Player( this ,plmsg )
 		
 		pl.loc.set( loc )
 
@@ -48,5 +65,5 @@ export default class Pls
 	}
 
 
-	msg2navo( afrom ,i ,ato )	{ ato.push( this.o[afrom[i]] )}
+	// msg2navo( afrom ,i ,ato )	{ ato.push( this.o[afrom[i]] )}
 }

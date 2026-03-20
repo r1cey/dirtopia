@@ -7,8 +7,9 @@ import Players from './player/Pls.js'
 import Loc	from './Loc.js'
 // import { constrainedMemory } from 'process'
 // import Con from "./Console.js"
-import Nav	from '../www/game/shared/Nav.js'
-import Pl from "../www/game/shared/player/Player.js"
+// import Nav	from '../www/game/shared/Nav.js'
+// import Pl from "../www/game/shared/player/Player.js"
+import items from "./items/items.js"
 
 
 
@@ -58,6 +59,8 @@ export default class G	extends Game
 
 	static Pls	=Players
 
+	static items	=items
+
 
 	///////////////////////////////////////////////////////////////////////////
 
@@ -69,7 +72,30 @@ export default class G	extends Game
 
 		// this.start(confpa)
 	}
+
+
+	////////////////////////////////////////////////////////////
+
+	
+
+	newpl( plmsg )
+	{
+
+	}
+
+
+	/** @todo what if no place to move stacks too and lots of error handling!! */
+
+	additem( to ,item )
+	{
+		var addmsg	={ item ,to }
+		
+		super.additem( item ,to )?.tonetmsg( addmsg )
+
+		this.srv.sendvis( nav2loc(to) ,"additem" ,addmsg )	
+	}
 }
+
 
 
 export function nav2loc( arr )
@@ -88,7 +114,9 @@ export function nav2loc( arr )
 
 G.prototype. start	=async function( confpa )
 {
-	var g=this
+	const g	=this
+
+	const{ maps ,pls }	=this
 
 	// var fs	=this.files
 
@@ -101,9 +129,9 @@ G.prototype. start	=async function( confpa )
 			{
 				let conf	=conf.maps
 				
-				if( conf.dir )	g.maps.dir	=conf.dir
+				if( conf.dir )	maps.dir	=conf.dir
 
-				if( conf.size )	g.maps.size	=conf.size
+				if( conf.size )	maps.size	=conf.size
 			}
 		}
 		catch(e)
@@ -111,22 +139,25 @@ G.prototype. start	=async function( confpa )
 			console.error("Couldn't read conf file: "+confpa )
 		}
 	}
-	const pllocs	=await this.maps.start()
+	const[ pllocs ]	=await Promise.all([ maps.start() ,pls.read() ])
 
-	const delpls	=await this.pls.read( pllocs )
+	pls.fore(( pl )=>
+		{
+			if( pllocs[pl.name] )
+			{
+				pl.loc.set( pllocs[pl.name] )
+			}
+			maps.setpl( pl )
+		}
+	)
+	for(var pln in pllocs )
+	{
+		const loc	=pllocs[pln]
 
-	for(var pl in this.pls.o )
-	{
-		this.maps.setpl( pl )
-	}
-	for(var pln of delpls )
-	{
-		var loc	=pllocs[pln]
+		const obj	=maps.loc2map(loc).obj
 		
-		this.maps.loc2map( loc ).obj.del( loc ,"pl" )
+		if( ! obj.g(loc)?.pl?.ispl )	obj.del( loc ,"pl" )
 	}
-	// await this.pls.fillmissing()
-
 	g.time.hour.int	=setInterval( g.hour.bind(g), 60*1000*60*1.5 )
 
 	g.time.min15.int	=setInterval(g.min15.bind(g), 12*60*1000)
@@ -176,18 +207,6 @@ G.prototype. save	=async function()
 
 
 ///////////////////////////////////////////////////////////////////////////////
-
-
-/** @todo what if no place to move stacks too and lots of error handling!! */
-
-G.prototype. additem	=function( to ,item )
-{
-	var addmsg	={ item ,to }
-	
-	to.at(-1).additem( item ,to )?.tonetmsg( addmsg )
-
-	this.srv.sendvis( nav2loc(to) ,"additem" ,addmsg )
-}
 
 
 /**@arg {Nav} from

@@ -28,7 +28,7 @@ export default class Html	extends Ui
 			this.el.textContent	=`${n}fps`
 		}
 	}
-	can	=new Can( this )
+	can	=this.addui( new Can( this ))
 
 	menu	=new Menu(this)
 
@@ -71,16 +71,20 @@ export default class Html	extends Ui
 
 	async loadel( name ,gobj )
 	{
-		return	this.ps[name]	=await super.loadel( name ,gobj )
+		return	this.ps[name]	=this.addui( await super.loadel( name ,gobj ))
 	}
 
 
 	delpage( name )
 	{
-		if( this.ps[name] )
+		const ui	=this.ps[name]
+
+		if( ui )
 		{
-			this.ps[name].el?.remove()
-			this.ps[name].css?.remove()
+			this.uis.delete( ui.el )
+
+			ui.el?.remove()
+			ui.css?.remove()
 			delete this.ps[name]
 		}
 	}

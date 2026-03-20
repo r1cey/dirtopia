@@ -58,7 +58,7 @@ export default( Base )=>class SG extends Base
 
 	on_setmap( obj, loca, r )
 	{
-		this.buf.addobj( obj, new Loc().seta(loca), r )
+		this.buf.addobj( obj, new Loc().setj(loca), r )
 	}
 
 
@@ -114,7 +114,7 @@ export default( Base )=>class SG extends Base
 	{
 		var map	=this.cl.maps.fromid( mapid )
 
-		var loc	=new Loc().seta(loca)
+		var loc	=new Loc().setj(loca)
 
 		if( map !== this.cl.maps.loc2map( loc ))
 		{
@@ -168,7 +168,7 @@ export default( Base )=>class SG extends Base
 
 	on_clplmov( obj, loca, r, dir )
 	{
-		this.buf.addobj( obj ,new Loc().seta(loca) ,r ,dir )
+		this.buf.addobj( obj ,new Loc().setj(loca) ,r ,dir )
 	}
 
 
@@ -215,7 +215,7 @@ export default( Base )=>class SG extends Base
 			return
 		}
 
-		plvis.dest.seta(o.loc)
+		plvis.dest.setj(o.loc)
 	}
 
 	/** Player changed connection status.
@@ -318,7 +318,7 @@ export default( Base )=>class SG extends Base
 	{
 		var{ cl }	=this
 
-		var loc		=new Loc().seta(loc)
+		var loc		=new Loc().setj(loc)
 
 		/**@todo if item moved, fix it */
 
@@ -344,7 +344,7 @@ export default( Base )=>class SG extends Base
 	{
 		var{ cl }	=this
 
-		var loc	=new Loc().seta(loca)
+		var loc	=new Loc().setj(loca)
 
 		var item	=cl.maps.getitem( loc ,key )
 

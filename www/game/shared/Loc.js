@@ -19,7 +19,10 @@ export default class Loc extends V //newPathable( V )
 	{
 		super( x, y )
 
-		this.h	=h
+		if( typeof x === "number" )
+		{
+			this.h	=h
+		}
 		/*
 		if( Array.isArray( args[0] ) )	this.fromJSON( args[0] )
 
@@ -41,7 +44,7 @@ export default class Loc extends V //newPathable( V )
 	isempty( nav ,_i )	{return this.getcell( nav.dad(_i) )?.item }*/
 
 	
-	fromJSON( a )	{return new this( ...a )}
+	// fromJSON( a )	{return new this( ...a )}
 }
 
 
@@ -89,11 +92,11 @@ Loc.prototype. setxy	=function( x, y, l )
 
 	return this
 }
-Loc.prototype. seta	=function( a )
+/*Loc.prototype. setj	=function( a )
 {
 	return this.setxy( ...a )
-}
-Loc.prototype.fromJSON	=Loc.prototype.seta
+}*/
+//Loc.prototype.fromJSON	=Loc.prototype.setj
 
 
 

@@ -31,6 +31,31 @@ export default class Ms extends shMaps
 	{
 		super( game )
 	}*/
+
+
+	/*setpl( pl )
+	{
+		var loc	=pl.loc
+
+		const map	=this.loc2map( loc )
+
+		var cell	=map.obj.g(loc)
+
+		if( ! super.setpl( pl ))
+		{
+
+		}
+
+		if( ! ( cell?.pl === pl.name ))
+		{
+			loc	=map.getloc4pl( loc )
+
+			pl.loc.set( loc )
+
+			cell	=map.obj.s(loc)
+		}
+		return cell.pl	=pl		
+	}*/
 }
 
 

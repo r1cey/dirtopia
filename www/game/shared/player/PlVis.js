@@ -8,28 +8,36 @@ import Hands from "./Hands.js"
 
 export default class PlVis	extends newJable( PlBase )
 {
-	static key	="pl"
 
-	hands	=this.newhands()
+	hands	=new this.constructor.Hands( this )
 
 	speed	=1
+
+
+	static Hands	=Hands
+
+	/*static apprps	=
+	[
+		...PlBase.apprps
+		,
+		[ "hands" ,(pl)=> new this.Hands(pl) ]
+		,
+		[ "speed" ,()=> 1 ]
+	]*/
 
 
 	///////////////////////////////////////////////////////////////////////////
 
 
 
-	set( pl )
+	/*constructor( hands )
 	{
-		for(var key in pl )
-		{
-			if( key in this )
-			{
-				this[key]	=pl[key]
-			}
-		}
-		return this
-	}
+		this.hands	=hands	??new this.constructor.Hands( this ) 
+	}*/
+
+
+	///////////////////////////////////////////////////////////////////////////
+
 
 
 	/*additem( item )
@@ -100,5 +108,5 @@ export default class PlVis	extends newJable( PlBase )
 
 
 
-	newhands()	{return new Hands( this )}
+	// newhands()	{return new Hands( this )}
 }

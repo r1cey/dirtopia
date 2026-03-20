@@ -141,7 +141,7 @@ const newPl	=( Base )=>class ClPl	extends newDHold(newInvO(newGObj( Base )))
 	{
 		const pl	=super.fromJSON( val ,pls )
 
-		pl.hands.dad	=pl
+		pl.hands.pl	=pl
 
 		return pl
 	}

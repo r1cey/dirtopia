@@ -1,3 +1,7 @@
+import newJable from "./newJsonable.js"
+
+
+
 export const sqr3	=Math.sqrt(3)
 
 export const dsqr3	=1/sqr3
@@ -6,7 +10,9 @@ export const sin60	=sqr3*0.5
 
 export const sec60	=2*dsqr3
 
-export default class V
+
+
+export default class V	//extends newJable()
 {
 	static sin60	=sin60
 
@@ -17,13 +23,16 @@ export default class V
 	static delim	='_'
 
 	static zero	=new V()	//bug, xy are set at the bottom
-	
+
+
 	x
 	y
 	
+
+
 	constructor( x =0, y =0 )
 	{
-		this.setxy( x, y )
+		this.setxy( x ,y )
 		/*
 		if( Array.isArray( args[0] ) )	this.fromJSON( args[0] )
 
@@ -127,10 +136,10 @@ V.set	=function( v )
 
 
 
-V.fromJSON	=function( arr )
+/*V.fromJSON	=function( arr )
 {
 	return new this(...arr)
-}
+}*/
 
 
 
@@ -153,7 +162,7 @@ V.prototype. set	=function({ x, y })
 {
 	return this.setxy( x, y )
 }
-V.prototype. fromJSON	=function(arr)
+V.prototype. setj	=function(arr)
 {
 	return this.setxy( ...arr )
 }

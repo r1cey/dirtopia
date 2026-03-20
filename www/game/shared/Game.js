@@ -5,14 +5,17 @@ import Players from "./player/Players.js"
 
 export default class Game
 {
-	maps	=this.constructor.Maps
+	maps	=new this.constructor.Maps( this )
 
-	pls	=this.constructor.Pls
+	pls	=new this.constructor.Pls( this )
 
 
 	static Maps	=Maps
 
 	static Pls	=Players
+
+	/** @static
+	@var items	 */
 
 
 
@@ -20,18 +23,36 @@ export default class Game
 	{
 		console.log( `Creating new player: ${plmsg.name}` )
 
-		const g=this
+		const g	=this
 
-		const map	=g.maps.ground
+		const items	=this.constructor.items
 
-		const spawns	=map.obj.o.spawns
-
-		const loc	=map.getloc4pl( spawns[0] )
-
-		const pl	=this.pls.new( plmsg ,loc )
+		const pl	=this.pls.new( plmsg ,items )
 
 		this.maps.setpl( pl )
+
+		map.adddewds4newpl( pl.loc ,items.dewd )
 		
 		return pl
+	}
+
+
+
+	setpl( pl )
+	{
+		const maps	=this.maps
+
+		this.pls.s( pl )
+
+		pl.map().obj.g(pl.loc)
+
+		this.maps.setpl( pl )
+	}
+
+
+
+	additem( to ,item )
+	{	
+		return to.at(-1).additem( item ,to )
 	}
 }

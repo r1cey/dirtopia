@@ -12,7 +12,35 @@ export default function( Map )
 
 		get tr()	{return this.trees }
 
+
 		static MapShiftBo	=newGround( BoMS )
+
+
+
+		adddewds4newpl( spawnloc ,Dewd =this.game.constructor.items.dewd )
+		{
+			const map	=this
+
+			const g	=this.game
+
+			// const items	=g.constructor.items
+
+			let idewd =0
+
+			map.fore(( loc )=>
+				{
+					if( ! map.getshade( loc ) && ! map.obj.g( loc )?.item )
+					{
+						g.additem([ g.maps,loc ],new Dewd() )
+
+						idewd ++
+
+						if( idewd >= 3)	return true
+					}
+				},
+				null, spawnloc
+			)
+		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////

@@ -27,7 +27,7 @@ export default class Cls
 
 Cls.prototype. new	=function( ws, pl )
 {
-	var cl	=new Cl( ws, pl, this.srv )
+	const cl	=new Cl( ws, pl, this.srv )
 
 	this.o[pl.name]	=cl
 

@@ -17,7 +17,7 @@ export default( Base =Object )=>class ClientGet extends Base
 
 	on_mov( loca )
 	{
-		var loc	=new Loc().seta( loca )
+		var loc	=new Loc().setj( loca )
 		
 		var{ pl }	=this
 
@@ -124,7 +124,7 @@ get. rotobj	=function( loca, dir, key )
 {
 	var{ pl, game }	=this
 
-	var loc	=new Loc().seta(loca)
+	var loc	=new Loc().setj(loca)
 
 	if( this.pl.sendreach( loc ) )	return
 

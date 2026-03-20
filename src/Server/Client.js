@@ -28,7 +28,10 @@ export default class Client extends newClG( newClS() )
 	// 2:	slave
 	// BDSM
 
+	
 	static jrev	=new JRev()
+
+
 
 	constructor(ws, pl, srv )
 	{

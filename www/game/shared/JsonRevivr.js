@@ -17,7 +17,7 @@ export default class JR
 
 	constructor()
 	{
-		this.addifacea([ Loc ,Col ,Hands ]).addtmpl(itemk)
+		this./*addifacea([ Loc ,Col ,Hands ]).*/addtmpl(itemk)
 	}
 }
 

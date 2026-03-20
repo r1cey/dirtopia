@@ -13,14 +13,24 @@ export default class Pl extends PV
 	heat	=0
 
 
+	/*static apprps	=
+	[
+		...PV.apprps
+		,
+		[ "vision"	,()=> 50 ]
+		,
+		[ "water"	,()=> 1 ]
+		,
+		[ "heat"	,()=> 0 ]
+	]*/
+
+
 	///////////////////////////////////////////////////////////////////////////////
 
 
 	
 	constructor( pls )
 	{
-		super()
-
 		nonenum( this ,"pls" ,pls )
 	}
 
@@ -30,8 +40,12 @@ export default class Pl extends PV
 
 	map()
 	{
-		return this.pls.game.maps.loc2map( this.loc )
+		return this.game.maps.loc2map( this.loc )
 	}
+
+	get game()	{return this.pls.game }
+
+	set game( game )	{ this.pls	=game.pls }
 
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -136,7 +150,8 @@ export default class Pl extends PV
 	}*/
 
 
-
-
 	///////////////////////////////////////////////////////////////////////////
+
+
+	// fromJSON( vals )	{return new this.constructor( null ,vals )}
 }

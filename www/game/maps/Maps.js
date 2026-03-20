@@ -41,7 +41,7 @@ M.prototype. onbuf	=function( buf )
 	{
 		this.forbufid( idmove ,( map, ibuf )=>
 		{
-			map.shift( Loc.dirv2dirh(Loc.V.seta(o.delta)))
+			map.shift( Loc.dirv2dirh(Loc.V.setj(o.delta)))
 		})
 	}
 	else

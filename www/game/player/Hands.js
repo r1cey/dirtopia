@@ -8,7 +8,7 @@ import newGridO from "../newGridObj.js"
 import V from "../shared/Vec.js"
 
 
-export default class Ha extends newGridO(newInvO(newGObj( Hands )))
+export default class Ha extends newGridO(newGObj( Hands ))
 {
 	static size	=new V(5,5)
 
@@ -17,21 +17,21 @@ export default class Ha extends newGridO(newInvO(newGObj( Hands )))
 
 
 
-	constructor( pl )
+	/*constructor( pl )
 	{
 		super( pl )		
 
 		delete this.pl
-	}
+	}*/
 
 
 	///////////////////////////////////////////////////////////////////////////
 
 
 
-	get pl()	{return this.dad }
+	/*get pl()	{return this.dad }
 
-	set pl( pl )	{ this.dad	=pl	}
+	set pl( pl )	{ this.dad	=pl	}*/
 
 
 	///////////////////////////////////////////////////////////////////////////

@@ -1,16 +1,16 @@
 import newHold from "../newHolder.js"
-import newJable from "../newJsonable.js"
+// import newJable from "../newJsonable.js"
 
 import { nonenum } from "../utils.js"
 
 
 
-export default newHold( newJable( class Hand
+export default newHold( class Hand	//extends newJable()
 {
-	item	=null
+	item
+
 
 	static key	="hands"
-
 
 	get ishands()	{return this }
 
@@ -19,21 +19,17 @@ export default newHold( newJable( class Hand
 
 
 
-	constructor( msg ,pl )
+	constructor( pl ,item )
 	{
-		this.item	=msg?.item
+		// super()
+
+		this.item	=item
 
 		nonenum( this ,"pl" ,pl )
 	}
 
 
 	///////////////////////////////////////////////////////////////////////////
-
-
-
-	get pl()	{return this.dad }
-
-	set pl( pl )	{ this.dad	=pl }
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -82,4 +78,14 @@ export default newHold( newJable( class Hand
 
 		return droploc
 	}
-}))
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	static fromJSON( msg )
+	{
+		return new this( null ,msg?.item )
+	}
+})

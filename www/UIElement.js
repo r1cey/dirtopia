@@ -31,7 +31,7 @@ export default class UiEl
 
 		if( gobj )
 		{
-			this.html().addui( this )
+			// this.html().addui( this )
 		}
 		this.css	=css
 	}

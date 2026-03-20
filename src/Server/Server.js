@@ -295,11 +295,11 @@ Server. json	=function( data, ip )
 			{
 				case 'col':
 
-					return new Col().seta( value )
+					return new Col().setj( value )
 				break;
 				case 'loc':
 
-					return new Vec().seta( value )
+					return new Vec().setj( value )
 				break;
 			}
 			return value

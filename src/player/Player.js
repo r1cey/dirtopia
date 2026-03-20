@@ -53,6 +53,8 @@ class PlSlp extends SrvPl( ShPl.Vis )
 
 export default class Player extends ShPl
 {	
+	static Hands	=Hands
+	
 	static jrev	=new JRev().add(
 		{
 			key :"cl" , fromJSON :()=> null
@@ -92,7 +94,7 @@ export default class Player extends ShPl
 	
 			return false
 		}
-		return	new Player( pls ).set( plo )
+		return	new this( pls ,plo )
 	}
 
 
@@ -101,10 +103,6 @@ export default class Player extends ShPl
 
 
 	///////////////////////////////////////////////////////////////////////////
-
-
-
-	newhands()	{return new Hands( this ) }
 }
 
 
@@ -121,7 +119,7 @@ Player.prototype. save	=async function( dir )
 }
 
 
-/**  */
+/**  *
 
 Player.prototype. conncl	=function( cl )
 {
@@ -132,7 +130,7 @@ Player.prototype. conncl	=function( cl )
 	cl.send("setmap")
 
 	this.game.srv?.sendplvis( this ,"plconn" ,[ this ,true ])
-}
+}*/
 
 
 /*

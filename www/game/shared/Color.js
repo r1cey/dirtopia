@@ -1,4 +1,7 @@
-export default class Color
+import newJable from "./newJsonable.js"
+
+
+export default class Color	//extends newJable()
 {
 	h
 	s
@@ -39,17 +42,17 @@ Color.prototype. set	=function({ h, s, l })
 
 /** Colour  */
 
-Color.prototype. seta	=function(a)
+Color.prototype. setj	=function(a)
 {
 	return this.sethsl(...a)
 }
 
 
 
-Color. fromJSON	=function( a )
+/*Color. fromJSON	=function( arr )
 {
-	return new this().seta(a)
-}
+	return new this( ...arr )
+}*/
 
 
 

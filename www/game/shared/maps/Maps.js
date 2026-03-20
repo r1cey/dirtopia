@@ -23,11 +23,11 @@ export default class Maps//	extends PObj
 {
 	game
 
-	ground	=this.constructor.Ground( this )
+	ground	=new this.constructor.Ground( this )
 	
 	get gr()	{return this.ground }
 
-	trees	=this.constructor.Trees( this )
+	trees	=new this.constructor.Trees( this )
 
 	get tr()	{return this.trees }
 
@@ -50,7 +50,25 @@ export default class Maps//	extends PObj
 
 	setpl( pl )
 	{
-		this.loc2map( pl.loc ).obj.s( pl.loc ).pl	=pl
+		var loc	=pl.loc
+
+		const map	=this.loc2map( loc )
+
+		var cell	=map.obj.g(loc)
+
+		const ismatch	=cell?.pl === pl.name
+
+		if( ! ismatch )
+		{
+			loc	=map.getloc4pl( pl.loc ,pl )
+
+			cell	=map.obj.s(loc)
+
+			pl.loc.set(loc)
+		}
+		cell.pl	=pl
+
+		return ismatch
 	}
 }
 

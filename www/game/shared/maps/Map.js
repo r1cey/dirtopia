@@ -18,24 +18,26 @@ export default class Map extends newBoard(newBinMap)
 {
 	maps
 
-	obj	//=new Obj(this)
+	obj	=new this.constructor.Obj(this)
 
 	get _r()	{return this.bin.getr()}
 
 	bin2	//optional additional binmap for local calculations
 
+
+	static Obj	=Obj
+
 	////
 
-	constructor( maps ,O )
+	constructor( maps )
 	{
 		super()
 
 		this.maps	=maps
-
-		O	??=Obj
-
-		this.obj	=new O(this)
 	}
+
+
+	get game()	{return this.maps.game }
 
 
 	newcell( v )	{return new Cell( this ,v )}
@@ -139,7 +141,7 @@ Map.prototype. canplmov	=function( dest, pl )
 
 	return this.inside(dest) && ( !o ||
 
-		( (!o.pl || o.pl===pl) && ( !o.item || !o.item.isblock )))
+		( (!o.pl || o.pl===pl || o.pl===pl.name) && ( !o.item || !o.item.isblock )))
 }
 
 
@@ -351,13 +353,13 @@ Map.prototype. copycell	=function( loc, map2, loc2 )
 
 /**@todo handle if can't find */
 
-Map.prototype. getloc4pl	=function( loc )
+Map.prototype. getloc4pl	=function( loc ,pl )
 {
 	const map	=this
 
 	return map.fore(( loc2 )=>
 		{
-			if( map.canplmov(loc2) )
+			if( map.canplmov( loc2 ,pl ) )
 			{
 				return true
 			}
@@ -535,7 +537,7 @@ Map.o_sparse	=function( o, fun )
 			{
 				if( p2 === 'loc' )
 				{
-					cell[p1][p2]	=new V().seta(cell[p1][p2])
+					cell[p1][p2]	=new V().setj(cell[p1][p2])
 				}
 			}
 		}
@@ -559,7 +561,7 @@ Map.o_sparse	=function( o, fun )
 				{
 					if( p2 === 'loc' )
 					{
-						cell[p1][p2]	=new V().seta(cell[p1][p2])
+						cell[p1][p2]	=new V().setj(cell[p1][p2])
 					}
 				}
 			}

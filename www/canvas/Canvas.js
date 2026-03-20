@@ -590,32 +590,29 @@ var can	=this
 
 Can.prototype. resize	=function()
 {
-	var newsizesq	=new V( document.documentElement.clientWidth ,
+	const newsizesq	=new V( document.documentElement.clientWidth ,
 						document.documentElement.clientHeight )
 
-	var newsize2h	=newsizesq.c().half().tohexc(this)
+	const newsize2h	=newsizesq.c().half().tohexc(this)
 
 	this.crn.addv( this.size2 ).subv( newsize2h )
 
 	this.size2.set( newsize2h )
 
-	var el	=this.el
+	const el	=this.el
 
 	el.width	=newsizesq.x
 
 	el.height	=newsizesq.y
 
-	var maps	=this.maps
+	const maps	=this.maps
 
 	if( maps )
 	{
 		maps.tr.can.width	=el.width
 		maps.tr.can.height	=el.height
 	}
-
 	this.trnsfrm()
-
-
 }
 
 

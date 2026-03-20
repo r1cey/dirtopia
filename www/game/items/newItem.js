@@ -1,7 +1,7 @@
 import ShIt	from "../shared/items/Item.js"
 import newGObj from "../newGameObj.js"
-import newInvO from "../newInvObj.js"
-import newCtxO from "../newContextObj.js"
+// import newInvO from "../newInvObj.js"
+// import newCtxO from "../newContextObj.js"
 import newGridO from "../newGridObj.js"
 
 import GridIt from "../../GridItem.js"
@@ -10,7 +10,7 @@ import CtxM from "../../ContextMenu.js"
 
 
 
-export default( Base =newGridO(newCtxO(newInvO(newGObj(ShIt)))))=>class Item extends Base
+export default( Base =newGridO(newGObj(ShIt)))=>class Item extends Base
 {
 	static imgmap
 

@@ -5,10 +5,6 @@ import Loc	from '../../www/game/shared/Loc.js'
 
 import * as fs from '../fs.js'
 
-import items from "../items/items.js"
-// import Hands from '../../www/game/shared/player/Hands.js'
-// import Stack from "../../www/game/shared/items/Stackable.js"
-
 
 
 export default class Pls	extends ShPls
@@ -21,14 +17,30 @@ export default class Pls	extends ShPls
 	}
 
 
+	static Player	=Pl
+
+
+	/////////////////////////////////////////////////////////////////
+
+
 	/*constructor( game )
 	{
 		super( game )
 	}*/
 
 
+	//////////////////////////////////////////////////////////////
 
-	new( plmsg ,loc )	{return super.new( plmsg ,loc ,Pl )}
+
+
+	new( plmsg ,loc ,items )
+	{
+		const pl	=super.new( plmsg ,loc ,items )
+
+		pl.save( this.conf.dir )		
+		
+		return pl
+	}
 }
 
 
@@ -47,11 +59,28 @@ Pls.prototype. init	=async function()
 
 /**@returns Array of player names which couldn't be read. */
 
-Pls.prototype. read	=async function( pllocs )
+Pls.prototype. read	=async function( /*pllocs*/ )
 {
 	const proms	=[]
 
-	const delpls	=[]
+	const files	=await fs.readdir( this.conf.dir )
+
+	for(var fn of files )
+	{
+		if( ! fn.endsWith(".json") )
+		{
+			continue
+		}
+		proms.push( this.readpl( fn.slice( 0 ,-5 )))
+	}
+	const pls	=await Promise.all( proms )
+
+	for(var pl of pls )
+	{
+		this.s( pl )
+	}
+}
+	/*const failpls	=[]
 
 	for(const pln in pllocs )
 	{
@@ -63,7 +92,7 @@ Pls.prototype. read	=async function( pllocs )
 
 			if( ! pl )
 			{
-				delpls.push( pln )
+				failpls.push( pln )
 			}
 			else
 			{
@@ -75,15 +104,15 @@ Pls.prototype. read	=async function( pllocs )
 	}
 	await Promise.all(proms)
 
-	return delpls
-}
+	return failpls
+}*/
 
 
 /** Just reads and revives json */
 
 Pls.prototype. readpl	=async function( name )
 {
-	return await Pl.read( this.conf.dir ,name ,this )
+	return await this.constructor.Player.read( this.conf.dir ,name ,this )
 }
 
 
@@ -125,67 +154,6 @@ Pls.prototype. rem	=function()
 
 
 
-Pls.prototype. new	=function( plmsg )
-{
-	console.log( `Creating new player: ${plmsg.name}` )
-
-	const g=this.game
-
-	const map	=g.maps.ground
-
-	const spawns	=map.obj.o.spawns
-
-	const loc	=map.getloc4pl( spawns[0] )
-
-	const pl	=new Pl( this ).set( plmsg )
-
-	pl.loc.set( loc )
-
-	// add starter items
-	{
-		let belt	=new items.belt().su()
-		
-		belt.additem( new items.multi() )
-		
-		pl.additem( belt )
-
-		let sbag	=new items.seedbag().su()
-		
-		sbag.additem( new items.cuc_seeds( 15 ) )
-
-		pl.additem( sbag )
-	}
-	
-
-	pl.save( this.conf.dir )		
-	
-	// add start dewds
-	{
-		let idewd =0
-
-		map.fore(( loc )=>
-		{
-			if( ! map.getshade( loc ) && ! map.obj.g( loc )?.item )
-			{
-				// map.setblock( loc ,new items.dewd() )
-
-				g.additem([ g.maps,loc ],new items.dewd() )
-
-				// g.con.online("additem "+JSON.stringify({loc, o:{ dewd :null }}))
-
-				idewd ++
-
-				if( idewd >= 3)	return true
-			}
-		},
-		null, spawns[0] )
-	}
-
-	return pl
-}
-
-
-
 Pls.prototype. save	=async function()
 {
 	var proms	=[]
@@ -199,18 +167,6 @@ Pls.prototype. save	=async function()
 
 
 ///////////////////////////////////////////////////////////////////////////////
-
-
-/** fun( pl, game ) */
-
-Pls.prototype. fore	=function( fun )
-{
-	for(var n in this.o)
-	{
-		if( fun( this.o[n], this.game ))	return
-	}
-}
-
 
 /*
 Pls.prototype. newid	=function()

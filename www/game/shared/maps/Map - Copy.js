@@ -462,7 +462,7 @@ Map.o_sparse	=function( o, fun )
 			{
 				if( p2 === 'loc' )
 				{
-					cell[p1][p2]	=new V().seta(cell[p1][p2])
+					cell[p1][p2]	=new V().setj(cell[p1][p2])
 				}
 			}
 		}
@@ -486,7 +486,7 @@ Map.o_sparse	=function( o, fun )
 				{
 					if( p2 === 'loc' )
 					{
-						cell[p1][p2]	=new V().seta(cell[p1][p2])
+						cell[p1][p2]	=new V().setj(cell[p1][p2])
 					}
 				}
 			}

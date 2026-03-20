@@ -16,7 +16,7 @@ export default class Obj extends ShObj
 		{
 			key :"spawns"
 			,
-			fromJSON :( arr )=> arr.map(( val )=> new Loc().seta(val) )
+			fromJSON :( arr )=> arr.map(( val )=> new Loc().setj(val) )
 		}		
 	)
 

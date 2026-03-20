@@ -15,21 +15,17 @@ import newBinMShift	from "../../www/game/shared/maps/newBinMapShift.js"
 
 export default class Map extends ShMap
 {
-	game()	{return this.maps.game }
-
-	srv()	{return this.game().srv }
-
 	/** define in derived class
 	@static
 	@var name */
 
-	obj	=new Obj(this)
+	static Obj	=Obj
 
 
-	constructor( maps )
+	/*constructor( maps )
 	{
 		super( maps ,Obj )
-	}
+	}*/
 }
 
 
