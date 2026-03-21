@@ -3,8 +3,10 @@ import Html	from '../Html.js'
 import Serv	from './Serv.js'
 import Player	from './player/Player.js'
 import PCl	from './PeerCl.js'
+import Pls from './player/Players.js'
 import Maps	from './maps/Maps.js'
 import V	from './shared/Vec.js'
+import items from './items/items.js'
 
 
 
@@ -24,6 +26,10 @@ export default class Client	extends Game
 
 
 	static Maps	=Maps
+
+	static Pls	=Pls
+
+	static items	=items
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -50,9 +56,16 @@ export default class Client	extends Game
 	///////////////////////////////////////////////////////////////////////////
 
 
+
+	plmapsloaded()
+	{
+		this.maps.setpl( this.pl )
+
+		this.maps.jsonlocs.pl	=null
+
+		this.html.can.start()
+	}
 }
-
-
 
 
 
@@ -89,15 +102,11 @@ Client.prototype. setpl	=async function( plmsg )
 {
 	this.html.delpage('createpl')
 
-	
-
-	var pl	=this.pl	=this.pls.new( plmsg ,plmsg.loc ,Player )
-
-	this.pls.s(pl)
+	const pl	=this.pl	=this.pls.new( plmsg )
 
 	this.html.newplinv( pl )
 
-	var can	=this.html.can
+	const can	=this.html.can
 
 	can.pl	=pl
 
@@ -105,8 +114,8 @@ Client.prototype. setpl	=async function( plmsg )
 
 	can.draw()
 
-	if( can.maps )
-	{
+	if( can.maps )	this.plmapsloaded()
+/*	{
 		let map	=this.maps.loc2map(pl.loc)
 
 		let cell	=map.obj.g(pl.loc)
@@ -120,7 +129,7 @@ Client.prototype. setpl	=async function( plmsg )
 		cell.pl	=pl
 
 		can.start()
-	}
+	}*/
 }
 
 
@@ -128,7 +137,7 @@ Client.prototype. setpl	=async function( plmsg )
 
 Client.prototype. setmaps	=function( grbin, grobj, trbin, trobj )
 {
-	var maps	=this.maps
+	const maps	=this.maps
 
 	maps.gr.setbin( grbin )
 
@@ -138,9 +147,11 @@ Client.prototype. setmaps	=function( grbin, grobj, trbin, trobj )
 
 	maps.tr.obj.o	=trobj
 
+	maps.sethonpllocs()
+
 	// if( maps.ready() )
 	{
-		let can	=this.html.can
+		const can	=this.html.can
 
 		can.maps	=maps
 
@@ -148,7 +159,7 @@ Client.prototype. setmaps	=function( grbin, grobj, trbin, trobj )
 
 		maps.tr.can.height	=can.el.height
 
-		if( can.pl )	can.start()
+		if( can.pl )	this.plmapsloaded()
 	}
 }
 

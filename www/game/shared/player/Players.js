@@ -39,26 +39,10 @@ export default class Players
 
 
 	
-	new( plmsg ,items =this.game.constructor.items )
+	new( plmsg )
 	{
 		const pl	=new this.constructor.Player( this ).setj( plmsg )
-		
-		// pl.loc.set( loc )
 
-		// add starter items
-		{
-			let belt	=new items.belt().su()
-			
-			belt.additem( new items.multi() )
-			
-			pl.additem( belt )
-
-			let sbag	=new items.seedbag().su()
-			
-			sbag.additem( new items.cuc_seeds( 15 ) )
-
-			pl.additem( sbag )
-		}
 		this.s( pl )
 
 		return pl

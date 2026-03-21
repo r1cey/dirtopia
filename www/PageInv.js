@@ -8,15 +8,15 @@ export default class PageInv	extends Page
 	grid
 
 
-	constructor( gobj )
+	constructor( gobj ,dad )
 	{
 		var key	=gobj.constructor.key
 
-		super( gobj.gkey() ,gobj )
+		super( dad ,gobj.gkey() ,gobj )
 
 		this.el.classList.add( "inv" )
 
-		this.grid	=new Grid( gobj )
+		this.grid	=new Grid( this ,gobj )
 
 		this.grid.setheight()
 

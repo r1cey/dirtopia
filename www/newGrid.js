@@ -26,7 +26,7 @@ export default( Base =Ui )=>class Grid	extends Base
 
 	add( grido )
 	{
-		var gridel	=grido.newgridel()
+		var gridel	=grido.newgridel( this )
 
 		this.gridels.push( gridel )
 

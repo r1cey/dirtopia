@@ -5,9 +5,9 @@ import newGrid from "./newGrid.js"
 
 export default class GridCnt	extends newGrid( GridEl )
 {
-	constructor( gobj )
+	constructor( gobj ,dad )
 	{
-		super( gobj )
+		super( gobj ,dad )
 		
 		var cntsym	=document.createElement( "cntsym" )
 

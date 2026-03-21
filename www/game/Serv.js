@@ -41,14 +41,17 @@ export default newSS( newSG (class Serv
 				key	:"pl"
 				,
 				fromJSON	:( val )=> typeof val==="string" ? 
-					(
-						val===client.pl?.name ?
 
-						client.pl : val
-					) :
-					new Pl.Vis(val,client)
+					val	: new Pl.Vis(val,client)
 			}
 		)
+		this.jrev.root	=( key ,val )=>
+		{
+			if( val?.pl && typeof val.pl === "string" )
+			{
+				client.maps.jsonlocs.pl[val.pl]	=new Loc().setvstr( key ,0 )
+			}
+		}
 	}
 
 

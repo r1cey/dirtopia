@@ -31,6 +31,13 @@ export default class Maps//	extends PObj
 
 	get tr()	{return this.trees }
 
+	/** When getting map obj from JSON, save certain locations here */
+
+	jsonlocs	=
+	{
+		pl	:{}
+	}
+
 
 	/** Define in derived
 	@static
@@ -50,7 +57,11 @@ export default class Maps//	extends PObj
 
 	setpl( pl )
 	{
-		var loc	=pl.loc
+		var loc	=this.jsonlocs.pl?.[pl.name]
+
+		if( loc )	pl.loc.set( loc )
+
+		else loc	=pl.loc
 
 		const map	=this.loc2map( loc )
 
@@ -108,7 +119,7 @@ Maps.prototype. isready	=function()
 
 Maps.prototype. fore	=function( fun )
 {
-	fun( this.gr )
+	if( fun( this.gr ))	return
 	fun( this.tr )
 }
 

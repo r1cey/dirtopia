@@ -12,8 +12,8 @@ import GridCnt from "../../GridCnt.js"
 
 export default class Cnt extends newCnt(newDHold(newInv(newHold(It))))
 {
-	newgridel()
+	newgridel( dadui )
 	{
-		return super.newgridel( GridCnt )
+		return super.newgridel( dadui ,GridCnt )
 	}
 }

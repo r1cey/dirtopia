@@ -33,10 +33,24 @@ export default class Pls	extends ShPls
 
 
 
-	new( plmsg ,loc ,items )
+	new( plmsg ,items =this.game.constructor.items )
 	{
-		const pl	=super.new( plmsg ,loc ,items )
+		const pl	=super.new( plmsg )
 
+		// add starter items
+		{
+			let belt	=new items.belt().su()
+			
+			belt.additem( new items.multi() )
+			
+			pl.additem( belt )
+
+			let sbag	=new items.seedbag().su()
+			
+			sbag.additem( new items.cuc_seeds( 15 ) )
+
+			pl.additem( sbag )
+		}
 		pl.save( this.conf.dir )		
 		
 		return pl

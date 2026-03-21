@@ -11,7 +11,7 @@ import PageInv from '../../PageInv.js'
 
 
 
-const newPl	=( Base )=>class ClPl	extends newDHold(newInvO(newGObj( Base )))
+const newPl	=( Base )=>class ClPl	extends newDHold(newGObj( Base ))
 {
 	pos	=new Loc()
 
@@ -24,14 +24,14 @@ const newPl	=( Base )=>class ClPl	extends newDHold(newInvO(newGObj( Base )))
 	///////////////////////////////////////////////////////////////////////////
 
 
-
+/*
 	constructor( cl )
 	{
 		super( cl )
 
 		delete this.pls
 	}
-
+*/
 
 	///////////////////////////////////////////////////////////////////////////
 
@@ -122,9 +122,9 @@ const newPl	=( Base )=>class ClPl	extends newDHold(newInvO(newGObj( Base )))
 	onmov()	{return true }
 
 
-	newpinv()
+	newpinv( dadui )
 	{
-		var pinv	=super.newpinv()
+		var pinv	=super.newpinv( dadui)
 
 		pinv.grid.add( this.hands )
 

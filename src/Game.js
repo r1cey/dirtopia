@@ -149,14 +149,12 @@ G.prototype. start	=async function( confpa )
 			console.error("Couldn't read conf file: "+confpa )
 		}
 	}
-	const[ pllocs ]	=await Promise.all([ maps.start() ,pls.read() ])
+	await Promise.all([ maps.start() ,pls.read() ])
+
+	const pllocs	=maps.jsonlocs.pl
 
 	pls.fore(( pl )=>
 		{
-			if( pllocs[pl.name] )
-			{
-				pl.loc.set( pllocs[pl.name] )
-			}
 			maps.setpl( pl )
 		}
 	)
@@ -168,11 +166,13 @@ G.prototype. start	=async function( confpa )
 		
 		if( ! obj.g(loc)?.pl?.ispl )	obj.del( loc ,"pl" )
 	}
-	g.time.hour.int	=setInterval( g.hour.bind(g), 60*1000*60*1.5 )
+	maps.jsonlocs.pl	=null
 
-	g.time.min15.int	=setInterval(g.min15.bind(g), 12*60*1000)
+	// g.time.hour.int	=setInterval( g.hour.bind(g), 60*1000*60*1.5 )
 
-	g.time.sec.int	=setInterval( this.sec.bind(this), 1000*60/73)
+	// g.time.min15.int	=setInterval(g.min15.bind(g), 12*60*1000)
+
+	// g.time.sec.int	=setInterval( this.sec.bind(this), 1000*60/73)
 
 	this.server.start()
 

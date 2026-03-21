@@ -4,8 +4,8 @@ import newGrid from "./newGrid.js"
 
 export default class Grid	extends newGrid()
 {
-	constructor( dhold )
+	constructor( dad ,dhold )
 	{
-		super( "grid" ,dhold )
+		super( dad ,"grid" ,dhold )
 	}
 }

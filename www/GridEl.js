@@ -7,9 +7,9 @@ export default class GridEl extends Ui
 	
 
 
-	constructor( gobj )
+	constructor( gobj ,dad )
 	{
-		super( gobj.gkey() ,gobj )
+		super( dad ,gobj.gkey() ,gobj )
 
 		this.el.classList.add( "gridel" )
 

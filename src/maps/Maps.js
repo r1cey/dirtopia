@@ -91,9 +91,9 @@ Ms.prototype. start	=async function()
 
 		this.trees.save(this.conf.dir)
 	}
-	var errorlocs	=Ms.mergepllocs( pllocs )
+	const errorlocs	=Ms.mergepllocs( pllocs )
 
-	var errormaps	=new Set()
+	const errormaps	=new Set()
 
 	for(var[ pln ,plloc ] of errorlocs )
 	{
@@ -101,13 +101,15 @@ Ms.prototype. start	=async function()
 
 		errormaps.add( map )
 
-		delete map.obj.g(plloc).pl
+		map.obj.del( plloc ,"pl" )
 	}
 	for(var map of errormaps )
 	{
 		map.save( this.conf.dir )
 	}
-	return pllocs[0]
+	Object.assign( this.jsonlocs.pl ,pllocs[0] )
+	
+	// return pllocs[0]
 }
 
 
@@ -179,9 +181,9 @@ Ms.prototype. gshiftboards	=function( loc, r, dir )
 
 Ms.mergepllocs	=function( pllocs )
 {
-	var errlocs	=[]
+	const errlocs	=[]
 
-	var root	=pllocs[0]
+	const root	=pllocs[0]
 
 	for(var i= 1 ;i< pllocs.length ;i++)
 	{

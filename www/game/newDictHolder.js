@@ -6,7 +6,7 @@ import PageInv from "../PageInv.js"
 
 
 
-export default( Base =newInvO(newGObj(newInv())) )=>class DictHolder extends Base
+export default( Base =newGObj(newInv()) )=>class DictHolder extends Base
 {
 	/*constructor( ...args )
 	{
@@ -14,11 +14,9 @@ export default( Base =newInvO(newGObj(newInv())) )=>class DictHolder extends Bas
 	}*/
 
 
-	newpinv()
+	newpinv( dadui )
 	{
-		var pinv	=this.ui.inv	=new PageInv( this )
-
-		this.gcl().html.addui( pinv )
+		var pinv	=new PageInv( this, dadui )
 
 		/*this.fore(( item )=>
 		{

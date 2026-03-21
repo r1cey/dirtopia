@@ -3,9 +3,9 @@ import Ui from "./UIElement.js"
 
 export default class Page	extends Ui
 {
-	constructor( el ,gobj )
+	constructor( dad ,el ,gobj )
 	{
-		super( el ,gobj )
+		super( dad ,el ,gobj )
 
 		this.el.classList.add( "page" ,"scroll" )
 	}

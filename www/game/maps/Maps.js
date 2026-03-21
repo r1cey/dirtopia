@@ -25,6 +25,26 @@ export default class Maps extends newGObj( ShMaps )
 	{
 		super( cl )
 	}*/
+
+
+
+	sethonpllocs()
+	{
+		for(var pln in this.jsonlocs.pl )
+		{
+			var plloc	=this.jsonlocs.pl[pln]
+
+			this.fore(( map )=>
+			{
+				if( map.obj.g( plloc )?.pl === pln )
+				{
+					map.loch( plloc )
+
+					return true
+				}
+			})
+		}
+	}
 }
 
 

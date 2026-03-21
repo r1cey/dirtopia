@@ -31,17 +31,17 @@ export default class Obj extends ShObj
 
 Obj.prototype. read	=async function( path )
 {
-	var{ map }	=this
+	const{ map }	=this
 
-	var pls	={}
+	const pllocs	={}
 
-	var h	=this.map.getloc().h
+	const h	=this.map.getloc().h
 
-	var o	=await fs.readjson( path+'.json', ( key, val )=>
+	const o	=await fs.readjson( path+'.json', ( key, val )=>
 	{
 		if( val?.pl )
 		{
-			pls[ val.pl ]	=new Loc().setvstr( key ,h )
+			pllocs[ val.pl ]	=new Loc().setvstr( key ,h )
 
 			return val
 		}
@@ -53,7 +53,7 @@ Obj.prototype. read	=async function( path )
 
 	this.o	=o
 
-	return pls
+	return pllocs
 }
 
 

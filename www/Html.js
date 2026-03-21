@@ -32,7 +32,12 @@ export default class Html	extends Ui
 
 	menu	=new Menu(this)
 
-	ps	={}
+	ps	=
+	{
+		plinv	:null
+		,
+		inv	:null
+	}
 
 	ctxmenu
 
@@ -90,6 +95,28 @@ export default class Html	extends Ui
 	}
 
 
+
+	newplinv( pl )
+	{
+		return this.newpinv( pl ,true )
+	}
+
+
+
+	newpinv( dholder ,isclpl )
+	{
+		var p	=dholder.newpinv( this )
+
+		this.addui( p )
+
+		this.ps[ isclpl ? "plinv" : "inv" ]	=p
+
+		this.el.appendChild( p.el )
+
+		return p
+	}
+
+
 	/** Run this for UI elements with a game object attached to it
 	 * so we can do reverse lookup from HTML element to game object;
 	 * for example when dragging and dropping. */
@@ -99,24 +126,6 @@ export default class Html	extends Ui
 		this.uis.set( ui.el ,ui )
 
 		return ui
-	}
-
-
-
-	newplinv( pl )
-	{
-		return this.newpinv( pl ,false )
-	}
-
-
-
-	newpinv( dholder ,show =true )
-	{
-		var p	=dholder.newpinv()
-
-		this.el.appendChild( p.el )
-
-		return p
 	}
 
 

@@ -14,6 +14,11 @@ export default class JR
 
 	get fn()	{return this.revivr.bind(this) }
 
+	/** Gets called first and if returns something,
+	 * no other reviving is done */
+
+	root
+
 
 	constructor()
 	{
@@ -73,6 +78,10 @@ JR.prototype. add	=JR.prototype. addiface
 
 JR.prototype. revivr	=function( key, val, str )
 {
+	const root	=this.root?.( key ,val ,str )
+
+	if( root )	return root
+
 	if( this.tmpls.has(key) )
 	{
 		if( ! Array.isArray(val) )	return null
