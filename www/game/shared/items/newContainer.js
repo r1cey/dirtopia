@@ -1,9 +1,10 @@
 // import Holder from "../Holder.js";
 import Item	from "./Item.js"
-
 import newInv from "./newInv.js"
 
 // import{ IdPool }	from "../utils.js"
+
+import{ key as itemk }	from "./Item.js"
 
 
 
@@ -82,15 +83,17 @@ export default( Base =newInv(Item) )=>class Cnt	extends Base
 	///////////////////////////////////////////////////////////////////////////
 
 
-	static fromJSON( val )
+	static fromJSON( val ,key ,...args )
 	{
-		if( val.id )	return super.fromJSON( val )
-
+		if( key === itemk )
+		{
+			return super.fromJSON( val ,key ,...args )
+		}
 		else
 		{
 			for(var id in val )
 			{
-				val[id]	=super.fromJSON( val[id] )
+				val[id]	=super.fromJSON( val[id] ,key ,...args )
 			}
 			return val
 		}

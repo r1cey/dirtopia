@@ -1,6 +1,6 @@
-import Loc from "./Loc.js"
-import Col from "./Color.js"
-import Hands from "./player/Hands.js"
+// import Loc from "./Loc.js"
+// import Col from "./Color.js"
+// import Hands from "./player/Hands.js"
 import{ key as itemk }	from "./items/Item.js"
 
 
@@ -83,7 +83,7 @@ JR.prototype. revivr	=function( key, val, str )
 	}
 	else	var iface	=this.ifaces[key]
 
-	return iface && val	? iface.fromJSON( val )	: val
+	return iface && val	? iface.fromJSON( val ,key )	: val
 
 	/*var revfn	=this.revfns[key]
 

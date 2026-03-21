@@ -76,11 +76,21 @@ export default class G	extends Game
 
 	////////////////////////////////////////////////////////////
 
-	
+
 
 	newpl( plmsg )
 	{
+		console.log( `Creating new player: ${plmsg.name}` )
 
+		const map	=this.maps.gr
+		
+		var loc	=map.obj.o.spawns[0]
+
+		plmsg.loc	=loc.toJSON()
+
+		const pl	=super.newpl( plmsg )
+
+		map.adddewds4newpl( pl.loc ,this.constructor.items.dewd )
 	}
 
 

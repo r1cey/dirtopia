@@ -31,6 +31,8 @@ export default class Pl extends PV
 	
 	constructor( pls )
 	{
+		super()
+
 		nonenum( this ,"pls" ,pls )
 	}
 

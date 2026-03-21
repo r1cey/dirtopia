@@ -94,7 +94,7 @@ export default class Player extends ShPl
 	
 			return false
 		}
-		return	new this( pls ,plo )
+		return	new this( pls ).setj( plo )
 	}
 
 

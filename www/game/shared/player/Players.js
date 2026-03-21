@@ -39,11 +39,11 @@ export default class Players
 
 
 	
-	new( plmsg ,loc ,items =this.game.constructor.items )
+	new( plmsg ,items =this.game.constructor.items )
 	{
-		const pl	=new this.constructor.Player( this ,plmsg )
+		const pl	=new this.constructor.Player( this ).setj( plmsg )
 		
-		pl.loc.set( loc )
+		// pl.loc.set( loc )
 
 		// add starter items
 		{

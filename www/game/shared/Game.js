@@ -21,8 +21,6 @@ export default class Game
 
 	newpl( plmsg )
 	{
-		console.log( `Creating new player: ${plmsg.name}` )
-
 		const g	=this
 
 		const items	=this.constructor.items
@@ -30,8 +28,6 @@ export default class Game
 		const pl	=this.pls.new( plmsg ,items )
 
 		this.maps.setpl( pl )
-
-		map.adddewds4newpl( pl.loc ,items.dewd )
 		
 		return pl
 	}

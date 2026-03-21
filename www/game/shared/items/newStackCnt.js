@@ -23,10 +23,10 @@ export default( Base =newStack() )=>class SC	extends Base
 
 
 
-	constructor( ...args )
+	/*constructor( ...args )
 	{
 		super( ...args )
-	}
+	}*/
 
 
 

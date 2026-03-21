@@ -1,4 +1,6 @@
-import{ key as ITEMK }	from "./items/Item.js"
+// import{ key as ITEMK }	from "./items/Item.js"
+
+const ITEMK	="item"
 
 
 
@@ -59,7 +61,7 @@ export default( Base =Object )=>class Jable extends Base
 				{
 					inst[pn]	=msg[pn]
 				}
-				else if( inst[pn].setj )
+				else if( inst[pn]?.setj )
 				{
 					inst[pn].setj( msg[pn] )
 				}
@@ -71,7 +73,7 @@ export default( Base =Object )=>class Jable extends Base
 
 
 
-	static fromJSON( msg ,...args )
+	static fromJSON( msg ,key ,...args )
 	{
 		const inst	=new this( ...args )
 
