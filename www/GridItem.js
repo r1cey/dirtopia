@@ -9,9 +9,9 @@ export default class GridItem	extends GridEl
 	// drag
 
 
-	constructor( gobj )
+	constructor( gobj ,dad )
 	{
-		super( gobj )
+		super( gobj ,dad )
 
 		this.el.classList.add( "drag" )
 
@@ -50,23 +50,23 @@ export default class GridItem	extends GridEl
 	}
 
 
-	dragto( trgt )
+	dragto( trgtel )
 	{
-		const gobj	=this.gobj
+		// const gobj	=this.gobj
 
-		const uis	=gobj.gcl().html.uis
+		const uis	=this.html().uis
 
-		let el	=trgt
+		var el	=trgtel
 
-		let tgtgo
+		if( this.dad.el === el )	return
 
-		while ( el )
+		while( el )
 		{
-			tgtgo	=uis.get( el )
+			var trgtgobj	=uis.get( el )
 
-			if( tgtgo )
+			if( trgtgobj )
 			{
-				gobj.dragto( tgtgo )
+				this.gobj.dragto( trgtgobj )
 
 				break
 			}

@@ -24,9 +24,9 @@ export default( Base =newGridO(newGObj(ShIt)))=>class Item extends Base
 
 
 
-	newgridel( Class =GridIt )
+	newgridel( dadui ,Class =GridIt )
 	{
-		var gridel	=super.newgridel( Class )
+		var gridel	=super.newgridel( dadui ,Class )
 
 		return gridel
 	}

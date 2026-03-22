@@ -302,7 +302,7 @@ Can.prototype. draw	=function( dt )
 
 Can.prototype. clicked	=function( possqel )
 {
-	var can	=this
+	const can	=this
 
 	if(can.ctxmenu)
 	{
@@ -310,13 +310,15 @@ Can.prototype. clicked	=function( possqel )
 	}
 	else
 	{
-		let srv	=can.cl().srv
+		const srv	=can.cl().srv
 
-		let{ pl }	=can
+		const{ pl }	=can
 
-		let ploc	=pl.loc
+		const html	=can.html
 
-		let menu	=new CtxMenu( this )
+		const ploc	=pl.loc
+
+		const menu	=new CtxMenu( this )
 
 		menu.setpos( possqel, ploc )
 
@@ -330,13 +332,13 @@ Can.prototype. clicked	=function( possqel )
 				,
 				()=>
 				{
-					pl.html.inv.show()
+					html.ps.plinv.show()
 				}
 			)
 		}
 		else if( loc.disth( ploc) === 1 )
 		{
-			let map	=pl.map()
+			const map	=pl.map()
 
 			if( map.climbable( loc ))
 			{
@@ -346,7 +348,7 @@ Can.prototype. clicked	=function( possqel )
 			{
 				menu.addopt( "plant cucumbers", ()=> console.log("planted") )
 			}
-			let o	=map.obj.g(loc)
+			const o	=map.obj.g(loc)
 
 			if( o )
 			{

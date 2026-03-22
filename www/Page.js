@@ -15,7 +15,7 @@ export default class Page	extends Ui
 	{
 		this.el.style.display	="block"
 
-		this.gobj.gcl().maps.ui.can.el.addEventListener(
+		this.html().can.el.addEventListener(
 			
 			"click" ,this.hide. bind(this),{ once :true }
 		)
