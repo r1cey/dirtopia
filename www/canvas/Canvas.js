@@ -48,9 +48,9 @@ export default class Can	extends Ui
 
 	_crn	=new V()	//just cache for corner in pixels
 
-	get pl()	{return this.html.cl.pl }
+	pl
 
-	get maps()	{return this.gobj }
+	maps
 
 	time	=0
 

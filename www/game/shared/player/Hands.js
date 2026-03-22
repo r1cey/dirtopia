@@ -1,11 +1,11 @@
 import newHold from "../newHolder.js"
-// import newJable from "../newJsonable.js"
+import newJable from "../newJsonable.js"
 
 import { nonenum } from "../utils.js"
 
 
 
-export default newHold( class Hand	//extends newJable()
+export default newHold( class Hand	extends newJable()
 {
 	item
 
@@ -21,7 +21,7 @@ export default newHold( class Hand	//extends newJable()
 
 	constructor( pl ,item )
 	{
-		// super()
+		super()
 
 		this.item	=item
 
@@ -88,8 +88,8 @@ export default newHold( class Hand	//extends newJable()
 
 
 
-	static fromJSON( msg )
+	/*static fromJSON( msg )
 	{
 		return new this( null ,msg?.item )
-	}
+	}*/
 })

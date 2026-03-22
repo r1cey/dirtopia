@@ -16,21 +16,25 @@ export default( Base =Ui )=>class Grid	extends Base
 		super( ...args )
 		
 		this.el.classList.add( "grid" )
+
+		const html	=this.html()
 	
 		this.gobj.fore(( item )=>
 		{
-			this.add( item )
+			html.addui( this.add( item ))
 		})
 	}
 
 
 	add( grido )
 	{
-		var gridel	=grido.newgridel( this )
+		const gridel	=grido.newgridel( this )
 
 		this.gridels.push( gridel )
 
 		if( this.height <= gridel.height )	this.height	=gridel.height + 1
+
+		return gridel
 	}
 
 

@@ -6,7 +6,7 @@ import Hands from "./Hands.js"
 
 /** Class for visible players.*/
 
-export default class PlVis	extends newJable( PlBase )
+export default class PlVis	extends PlBase
 {
 
 	hands	=new this.constructor.Hands( this )

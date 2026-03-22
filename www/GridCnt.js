@@ -3,6 +3,7 @@ import GridEl from "./GridItem.js"
 import newGrid from "./newGrid.js"
 
 
+
 export default class GridCnt	extends newGrid( GridEl )
 {
 	constructor( gobj ,dad )

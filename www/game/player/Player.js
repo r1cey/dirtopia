@@ -18,7 +18,7 @@ const newPl	=( Base )=>class ClPl	extends newDHold(newGObj( Base ))
 	dest	=new Loc()
 
 
-	static isroot	=true
+	static Hands	=Hands
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -37,9 +37,9 @@ const newPl	=( Base )=>class ClPl	extends newDHold(newGObj( Base ))
 
 
 
-	get pls()	{return this.dad }
+	// get pls()	{return this.dad }
 
-	set pls( pls )	{ this.dad	=pls	}
+	// set pls( pls )	{ this.dad	=pls	}
 
 	srv()	{return this.gcl().srv }
 
@@ -48,9 +48,9 @@ const newPl	=( Base )=>class ClPl	extends newDHold(newGObj( Base ))
 
 
 
-	set( msg )
+	setj( msg )
 	{
-		super.set( msg )
+		super.setj( msg )
 
 		this.dest.set( this.loc )
 
@@ -134,17 +134,14 @@ const newPl	=( Base )=>class ClPl	extends newDHold(newGObj( Base ))
 	}
 
 
-	newhands()	{return new Hands( this )	}
-
-
-	static fromJSON( val ,pls )
+	/*static fromJSON( val ,pls )
 	{
 		const pl	=super.fromJSON( val ,pls )
 
 		pl.hands.pl	=pl
 
 		return pl
-	}
+	}*/
 }
 
 

@@ -16,16 +16,16 @@ export default class extends JRev
 
 		this.cl	=cl
 
-		this.addo( its ).adda([ Pl ,Hands ])
+		this.addo( its )//.adda([ Pl ,Hands ])
 	}
 
 
-	revivr( key, val ,str )
+	/*revivr( key, val ,str )
 	{
 		var inst	=super.revivr( key ,val ,str )
 
 		if( this.ifaces[key]?.isroot )	inst.dad	=this.cl
 
 		return inst
-	}
+	}*/
 }
