@@ -1,7 +1,9 @@
 import Item from "./Item.js"
 
 import newBlock from "../shared/items/newBlock.js"
-import newStack from "../shared/items/newStackable.js"
+
+import Stack from "./Stack.js"
+
 import newOrg	from "../shared/items/newOrganics.js"
 import newStCnt from "../shared/items/newStackCnt.js"
 
@@ -16,25 +18,25 @@ import newSlot from "../shared/items/newInvSlot.js"
 
 // var Item	=newIt()
 
-export var Block	=newBlock(Item)
+export const Block	=newBlock(Item)
 	
-export var Stack	=newStack(Item)
+export{ Stack }
 
-export var Organic	=newOrg( Stack)
+export const Organic	=newOrg( Stack)
 	
-export var StackCnt	=newStCnt(Stack)
+export const StackCnt	=newStCnt(Stack)
 
-var ShBag	=newBag(Cnt)
+const ShBag	=newBag(Cnt)
 	
-export var Bag	=newSoft(ShBag)
+export const Bag	=newSoft(ShBag)
 	
-export var Box	=newHard(ShBag)
+export const Box	=newHard(ShBag)
 
-var Slot	=newSlot(Cnt)
+const Slot	=newSlot(Cnt)
 	
-export var SoftRcpt	=newSoft(Slot)
+export const SoftRcpt	=newSoft(Slot)
 	
-export var HardRcpt	=newHard(Slot)
+export const HardRcpt	=newHard(Slot)
 
 
 /*var cls	=

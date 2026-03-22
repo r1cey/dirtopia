@@ -58,19 +58,21 @@ export default class GridItem	extends GridEl
 
 		var el	=trgtel
 
-		if( this.dad.el === el )	return
+		var trgtui	=uis.get( el )
+
+		if( this.dad.gobj === trgtui?.gobj )	return
 
 		while( el )
 		{
-			var trgtgobj	=uis.get( el )
-
-			if( trgtgobj )
+			if( trgtui )
 			{
-				this.gobj.dragto( trgtgobj )
+				this.gobj.dragto( trgtui.gobj ,trgtui.getnav() )
 
 				break
 			}
 			el	=el.parentElement; 
+
+			trgtui	=uis.get( el )
 		}
 	}
 

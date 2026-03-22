@@ -1,6 +1,7 @@
 import Ui from "./UIElement.js"
 
 
+
 export default class GridEl extends Ui
 {
 	area	=1
@@ -26,5 +27,27 @@ export default class GridEl extends Ui
 		this.el.style.gridArea	=`span ${size.y}/span ${size.x}`
 
 		this.el.style.aspectRatio	=size.x / size.y
+	}
+
+
+
+	getnav()
+	{
+		const nav	=[]
+
+		var ui	=this
+
+		do{
+			nav.unshift( ui.gobj )
+
+			while( ui.gobj === ui.dad?.gobj )
+			{
+				ui	=ui.dad
+			}
+			ui	=ui.dad
+		}
+		while( ! ui.constructor.ishtml )
+
+		return nav
 	}
 }

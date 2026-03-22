@@ -41,11 +41,11 @@ export default( Base =newGridO(newGObj(ShIt)))=>class Item extends Base
 	///////////////////////////////////////////////////////////////////////////
 
 
-	dragto( trgt )
+	/*dragto( trgt , )
 	{
 		if( trgt.isholder )
 		{
-			trgt.canadditem( this )
+			trgt.canadditem( this , )
 		}
-	}
+	}*/
 }
