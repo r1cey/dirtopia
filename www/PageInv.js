@@ -18,7 +18,7 @@ export default class PageInv	extends Page
 
 		this.grid	=new Grid( this ,gobj )
 
-		this.html().addui( this.grid )
+		this.html().addel2ui( this.grid.el ,this )
 
 		this.grid.setheight()
 

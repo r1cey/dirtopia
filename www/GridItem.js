@@ -54,26 +54,25 @@ export default class GridItem	extends GridEl
 	{
 		// const gobj	=this.gobj
 
-		const uis	=this.html().uis
+		// const uis	=this.html().uis
 
 		var el	=trgtel
 
-		var trgtui	=uis.get( el )
+		var uito	=this.html().uis.get( el )
 
-		if( this.dad.gobj === trgtui?.gobj )	return
+		if( ! uito )	return
 
-		while( el )
-		{
-			if( trgtui )
-			{
-				this.gobj.dragto( trgtui.gobj ,trgtui.getnav() )
+		this.gobj.dragto( uito.gobj ,this ,uito )
 
-				break
-			}
-			el	=el.parentElement; 
+		/*uito	=uito.gholdui()
 
-			trgtui	=uis.get( el )
-		}
+		if( ! uito )	return
+
+		const uifrom	=this.gholdui()
+
+		if( uito === uifrom )	return
+
+		this.gobj.dragto( uito.gobj ,uifrom ,uito )*/
 	}
 
 

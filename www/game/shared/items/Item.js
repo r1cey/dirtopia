@@ -31,7 +31,9 @@ export default class It	extends newJable()
 
 	toJSON( jkey )
 	{
-		return jkey===key ? [ this.constructor.key ,this ] : this
+		return jkey===key ? [ this.constructor.key ,this ] :
+		
+			/^\d+$/.test( jkey ) ? this.gkey() : this
 	}
 
 	get [Symbol.toStringTag]() {

@@ -50,4 +50,7 @@ export default class Players
 
 
 	// msg2navo( afrom ,i ,ato )	{ ato.push( this.o[afrom[i]] )}
+
+
+	toJSON( key )	{return "pls" }
 }

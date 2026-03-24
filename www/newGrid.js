@@ -28,8 +28,10 @@ export default( Base =Ui )=>class Grid	extends Base
 
 	add( grido )
 	{
-		const gridel	=grido.newgridel( this )
-
+		const gridel	=grido.newgridel
+			(
+				this.constructor.isinpage ? this.dad : this
+			)
 		this.gridels.push( gridel )
 
 		if( this.height <= gridel.height )	this.height	=gridel.height + 1

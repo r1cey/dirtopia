@@ -5,23 +5,23 @@ import newStack from "../shared/items/newStackable.js"
 
 export default class Stack  extends newStack( Item )
 {
-    dragto( trgt ,nav )
+    dragto( trgt ,ui ,uito )
 	{
-        var trgthold
+        const holduifrom  =ui.gholdui()
 
-		if( trgt.isholder )
-		{
-            trgthold    =trgt
-		}
-        else if( trgt.isstck && nav.at(-2).isholder )
-        {
-            trgthold    =nav.at(-2)
+        const holduito  =uito.gholdui()
 
-            nav =nav.slice(0,-1)
-        }
-        if( trgthold )
+        if( ! holduito || holduifrom === holduito )   return
+
+        const navfrom   =holduifrom.getnav()
+
+        const navto =holduito.getnav()
+
+        const canlen    =navto.at(-1).canadditem( this ,this.len ,navto )
+
+        if( canlen )
         {
-		    trgthold.canadditem( this ,this.len ,nav )
+            navto[0].srv.send( "movitem" ,navfrom ,this ,navto )
         }
 	}
 }

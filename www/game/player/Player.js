@@ -41,7 +41,7 @@ const newPl	=( Base )=>class ClPl	extends newDHold(newGObj( Base ))
 
 	// set pls( pls )	{ this.dad	=pls	}
 
-	srv()	{return this.gcl().srv }
+	get srv()	{return this.game.srv }
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -87,7 +87,7 @@ const newPl	=( Base )=>class ClPl	extends newDHold(newGObj( Base ))
 		{
 			let mul	=0.22
 
-			let map	=this.gcl().maps.gr
+			let map	=this.game.maps.gr
 
 			switch( map.getwaterlvl( pl.loc ) )
 			{
@@ -153,9 +153,9 @@ class PlVis extends newPl( ShPlV )
 
 	onmov( newloc )
 	{
-		if( ! this.gcl().pl.sees( newloc ))
+		if( ! this.game.pl.sees( newloc ))
 		{
-			delete this.gcl().vispls[this.name]
+			delete this.game.vispls[this.name]
 		}
 		
 		return true
@@ -192,7 +192,7 @@ export default class Player extends newPl( ShPl )
 
 		page.hide()
 
-		this.gcl().html.el.appendChild( page.el )*/
+		this.game.html.el.appendChild( page.el )*/
 	}
 }
 
@@ -223,7 +223,7 @@ Player.prototype. onmov	=function( newloc )
 	{
 		this.ismovack	=false
 
-		this.gcl().srv.send("mov", newloc )
+		this.srv.send("mov", newloc )
 
 		return true
 	}

@@ -83,6 +83,12 @@ export default( Base =newInv(Item) )=>class Cnt	extends Base
 	///////////////////////////////////////////////////////////////////////////
 
 
+	toJSON( key )
+	{
+		return  /^\d+$/.test( key ) ? [ this.gkey() ,this.id ] : this
+	}
+
+
 	static fromJSON( val ,key ,...args )
 	{
 		if( key === itemk )

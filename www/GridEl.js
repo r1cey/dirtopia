@@ -48,6 +48,8 @@ export default class GridEl extends Ui
 		}
 		while( ! ui.constructor.ishtml )
 
+		if( nav[0].ispl )	nav.unshift( ui.gobj.pls )
+
 		return nav
 	}
 }

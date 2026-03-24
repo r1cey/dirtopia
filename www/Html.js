@@ -126,7 +126,15 @@ export default class Html	extends Ui
 
 	addui( ui )
 	{
-		this.uis.set( ui.el ,ui )
+		return this.addel2ui( ui.el ,ui )
+	}
+
+	/** Some child elements should reference parent ui to not be confused.
+	 * Maybe change later? */
+
+	addel2ui( el ,ui )
+	{
+		this.uis.set( el ,ui )
 
 		return ui
 	}

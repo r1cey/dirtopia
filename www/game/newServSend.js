@@ -49,9 +49,11 @@ export default( Base )=>class SS extends Base
 
 
 
-	em_movobj( loc ,dir ,obj )
+	em_movitem( navfrom ,item ,navto )
 	{
-		return [[ loc, dir, obj.constructor.key ]]
+		console.log( JSON.stringify([ navfrom, item, navto ]))
+
+		return [[ navfrom, item, navto ]]
 	}
 
 

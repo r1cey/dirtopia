@@ -107,13 +107,30 @@ export default class UiEl
 	}
 
 
-	///////////////////////////////////////////////////////////////////////////
-
-
 	hide()	{ this.el.style.display	="none" ;	return this }
 
 
 	show()	{ this.el.style.display ="" ;	return this }
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+	/** Get ui of first holder gobj in chain, including itself. */
+
+	gholdui()
+	{
+		var ui	=this
+
+		while( ! ui.constructor.ishtml )
+		{
+			var gobj	=ui.gobj
+
+			if( gobj.isholder )	return ui
+
+			ui	=ui.dad
+		}
+	}
 
 
 	///////////////////////////////////////////////////////////////////////////

@@ -20,7 +20,7 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 	)
 	addbag( "seedbag", 40*25*20/125 ,55*45*45 ,Bag )
 
-	addst( "cuc_seeds" ,1 ,Stack )
+	addst( "cuc_seeds" ,125 ,Stack )
 
 	addst( "multi" ,30*20*150 ,Stack )
 
@@ -56,7 +56,7 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 		{
 			static key	=key
 
-			static vol	=Math.floor( vol / mm3pu )
+			static vol	=Math.ceil( vol / mm3pu )
 		}
 	}
 
@@ -66,9 +66,9 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 			{
 				static key	=key
 
-				static vol	=Math.floor( vol / mm3pu )
+				static vol	=Math.ceil( vol / mm3pu )
 
-				static boxvol	=Math.floor( bagvol / mm3pu )
+				static boxvol	=Math.ceil( bagvol / mm3pu )
 			}
 		)
 	}
@@ -79,7 +79,7 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 		{
 			static key	=key
 
-			static vol	=Math.floor( vol / mm3pu )
+			static vol	=Math.ceil( vol / mm3pu )
 
 			static allowed	=allow
 		}

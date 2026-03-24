@@ -41,4 +41,10 @@ export default class PlBase	extends newJable(newISlot())
 	
 
 	get ispl()	{return this }
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+	toJSON( key )	{return  /^\d+$/.test( key ) ? this.name : this }
 }
