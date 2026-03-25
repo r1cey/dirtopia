@@ -181,7 +181,7 @@ Loc.prototype. canadditem	=function( item ,len , nav )
 }
 
 
-Loc.prototype. additem	=function( item ,nav )
+Loc.prototype. additem	=function( item ,nav ,msg )
 {
 	nav.at(-2).loc2map(this).setitem( this ,item )
 }
@@ -203,9 +203,9 @@ Loc.prototype.canchildadd	=function( item ,len ,nav ,_i )
 
 
 
-Loc.prototype. stck2cnt	=function( stck ,nav )
+Loc.prototype. stck2cnt	=function( stck ,nav ,msg )
 {
-	return nav[0].stck2cnt( this ,stck )
+	return nav[0].stck2cnt( this ,stck ,msg )
 }
 
 

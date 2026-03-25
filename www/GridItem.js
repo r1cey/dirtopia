@@ -52,27 +52,13 @@ export default class GridItem	extends GridEl
 
 	dragto( trgtel )
 	{
-		// const gobj	=this.gobj
+		const el	=trgtel
 
-		// const uis	=this.html().uis
-
-		var el	=trgtel
-
-		var uito	=this.html().uis.get( el )
+		const uito	=this.html().uis.get( el )
 
 		if( ! uito )	return
 
 		this.gobj.dragto( uito.gobj ,this ,uito )
-
-		/*uito	=uito.gholdui()
-
-		if( ! uito )	return
-
-		const uifrom	=this.gholdui()
-
-		if( uito === uifrom )	return
-
-		this.gobj.dragto( uito.gobj ,uifrom ,uito )*/
 	}
 
 

@@ -281,7 +281,9 @@ export default( Base )=>class SG extends Base
 	///////////////////////////////////////////////////////////////////////////
 
 
-	on_itemmov({ from ,item ,len ,to ,mover ,newcntid ,pushed2loc ,slotnewcnts })
+	/** len can be len or id */
+
+	on_itemmov({ from ,item ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts })
 	{
 		const{ cl }	=this
 
@@ -295,6 +297,21 @@ export default( Base )=>class SG extends Base
 
 			return
 		}
+		item	=from.at(-1).getitem( item ,len )
+
+		if( ! item )
+		{
+			console.error( "on_itemmov" ,from ,item ,len )
+
+			return
+		}
+		len	=item.iscnt	? 1	: len
+
+		mover	=cl.pls.g(mover)
+
+		if( pushed2loc )	pushed2loc	=new Loc().setj( pushed2loc )
+
+		cl.movitem( from ,item ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts )
 	}
 
 	/*on_rotobj( loca ,key ,dir ,pln )

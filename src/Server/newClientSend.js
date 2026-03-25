@@ -128,11 +128,44 @@ export default( Base =Object )=>class ClS extends Base
 
 	em_itemmov( msg )
 	{
-		msg.item	=msg.item.gkey()
+		const item	=msg.item
+
+		if( item.iscnt )	msg.len	=item.id
+
+		msg.item	=item.gkey()
 
 		msg.mover	=msg.mover.name
 
-		return [[ msg ]]
+		if( msg.newcnt )	msg.newcnt	=msg.newcnt.id
+
+		if( msg.slotnewcnts )
+		{
+			const ncnts	=msg.slotnewcnts
+
+			const len	=ncnts.length
+
+			for(var i =0 ;i<len;++i)
+			{
+				ncnts[i]	=ncnts[i].id
+			}
+		}
+		return [[ msg ], ( key ,val )=>
+		{
+			switch( key )
+			{
+				case "from" :
+
+				case "to" :
+
+					const len	=val.length
+
+					for(var i =0;i<len;i++)
+					{
+						val[i]	=val[i].tonavmsg()
+					}
+			}
+			return val
+		}]
 	}
 
 

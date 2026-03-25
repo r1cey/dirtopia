@@ -57,5 +57,7 @@ export default class Players	extends newPatha()
 	pmsg2obj( pln )	{return this.g(pln) }
 
 
-	toJSON( key )	{return "pls" }
+	toJSON( key )	{return undefined }
+
+	tonavmsg()	{return "pls" }
 }

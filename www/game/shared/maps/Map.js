@@ -184,7 +184,7 @@ Map.prototype. delitem	=function( loc ,item ,len )
 
 Map.prototype. canchildadd	=function( loc ,item ,len )
 {
-	var canlen	=this.obj.g(loc)?.item?.isstcnt && ! this.findempty( loc ,1 ) ?
+	const canlen	=this.obj.g(loc)?.item?.isstcnt && ! this.findempty( loc ,1 ) ?
 	
 		0	: 100
 
@@ -193,21 +193,21 @@ Map.prototype. canchildadd	=function( loc ,item ,len )
 
 
 
-Map.prototype. stck2cnt	=function( loc ,stck )
+Map.prototype. stck2cnt	=function( loc ,stck ,msg )
 {
-	var cell	=this.g(loc)
+	const cell	=this.g(loc)
 
-	var stck	=cell.item
+	stck	=cell.item
 
-	var newcnt	=stck.spawncnt()
+	const newcnt	=msg.newcnt	=stck.spawncnt()
 
-	var pushed2loc	=this.findempty( loc ,1 )
+	const pushed2loc	=msg.pushed2loc	=this.findempty( loc ,1 )
 
 	this.obj.s(pushed2loc).item	=stck
 
 	cell.item	=newcnt
 
-	return { newcnt ,pushed2loc }
+	// return { newcnt ,pushed2loc }
 }
 
 

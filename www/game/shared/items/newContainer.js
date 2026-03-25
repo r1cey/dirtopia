@@ -83,10 +83,12 @@ export default( Base =newInv(Item) )=>class Cnt	extends Base
 	///////////////////////////////////////////////////////////////////////////
 
 
-	toJSON( key )
+	/*toJSON( key )
 	{
 		return  /^\d+$/.test( key ) ? [ this.gkey() ,this.id ] : this
-	}
+	}*/
+
+	tonavmsg()	{return[ this.gkey() ,this.id ]}
 
 
 	static fromJSON( val ,key ,...args )

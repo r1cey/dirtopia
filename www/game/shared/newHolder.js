@@ -13,7 +13,7 @@ export default( Base )=>class Holder	extends Base
 	}
 		
 	/** Defined in derived class
-	@method additem(item,nav)	{} */
+	@method additem(item,nav,msg)	{} */
 
 	/** Defined in derived class
 	@method delitem(item,len,nav)	{} */

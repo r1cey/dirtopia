@@ -44,11 +44,11 @@ export default( Base =newStack() )=>class SC	extends Base
 
 
 	
-	additem( item ,nav )
+	additem( item ,nav ,msg )
 	{
 		var _i	=nav.length - 1
 
-		var ret	=nav[_i-1].stck2cnt( this ,nav ,_i-1 )
+		var ret	=nav[_i-1].stck2cnt( this ,nav ,_i-1 ,msg )
 
 		var msg	=ret.newcnt.additem( item )
 

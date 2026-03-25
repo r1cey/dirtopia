@@ -105,7 +105,7 @@ get. climb	=function( o )
 
 	/**@todo Handle errors */
 
-	on_movitem( from, key, len$id, to )
+	on_movitem({ from, key, len$id, to })
 	{
 		const{ game }	=this
 

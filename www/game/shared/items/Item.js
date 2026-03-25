@@ -31,10 +31,13 @@ export default class It	extends newJable()
 
 	toJSON( jkey )
 	{
-		return jkey===key ? [ this.constructor.key ,this ] :
+		return jkey===key ? [ this.constructor.key ,this ] : this
 		
-			/^\d+$/.test( jkey ) ? this.gkey() : this
+			///^\d+$/.test( jkey ) ? this.gkey() : this
 	}
+
+	tonavmsg()	{return this.gkey() }
+	
 
 	get [Symbol.toStringTag]() {
         return this.constructor.name;

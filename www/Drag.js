@@ -226,7 +226,7 @@ export default class Touch
 
 	stopdrag( ev )
 	{
-		var tch	=this
+		const tch	=this
 
 		tch.down	=false
 
@@ -244,7 +244,7 @@ export default class Touch
 
 		el.releasePointerCapture( ev.pointerId )
 
-		var bound	=tch.bound
+		const bound	=tch.bound
 
 		el.removeEventListener("pointerup", tch.ondragup )
 		bound.removeEventListener("pointercancel", tch.ondragout )

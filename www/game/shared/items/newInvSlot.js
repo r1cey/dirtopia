@@ -44,13 +44,11 @@ export default( Base =newInv() )=>class InvSlot extends Base
 
 	/**@ret {AddMsg} msg */
 
-	additem( item )
+	additem( item ,nav ,msg )
 	{
-		var msg
-
 		if( item.isstcnt )
 		{
-			msg	=new AddMsg()
+			// var msg	=new AddMsg()
 			
 			msg.slotnewcnts	=new Array(item.len)
 			
@@ -65,7 +63,7 @@ export default( Base =newInv() )=>class InvSlot extends Base
 		}
 		else	super.additem( item )
 
-		return msg
+		// return msg
 	}
 
 

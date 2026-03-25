@@ -50,6 +50,8 @@ export default class Maps	extends newPatha()
 
 	constructor( game )
 	{
+		super()
+		
 		this.game	=game
 	}
 
@@ -84,6 +86,11 @@ export default class Maps	extends newPatha()
 
 
 	pmsg2obj( locj )	{return new Loc().setj( locj )}
+
+
+	toJSON()	{return undefined }
+
+	tonavmsg()	{return "maps" }
 }
 
 
@@ -180,9 +187,9 @@ Maps.prototype. delpls	=function( pls )
 
 
 
-Maps.prototype. stck2cnt	=function( loc ,stck )
+Maps.prototype. stck2cnt	=function( loc ,stck ,msg )
 {
-	return this.loc2map(loc).stck2cnt( loc )
+	return this.loc2map(loc).stck2cnt( loc ,stck ,msg )
 }
 
 

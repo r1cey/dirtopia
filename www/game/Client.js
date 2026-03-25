@@ -57,6 +57,20 @@ export default class Client	extends Game
 
 
 
+	movitem( from ,item ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts )
+	{
+		const movit	= item.isstck && item.len > len ?	item.clone( len )	: item
+
+		to.at(-1).additem( movit ,to ,newcnt ,pushed2loc ,slotnewcnts )
+
+		from.at(-1).delitem( item ,len ,from )
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+
 	plmapsloaded()
 	{
 		this.maps.setpl( this.pl )
