@@ -1,10 +1,10 @@
 import V	from './Vec.js'
 
-// import newPathable from './newPathable.js'
+import newPatha from './newPathable.js'
 
 
 
-export default class Loc extends V //newPathable( V )
+export default class Loc extends newPatha( V )
 {
 	h
 
@@ -45,6 +45,15 @@ export default class Loc extends V //newPathable( V )
 
 	
 	// fromJSON( a )	{return new this( ...a )}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+	pmsg2obj( key ,nav ,i )	{return nav[i-1].loc2map(this).obj.g(this)?.item }
+
+
+	getitem( key ,id ,nav )	{return this.pmsg2obj( key ,nav ,nav.length-1 )}
 }
 
 
@@ -204,6 +213,13 @@ Loc.prototype. cnt2stck	=function( cnt ,nav )
 {
 	nav[0].loc2map(this).setitem( this ,cnt.newstck() )
 }
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////

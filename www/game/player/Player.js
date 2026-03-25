@@ -205,7 +205,7 @@ Player.prototype. lcl_acto	=function( path ,actk ,args )
 {
 	var{ lcl }	=this
 
-	var obj	=lcl.path2obj( path )
+	var obj	=lcl.pmsg2obj( path )
 
 	// if( ! obj )	
 

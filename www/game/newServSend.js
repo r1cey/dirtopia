@@ -49,11 +49,19 @@ export default( Base )=>class SS extends Base
 
 
 
-	em_movitem( navfrom ,item ,navto )
+	em_movitem( navfrom ,item ,len ,navto )
 	{
-		console.log( JSON.stringify([ navfrom, item, navto ]))
+		// console.log( JSON.stringify([ navfrom, item, navto ]))
 
-		return [[ navfrom, item, navto ]]
+		const len$id	=item.iscnt	? item.id :
+
+			item.isstck	? item.len :
+			
+				console.error("em_movitem",navfrom,item,navto)
+
+		if( ! len$id )	return []
+
+		return [[ navfrom, item.gkey(), len$id ,navto ]]
 	}
 
 

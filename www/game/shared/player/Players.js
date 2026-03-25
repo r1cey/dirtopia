@@ -1,7 +1,10 @@
+import newPatha from "../newPathable.js"
+
 import Pl from "./Player.js"
 
 
-export default class Players
+
+export default class Players	extends newPatha()
 {
 	o	={}
 
@@ -18,6 +21,8 @@ export default class Players
 
 	constructor( game )
 	{
+		super()
+
 		this.game	=game
 	}
 
@@ -49,7 +54,7 @@ export default class Players
 	}
 
 
-	// msg2navo( afrom ,i ,ato )	{ ato.push( this.o[afrom[i]] )}
+	pmsg2obj( pln )	{return this.g(pln) }
 
 
 	toJSON( key )	{return "pls" }

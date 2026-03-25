@@ -21,7 +21,7 @@ export default class Stack  extends newStack( Item )
 
         if( canlen )
         {
-            navto[0].srv.send( "movitem" ,navfrom ,this ,navto )
+            navto[0].srv.send( "movitem" ,navfrom ,this ,canlen ,navto )
         }
 	}
 }

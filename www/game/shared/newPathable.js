@@ -1,29 +1,7 @@
-export default function(Base)
+export default( Base =Object )=>class Pathable	extends Base
 {
-	return class extends Base
-	{
-		ispl()	{return null }
+	/**@method pmsg2obj(str,nav,i) */
 
-		isloc()	{return null }
-
-		ishands()	{return null }
-
-		iscnts()	{return null }
-
-		isstck()	{return null }
-
-		isstcnt()	{return null }
-		
-		iscnt()	{return null }
-
-		isrcpt()	{return null }
-
-		isbox()	{return null }
-
-		isbag()	{return null }
-
-		isblock()	{return null }
-
-		/**@method getnavo( nav ,_i ,key [, id ]) */
-	}
+	/**@method getitem(key,id,nav) */
+	
 }

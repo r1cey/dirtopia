@@ -138,18 +138,41 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 		return len
 	}
 
+
+	///////////////////////////////////////////////////////////////////////////
 	
 
-	/*msg2navo( afrom ,i ,ato )
+	pmsg2obj( path )
 	{
-		var navo	=this.inv[afrom[i]]
-
-		if( navo.iscnts() )
+		if( Array.isArray( path ))
 		{
-			ato.push( navo.o[afrom[i+1]] )
+			var key	=path[0]
 
-			return 1
+			var id	=path[1]
 		}
-		ato.push( navo )
-	}*/
+		else	key	=path
+
+		const invo	=this.inv[key]
+
+		if( invo.isitem )	return invo
+
+		else
+		{
+			if( ! id )	return
+			
+			return invo[id]
+		}
+	}
+
+
+	getitem( key ,id )
+	{
+		const invo	=this.inv[key]
+
+		// if( invo.isitem )	return invo
+
+		// else	return invo[id]
+
+		return invo ?( invo.isitem	? invo	: invo[id] ): null
+	}
 }

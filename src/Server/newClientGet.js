@@ -54,7 +54,7 @@ export default( Base =Object )=>class ClientGet extends Base
 
 	on_wrtc( o )
 	{
-		var cl2	=this.game().pls[o.name].cl
+		var cl2	=this.game.pls[o.name].cl
 
 		if( !cl2 )	return
 
@@ -78,7 +78,7 @@ export default( Base =Object )=>class ClientGet extends Base
 	{
 		var tool	=o
 
-		this.game().dig( tool )
+		this.game.dig( tool )
 	}
 /*
 
@@ -103,18 +103,47 @@ get. climb	=function( o )
 	pl.climb( o.dir )
 }*/
 
+	/**@todo Handle errors */
 
 	on_movitem( from, key, len$id, to )
 	{
-		var{ game }	=this
+		const{ game }	=this
 
-		var item	=game.path2
+		var err	=game.msg2nav( from )
 
-		from	=game.path2nav( from )
+		if( err )
+		{
+			console.error( "on_movitem" ,from )
+			
+			return
+		}
+		const item	=from.at(-1).getitem( key ,len$id )
 
-		var item	=from.exl( "getitem" ,key ,len$id )
+		if( ! item )
+		{
+			console.error( "on_movitem" ,from ,key ,len$id )
+			
+			return
+		}
+		err	=game.msg2nav( to )
 
-		this.pl.movitem( from, item, item.id ? 1 : len$id ,game.path2nav( to ))
+		if( err )
+		{
+			console.error( "on_movitem" ,to )
+			
+			return
+		}
+		const len	=item.iscnt	? 1	: len$id
+
+		const lenadd	=to.at(-1).canadditem( item ,len ,to )
+
+		if( ! lenadd )
+		{
+			console.error( "on_moveitem" ,from ,item ,len$id ,len ,lenadd ,to )
+			
+			return
+		}
+		game.movitem( from ,item ,lenadd ,to ,this.pl )
 	}
 
 

@@ -1,6 +1,6 @@
 import Loc from "../Loc.js"
 
-// import PObj from "../newPathable.js"
+import newPatha from "../newPathable.js"
 
 
 /*export default ( newGround, newTrees )=> class extends Maps
@@ -19,7 +19,7 @@ import Loc from "../Loc.js"
 
 
 
-export default class Maps//	extends PObj
+export default class Maps	extends newPatha()
 {
 	game
 
@@ -81,6 +81,9 @@ export default class Maps//	extends PObj
 
 		return ismatch
 	}
+
+
+	pmsg2obj( locj )	{return new Loc().setj( locj )}
 }
 
 
@@ -184,12 +187,3 @@ Maps.prototype. stck2cnt	=function( loc ,stck )
 
 
 ///////////////////////////////////////////////////////////////////////////////
-
-
-
-Maps.prototype. msg2navo	=function( afrom ,i ,ato )
-{
-	var loc	=new Loc().fromJSON( afrom[i] )
-
-	ato.push( this.loc2map(loc).newcell( loc ))
-}

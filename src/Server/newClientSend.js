@@ -23,7 +23,7 @@ export default( Base =Object )=>class ClS extends Base
 	{
 		const{ pl }	=this
 
-		const maps	=this.game().maps
+		const maps	=this.game.maps
 
 		var slicedgr	=maps.gr.slice( pl.loc, pl.vision )
 
@@ -63,7 +63,7 @@ export default( Base =Object )=>class ClS extends Base
 
 		var obj	={ gr	:0 , tr	:0 }
 
-		var boards	=this.srv.game.maps.gshiftboards( loc, r, dir )
+		var boards	=this.game.maps.gshiftboards( loc, r, dir )
 
 		for(var n in boards )
 		{
@@ -89,28 +89,7 @@ export default( Base =Object )=>class ClS extends Base
 	}
 
 
-
-	em_setclplitem( item ,addl )
-	{
-		return [[ item.gkey() ,item ,addl ]]
-	}
-
-
-
-	em_setclplitemcnt( path ,item ,addl )
-	{
-		return [[ path ,item.gkey() ,item ,addl ]]
-	}
-
-
 	///////////////////////////////////////////////////////////////////////////////
-
-
-
-	em_map_setitem( map ,loc ,item )
-	{
-		return [[ map.bin.constructor.id ,loc ,item.toJSON(Stack.key) ]]
-	}
 
 
 	/** @arg {string} act 
@@ -143,7 +122,21 @@ export default( Base =Object )=>class ClS extends Base
 	}
 
 
-	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	em_itemmov( msg )
+	{
+		msg.item	=msg.item.gkey()
+
+		msg.mover	=msg.mover.name
+
+		return [[ msg ]]
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
 
 	/** New player born. */
 
@@ -213,13 +206,6 @@ export default( Base =Object )=>class ClS extends Base
 	em_actonobj( loc, key, act, params )
 	{
 		this.sendjson({actonobj:{ loc, key, act, params }})
-	}
-
-
-
-	em_setplitem( pl ,item ,addl )
-	{
-		return [[ pl.name ,pl.loc ,item.constructor.key ,item ,addl ]]
 	}
 
 

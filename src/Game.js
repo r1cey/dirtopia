@@ -7,7 +7,7 @@ import Players from './player/Pls.js'
 import Loc	from './Loc.js'
 // import { constrainedMemory } from 'process'
 // import Con from "./Console.js"
-// import Nav	from '../www/game/shared/Nav.js'
+import Nav	from '../www/game/shared/Nav.js'
 // import Pl from "../www/game/shared/player/Player.js"
 import items from "./items/items.js"
 
@@ -98,11 +98,11 @@ export default class G	extends Game
 
 	additem( to ,item )
 	{
-		var addmsg	={ item ,to }
+		const addmsg	={ item ,to }
 		
 		super.additem( item ,to )?.tonetmsg( addmsg )
 
-		this.srv.sendvis( nav2loc(to) ,"additem" ,addmsg )	
+		this.srv.sendvis( nav2loc(to) ,"itemadd" ,addmsg )	
 	}
 }
 
@@ -224,21 +224,21 @@ G.prototype. save	=async function()
 
 G.prototype. movitem	=function( from ,item ,len ,to ,mover )
 {
-	var movmsg	={ from ,item ,len ,to ,mover }
+	const movmsg	={ from ,item ,len ,to ,mover }
 
-	var movitem	= item.isstck && item.len > len ?	item.clone( len )	: item
+	const movitem	= item.isstck && item.len > len ?	item.clone( len )	: item
 
 	to.at(-1).additem( movitem ,to )?.tonetmsg( movmsg )
 
 	from.at(-1).delitem( item ,len ,from )
 
-	this.srv.sendvis2( nav2loc(from) ,nav2loc(to) ,"movitem" ,movmsg )
+	this.srv.sendvis2( nav2loc(from) ,nav2loc(to) ,"itemmov" ,movmsg )
 }
 
 
 G.prototype. delitem	=function( from ,item ,len )
 {
-	this.srv.sendvis( nav2loc(from) ,"delitem" ,[ from ,item ,len ])
+	this.srv.sendvis( nav2loc(from) ,"itemdel" ,[ from ,item ,len ])
 
 	from.at(-1).delitem( item ,len ,from )
 }
@@ -251,33 +251,6 @@ G.prototype. delitem	=function( from ,item ,len )
 G.prototype. rempls	=async function()
 {
 	return this.conf.pls.max - (await this.files.readdir( this.conf.pls.dir )) 
-}
-
-
-/**@todo do all of the error handling */
-
-G.prototype. path2nav	=function( path )
-{
-	var nava	=[]
-
-	switch( path[0] )
-	{
-		case "maps"	:
-			
-			nava[0]	=this.maps
-		break
-		case "pls"	:
-			
-			nava[0]	=this.pls
-		break
-	}
-	for( var i =1 ,len= path.length ;i<len;++i)
-	{
-		i	+=nava[i-1].msg2navo( path ,i ,nava ) || 0
-
-		i	+=nav.add( path ,i )
-	}
-	return new Nav(nava)
 }
 
 

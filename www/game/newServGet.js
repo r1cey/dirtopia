@@ -80,29 +80,6 @@ export default( Base )=>class SG extends Base
 	///////////////////////////////////////////////////////////////////////////////
 
 
-
-	on_clpl_setitem([ key, item ])
-	{
-		item	? this.cl.pl.inv[key] =this.jsonparse(item,key) : delete this.cl.pl.inv[key]
-
-		/**@todo: now update GUI */
-	}
-
-
-	/**@todo Validate everything. */
-
-	on_clpl_setitem([ path, item, key ])
-	{
-		var cnt	=this.cl
-
-		for(var id of path )
-		{
-			cnt	=cnt.getinv( id )
-		}
-		cnt.setitem( item && this.jsonparse( item,key ))
-	}
-
-
 	/** Received a map changing method
 	* @param o 
 	* @arg o.mapid
@@ -121,17 +98,6 @@ export default( Base )=>class SG extends Base
 			console.error("srv.on_mapset_", act, loc, vals )
 		}
 		map["set"+act]( loc, ...vals )
-	}
-
-
-	/** @arg {*} obj	- the added object is under their key
-	* 		for automatic json parsing */
-
-	on_map_additem([ loc, key, obj ])
-	{
-		loc	=new Loc(loc)
-
-		this.cl.maps.loc2map(loc).obj.s(loc)[key]	=this.jsonparse(obj,key)
 	}
 
 
@@ -312,20 +278,37 @@ export default( Base )=>class SG extends Base
 		pos.h	=desth
 	}
 
+	///////////////////////////////////////////////////////////////////////////
 
 
-	on_rotobj( loca ,key ,dir ,pln )
+	on_itemmov({ from ,item ,len ,to ,mover ,newcntid ,pushed2loc ,slotnewcnts })
+	{
+		const{ cl }	=this
+
+		var err	=cl.msg2nav( from )
+
+		err	=cl.msg2nav( to )
+
+		if( err )
+		{
+			console.error( "on_itemmov" ,from ,to )
+
+			return
+		}
+	}
+
+	/*on_rotobj( loca ,key ,dir ,pln )
 	{
 		var{ cl }	=this
 
 		var loc		=new Loc().setj(loc)
 
-		/**@todo if item moved, fix it */
+		/**@todo if item moved, fix it *
 
 		var item	=cl.maps.loc2map(loc).obj.g(loc)[key]
 
 		item.rot( dir )
-	}
+	}*/
 
 
 	/** { loc, key, act, params } */
@@ -335,28 +318,6 @@ export default( Base )=>class SG extends Base
 		var map	=this.cl.maps.loc2map( o.loc )
 
 		map.obj.g(o.loc)[o.key][o.act]( ... o.params )
-	}
-
-
-	/**@todo check that item still there. */
-
-	on_rotobj( loca ,dir ,key )
-	{
-		var{ cl }	=this
-
-		var loc	=new Loc().setj(loca)
-
-		var item	=cl.maps.getitem( loc ,key )
-
-		if( ! item )
-		{
-			cl.con().write( `Error on rotobj: ${key}, ${loc}` )
-
-			return
-		}
-		item.dir	=dir
-
-		cl.html.objchanged( loc, key )
 	}
 }
 

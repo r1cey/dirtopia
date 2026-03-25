@@ -51,4 +51,32 @@ export default class Game
 	{	
 		return to.at(-1).additem( item ,to )
 	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+	/**@todo do all of the error handling */
+
+	msg2nav( arr )
+	{
+		switch( arr[0] )
+		{
+			case "maps"	:
+				
+				arr[0]	=this.maps
+			break
+			case "pls"	:
+				
+				arr[0]	=this.pls
+			break
+		}
+		const len	=arr.length
+
+		for(var i =1 ;i<len;++i)
+		{
+			arr[i]	=arr[i-1].pmsg2obj?.( arr[i] ,arr ,i )
+
+			if( ! arr[i] )	return -1
+		}
+	}
 }

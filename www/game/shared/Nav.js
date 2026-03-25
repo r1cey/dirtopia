@@ -1,12 +1,4 @@
 export default class Nav	extends Array
 {
-	tomsg()
-	{
-		const len	=this.length
-
-		for(var i =0;i<len;i++)
-		{
-			
-		}
-	}
+	dad( len =1 )	{return this.at(-len) }
 }

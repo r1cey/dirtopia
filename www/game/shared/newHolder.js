@@ -7,14 +7,14 @@ export default( Base )=>class Holder	extends Base
 	
 
 	
-	canadditem( item ,len )
+	canadditem( item ,len ,nav )
 	{
 		return true
 	}
 		
 	/** Defined in derived class
-	@method additem( item )	{} */
+	@method additem(item,nav)	{} */
 
 	/** Defined in derived class
-	@method delitem( item, num )	{} */
+	@method delitem(item,len,nav)	{} */
 }
