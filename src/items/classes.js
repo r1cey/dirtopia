@@ -14,38 +14,34 @@ import newHard from "../../www/game/shared/items/newHard.js"
 
 import newBag from "../../www/game/shared/items/newBag.js"
 
-import newSlot from "../../www/game/shared/items/newInvSlot.js"
+import newSlot from "./newInvSlot.js"
 
 
-var cls	=
-{
-	"Block"	:newBlock()
-	,
-	"Stack"	:newStack()
-}
-cls.Organic	=newOrg(cls.Stack)
-	
-cls.StackCnt	=newStCnt(class extends cls.Stack
-{
-	/** creates id */
-	
-	spawncnt()
+
+export const Block	=newBlock()
+
+export const Stack	=newStack()
+
+export const Organic	=newOrg( Stack )
+
+export const StackCnt	=class extends newStCnt( Stack )
 	{
-		return super.spawncnt().setuniq()
+		/** creates id */
+		
+		spawncnt()
+		{
+			return super.spawncnt().setuniq()
+		}
 	}
-})
 
-var Bag	=newBag(Cnt)
+const ShBag	=newBag( Cnt )
 	
-cls.Bag	=newSoft(Bag)
+export const Bag	=newSoft(ShBag)
 	
-cls.Box	=newHard(Bag)
+export const Box	=newHard(ShBag)
 
-var Slot	=newSlot(Cnt)
+const Slot	=newSlot( Cnt )
 
-cls.SoftRcpt	=newSoft(Slot)
+export const SoftRcpt	=newSoft(Slot)
 	
-cls.HardRcpt	=newHard(Slot)
-
-
-export default cls
+export const HardRcpt	=newHard(Slot)

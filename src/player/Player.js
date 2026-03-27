@@ -1,4 +1,5 @@
 import ShPl from '../../www/game/shared/player/Player.js'
+import newISlot from '../items/newInvSlot.js'
 import Hands from './Hands.js'
 
 import V from '../../www/game/shared/Vec.js'
@@ -51,7 +52,7 @@ class PlSlp extends SrvPl( ShPl.Vis )
 }*/
 
 
-export default class Player extends ShPl
+export default class Player extends newISlot( ShPl )
 {	
 	static Hands	=Hands
 	

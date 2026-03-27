@@ -1,5 +1,6 @@
 import newGObj from '../newGameObj.js'
-import newInvO from '../newInvObj.js'
+// import newInvO from '../newInvObj.js'
+import newISlot from '../items/newInvSlot.js'
 import newDHold from '../newDictHolder.js'
 import ShPlV from '../shared/player/PlVis.js'
 import ShPl from '../shared/player/Player.js'
@@ -11,7 +12,7 @@ import PageInv from '../../PageInv.js'
 
 
 
-const newPl	=( Base )=>class ClPl	extends newDHold(newGObj( Base ))
+const newPl	=( Base )=>class ClPl	extends newISlot(newDHold(newGObj( Base )))
 {
 	pos	=new Loc()
 

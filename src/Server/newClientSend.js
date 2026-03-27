@@ -128,11 +128,11 @@ export default( Base =Object )=>class ClS extends Base
 
 	em_itemmov( msg )
 	{
-		const item	=msg.item
+		const item	=msg.item_
 
 		if( item.iscnt )	msg.len	=item.id
 
-		msg.item	=item.gkey()
+		msg.item_	=item.gkey()
 
 		msg.mover	=msg.mover.name
 

@@ -18,14 +18,17 @@ export default class Cnt	extends newContainer()
 		this.openedby.toJSON	=()=>undefined
 	}
 	
-	delitem( item ,len ,nav )
+	delitem( item ,len ,nav ,ismov )
 	{
-		if( super.delitem( item ,len ,nav ) )	this.deluniq()
+		if( super.delitem( item ,len ,nav ,ismov ) )	this.deluniq()
 	}
 
 	setuniq()	{ this.id	=Cnt.idpool.new() ;return this }
 
-	su()	{return this.setuniq() }
+	su	=this.setuniq
 
 	deluniq()	{ Cnt.idpool.del( this.id )}
+
+
+	
 }

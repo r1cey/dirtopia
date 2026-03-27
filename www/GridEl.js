@@ -14,19 +14,7 @@ export default class GridEl extends Ui
 
 		this.el.classList.add( "gridel" )
 
-		var size	=gobj.constructor.size.c()
-
-		this.area	=gobj.calcarea()
-
-		if( this.area > size.area() )
-		{
-			let side	=Math.ceil( Math.sqrt( this.area ) )
-
-			size.setxy( side ,Math.ceil( this.area / side ))
-		}
-		this.el.style.gridArea	=`span ${size.y}/span ${size.x}`
-
-		this.el.style.aspectRatio	=size.x / size.y
+		this.setsize()
 	}
 
 
@@ -51,5 +39,13 @@ export default class GridEl extends Ui
 		if( nav[0].ispl )	nav.unshift( ui.gobj.pls )
 
 		return nav
+	}
+
+
+	setsize( size =this.gobj.constructor.size )
+	{
+		this.el.style.gridArea	=`span ${size.y}/span ${size.x}`
+
+		this.el.style.aspectRatio	=size.x / size.y
 	}
 }

@@ -26,8 +26,13 @@ export default class PageInv	extends Page
 	}
 
 
-	/*additem( item )
+	addui( gridui )
 	{
-		this.elgrid.appendChild( item.newelinv( this ).el )
-	}*/
+		this.grid.addui( gridui )
+	}
+
+	delui( gridui )	{return this.grid.delui( gridui )}
+	
+
+	fill()	{ this.grid.fill() }
 }

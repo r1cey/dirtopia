@@ -102,7 +102,7 @@ export default class G	extends Game
 		
 		super.additem( item ,to ,msg )
 
-		this.srv.sendvis( nav2loc(to) ,"itemadd" ,msg )	
+		this.srv.sendvis( nav2loc(to) ,"itemadd" ,msg )
 	}
 }
 
@@ -224,13 +224,13 @@ G.prototype. save	=async function()
 
 G.prototype. movitem	=function( from ,item ,len ,to ,mover )
 {
-	const msg	={ from ,item ,len ,to ,mover }
+	const msg	={ from ,item_ :item ,len ,to ,mover }
 
 	const movitem	= item.isstck && item.len > len ?	item.clone( len )	: item
 
 	to.at(-1).additem( movitem ,to ,msg )
 
-	from.at(-1).delitem( item ,len ,from )
+	from.at(-1).delitem( item ,len ,from ,true )
 
 	this.srv.sendvis2( nav2loc(from) ,nav2loc(to) ,"itemmov" ,msg )
 }

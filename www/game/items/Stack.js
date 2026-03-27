@@ -13,14 +13,22 @@ export default class Stack  extends newStack( Item )
 
         if( ! holduito || holduifrom === holduito )   return
 
-        const navfrom   =holduifrom.getnav()
-
         const navto =holduito.getnav()
 
         const canlen    =navto.at(-1).canadditem( this ,this.len ,navto )
 
-        if( canlen )
+        if( canlen > 0 )
         {
+            holduifrom.delui( ui )
+
+            holduifrom.fill()
+
+            holduito.addui( ui )
+
+            holduito.fill()
+
+            const navfrom   =holduifrom.getnav()
+
             navto[0].srv.send( "movitem" ,navfrom ,this ,canlen ,navto )
         }
 	}

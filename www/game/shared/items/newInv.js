@@ -39,17 +39,17 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 
 	/**@ret true if had to turn to stack */
 
-	delitem( item ,len ,nav )
+	delitem( item ,len ,nav ,ismov )
 	{
-		var key	=item.gkey()
+		const key	=item.gkey()
 
-		var invobj	=this.inv[key]
+		const invobj	=this.inv[key]
 
 		if( item.isstck )
 		{
-			invobj.len	-= len
-
-			if( invobj.len <= 0 )	delete this.inv[key]
+			if( invobj.len <= len )	delete this.inv[key]
+			
+			if( ! ismov )	invobj.len	-= len
 		}
 		else
 		{
@@ -125,7 +125,7 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 
 	glen( key )
 	{
-		var invobj	=this.inv[key]
+		const invobj	=this.inv[key]
 
 		var len	=0
 

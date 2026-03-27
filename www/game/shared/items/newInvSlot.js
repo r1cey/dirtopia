@@ -8,8 +8,7 @@ import{ suffix as StCnt_suff }	from "./newStackCnt.js"
 
 export default( Base =newInv() )=>class InvSlot extends Base
 {
-	/**@static
-    @var allowed  ={} */
+	static allowed  ={}
 
 	get isslot()	{return this }
 
@@ -33,37 +32,13 @@ export default( Base =newInv() )=>class InvSlot extends Base
 
 	canadditem( item ,len ,nav )
 	{
-		var key	=InvSlot.parsekey( item.key )
+		const key	=InvSlot.parsekey( item.gkey() )
 		
-		let maxlen	=InvSlot.maxlen(key) - this.glen(key)
+		const maxlen	=this.constructor.maxlen(key) - this.glen(key)
 
-		var canlen	=Math.min( maxlen, len )
-		return canlen
-	}
+		const canlen	=Math.min( maxlen, len )
 
-
-	/**@ret {AddMsg} msg */
-
-	additem( item ,nav ,msg )
-	{
-		if( item.isstcnt )
-		{
-			// var msg	=new AddMsg()
-			
-			msg.slotnewcnts	=new Array(item.len)
-			
-			for(var i =0 ;i< item.len ;++i)
-			{
-				var cnt	=item.spawncnt()
-
-				msg.slotnewcnts[i]	=cnt
-
-				super.additem( cnt )
-			}
-		}
-		else	super.additem( item )
-
-		// return msg
+		return canlen //Math.max( canlen ,0 )
 	}
 
 

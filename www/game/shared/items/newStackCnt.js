@@ -60,7 +60,7 @@ export default( Base =newStack() )=>class SC	extends Base
 	{
 		this.del( 1 )
 
-		return this.gCnt()
+		return new this.constructor.Cnt()
 	}
 
 

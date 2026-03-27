@@ -137,7 +137,7 @@ get. climb	=function( o )
 
 		const lenadd	=to.at(-1).canadditem( item ,len ,to )
 
-		if( ! lenadd )
+		if( lenadd <= 0 )
 		{
 			console.error( "on_moveitem" ,from ,item ,len$id ,len ,lenadd ,to )
 			

@@ -10,10 +10,28 @@ export default class GridCnt	extends newGrid( GridEl )
 	{
 		super( gobj ,dad )
 		
-		var cntsym	=document.createElement( "cntsym" )
+		const cntsym	=document.createElement( "cntsym" )
 
 		this.el.appendChild( cntsym )
 
 		this.fill()
+	}
+
+
+	setsize()
+	{
+		const gobj	=this.gobj
+
+		const size	=gobj.constructor.size.c()
+
+		this.area	=gobj.calcarea()
+
+		if( this.area > size.area() )
+		{
+			let side	=Math.ceil( Math.sqrt( this.area ) )
+
+			size.setxy( side ,Math.ceil( this.area / side ))
+		}
+		super.setsize( size )
 	}
 }

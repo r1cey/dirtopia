@@ -5,7 +5,7 @@ import CtxM	from "./ContextMenu.js"
 
 export default( Base =Ui )=>class Grid	extends Base
 {
-	gridels	=[]
+	griduis	=[]
 
 	height	=0
 
@@ -21,22 +21,48 @@ export default( Base =Ui )=>class Grid	extends Base
 	
 		this.gobj.fore(( item )=>
 		{
-			html.addui( this.add( item ))
+			this.add( item ,html )
 		})
 	}
 
 
-	add( grido )
+	add( grido ,html =this.html() )
 	{
-		const gridel	=grido.newgridel
-			(
-				this.constructor.isinpage ? this.dad : this
-			)
-		this.gridels.push( gridel )
+		const gridui	=grido.newgridel(this.constructor.isinpage ? this.dad : this)
 
-		if( this.height <= gridel.height )	this.height	=gridel.height + 1
+		html.addui( gridui )
 
-		return gridel
+		return this.addui( gridui )
+	}
+
+	addui( gridui )
+	{
+		gridui.dad	=this.constructor.isinpage ? this.dad : this
+
+		this.griduis.push( gridui )
+
+		if( this.height <= gridui.height )	this.height	=gridui.height + 1
+
+		return gridui
+	}
+
+	/**@returns truthy if element was found */
+
+	delui( ui )
+	{
+		ui.dad	=null
+
+		const griduis	=this.griduis
+
+		const i	=griduis.indexOf( ui )
+
+		if( i < 0 )	return
+
+		griduis.splice( i, 1 )
+
+		this.rescanh()
+
+		return true
 	}
 
 
@@ -44,7 +70,9 @@ export default( Base =Ui )=>class Grid	extends Base
 	{
 		this.sort()
 
-		for(var gridel of this.gridels )
+		this.el.innerHTML	=""
+
+		for(var gridel of this.griduis )
 		{
 			this.el.appendChild( gridel.el )
 		}
@@ -56,15 +84,26 @@ export default( Base =Ui )=>class Grid	extends Base
 	{
 		if( height > this.height )	this.height	=height
 
-		for(var gridel of this.gridels )
+		for(var gridel of this.griduis )
 		{
 			if( gridel.height )	gridel.setheight( this.height - 1 )
 		}
 	}
 
+	rescanh()
+	{
+		this.height	=this.griduis.reduce
+			(
+				( max ,ui )=> ui.height > max ? ui.height : max
+				,
+				0
+			)
+		// this.height	=h
+	}
+
 
 	sort()
 	{
-		this.gridels.sort(( a ,b )=> b.area - a.area )
+		this.griduis.sort(( a ,b )=> b.area - a.area )
 	}
 }

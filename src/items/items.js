@@ -1,4 +1,4 @@
-import cls from "./classes.js"
+import * as cls from "./classes.js"
 
 import newitems from "../../www/game/shared/items/newitems.js"
 

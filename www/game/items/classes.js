@@ -12,7 +12,8 @@ import Cnt	from "./Cnt.js"
 import newSoft from "../shared/items/newSoft.js"
 import newHard from "../shared/items/newHard.js"
 import newBag from "../shared/items/newBag.js"
-import newSlot from "../shared/items/newInvSlot.js"
+
+import newSlot from "./newInvSlot.js"
 
 
 
@@ -37,31 +38,3 @@ const Slot	=newSlot(Cnt)
 export const SoftRcpt	=newSoft(Slot)
 	
 export const HardRcpt	=newHard(Slot)
-
-
-/*var cls	=
-{
-	"Block"	:newBlock(Item)
-	,
-	"Stack"	:newStack(Item)
-}
-cls.Organic	=newOrg(cls.Stack)
-	
-cls.StackCnt	=newStCnt(cls.Stack)
-
-var Cnt	=newCnt(newInv(Item))
-
-var Bag	=newBag(Cnt)
-	
-cls.Bag	=newSoft(Bag)
-	
-cls.Box	=newHard(Bag)
-
-var Slot	=newSlot(Cnt)
-	
-cls.SoftRcpt	=newSoft(Slot)
-	
-cls.HardRcpt	=newHard(Slot)
-
-
-export default cls*/

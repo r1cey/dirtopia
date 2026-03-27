@@ -283,7 +283,7 @@ export default( Base )=>class SG extends Base
 
 	/** len can be len or id */
 
-	on_itemmov({ from ,item ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts })
+	on_itemmov({ from ,item_ :item ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts })
 	{
 		const{ cl }	=this
 
