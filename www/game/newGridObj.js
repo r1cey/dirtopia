@@ -2,7 +2,7 @@ import newInvObj from "./newInvObj.js"
 
 import V from "./shared/Vec.js"
 
-import GridEl from "../GridEl.js"
+import GridUi from "../GridUI.js"
 
 import GridCnt from "../GridCnt.js"
 
@@ -17,7 +17,7 @@ export default( Base =newInvObj() )=>class GridObj extends Base
 
 	
 
-	newgridel( dadui ,Class =GridEl )
+	newgridel( dadui ,Class =GridUi )
 	{
 		return new Class( this ,dadui )
 	}

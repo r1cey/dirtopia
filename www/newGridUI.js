@@ -2,7 +2,7 @@ import Ui from "./UIElement.js"
 
 
 
-export default class GridEl extends Ui
+export default( Base =Ui )=>class GridEl extends Base
 {
 	area	=1
 	

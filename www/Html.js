@@ -38,7 +38,6 @@ export default class Html	extends Ui
 		,
 		inv	:null
 	}
-
 	ctxmenu
 
 	imgs	=new Imgs(this)
@@ -49,7 +48,6 @@ export default class Html	extends Ui
 		,
 		delay	:100
 	}
-
 
 	static ishtml	=true
 

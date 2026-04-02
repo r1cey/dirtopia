@@ -1,10 +1,10 @@
-import GridEl from "./GridItem.js"
+import newGridUi from "./newGridUI.js"
 
-import newGrid from "./newGrid.js"
+import Grid from "./Grid.js"
 
 
 
-export default class GridCnt	extends newGrid( GridEl )
+export default class GridCnt	extends newGridUi( Grid )
 {
 	constructor( gobj ,dad )
 	{
@@ -15,6 +15,14 @@ export default class GridCnt	extends newGrid( GridEl )
 		this.el.appendChild( cntsym )
 
 		this.fill()
+	}
+
+
+	finalize()
+	{
+		this.setsize()
+
+		super.finalize()
 	}
 
 
@@ -32,6 +40,8 @@ export default class GridCnt	extends newGrid( GridEl )
 
 			size.setxy( side ,Math.ceil( this.area / side ))
 		}
+		this.dad.setsize?.()
+
 		super.setsize( size )
 	}
 }

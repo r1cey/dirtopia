@@ -1,6 +1,6 @@
 import Page from "./Page.js"
 
-import Grid from "./Grid.js"
+import Grid from "./GridPage.js"
 
 
 export default class PageInv	extends Page
@@ -26,13 +26,13 @@ export default class PageInv	extends Page
 	}
 
 
-	addui( gridui )
+	adduifinal( gridui )
 	{
-		this.grid.addui( gridui )
+		return this.grid.adduifinal( gridui )
 	}
 
 	delui( gridui )	{return this.grid.delui( gridui )}
-	
+
 
 	fill()	{ this.grid.fill() }
 }

@@ -21,11 +21,7 @@ export default class Stack  extends newStack( Item )
         {
             holduifrom.delui( ui )
 
-            holduifrom.fill()
-
-            holduito.addui( ui )
-
-            holduito.fill()
+            holduito.adduifinal( ui )
 
             const navfrom   =holduifrom.getnav()
 

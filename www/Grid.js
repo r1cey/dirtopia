@@ -1,14 +1,133 @@
-import newGrid from "./newGrid.js"
+import Ui from "./UIElement.js"
+
+import CtxM	from "./ContextMenu.js" 
 
 
-
-export default class Grid	extends newGrid()
+export default class Grid	extends Ui
 {
-	static isinpage	=true
+	griduis	=[]
+
+	height	=0
 
 
-	constructor( dad ,dhold )
+
+	constructor( dad ,eln ,dhold )
 	{
-		super( dad ,"grid" ,dhold )
+		super( dad ,eln ,dhold )
+		
+		this.el.classList.add( "grid" )
+
+		const html	=this.html()
+	
+		this.gobj.fore(( item )=>
+		{
+			this.add( item ,html )
+		})
+	}
+
+
+	addfinal( grido )
+	{
+		this.add( grido )
+
+		this.finalize()
+	}
+
+	adduifinal( gridui )
+	{
+		this.addui( gridui )
+
+		this.finalize()
+	}
+
+	/**@returns truthy if element was found */
+
+	delui( ui )
+	{
+		ui.dad	=null
+
+		const griduis	=this.griduis
+
+		const i	=griduis.indexOf( ui )
+
+		if( i < 0 )	return
+
+		griduis.splice( i, 1 )
+
+		ui.el.remove()
+
+		this.rescanh()
+
+		return true
+	}
+
+
+
+	add( grido ,html =this.html() )
+	{
+		const gridui	=grido.newgridel(this.constructor.isinpage ? this.dad : this)
+
+		html.addui( gridui )
+
+		return this.addui( gridui )
+	}
+
+	addui( gridui )
+	{
+		gridui.dad	=this.constructor.isinpage ? this.dad : this
+
+		this.griduis.push( gridui )
+
+		if( this.height <= gridui.height )	this.height	=gridui.height + 1
+
+		return gridui
+	}
+
+
+	finalize()
+	{
+		this.fill()
+	}
+
+
+	fill()
+	{
+		this.sort()
+
+		this.el.querySelectorAll( "gridel" ).forEach( el => el.remove() )
+
+		for(var gridel of this.griduis )
+		{
+			this.el.appendChild( gridel.el )
+		}
+	}
+
+
+
+	setheight( height =0 )
+	{
+		if( height > this.height )	this.height	=height
+
+		for(var gridel of this.griduis )
+		{
+			if( gridel.height )	gridel.setheight( this.height - 1 )
+		}
+	}
+
+	rescanh()
+	{
+		const height	=this.griduis.reduce
+			(
+				( max ,ui )=> ui.height > max ? ui.height : max
+				,
+				0
+			)
+		// if( height < this.height )	this.setheight( height )
+	}
+
+
+	sort()
+	{
+		this.griduis.sort(( a ,b )=> b.area - a.area )
 	}
 }
