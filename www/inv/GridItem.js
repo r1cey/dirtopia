@@ -1,6 +1,6 @@
 import GridUi from "./GridUI.js"
 
-import Drag from "./Drag.js"
+import Drag from "../Drag.js"
 
 
 export default class GridItem	extends GridUi

@@ -2,9 +2,9 @@ import newInvObj from "./newInvObj.js"
 
 import V from "./shared/Vec.js"
 
-import GridUi from "../GridUI.js"
+import GridUi from "../inv/GridUI.js"
 
-import GridCnt from "../GridCnt.js"
+import GridCnt from "../inv/GridCnt.js"
 
 
 

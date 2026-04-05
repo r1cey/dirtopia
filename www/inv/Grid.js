@@ -1,6 +1,6 @@
-import Ui from "./UIElement.js"
+import Ui from "../UIElement.js"
 
-import CtxM	from "./ContextMenu.js" 
+// import CtxM	from "../ContextMenu.js" 
 
 
 export default class Grid	extends Ui
@@ -11,17 +11,17 @@ export default class Grid	extends Ui
 
 
 
-	constructor( dad ,eln ,dhold )
+	constructor( dad ,eln ,dhold ,griduis )
 	{
 		super( dad ,eln ,dhold )
-		
+
 		this.el.classList.add( "grid" )
 
 		const html	=this.html()
-	
+
 		this.gobj.fore(( item )=>
 		{
-			this.add( item ,html )
+			this.add( item ,griduis ,html )
 		})
 	}
 
@@ -63,9 +63,10 @@ export default class Grid	extends Ui
 
 
 
-	add( grido ,html =this.html() )
+	add( grido ,uis ,html =this.html() )
 	{
-		const gridui	=grido.newgridel(this.constructor.isinpage ? this.dad : this)
+		debugger
+		const gridui	=new uis[grido.gkey()]( grido ,this )
 
 		html.addui( gridui )
 
@@ -74,7 +75,7 @@ export default class Grid	extends Ui
 
 	addui( gridui )
 	{
-		gridui.dad	=this.constructor.isinpage ? this.dad : this
+		gridui.dad	=this
 
 		this.griduis.push( gridui )
 

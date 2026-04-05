@@ -2,7 +2,7 @@ import newInv from "./shared/items/newInv.js"
 import newGObj from "./newGameObj.js"
 import newInvO from "./newInvObj.js"
 
-import PageInv from "../PageInv.js"
+import PageInv from "../inv/PageInv.js"
 
 
 

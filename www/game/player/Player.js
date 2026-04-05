@@ -8,7 +8,7 @@ import Hands from './Hands.js'
 import PCl from '../PeerCl.js'
 import Loc from '../shared/Loc.js'
 
-import PageInv from '../../PageInv.js'
+import PageInv from '../../inv/PageInv.js'
 
 
 

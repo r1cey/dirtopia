@@ -1,8 +1,8 @@
-import Ui from "./UIElement.js"
+import Ui from "../UIElement.js"
 
 
 
-export default( Base =Ui )=>class GridEl extends Base
+export default( Base =Ui )=>class GridUi extends Base
 {
 	area	=1
 	

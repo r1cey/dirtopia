@@ -4,7 +4,7 @@ import newGObj from "../newGameObj.js"
 // import newCtxO from "../newContextObj.js"
 import newGridO from "../newGridObj.js"
 
-import GridIt from "../../GridItem.js"
+import GridIt from "../../inv/GridItem.js"
 
 import CtxM from "../../ContextMenu.js"
 
@@ -26,7 +26,7 @@ export default( Base =newGridO(newGObj(ShIt)))=>class Item extends Base
 
 	newgridel( dadui ,Class =GridIt )
 	{
-		var gridel	=super.newgridel( dadui ,Class )
+		const gridel	=super.newgridel( dadui ,Class )
 
 		return gridel
 	}

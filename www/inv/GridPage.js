@@ -7,8 +7,8 @@ export default class GridPage	extends Grid
 	static isinpage	=true
 
 
-	constructor( dad ,dhold )
+	constructor( dad ,dhold ,griduis )
 	{
-		super( dad ,"grid" ,dhold )
+		super( dad ,"grid" ,dhold ,griduis )
 	}
 }
