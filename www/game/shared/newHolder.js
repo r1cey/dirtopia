@@ -4,6 +4,8 @@
 export default( Base )=>class Holder	extends Base
 {
 	get isholder()	{return this }
+
+	static isholder	=true
 	
 
 	
@@ -17,4 +19,7 @@ export default( Base )=>class Holder	extends Base
 
 	/** Defined in derived class
 	@method delitem(item,len,nav,ismov)	{} */
+
+
+	/**@method fore(fun) */
 }

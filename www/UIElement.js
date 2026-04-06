@@ -2,8 +2,6 @@ export default class UiEl
 {
 	dad
 
-	gobj
-
 	el
 
 	css
@@ -13,7 +11,7 @@ export default class UiEl
 
 
 
-	constructor( dad ,el ,gobj ,css )
+	constructor( dad ,el ,css )
 	{
 		this.dad	=dad
 
@@ -27,11 +25,9 @@ export default class UiEl
 		}
 		this.el	=el
 
-		this.gobj	=gobj
-
-		if( gobj )
+		if( ! this.constructor.ishtml )
 		{
-			// this.html().addui( this )
+			this.html().addui( this )
 		}
 		this.css	=css
 	}
@@ -48,13 +44,13 @@ export default class UiEl
 	///////////////////////////////////////////////////////////////////////////
 
 
-	async loadel( name, gobj ,append =true )
+	async loadel( name, dir ="pages" ,args =[] ,append =true )
 	{
 		const promis	=[,,]
 
-		promis[0]	=UiEl.fetch(`pages/${name}/main.xhtml`)
+		promis[0]	=UiEl.fetch(`${dir}/${name}/main.xhtml`)
 
-		promis[1]	=import(`./pages/${name}/main.js?${Math.floor(Math.random()*100)}`)
+		promis[1]	=import(`./${dir}/${name}/main.js?${Math.floor(Math.random()*100)}`)
 
 		promis[2]	=new Promise(function(res, rej)
 			{
@@ -93,11 +89,11 @@ export default class UiEl
 		}
 		if( res[1].status === 'rejected' )
 		{
-			ui	=new UiEl( this ,el ,gobj ,css )
+			ui	=new this.constructor( ...args ,this ,el ,css )
 		}
 		else
 		{
-			ui	=new (res[1].value.default)( this, el, gobj, css )
+			ui	=new (res[1].value.default)( ...args ,this ,el ,css )
 		}
 		ui.hide()
 

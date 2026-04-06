@@ -11,11 +11,13 @@ export default class Grid	extends Ui
 
 
 
-	constructor( dad ,eln ,dhold ,griduis )
+	constructor( dad ,el ,dhold ,griduis )
 	{
-		super( dad ,eln ,dhold )
+		super( dad ,el ,dhold )
 
 		this.el.classList.add( "grid" )
+
+		// console.log( this ,dad ,eln ,dhold )
 
 		const html	=this.html()
 
@@ -66,9 +68,9 @@ export default class Grid	extends Ui
 	add( grido ,uis ,html =this.html() )
 	{
 		debugger
-		const gridui	=new uis[grido.gkey()]( grido ,this )
+		const gridui	=new uis[grido.gkey()]( grido ,this ,uis )
 
-		html.addui( gridui )
+		// html.addui( gridui )
 
 		return this.addui( gridui )
 	}

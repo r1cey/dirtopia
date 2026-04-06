@@ -1,4 +1,4 @@
-import Ui from '../UIElement.js'
+import UiGo from '../UIGameObj.js'
 import V	from '../game/shared/Vec.js'
 import Loc	from '../game/shared/Loc.js'
 import Col	from '../game/shared/Color.js'
@@ -8,13 +8,11 @@ import CtxMenu	from './ContextMenu.js'
 
 var rad60	=Math.PI/3
 
-export default class Can	extends Ui
+export default class Can	extends UiGo
 {
-	get html()	{return super.html() }
+	imgs()	{return this.html().imgs }
 
-	imgs()	{return this.html.imgs }
-
-	cl()	{return this.html.cl }
+	cl()	{return this.html().cl }
 
 	w2()	{return this.el.width>>1 }
 	h2()	{return this.el.height>>1 }
@@ -77,7 +75,7 @@ export default class Can	extends Ui
 
 	constructor( html )
 	{
-		super( html ,document.getElementById("can") ,html.cl.maps )
+		super( html.gobj.maps ,html ,document.getElementById("can") )
 
 		this.ctx	=this.el.getContext('2d' ,{ alpha :false })
 
@@ -113,7 +111,7 @@ export default class Can	extends Ui
 
 		this.draw( dt )
 
-		this.html.fps.set(Math.floor(1000/dt))
+		this.html().fps.set(Math.floor(1000/dt))
 		
 		if(tch.on)
 		{
@@ -154,7 +152,7 @@ Can.prototype. start	=function()
 	
 	if( can.time )	return
 	
-	var html	=can.html
+	var html	=can.html()
 
 	html.delpage( 'login' )
 	html.delpage( 'createpl' )
@@ -314,7 +312,7 @@ Can.prototype. clicked	=function( possqel )
 
 		const{ pl }	=can
 
-		const html	=can.html
+		const html	=can.html()
 
 		const ploc	=pl.loc
 

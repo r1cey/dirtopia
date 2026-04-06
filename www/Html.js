@@ -1,4 +1,4 @@
-import Ui from './UIElement.js'
+import UiGo from './UIGameObj.js'
 import Con from './Console.js'
 import Can from './canvas/Canvas.js'
 import Menu	from "./Menu.js"
@@ -11,7 +11,7 @@ export var imgdir	="/imgs/"
 
 /** Root HTML class. */
 
-export default class Html	extends Ui
+export default class Html	extends UiGo
 {
 	get cl()	{return this.gobj }
 
@@ -28,7 +28,7 @@ export default class Html	extends Ui
 			this.el.textContent	=`${n}fps`
 		}
 	}
-	can	=this.addui( new Can( this ))
+	can	=new Can( this )	//addui
 
 	menu	=new Menu(this)
 
@@ -58,7 +58,7 @@ export default class Html	extends Ui
 
 	constructor( cl )
 	{
-		super( null ,document.querySelector("screen") ,cl )
+		super( cl ,null ,document.querySelector("screen") )
 
 		window.onresize	=this.onresize. bind(this)
 	}
@@ -77,7 +77,7 @@ export default class Html	extends Ui
 
 	async loadel( name ,gobj )
 	{
-		return	this.ps[name]	=this.addui( await super.loadel( name ,gobj ))
+		return	this.ps[name]	=await super.loadel( name ,gobj )	//addui
 	}
 
 
@@ -97,9 +97,9 @@ export default class Html	extends Ui
 
 
 
-	newplinv( pl )
+	async newplinv( pl )
 	{
-		return this.newpinv( pl ,true )
+		return this.loadel( "plinv" ,pl )
 	}
 
 

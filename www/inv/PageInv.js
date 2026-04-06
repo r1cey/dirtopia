@@ -1,6 +1,6 @@
 import Page from "../Page.js"
 
-import GridP from "./GridPage.js"
+import GridRoot from "./GridRoot.js"
 
 import griduis	from "./griduis.js"
 
@@ -10,19 +10,19 @@ export default class PageInv	extends Page
 	grid
 
 
-	constructor( dhold ,dad )
+	constructor( dhold ,dad ,el ,gridel )
 	{
-		var key	=dhold.constructor.key
+		// var key	=dhold.constructor.key
 
-		super( dad ,dhold.gkey() ,dhold )
+		super( dad , el ?? dhold.gkey() ,dhold )
 
 		this.el.classList.add( "inv" )
 
-		this.grid	=new GridP( this ,dhold ,griduis )
+		this.grid	=new GridRoot( this ,dhold ,griduis ,gridel )
 
-		this.html().addui( this.grid )
+		// this.html().addui( this.grid )
 
-		this.grid.setheight()
+		// this.grid.setheight()
 
 		this.el.appendChild( this.grid.el )
 	}

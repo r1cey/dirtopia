@@ -2,7 +2,7 @@ import V from "../game/shared/Vec.js"
 
 import items from "../game/items/items.js"
 
-import GridCnt from "./GridCnt.js"
+import GridCnt from "./GridHolder.js"
 import GridItem from "./GridItem.js"
 import GridUI from "./GridUI.js"
 

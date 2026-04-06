@@ -1,4 +1,4 @@
-import Cnt from "./Cnt.js"
+// import Cnt from "./Cnt.js"
 
 import newISlot from "../shared/items/newInvSlot.js"
 

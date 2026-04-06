@@ -28,6 +28,8 @@ export default( Base =newInv(Item) )=>class Cnt	extends Base
 
 
 	get iscnt()	{return this }
+
+	static iscnt	=true
 	
 
 	///////////////////////////////////////////////////////////////////////////

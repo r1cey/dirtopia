@@ -1,16 +1,17 @@
 import Ui from "../UIElement.js"
 
 
+/** Base can be Grid */
 
 export default( Base =Ui )=>class GridUi extends Base
 {
-	area	=1
+	// area	=1
 	
 
 
-	constructor( gobj ,dad )
+	constructor( gobj ,dad ,griduis )
 	{
-		super( dad ,gobj.gkey() ,gobj )
+		super( dad ,gobj.gkey() ,gobj ,griduis )
 
 		this.el.classList.add( "gridel" )
 
@@ -42,10 +43,18 @@ export default( Base =Ui )=>class GridUi extends Base
 	}
 
 
-	setsize( size =this.gobj.constructor.size )
+	setsize( size =this.constructor.size )
 	{
 		this.el.style.gridArea	=`span ${size.y}/span ${size.x}`
 
 		this.el.style.aspectRatio	=size.x / size.y
+	}
+
+
+	getsize()
+	{
+		const size	=this.constructor.size
+		
+		return[ size.area() ,size.x ]
 	}
 }

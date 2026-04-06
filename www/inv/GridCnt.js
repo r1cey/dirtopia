@@ -1,14 +1,11 @@
-import newGridUi from "./newGridUI.js"
-
-import Grid from "./Grid.js"
+import GridHold from "./GridHolder.js"
 
 
-
-export default class GridCnt	extends newGridUi( Grid )
+export default class GridContainer extends GridHold
 {
-	constructor( gobj ,dad )
+    constructor( holder ,dad ,griduis )
 	{
-		super( gobj ,dad )
+		super( holder ,dad ,griduis )
 		
 		const cntsym	=document.createElement( "cntsym" )
 
@@ -18,30 +15,13 @@ export default class GridCnt	extends newGridUi( Grid )
 	}
 
 
-	finalize()
-	{
-		this.setsize()
 
-		super.finalize()
-	}
+    getsize( defa )
+    {
+        const ret   =super.getsize( defa )
 
+        ret[0] += 1
 
-	setsize()
-	{
-		const gobj	=this.gobj
-
-		const size	=gobj.constructor.size.c()
-
-		this.area	=gobj.calcarea()
-
-		if( this.area > size.area() )
-		{
-			let side	=Math.ceil( Math.sqrt( this.area ) )
-
-			size.setxy( side ,Math.ceil( this.area / side ))
-		}
-		this.dad.setsize?.()
-
-		super.setsize( size )
-	}
+        return ret
+    }
 }

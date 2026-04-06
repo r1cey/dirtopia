@@ -65,7 +65,11 @@ export default newHold( class Hand	extends newJable()
 	delitem()	{ this.item	=null }
 
 
+	fore( fun )	{ if( this.item ) fun( this.item ) }
+
+
 	///////////////////////////////////////////////////////////////////////////
+
 
 
 	candrop()
