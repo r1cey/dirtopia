@@ -1,9 +1,9 @@
-import UiGo from './UIGameObj.js'
-import Con from './Console.js'
-import Can from './canvas/Canvas.js'
-import Menu	from "./Menu.js"
+// import UiGo from './UIGameObj.js'
+// import Con from '../../Console.js'
+// import Can from '../canvas/Canvas.js'
+// import Menu	from "../../Menu.js"
 // import ContextMenu	from "./ContextMenu.js"
-import Imgs	from "./Imgs.js"
+// import Imgs	from "../../Imgs.js"
 
 
 export var imgdir	="/imgs/"
@@ -11,13 +11,13 @@ export var imgdir	="/imgs/"
 
 /** Root HTML class. */
 
-export default class Html	extends UiGo
+export default class Html
 {
-	get cl()	{return this.gobj }
+	divs	=new WeakMap()
 
 	uis	=new WeakMap()
 
-	con	=new Con(this, document.querySelector('console'))
+	// con	=new Con(this, document.querySelector('console'))
 
 	fps	=
 	{
@@ -28,9 +28,9 @@ export default class Html	extends UiGo
 			this.el.textContent	=`${n}fps`
 		}
 	}
-	can	=new Can( this )	//addui
+	// can	=this.addui( new Can( this ))
 
-	menu	=new Menu(this)
+	// menu	=new Menu(this)
 
 	ps	=
 	{
@@ -40,14 +40,7 @@ export default class Html	extends UiGo
 	}
 	ctxmenu
 
-	imgs	=new Imgs(this)
-
-	resize	=
-	{
-		tout	:0
-		,
-		delay	:100
-	}
+	// imgs	=new Imgs(this)
 
 	static ishtml	=true
 
@@ -56,11 +49,9 @@ export default class Html	extends UiGo
 
 
 
-	constructor( cl )
+	constructor()
 	{
-		super( cl ,null ,document.querySelector("screen") )
-
-		window.onresize	=this.onresize. bind(this)
+		// super( cl ,null ,document.querySelector("screen") )
 	}
 
 
@@ -75,9 +66,9 @@ export default class Html	extends UiGo
 
 
 
-	async loadel( name ,gobj )
+	async loadel( name ,...args )
 	{
-		return	this.ps[name]	=await super.loadel( name ,gobj )	//addui
+		return	this.ps[name]	=await super.loadel( name ,...args )	//addui
 	}
 
 
@@ -99,7 +90,7 @@ export default class Html	extends UiGo
 
 	async newplinv( pl )
 	{
-		return this.loadel( "plinv" ,pl )
+		return this.loaduigo( "plinv" ,pl )
 	}
 
 
@@ -118,24 +109,26 @@ export default class Html	extends UiGo
 	}
 
 
-	/** Run this for UI elements with a game object attached to it
-	 * so we can do reverse lookup from HTML element to game object;
-	 * for example when dragging and dropping. */
+	/** Run this for all new ui elements so we can do reverse
+	 * lookup from HTML element to our custom ui element;
+	 * for example when clicking, or drag&drop. */
 
 	addui( ui )
 	{
-		return this.addel2ui( ui.el ,ui )
+		this.uis.set( ui.el ,ui )
+
+		return ui
 	}
 
 	/** Some child elements should reference parent ui to not be confused.
-	 * Maybe change later? */
+	 * Maybe change later? *
 
 	addel2ui( el ,ui )
 	{
 		this.uis.set( el ,ui )
 
 		return ui
-	}
+	}*/
 
 
 

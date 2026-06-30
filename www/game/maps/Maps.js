@@ -1,10 +1,10 @@
-import ShMaps	from '../shared/maps/Maps.js'
-import Map	from '../shared/maps/Map.js'
+import ShMaps	from '../../shared/maps/Maps.js'
+import Map	from '../../shared/maps/Map.js'
 import Trees	from './Trees.js'
 import Ground	from './Ground.js'
 import newGObj from '../newGameObj.js'
 
-import Can from '../../canvas/Canvas.js'
+import Can from '../../iface/canvas/Canvas.js'
 
 
 

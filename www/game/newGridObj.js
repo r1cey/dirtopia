@@ -1,6 +1,6 @@
 import newInvObj from "./newInvObj.js"
 
-import V from "./shared/Vec.js"
+import V from "../shared/Vec.js"
 
 import GridUi from "../inv/GridUI.js"
 

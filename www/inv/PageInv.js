@@ -1,11 +1,11 @@
-import Page from "../Page.js"
+import newPage from "../newPage.js"
 
-import GridRoot from "./GridRoot.js"
+import GridRoot from "./GridPage.js"
 
 import griduis	from "./griduis.js"
 
 
-export default class PageInv	extends Page
+export default class PageInv	extends newPage( 1 )
 {
 	grid
 
@@ -14,11 +14,11 @@ export default class PageInv	extends Page
 	{
 		// var key	=dhold.constructor.key
 
-		super( dad , el ?? dhold.gkey() ,dhold )
+		super( dhold ,dad , el ?? dhold.gkey() )
 
 		this.el.classList.add( "inv" )
 
-		this.grid	=new GridRoot( this ,dhold ,griduis ,gridel )
+		this.grid	=new GridRoot( this ,griduis ,gridel )
 
 		// this.html().addui( this.grid )
 

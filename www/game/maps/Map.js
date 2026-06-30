@@ -1,6 +1,6 @@
-import ShMap	from "../shared/maps/Map.js"
+import ShMap	from "../../shared/maps/Map.js"
 
-import Loc from "../shared/Loc.js"
+import Loc from "../../shared/Loc.js"
 
 
 

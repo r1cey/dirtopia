@@ -1,4 +1,4 @@
-import ShPls    from "../shared/player/Players.js"
+import ShPls    from "../../shared/player/Players.js"
 import Pl from "./Player.js"
 
 

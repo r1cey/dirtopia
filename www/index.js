@@ -1,12 +1,12 @@
 // import './utils.js'
 
-import Client from "./game/Client.js"
+import Client from "./Client.js"
 
 window.cl	=new Client()
 
 cl.srv.url	='ws://www.deoraita.co.il:8043'
 
-// cl.start()
+cl.start()
 
 // cl.html.can.drawgrid()
 

@@ -1,19 +1,19 @@
 // import Item from "./Item.js"
 
-import newBlock from "../shared/items/newBlock.js"
+import newBlock from "../../shared/items/newBlock.js"
 
 // import Stack from "./Stack.js"
-import newStack from "../shared/items/newStackable.js"
+import newStack from "../../shared/items/newStackable.js"
 
-import newOrg	from "../shared/items/newOrganics.js"
-import newStCnt from "../shared/items/newStackCnt.js"
+import newOrg	from "../../shared/items/newOrganics.js"
+import newStCnt from "../../shared/items/newStackCnt.js"
 
 // import Cnt	from "./Cnt.js"
-import newCnt from "../shared/items/newContainer.js"
+import newCnt from "../../shared/items/newContainer.js"
 
-import newSoft from "../shared/items/newSoft.js"
-import newHard from "../shared/items/newHard.js"
-import newBag from "../shared/items/newBag.js"
+import newSoft from "../../shared/items/newSoft.js"
+import newHard from "../../shared/items/newHard.js"
+import newBag from "../../shared/items/newBag.js"
 
 import newSlot from "./newInvSlot.js"
 

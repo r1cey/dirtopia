@@ -1,3 +1,6 @@
+
+
+
 export default class UiEl
 {
 	dad
@@ -5,6 +8,9 @@ export default class UiEl
 	el
 
 	css
+
+
+	static UiGo	//can't just import because of circular dependency with UIGameObj
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -25,7 +31,7 @@ export default class UiEl
 		}
 		this.el	=el
 
-		if( ! this.constructor.ishtml )
+		// if( ! this.constructor.ishtml )
 		{
 			this.html().addui( this )
 		}
@@ -40,12 +46,32 @@ export default class UiEl
 	html()	{return this.dad.html()	}
 
 
+	getgo()
+	{
+		var ui	=this
+
+		while( ! ui.gobj )
+		{
+			ui	=ui.dad
+		}
+		return ui.gobj
+	}
+
+
 
 	///////////////////////////////////////////////////////////////////////////
 
 
-	async loadel( name, dir ="pages" ,args =[] ,append =true )
+	async loaduigo( name ,gobj ,append )
 	{
+		return this.loadel( name ,[ gobj ] ,append, UiEl.UiGo )
+	}
+
+
+	async loadel( name, args =[] ,append =true ,Class =UiEl )
+	{
+		const dir	="pages"
+
 		const promis	=[,,]
 
 		promis[0]	=UiEl.fetch(`${dir}/${name}/main.xhtml`)
@@ -89,7 +115,7 @@ export default class UiEl
 		}
 		if( res[1].status === 'rejected' )
 		{
-			ui	=new this.constructor( ...args ,this ,el ,css )
+			ui	=new Class( ...args ,this ,el ,css )
 		}
 		else
 		{
@@ -118,7 +144,7 @@ export default class UiEl
 	{
 		var ui	=this
 
-		while( ! ui.constructor.ishtml )
+		while( ui.dad )
 		{
 			var gobj	=ui.gobj
 

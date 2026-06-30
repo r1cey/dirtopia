@@ -13,11 +13,7 @@ export default class UIGameObj extends UIEl
 
 		this.gobj	=gobj
 	}
-
-
-
-	async loadel( name ,dir ,gobj ,append )	
-	{
-		return super.loadel( name ,dir ,[ gobj ], append )
-	}
 }
+
+
+UIEl.UiGo	=UIGameObj

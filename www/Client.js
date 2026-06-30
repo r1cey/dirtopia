@@ -1,18 +1,18 @@
 import Game	from './shared/Game.js'
-import Html	from '../Html.js'
-import Serv	from './Serv.js'
-import Player	from './player/Player.js'
-import PCl	from './PeerCl.js'
-import Pls from './player/Players.js'
-import Maps	from './maps/Maps.js'
+import Html	from './iface/html/Html.js'
+import Serv	from './game/Serv.js'
+import Player	from './game/player/Player.js'
+import PCl	from './game/PeerCl.js'
+import Pls from './game/player/Players.js'
+import Maps	from './game/maps/Maps.js'
 import V	from './shared/Vec.js'
-import items from './items/items.js'
+import items from './game/items/items.js'
 
 
 
 export default class Client	extends Game
 {
-	html
+	iface	=new Iface( this )
 
 	con()	{return this.html.con }
 
@@ -39,17 +39,6 @@ export default class Client	extends Game
 	constructor()
 	{
 		super()
-
-		if( document.readyState === 'loading' )
-		{
-    		// If the browser is still parsing, wait for the event
-    		document.addEventListener('DOMContentLoaded', this.start. bind(this) )
-		}
-		else
-		{
-    		// If the browser is already done, just run it immediately
-    		this.start()
-		}
 	}
 
 
@@ -87,11 +76,9 @@ export default class Client	extends Game
 
 Client.prototype. start	=async function()
 {
-	this.html	=new Html( this )
+	const loginel	=await this.brows.html.loadel('login')
 
-	var p	=await this.html.loadel('login')
-
-	p.start(this.srv.sendlogin. bind(this.srv))
+	loginel.start( this.srv.sendlogin. bind(this.srv))
 
 	this.stream	=await navigator.mediaDevices.getUserMedia({audio:true})
 

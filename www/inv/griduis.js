@@ -1,4 +1,4 @@
-import V from "../game/shared/Vec.js"
+import V from "../shared/Vec.js"
 
 import items from "../game/items/items.js"
 

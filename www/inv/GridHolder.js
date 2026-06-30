@@ -1,8 +1,8 @@
 import newGridUi from "./newGridUI.js"
 
-import Grid from "./Grid.js"
+import Grid from "./newGrid.js"
 
-import V from "../game/shared/Vec.js"
+import V from "../shared/Vec.js"
 
 
 

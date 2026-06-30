@@ -1,6 +1,6 @@
 import * as cls from "./classes.js"
 
-import newitems from "../shared/items/newitems.js"
+import newitems from "../../shared/items/newitems.js"
 
 // import V from "../shared/Vec.js"
 

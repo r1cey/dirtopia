@@ -6,7 +6,7 @@ import V from "../../game/shared/Vec.js"
 
 export default class PlInv extends PageInv
 {
-	constructor( html ,el ,pl ,css )
+	constructor( pl, html ,el ,css )
 	{
 		super( pl ,html ,el ,el.querySelector( "grid" ) )
 

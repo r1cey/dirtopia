@@ -1,6 +1,6 @@
-import Ui from '../UIElement.js'
+import Ui from '../../UIElement.js'
 
-import Loc from '../game/shared/Loc.js'
+import Loc from '../../shared/Loc.js'
 
 
 

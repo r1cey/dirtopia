@@ -1,11 +1,14 @@
 import Ui from "./UIElement.js"
 
+import UiGo from "./UIGameObj.js"
 
-export default class Page	extends Ui
+
+
+export default( Base )=>class Page	extends( Base === 1 ? UiGo : Ui )
 {
-	constructor( dad ,el ,gobj )
+	constructor( ...args )
 	{
-		super( dad ,el ,gobj )
+		super( ...args )
 
 		this.el.classList.add( "page" ,"scroll" )
 	}

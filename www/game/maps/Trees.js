@@ -1,10 +1,10 @@
-import newShTrM	from "../shared/maps/newTreesMap.js"
+import newShTrM	from "../../shared/maps/newTreesMap.js"
 import Map	from './Map.js'
-import newBinM from "../shared/maps/newBinMap.js"
+import newBinM from "../../shared/maps/newBinMap.js"
 import Gr from "./Ground.js"
 
-import V	from "../shared/Vec.js"
-import Col	from "../shared/Color.js"
+import V	from "../../shared/Vec.js"
+import Col	from "../../shared/Color.js"
 
 
 

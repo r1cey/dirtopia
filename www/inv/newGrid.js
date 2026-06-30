@@ -3,7 +3,7 @@ import Ui from "../UIElement.js"
 // import CtxM	from "../ContextMenu.js" 
 
 
-export default class Grid	extends Ui
+export default( Base =Ui )=>class Grid	extends Base
 {
 	griduis	=[]
 
@@ -11,9 +11,9 @@ export default class Grid	extends Ui
 
 
 
-	constructor( dad ,el ,dhold ,griduis )
+	constructor( griduis ,...args )
 	{
-		super( dad ,el ,dhold )
+		super( ...args )
 
 		this.el.classList.add( "grid" )
 
@@ -21,7 +21,7 @@ export default class Grid	extends Ui
 
 		const html	=this.html()
 
-		this.gobj.fore(( item )=>
+		this.getgo().fore(( item )=>
 		{
 			this.add( item ,griduis ,html )
 		})

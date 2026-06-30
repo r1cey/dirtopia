@@ -4,7 +4,7 @@ import newSG	from "./newServGet.js"
 import Gr from './maps/Ground.js'
 import Tr from './maps/Trees.js'
 import Pl from "./player/Player.js"
-import Loc from "./shared/Loc.js"
+import Loc from "../shared/Loc.js"
 
 import Hands	from "./player/Hands.js"
 import JRev from "./JsonRevivr.js"

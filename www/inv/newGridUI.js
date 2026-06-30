@@ -35,7 +35,7 @@ export default( Base =Ui )=>class GridUi extends Base
 			}
 			ui	=ui.dad
 		}
-		while( ! ui.constructor.ishtml )
+		while( ui.dad )
 
 		if( nav[0].ispl )	nav.unshift( ui.gobj.pls )
 

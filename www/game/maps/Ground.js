@@ -1,8 +1,8 @@
-import newShGrM	from "../shared/maps/newGroundMap.js"
+import newShGrM	from "../../shared/maps/newGroundMap.js"
 import Map	from './Map.js'
 
-import V	from "../shared/Vec.js"
-import Col	from "../shared/Color.js"
+import V	from "../../shared/Vec.js"
+import Col	from "../../shared/Color.js"
 
 
 
