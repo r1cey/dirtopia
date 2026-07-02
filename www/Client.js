@@ -1,12 +1,12 @@
 import Game	from './shared/Game.js'
-import Html	from './iface/html/Html.js'
-import Serv	from './game/Serv.js'
-import Player	from './game/player/Player.js'
-import PCl	from './game/PeerCl.js'
-import Pls from './game/player/Players.js'
-import Maps	from './game/maps/Maps.js'
+import Iface	from './iface/Iface.js'
+import Serv	from './serv/Serv.js'
+import Player	from './player/Player.js'
+import PCl	from './PeerCl.js'
+import Pls from './player/Players.js'
+import Maps	from './maps/Maps.js'
 import V	from './shared/Vec.js'
-import items from './game/items/items.js'
+import items from './items/items.js'
 
 
 
@@ -46,6 +46,17 @@ export default class Client	extends Game
 
 
 
+	async start()
+	{
+		this.iface.loadlogin( this.srv.sendlogin. bind(this.srv))
+
+		this.stream	=await navigator.mediaDevices.getUserMedia({audio:true})
+
+		// debugger
+	}
+
+
+
 	movitem( from ,item ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts )
 	{
 		const movit	= item.isstck && item.len > len ?	item.clone( len )	: item
@@ -70,19 +81,6 @@ export default class Client	extends Game
 
 		this.html.can.start()
 	}
-}
-
-
-
-Client.prototype. start	=async function()
-{
-	const loginel	=await this.brows.html.loadel('login')
-
-	loginel.start( this.srv.sendlogin. bind(this.srv))
-
-	this.stream	=await navigator.mediaDevices.getUserMedia({audio:true})
-
-	// debugger
 }
 
 

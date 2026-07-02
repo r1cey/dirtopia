@@ -1,4 +1,4 @@
-import UiGo from '../../UIGameObj.js'
+import DivGo from '../DivGameObj.js'
 import V	from '../../shared/Vec.js'
 import Loc	from '../../shared/Loc.js'
 import Col	from '../../shared/Color.js'
@@ -8,7 +8,7 @@ import CtxMenu	from './ContextMenu.js'
 
 var rad60	=Math.PI/3
 
-export default class Can	extends UiGo
+export default class Can	extends DivGo
 {
 	imgs()	{return this.html().imgs }
 
@@ -73,9 +73,9 @@ export default class Can	extends UiGo
 
 
 
-	constructor( html )
+	constructor( maps ,html ,el )
 	{
-		super( html.gobj.maps ,html ,document.getElementById("can") )
+		super( maps ,html ,el )
 
 		this.ctx	=this.el.getContext('2d' ,{ alpha :false })
 
@@ -88,8 +88,6 @@ export default class Can	extends UiGo
 		CtxMenu.can	=this
 
 		this.drawgrid()
-
-		this.frame	=this.#frame.bind(this)
 	}
 
 
@@ -136,6 +134,8 @@ export default class Can	extends UiGo
 			window.requestAnimationFrame( this.frame )
 		}
 	}
+
+	frame	=this.#frame.bind(this)
 }
 
 

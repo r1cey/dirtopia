@@ -1,14 +1,12 @@
-import Can from "./canvas/Canvas.js"
+// import Can from "./canvas/Canvas.js"
 
-import Html from "./html/Html.js"
+import Html from "./Html.js"
 
 
 
 export default class Interface
 {
     game
-
-    can =this.adddiv( new Can( this ))
 
     html
 
@@ -23,10 +21,8 @@ export default class Interface
 		delay	:100
 	}
 
-    resize  =this.#resize. bind(this)
 
-
-    divswithoutel   =new Set()
+    // divswithoutel   =new Set()
 
 
 
@@ -47,31 +43,27 @@ export default class Interface
     }
 
 
-
-    adddiv( div )
-    {
-        if( ! this.html )   this.divswithoutel.add( div )
-
-        else    this.html.divs.set( div.el ,div )
-
-        return div
-    }
-
-
-
     readhtml()
     {
-        this.html	=new Html( this )
+        this.html	=new Html( this.game ,this )
 
         window.onresize	=this.onresize. bind(this)
 
-        for( const div of this.divswithoutel )
+        /*for( const div of this.divswithoutel )
         {
             div.readel( this.html )
         }
-        this.divswithoutel.clear()
+        this.divswithoutel.clear()*/
     }
 
+
+
+    async loadlogin( onsubmit )
+    {
+        const logindiv =await this.html.loaddiv( "login" )
+        
+        logindiv.start( onsubmit )
+    }
 
 
         
@@ -87,6 +79,7 @@ export default class Interface
 
     #resize()
     {
-        this.can.resize()
+        this.html.resize()
     }
+    resize  =this.#resize. bind(this)
 }

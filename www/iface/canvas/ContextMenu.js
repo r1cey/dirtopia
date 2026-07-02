@@ -1,4 +1,4 @@
-import Ui from '../../UIElement.js'
+import Ui from '../Div.js'
 
 import Loc from '../../shared/Loc.js'
 
