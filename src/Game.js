@@ -1,5 +1,5 @@
-import Game	from "../www/game/shared/Game.js"
-// import newPathe	from "../www/game/shared/newPathable.js"
+import Game	from "../www/shared/Game.js"
+// import newPathe	from "../www/shared/newPathable.js"
 import Maps	from './maps/Maps.js'
 import Srv from './Server/Server.js'
 // import Errors from './Errors.js'
@@ -7,9 +7,9 @@ import Players from './player/Pls.js'
 import Loc	from './Loc.js'
 // import { constrainedMemory } from 'process'
 // import Con from "./Console.js"
-import Nav	from '../www/game/shared/Nav.js'
-// import Pl from "../www/game/shared/player/Player.js"
-import items from "./items/items.js"
+import Nav	from '../www/shared/Nav.js'
+// import Pl from "../www/shared/player/Player.js"
+// import items from "./itemTps/itemTps.js"
 
 
 
@@ -59,7 +59,7 @@ export default class G	extends Game
 
 	static Pls	=Players
 
-	static items	=items
+	// static items	=items
 
 
 	///////////////////////////////////////////////////////////////////////////

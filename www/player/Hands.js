@@ -1,15 +1,19 @@
 // import Box	from "./Box.js"
-import Hands from "../shared/player/Hands.js"
+import ShHands from "../shared/player/Hands.js"
 
 import newInvO from "../newInvObj.js"
-import newGridO from "../newGridObj.js"
+// import newGridO from "../newGridObj.js"
+import newUIO from "../ui/newUIObj.js"
 
 import V from "../shared/Vec.js"
 
 
-export default class Ha extends newGridO( Hands )
+export default class Hands extends /*newGridO(*/ newUIO( ShHands )
 {
-	static size	=new V(5,5)
+	static
+	{
+		this.ui.gridsz	=new V(5,5)
+	}
 
 
 	///////////////////////////////////////////////////////////////////////////

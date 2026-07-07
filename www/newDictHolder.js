@@ -1,8 +1,8 @@
-import newInv from "./shared/items/newInv.js"
+import newInv from "./shared/itemTps/newInv.js"
 // import newGObj from "./newGameObj.js"
 import newInvO from "./newInvObj.js"
 
-import PageInv from "./iface/inv/PageInv.js"
+import PageInv from "./ui/inv/PageInv.js"
 
 
 

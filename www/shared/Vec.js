@@ -166,6 +166,7 @@ V.prototype. setj	=function(arr)
 {
 	return this.setxy( ...arr )
 }
+V.prototype. seta	=V.prototype. setj
 /*V.prototype. setxy	=function( x , y )
 {
 	this.x	=x

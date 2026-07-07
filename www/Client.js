@@ -1,18 +1,18 @@
 import Game	from './shared/Game.js'
-import Iface	from './iface/Iface.js'
+import UI	from './ui/UI.js'
 import Serv	from './serv/Serv.js'
 import Player	from './player/Player.js'
 import PCl	from './PeerCl.js'
 import Pls from './player/Players.js'
 import Maps	from './maps/Maps.js'
 import V	from './shared/Vec.js'
-import items from './items/items.js'
+import items from './itemTps/itemTps.js'
 
 
 
 export default class Client	extends Game
 {
-	iface	=new Iface( this )
+	ui	=new UI( this )
 
 	con()	{return this.html.con }
 
@@ -48,7 +48,7 @@ export default class Client	extends Game
 
 	async start()
 	{
-		this.iface.loadlogin( this.srv.sendlogin. bind(this.srv))
+		this.ui.newlogin( this.srv )
 
 		this.stream	=await navigator.mediaDevices.getUserMedia({audio:true})
 
@@ -101,11 +101,11 @@ export default class Client	extends Game
 
 Client.prototype. setpl	=async function( plmsg )
 {
-	this.html.delpage('createpl')
+	this.html.deldiv('createpl')
 
 	const pl	=this.pl	=this.pls.new( plmsg )
 
-	this.html.newplinv( pl )
+	this.ui.newplinv( pl )
 
 	const can	=this.html.can
 

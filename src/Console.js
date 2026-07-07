@@ -1,8 +1,8 @@
 import * as rl from "node:readline/promises"
 
-// import newjsontr from "../www/game/shared/newjsontransfrm.js"
+// import newjsontr from "../www/shared/newjsontransfrm.js"
 // import tools from "./tools.js"
-import Loc from "../www/game/shared/Loc.js"
+import Loc from "../www/shared/Loc.js"
 
 /*
 var rev	=newjsontr(

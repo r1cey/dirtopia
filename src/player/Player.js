@@ -1,15 +1,15 @@
-import ShPl from '../../www/game/shared/player/Player.js'
-import newISlot from '../items/newInvSlot.js'
+import ShPl from '../../www/shared/player/Player.js'
+import newISlot from '../itemTps/newInvSlot.js'
 import Hands from './Hands.js'
 
-import V from '../../www/game/shared/Vec.js'
+import V from '../../www/shared/Vec.js'
 import Loc from '../Loc.js'
 
 import * as fs	from '../fs.js'
 
-// import items	from "../../www/game/shared/items/items.js"
+// import items	from "../../www/shared/itemTps/itemTps.js"
 
-// import items from '../items.js'
+// import items from '../itemTps.js'
 import JRev from "../JsonRevivr.js"
 
 

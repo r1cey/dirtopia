@@ -1,8 +1,8 @@
-import Loc from "../../www/game/shared/Loc.js"
-import V from "../../www/game/shared/Vec.js"
+import Loc from "../../www/shared/Loc.js"
+import V from "../../www/shared/Vec.js"
 import branches from "./branches.js"
 
-import { WM } from "../../www/game/shared/utils.js"
+import { WM } from "../../www/shared/utils.js"
 
 
 ///////////////////////////////////////////////////////////////////////////////

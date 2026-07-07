@@ -76,10 +76,10 @@ export default newSS( newSG (class Serv
 		catch(err)
 		{
 			this.con().write(`WebSocket error: ${err}`)
+
 			return
 		}
-
-		let ws	=this.ws
+		const ws	=this.ws
 
 		ws.binaryType	="arraybuffer"
 
@@ -87,9 +87,8 @@ export default newSS( newSG (class Serv
 		{
 			this.con().write(`WebSocket error! ${ev.code}`)
 
-			this.cl.html.ps.login?.reset()
+			this.cl.html.login?.reset()
 		}
-
 		ws.onopen	=this.sendjson. bind(this, o )
 
 		ws.onmessage	=this.onmsg. bind(this)
@@ -101,7 +100,7 @@ export default newSS( newSG (class Serv
 			this.cl.html.con.write
 				(`Connection closed: ${ev.code} ${ev.reason}`)
 			
-			this.cl.html.ps.login?.reset()
+			this.cl.html.login?.reset()
 		}
 	}
 

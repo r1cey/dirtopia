@@ -1,6 +1,6 @@
-import Loc from '../../www/game/shared/Loc.js'
+import Loc from '../../www/shared/Loc.js'
 
-// import Stack from '../../www/game/shared/items/Stackable.js'
+// import Stack from '../../www/shared/itemTps/Stackable.js'
 
 
 

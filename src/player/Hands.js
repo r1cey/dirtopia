@@ -1,6 +1,6 @@
-import ShHands	from "../../www/game/shared/player/Hands.js"
+import ShHands	from "../../www/shared/player/Hands.js"
 
-import{ AddMsg } from "../../www/game/shared/Msgs.js"
+import{ AddMsg } from "../../www/shared/Msgs.js"
 
 
 

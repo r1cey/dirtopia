@@ -1,4 +1,4 @@
-import newISlot from "../../www/game/shared/items/newInvSlot.js"
+import newISlot from "../../www/shared/itemTps/newInvSlot.js"
 
 export default( Base =newISlot() )=>class InvSlot    extends Base
 {

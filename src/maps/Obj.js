@@ -1,9 +1,9 @@
-import ShObj	from "../../www/game/shared/maps/Obj.js"
+import ShObj	from "../../www/shared/maps/Obj.js"
 
 import * as fs	from '../fs.js'
 
-import Loc from "../../www/game/shared/Loc.js"
-// import items from "../items.js"
+import Loc from "../../www/shared/Loc.js"
+// import items from "../itemTps.js"
 import JRev from "../JsonRevivr.js"
 
 

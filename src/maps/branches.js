@@ -1,8 +1,8 @@
-import ShBr	from "../../www/game/shared/maps/Branch.js"
+import ShBr	from "../../www/shared/maps/Branch.js"
 
-import V from "../../www/game/shared/Vec.js"
+import V from "../../www/shared/Vec.js"
 
-import { WM, rnd } from "../../www/game/shared/utils.js"
+import { WM, rnd } from "../../www/shared/utils.js"
 
 
 ///////////////////////////////////////////////////////////////////////////////

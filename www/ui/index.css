@@ -1,0 +1,266 @@
+html, body {
+	touch-action	:none	;
+}
+
+body {
+	background-color:	black;
+	color:	white;
+
+	/* font-size: 9mm; */
+
+	margin	:0;
+	padding	:0;
+}
+
+
+console
+{
+	background-color: hsl(0, 68%, 37%);
+	border-bottom: hsl(278, 86%, 14%) 1pt;
+
+	position:	absolute;
+
+	display:	block;
+
+	left:	0;
+	top:	0;
+	right:	0;
+
+	padding:	0.5ex;
+
+	transform:	translateY(-100%);
+	transition:	transform 1s;
+
+	z-index: 100;
+}
+
+
+screen
+{
+	display	:block;
+	position	:absolute;
+
+	left	:0;
+	top	:0;
+	right	:0;
+	bottom	:0;
+
+	/* width	:100%; */
+	height	:100vh;
+
+	overflow	:hidden;
+
+	z-index	:-1;
+	touch-action:	none;
+}
+
+
+fps
+{
+	position:	absolute ;
+	display: 	block ;
+	top: 	0 ;
+	right: 	0 ;
+	z-index: 	50 ;
+
+	color:hsl(0, 0%, 68%)
+}
+
+
+#can {
+	position:	absolute;
+
+	left:	0;
+	top:	0;
+
+	z-index: -5;
+}
+
+.drag
+{
+    /* 1. Prevents the blue 'highlight' box on text/images */
+    user-select: none;
+    -webkit-user-select: none;
+
+    /* 2. CRITICAL: Stops the browser from trying to scroll or 
+          pinch-zoom while your finger/pointer is moving. */
+    touch-action: none;
+
+    /* 3. Stops the browser's old 'ghost image' drag system */
+    -webkit-user-drag: none;
+    
+    /* 4. Keeps the cursor consistent even if you move fast */
+    cursor: grabbing;
+
+	 /* 5. Optional: Add some visual feedback for dragging */
+	/* You can customize this as needed */
+	/* For example, a subtle shadow or color change */
+	/* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+}
+
+body.dragging .scroll
+{
+	/* Optional: Add a class to the body when dragging starts */
+	/* This can be used to apply global styles during dragging */
+	/* For example, you could dim the background or show a custom cursor */
+	/* background-color: rgba(0, 0, 0, 0.1); */
+
+	touch-action: none; /* Ensure touch actions are disabled during dragging */
+}	
+
+menu
+{
+	display:	none;
+	/* display:	block; */
+	position:	absolute;
+	padding	:0;
+	margin	:0;
+
+	left	:5px;
+	bottom	:5px;
+}
+
+menu>sel
+{
+	display:	block;
+	position:	absolute;
+	bottom:	0;
+	padding:	0;
+	margin:	0;
+
+	width:	90px;
+	height:	90px;
+
+	border-radius:	45px;
+	border:	2px solid #ff6efd;
+	box-shadow:	0 0 20px 5px rgba(255, 72, 203, 0.69), inset 0 0 20px 5px rgba(255, 72, 203, 0.69);
+
+	text-align: center;
+	font-size	:80px;
+	font-weight:	bolder;
+	color:	#ea98ff;
+}
+
+menu>option
+{
+	position:	absolute;
+
+	text-align: center;
+	font-size:	40px;
+	color:	#ff98d8;
+}
+
+
+actions
+{
+	position: absolute;
+	padding	:0;
+	margin	:0;
+
+	background-color: hsla(7, 7%, 23%, 0.8);
+}
+
+actions>button
+{
+	margin: 1ex;
+}
+
+
+.page
+{
+	position: absolute;
+	display: none;
+	overflow: auto;
+
+	left: 10px;
+	top: 17%;
+	right: 10px;
+	bottom: 10px;
+
+	background-color: rgb(174, 148, 64);
+
+	padding: 1ex ;
+	text-align: center ;
+	border: 3px outset rgb(221 192 125) ;
+}
+
+
+.grid
+{
+	display: grid;
+	width: 100%;
+
+	/* grid-auto-columns: 9mm; */
+	grid-template-columns: repeat(auto-fit ,minmax( 9mm, 9mm));
+	grid-auto-rows: 9mm;
+	gap: 2mm 2mm;
+	grid-auto-flow: row dense;
+}
+
+
+.grid hands
+{
+	background: #c7bb8f url(imgs/hands.png) ;
+	background-size: contain ;
+	background-position: center ;
+	background-repeat: no-repeat ;
+
+	border: 1px inset rgb(174, 148, 64) ;
+}
+
+.grid belt
+{
+	background: #50ab49 url(imgs/itemTps/belt.png) ;
+	background-size: contain ;
+	background-position: center ;
+	background-repeat: no-repeat ;
+	border: 1px inset #21a750a8;
+}
+
+.grid seedbag
+{
+	background: rgb(112, 186, 114) url(imgs/itemTps/seed_pouch.png) ;
+	background-size: contain ;
+	background-position: center ;
+	background-repeat: no-repeat ;
+	border: 1px inset rgb(30, 90, 65) ;
+}
+
+.grid multi
+{
+	background: url(imgs/itemTps/multitool.png) ;
+	background-size: contain ;
+	background-position: center ;
+	background-repeat: no-repeat ;
+	border: 1px outset #2abfff;
+}
+
+.grid cuc_seeds
+{
+	background: url(imgs/itemTps/cucumber_seeds.png) ;
+	background-size: contain ;
+	background-position: center ;
+	background-repeat: no-repeat ;
+	border: 1px outset #3b2e24;
+}
+
+
+.movoverlay
+{
+    /* 1. Make it cover the whole screen */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    
+    /* 2. The Click-Through Magic */
+    pointer-events: none;
+    
+    /* 3. The Glow Effect (Adjust color and spread here) */
+    /* Use 'inset' to make the shadow crawl inward from the edges */
+    box-shadow: inset 0 0 60px 20px rgba(255, 0, 0, 0.4);
+    
+    /* 4. Ensure it stays on top of everything else */
+    z-index: 9999;
+}

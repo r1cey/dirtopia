@@ -2,7 +2,7 @@ import JRev	from "./shared/JsonRevivr.js"
 
 import Pl from "./player/Player.js"
 import Hands from "./player/Hands.js"
-import its from "./items/items.js"
+import itTps from "./itemTps/itemTps.js"
 
 export default class extends JRev
 {
@@ -16,7 +16,7 @@ export default class extends JRev
 
 		this.cl	=cl
 
-		this.addo( its )//.adda([ Pl ,Hands ])
+		this.addo( itTps )//.adda([ Pl ,Hands ])
 	}
 
 

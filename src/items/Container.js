@@ -1,6 +1,6 @@
-import newContainer from "../../www/game/shared/items/newContainer.js"
+import newContainer from "../../www/shared/itemTps/newContainer.js"
 
-import{ IdPool }	from "../../www/game/shared/utils.js"
+import{ IdPool }	from "../../www/shared/utils.js"
 
 
 

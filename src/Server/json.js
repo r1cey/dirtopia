@@ -1,4 +1,4 @@
-import * as json from "../../www/game/shared/newjsonrules.js"
+import * as json from "../../www/shared/newjsonrules.js"
 
 import Pl from "../Player.js"
 

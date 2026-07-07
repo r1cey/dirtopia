@@ -1,5 +1,5 @@
 // import newInvO from '../newInvObj.js'
-import newISlot from '../items/newInvSlot.js'
+import newISlot from '../itemTps/newInvSlot.js'
 import newDHold from '../newDictHolder.js'
 import ShPlV from '../shared/player/PlVis.js'
 import ShPl from '../shared/player/Player.js'
@@ -7,7 +7,7 @@ import Hands from './Hands.js'
 import PCl from '../PeerCl.js'
 import Loc from '../shared/Loc.js'
 
-import PageInv from '../iface/inv/PageInv.js'
+import PageInv from '../ui/inv/PageInv.js'
 
 
 

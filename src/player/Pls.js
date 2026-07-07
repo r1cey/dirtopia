@@ -1,7 +1,7 @@
-import ShPls	from "../../www/game/shared/player/Players.js"
+import ShPls	from "../../www/shared/player/Players.js"
 import Pl	from './Player.js'
 
-import Loc	from '../../www/game/shared/Loc.js'
+import Loc	from '../../www/shared/Loc.js'
 
 import * as fs from '../fs.js'
 
@@ -37,8 +37,11 @@ export default class Pls	extends ShPls
 	{
 		const pl	=super.new( plmsg )
 
-		// add starter items
+		/** add starter items */
 		{
+			let belt	=new Item("belt" ,true )
+
+
 			let belt	=new items.belt().su()
 			
 			belt.additem( new items.multi() )

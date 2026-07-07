@@ -1,25 +1,26 @@
-import newInvObj from "./newInvObj.js"
-
 import V from "./shared/Vec.js"
 
-import GridUi from "./iface/inv/GridUI.js"
+import GridUi from "./ui/inv/GridUI.js"
 
-import GridCnt from "./iface/inv/GridHolder.js"
+import GridCnt from "./ui/inv/GridHolder.js"
 
 
 
-export default( Base =newInvObj() )=>class GridObj extends Base
+export default( Base )=>class GridObj extends Base
 {
-	static size	=new V(1,1)
-
+	static
+	{
+		this.ui.gridsz	=new V( 1 ,1 )
+	}
 
 	///////////////////////////////////////////////////////////////////////////
 
 	
+	/** New grid cell div */
 
-	newgridel( dadui ,Class =GridUi )
+	ui_newgridc()
 	{
-		return new Class( this ,dadui )
+		const div	=this.constructor.
 	}
 
 

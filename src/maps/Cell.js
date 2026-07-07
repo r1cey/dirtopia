@@ -1,4 +1,4 @@
-import newLive from "../../www/game/shared/newLiveObj.js"
+import newLive from "../../www/shared/newLiveObj.js"
 
 
 export default newLive( class Cell

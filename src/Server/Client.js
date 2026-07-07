@@ -1,6 +1,6 @@
 import newClS	from "./newClientSend.js"
 
-import V from '../../www/game/shared/Vec.js'
+import V from '../../www/shared/Vec.js'
 
 import newClG from './newClientGet.js'
 

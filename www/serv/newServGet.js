@@ -20,13 +20,9 @@ export default( Base )=>class SG extends Base
 
 /** Player with [name] doesn't exist and needs to be created. */
 
-	async on_createpl( name )
+	on_createpl( name )
 	{
-		this.cl.html.delpage('login')
-
-		var pg	=await this.cl.html.loadel('createpl')
-		
-		pg.start( name, this.sendjson. bind(this) )
+		this.cl.ui.newplcreate( name ,this )
 	}
 
 
@@ -41,7 +37,6 @@ export default( Base )=>class SG extends Base
 		// debugger
 
 		console.log(plmsg)
-
 		
 
 		this.cl.setpl( plmsg )
