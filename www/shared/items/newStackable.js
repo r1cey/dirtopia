@@ -13,7 +13,7 @@ export default( Base =Item )=>class St	extends Base
 	// acts	={}
 
 
-	static apprps	=[ "len" ]
+	// static apprps	=[ "len" ]
 
 
 	constructor( len )

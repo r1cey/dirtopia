@@ -14,6 +14,8 @@ export default class It	extends newJable()
 {
 	static key	=key
 
+	proto
+
 	/**@static
 	@var vol */
 	
@@ -23,7 +25,7 @@ export default class It	extends newJable()
 
 
 
-	vol()	{return this.constructor.vol }
+	vol()	{return this.proto.vol }	//return this.constructor.vol }
 
 	
 	/**@method calcvol */
@@ -31,7 +33,7 @@ export default class It	extends newJable()
 
 	toJSON( jkey )
 	{
-		return jkey===key ? [ this.constructor.key ,this ] : this
+		return jkey===key ? [ this.proto.key ,this ] : this
 		
 			///^\d+$/.test( jkey ) ? this.gkey() : this
 	}
