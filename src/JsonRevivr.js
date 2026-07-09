@@ -1,9 +1,9 @@
 import JRev	from "../www/shared/JsonRevivr.js"
 
 // import Pl from "./player/Player.js"
-// import Item from "../www/shared/itemTps/Item.js"
+// import Item from "../www/shared/items/Item.js"
 // import Hands from "../www/shared/player/Hands.js"
-import items from "../www/shared/items/items.js"
+import itemTps from "./items/itemTypes.js"
 
 
 
@@ -14,6 +14,6 @@ export default class extends JRev
 	{
 		super()
 
-		this.addo( items )
+		this.addo( itemTps )
 	}
 }

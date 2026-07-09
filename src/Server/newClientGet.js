@@ -1,6 +1,6 @@
 // import NS from '../../www/shared/NSpace.js'
 
-import items from "../itemTps/itemTps.js"
+import items from "../items/itemTypes.js"
 
 import Loc from '../../www/shared/Loc.js'
 

@@ -1,4 +1,4 @@
-import ShIt	from "../shared/itemTps/Item.js"
+import ShIt	from "../shared/items/Item.js"
 import newGObj from "../newGameObj.js"
 // import newInvO from "../newInvObj.js"
 // import newCtxO from "../newContextObj.js"

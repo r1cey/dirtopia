@@ -1,4 +1,4 @@
-import newContainer from "../../www/shared/itemTps/newContainer.js"
+import newContainer from "../../www/shared/items/newContainer.js"
 
 import{ IdPool }	from "../../www/shared/utils.js"
 

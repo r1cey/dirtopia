@@ -1,6 +1,6 @@
 import * as baseTps from "./baseTps.js"
 
-import newitTps from "../shared/itemTps/newitemTps.js"
+import newitTps from "../shared/items/newitemTps.js"
 
 // import V from "../shared/Vec.js"
 

@@ -1,18 +1,18 @@
-import newBlock from "../../www/shared/itemTps/newBlock.js"
+import newBlock from "../../www/shared/items/newBlock.js"
 
-import newStack from "../../www/shared/itemTps/newStackable.js"
+import newStack from "../../www/shared/items/newStackable.js"
 
-import newOrg	from "../../www/shared/itemTps/newOrganics.js"
+import newOrg	from "../../www/shared/items/newOrganics.js"
 
-import newStCnt from "../../www/shared/itemTps/newStackCnt.js"
+import newStCnt from "../../www/shared/items/newStackCnt.js"
 
 import Cnt from "./Container.js"
 
-import newSoft from "../../www/shared/itemTps/newSoft.js"
+import newSoft from "../../www/shared/items/newSoft.js"
 
-import newHard from "../../www/shared/itemTps/newHard.js"
+import newHard from "../../www/shared/items/newHard.js"
 
-import newBag from "../../www/shared/itemTps/newBag.js"
+import newBag from "../../www/shared/items/newBag.js"
 
 import newSlot from "./newInvSlot.js"
 

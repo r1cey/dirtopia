@@ -1,5 +1,5 @@
 import Item from "./Item.js"
-import newStack from "../shared/itemTps/newStackable.js"
+import newStack from "../shared/items/newStackable.js"
 
 
 

@@ -1,22 +1,22 @@
 import Item from "./Item.js"
 
-import newBlock from "../shared/itemTps/newBlock.js"
+import newBlock from "../shared/items/newBlock.js"
 
 import newUIO    from "../ui/newUIObj.js"
 
 // import Stack from "./Stack.js"
-import newStack from "../shared/itemTps/newStackable.js"
+import newStack from "../shared/items/newStackable.js"
 
-import newOrg	from "../shared/itemTps/newOrganics.js"
-import newStCnt from "../shared/itemTps/newStackCnt.js"
+import newOrg	from "../shared/items/newOrganics.js"
+import newStCnt from "../shared/items/newStackCnt.js"
 
 // import Cnt	from "./Cnt.js"
-import newInv   from "../shared/itemTps/newInv.js"
-import newCnt from "../shared/itemTps/newContainer.js"
+import newInv   from "../shared/items/newInv.js"
+import newCnt from "../shared/items/newContainer.js"
 
-import newSoft from "../shared/itemTps/newSoft.js"
-import newHard from "../shared/itemTps/newHard.js"
-import newBag from "../shared/itemTps/newBag.js"
+import newSoft from "../shared/items/newSoft.js"
+import newHard from "../shared/items/newHard.js"
+import newBag from "../shared/items/newBag.js"
 
 import newSlot from "./newInvSlot.js"
 

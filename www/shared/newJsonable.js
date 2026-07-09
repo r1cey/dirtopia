@@ -1,4 +1,4 @@
-// import{ key as ITEMK }	from "./itemTps/Item.js"
+// import{ key as ITEMK }	from "./items/Item.js"
 
 const ITEMK	="item"
 

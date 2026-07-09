@@ -1,6 +1,6 @@
 import V from "../../shared/Vec.js"
 
-import itTps from "../../itemTps/itemTps.js"
+import itTps from "../../items/itemTypes.js"
 
 import GridCnt from "./GridHolder.js"
 import GridItem from "./GridItem.js"

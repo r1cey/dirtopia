@@ -1,4 +1,4 @@
-import ItSh from "../shared/itemTps/Item.js"
+import ItSh from "../shared/items/Item.js"
 
 import newUIO    from "../ui/newUIObj.js"
 

@@ -1,5 +1,5 @@
 import ShPl from '../../www/shared/player/Player.js'
-import newISlot from '../itemTps/newInvSlot.js'
+import newISlot from '../items/newInvSlot.js'
 import Hands from './Hands.js'
 
 import V from '../../www/shared/Vec.js'
@@ -7,9 +7,9 @@ import Loc from '../Loc.js'
 
 import * as fs	from '../fs.js'
 
-// import items	from "../../www/shared/itemTps/itemTps.js"
+// import items	from "../../www/shared/items/itemTypes.js"
 
-// import items from '../itemTps.js'
+// import items from '../itemTypes.js'
 import JRev from "../JsonRevivr.js"
 
 

@@ -1,4 +1,4 @@
-import newShInv from "../shared/itemTps/newInv.js"
+import newShInv from "../shared/items/newInv.js"
 
 import newHold from "../newHolder.js"
 

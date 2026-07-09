@@ -1,6 +1,6 @@
-import newBox	from "../shared/itemTps/newBox.js"
+import newBox	from "../shared/items/newBox.js"
 
-import newCnt from "../shared/itemTps/newContainer.js"
+import newCnt from "../shared/items/newContainer.js"
 
 import Item from "./Item.js"
 

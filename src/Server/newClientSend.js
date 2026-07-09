@@ -1,6 +1,6 @@
 import Loc from '../../www/shared/Loc.js'
 
-// import Stack from '../../www/shared/itemTps/Stackable.js'
+// import Stack from '../../www/shared/items/Stackable.js'
 
 
 

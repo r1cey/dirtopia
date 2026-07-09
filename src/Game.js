@@ -9,7 +9,7 @@ import Loc	from './Loc.js'
 // import Con from "./Console.js"
 import Nav	from '../www/shared/Nav.js'
 // import Pl from "../www/shared/player/Player.js"
-// import items from "./itemTps/itemTps.js"
+import itTps from "./items/itemTypes.js"
 
 
 
@@ -59,7 +59,7 @@ export default class G	extends Game
 
 	static Pls	=Players
 
-	// static items	=items
+	static itemTps	=itTps
 
 
 	///////////////////////////////////////////////////////////////////////////
