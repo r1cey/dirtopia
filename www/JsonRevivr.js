@@ -2,7 +2,7 @@ import JRev	from "./shared/JsonRevivr.js"
 
 import Pl from "./player/Player.js"
 import Hands from "./player/Hands.js"
-import itTps from "./items/itemTypes.js"
+import itTps from "./items/itemTps.js"
 
 export default class extends JRev
 {

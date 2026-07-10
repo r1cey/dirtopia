@@ -9,10 +9,13 @@ export default class DivGameObj extends Div
 
 	constructor( gobj ,dad ,el, css )
 	{
-		super( dad ,el ,css )
+		super( dad ,el ?? gobj.gkey() ,css )
 
 		this.gobj	=gobj
 	}
+
+
+	getgo()	{return this.gobj}
 }
 
 

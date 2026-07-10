@@ -15,7 +15,7 @@ export default class Game
 	static Pls	=Players
 
 	/** @static
-	@var items	 */
+	@var itTps	 */
 
 
 

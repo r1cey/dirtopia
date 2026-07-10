@@ -1,20 +1,15 @@
 // import Box	from "./Box.js"
 import ShHands from "../shared/player/Hands.js"
 
-import newInvO from "../newInvObj.js"
-// import newGridO from "../newGridObj.js"
-import newUIO from "../ui/newUIObj.js"
+import GridH	from "../ui/inv/GridHand.js"
 
-import V from "../shared/Vec.js"
+// import V from "../shared/Vec.js"
 
 
-export default class Hands extends /*newGridO(*/ newUIO( ShHands )
+export default class Hands extends ShHands
 {
-	static
-	{
-		this.ui.gridsz	=new V(5,5)
-	}
 
+	
 
 	///////////////////////////////////////////////////////////////////////////
 
@@ -31,10 +26,10 @@ export default class Hands extends /*newGridO(*/ newUIO( ShHands )
 	///////////////////////////////////////////////////////////////////////////
 
 
-
-	/*get pl()	{return this.dad }
-
-	set pl( pl )	{ this.dad	=pl	}*/
+	ui_newgridc( daddiv )
+	{
+		return new GridH( this ,daddiv )
+	}
 
 
 	///////////////////////////////////////////////////////////////////////////

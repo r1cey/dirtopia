@@ -1,10 +1,18 @@
-import Item from "./Item.js"
+import Item from "../shared/items/Item.js"
 import newStack from "../shared/items/newStackable.js"
+
+import GridSt   from "../ui/inv/GridItem.js"
 
 
 
 export default class Stack  extends newStack( Item )
 {
+    ui_newgridc( daddiv )
+    {
+        return new GridSt( this ,daddiv )
+    }
+
+
     dragto( trgt ,ui ,uito )
 	{
         const holduifrom  =ui.gholdui()

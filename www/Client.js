@@ -6,7 +6,7 @@ import PCl	from './PeerCl.js'
 import Pls from './player/Players.js'
 import Maps	from './maps/Maps.js'
 import V	from './shared/Vec.js'
-import items from './items/itemTypes.js'
+import items from './items/itemTps.js'
 
 
 

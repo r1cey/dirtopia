@@ -1,4 +1,4 @@
-import newGridUi from "./newGridDiv.js"
+import GridC from "./GridCell.js"
 
 import newGrid from "./newGrid.js"
 
@@ -6,8 +6,16 @@ import V from "../../shared/Vec.js"
 
 
 
-export default class GridHolder	extends newGridUi( newGrid() )
+export default class GridHolder	extends newGrid( GridC )
 {
+	constructor( holder ,dad )
+	{
+		super( holder ,dad )
+
+		this.calcsize()
+	}
+
+
 	finalize()
 	{
 		this.setsize()
@@ -16,7 +24,34 @@ export default class GridHolder	extends newGridUi( newGrid() )
 	}
 
 
-	setsize()
+	calcsize()
+	{
+		const size	=this.size
+
+		const defsz	=size.c()
+
+		var curarea	=0
+
+		var maxw	=0
+
+		for(var cell of this.cells )
+		{
+			curarea	+= cell.size.area()
+
+			var w	=cell.size.x
+
+			if( w > maxw )	maxw	=w
+		}
+		if( w > size.x )	size.x	=w
+
+		if( curarea > defsz.area() )
+		{
+			size.y	=Math.ceil( curarea / size.x )
+		}
+	}
+
+
+	/*setsize()
 	{
 		const defa	=super.getsize()
 
@@ -57,5 +92,5 @@ export default class GridHolder	extends newGridUi( newGrid() )
 		if( curarea < defarea )	curarea	=defarea
 
 		return[ curarea ,maxw ]
-	}
+	} */
 }

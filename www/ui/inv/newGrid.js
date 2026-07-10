@@ -5,7 +5,7 @@ import Ui from "../Div.js"
 
 export default( Base =Ui )=>class Grid	extends Base
 {
-	griddivs	=[]
+	cells	=[]
 
 	height	=0
 
@@ -25,6 +25,7 @@ export default( Base =Ui )=>class Grid	extends Base
 		{
 			this.add( item ,html )
 		})
+		this.sort()
 	}
 
 
@@ -37,7 +38,7 @@ export default( Base =Ui )=>class Grid	extends Base
 
 	adduifinal( gridui )
 	{
-		this.addui( gridui )
+		this.addcell( gridui )
 
 		this.finalize()
 	}
@@ -48,7 +49,7 @@ export default( Base =Ui )=>class Grid	extends Base
 	{
 		ui.dad	=null
 
-		const griduis	=this.griddivs
+		const griduis	=this.cells
 
 		const i	=griduis.indexOf( ui )
 
@@ -69,24 +70,24 @@ export default( Base =Ui )=>class Grid	extends Base
 	{
 		debugger
 
-		const cell	=gobj.ui_newgridc()
+		const cell	=gobj.ui_newgridc( this )
 		
 		// new uis[grido.gkey()]( grido ,this ,uis )
 
 		// html.addui( gridui )
 
-		return this.addui( griddiv )
+		return this.addcell( cell )
 	}
 
-	addui( gridui )
+	addcell( cell )
 	{
-		gridui.dad	=this
+		cell.dad	=this
 
-		this.griddivs.push( gridui )
+		this.cells.push( cell )
 
-		if( this.height <= gridui.height )	this.height	=gridui.height + 1
+		if( this.height <= cell.height )	this.height	=cell.height + 1
 
-		return gridui
+		return cell
 	}
 
 
@@ -102,7 +103,7 @@ export default( Base =Ui )=>class Grid	extends Base
 
 		this.el.querySelectorAll( "gridel" ).forEach( el => el.remove() )
 
-		for(var gridel of this.griddivs )
+		for(var gridel of this.cells )
 		{
 			this.el.appendChild( gridel.el )
 		}
@@ -114,7 +115,7 @@ export default( Base =Ui )=>class Grid	extends Base
 	{
 		if( height > this.height )	this.height	=height
 
-		for(var gridel of this.griddivs )
+		for(var gridel of this.cells )
 		{
 			if( gridel.height )	gridel.setheight( this.height - 1 )
 		}
@@ -122,7 +123,7 @@ export default( Base =Ui )=>class Grid	extends Base
 
 	rescanh()
 	{
-		const height	=this.griddivs.reduce
+		const height	=this.cells.reduce
 			(
 				( max ,ui )=> ui.height > max ? ui.height : max
 				,
@@ -134,6 +135,6 @@ export default( Base =Ui )=>class Grid	extends Base
 
 	sort()
 	{
-		this.griddivs.sort(( a ,b )=> b.area - a.area )
+		this.cells.sort(( a ,b )=> b.garea() - a.garea() )
 	}
 }

@@ -1,12 +1,16 @@
-import GridHold from "./GridHolder.js"
+// import GridHold from "./GridHolder.js"
+
+import GridC from "./GridCell.js"
 
 
-export default class GridHands extends GridHold
+export default class GridHands extends GridC
 {
-    constructor( holder ,dad ,griduis )
+    constructor( hands ,dad )
 	{
-		super( holder ,dad ,griduis )
+		super( hands ,dad )
 
-		this.fill()
+		this.el.classList.add( "grid_hands" )
+
+		
 	}
 }

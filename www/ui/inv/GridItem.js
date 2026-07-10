@@ -1,17 +1,18 @@
-import GridUi from "./GridUI.js"
+import GridC from "./GridCell.js"
 
 import Drag from "../Drag.js"
 
 
-export default class GridItem	extends GridUi
+export default class GridItem	extends GridC
 {
 	drag 	=new Drag( this )
-	// drag
 
 
 	constructor( gobj ,dad )
 	{
 		super( gobj ,dad )
+
+		this.setsize()
 
 		this.el.classList.add( "drag" )
 

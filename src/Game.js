@@ -94,6 +94,21 @@ export default class G	extends Game
 	}
 
 
+
+	newitem( key ,prop )
+	{
+		const Tp	=this.constructor.itTps[key]
+
+		const it	=new Tp()
+
+		if( Tp.isstck && prop > 0 )	it.len	=prop
+
+		else if( Tp.iscnt && prop )	it.setuniq()
+
+		return 
+	}
+
+
 	/** @todo what if no place to move stacks too and lots of error handling!! */
 
 	additem( to ,item )

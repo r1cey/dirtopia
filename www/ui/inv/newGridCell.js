@@ -1,22 +1,28 @@
-import Div from "../Div.js"
+import DivGo	from "../DivGameObj.js"
+
+import V	from "../../shared/Vec.js"
+
+import{ sizes as gridcszs }	from "./gridccfg.js"
 
 
-/** Base can be Grid */
 
-export default( Base =Div )=>class GridDiv extends Base
+export default( Base =DivGo )=>class GridDiv extends Base
 {
-	// area	=1
+	size	=new V(0,0)
 	
 
 
-	constructor( gobj ,dad ,griduis )
+	constructor( gobj ,dad )
 	{
-		super( dad ,gobj.gkey() ,gobj ,griduis )
+		super( gobj ,dad )
 
-		this.el.classList.add( "gridel" )
+		size.s( gridcszs[ gobj.gkey() ])
 
-		this.setsize()
+		this.el.classList.add( "gridcell" )
 	}
+
+
+	garea()	{return this.size.area() }
 
 
 
@@ -43,13 +49,17 @@ export default( Base =Div )=>class GridDiv extends Base
 	}
 
 
-	setsize( size =this.constructor.size )
+	setsize( size )
 	{
+		size	??=
+
 		this.el.style.gridArea	=`span ${size.y}/span ${size.x}`
 
 		this.el.style.aspectRatio	=size.x / size.y
 	}
 
+
+	/** @todo Needs a rewrite */
 
 	getsize()
 	{

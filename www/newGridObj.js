@@ -1,6 +1,6 @@
 import V from "./shared/Vec.js"
 
-import GridUi from "./ui/inv/GridUI.js"
+import GridUi from "./ui/inv/GridCell.js"
 
 import GridCnt from "./ui/inv/GridHolder.js"
 

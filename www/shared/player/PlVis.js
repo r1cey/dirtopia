@@ -39,6 +39,18 @@ export default class PlVis	extends PlBase
 	///////////////////////////////////////////////////////////////////////////
 
 
+	fore( fn )
+	{
+		const it	=this.hands.item
+
+		if( it )	fn( it )
+
+		super.fore( fn )
+	}
+
+
+
+
 
 	/*additem( item )
 	{

@@ -8,7 +8,7 @@ import newitTps from "../shared/items/newitemTps.js"
 
 const itTps	=newitTps( baseTps )
 
-setgridszs( itTps )
+// setgridszs( itTps )
 
 
 
