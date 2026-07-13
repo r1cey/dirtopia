@@ -14,6 +14,8 @@ export default class Can	extends DivGo
 
 	cl()	{return this.html().cl }
 
+	ui()	{return this.html().ui }
+
 	w2()	{return this.el.width>>1 }
 	h2()	{return this.el.height>>1 }
 
@@ -151,13 +153,14 @@ Can.prototype. start	=function()
 	// var el	=can.el
 	
 	if( can.time )	return
+
+	const html	=can.html()
 	
-	var html	=can.html()
+	const ui	=html.ui
+	
+	ui.clear()
 
-	html.delpage( 'login' )
-	html.delpage( 'createpl' )
-
-	html.menu.setopts(
+	ui.menu.setopts(
 	[
 		{
 			name	:'zoomin'
@@ -176,7 +179,7 @@ Can.prototype. start	=function()
 		}
 	])
 
-	html.menu.show()
+	ui.menu.show()
 
 	if(can.pl)
 	{

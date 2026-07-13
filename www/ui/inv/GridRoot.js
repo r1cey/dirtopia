@@ -12,5 +12,7 @@ export default class GridPage	extends newGrid( Div)
 	constructor( dad ,el )
 	{
 		super( dad ,el ?? "grid" )
+
+		// adddivs()
 	}
 }

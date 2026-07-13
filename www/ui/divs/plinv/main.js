@@ -1,6 +1,6 @@
 import PageInv from "../../inv/PageInv.js"
 
-import V from "../../game/shared/Vec.js"
+import V from "../../../shared/Vec.js"
 
 
 
@@ -8,9 +8,11 @@ export default class PlInv extends PageInv
 {
 	constructor( pl, html ,el ,css )
 	{
+		// debugger;
+
 		super( pl ,html ,el ,el.querySelector( "grid" ) ,css )
 
-		this.grid.addui( )
+		// this.grid.addui( )
 	}
 
 

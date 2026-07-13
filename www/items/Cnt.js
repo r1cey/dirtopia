@@ -7,7 +7,7 @@ import newCnt from "../shared/items/newContainer.js"
 
 // import newDHold from "../newDictHolder.js"
 
-import GridCnt from "../ui/inv/GridCnt.js"
+import GridCnt from "../ui/inv/CellCnt.js"
 
 
 

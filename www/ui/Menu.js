@@ -1,3 +1,7 @@
+import Div	from "./Div.js"
+
+
+
 class Opt
 {
 	name
@@ -25,11 +29,9 @@ class Opt
 
 
 
-export default class M
+export default class M	extends Div
 {
-	html
-
-	el
+	get html()	{return this.html() }
 
 	elsel
 
@@ -41,9 +43,7 @@ export default class M
 
 	constructor(html)
 	{
-		this.html	=html
-
-		this.el	=document.getElementsByTagName('menu')[0]
+		super( html ,document.getElementsByTagName('menu')[0] )
 
 		var elsel	=this.el.getElementsByTagName('sel')[0]
 

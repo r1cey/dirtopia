@@ -1,4 +1,4 @@
-import GridC from "./GridCell.js"
+import GridC from "./Cell.js"
 
 import Drag from "../Drag.js"
 

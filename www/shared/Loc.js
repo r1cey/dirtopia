@@ -203,7 +203,7 @@ Loc.prototype.canchildadd	=function( item ,len ,nav ,_i )
 
 
 
-Loc.prototype. stck2cnt	=function( stck ,nav ,msg )
+Loc.prototype. stck2cnt	=function( stck ,nav , i ,msg )
 {
 	return nav[0].stck2cnt( this ,stck ,msg )
 }

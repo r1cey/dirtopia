@@ -1,6 +1,6 @@
 import newPage from "../newPage.js"
 
-import GridRoot from "./GridPage.js"
+import GridRoot from "./GridRoot.js"
 
 // import griduis	from "./griduis.js"
 
@@ -18,7 +18,7 @@ export default class PageInv	extends newPage( 1 )
 
 		this.el.classList.add( "inv" )
 
-		this.grid	=new GridRoot( this ,gridel )
+		this.grid	=this.adddiv( new GridRoot( this ,gridel ))
 
 		// this.html().addui( this.grid )
 

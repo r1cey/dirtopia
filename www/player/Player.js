@@ -1,6 +1,6 @@
 // import newInvO from '../newInvObj.js'
-import newISlot from '../items/newInvSlot.js'
-import newDHold from '../newDictHolder.js'
+// import newISlot from '../items/newInvSlot.js'
+// import newDHold from '../newDictHolder.js'
 import ShPlV from '../shared/player/PlVis.js'
 import ShPl from '../shared/player/Player.js'
 import Hands from './Hands.js'
@@ -11,7 +11,7 @@ import PageInv from '../ui/inv/PageInv.js'
 
 
 
-const newPl	=( Base )=>class ClPl	extends newISlot(newDHold( Base ))
+const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 {
 	pos	=new Loc()
 

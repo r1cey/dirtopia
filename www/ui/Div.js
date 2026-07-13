@@ -63,18 +63,9 @@ export default class Div
 	 * lookup from HTML element to our custom ui element;
 	 * for example when clicking, or drag&drop. */
 
-	adddiv( div )
+	adddiv( div ,html =this.html() )
 	{
-		this.html().divs.set( div.el ,div )
-
-		return div
-	}
-
-	adddivn( div ,name )
-	{
-		const divs	=this.adddiv( div )
-
-		this[name]	=div
+		html.alldivs.set( div.el ,div )
 
 		return div
 	}
@@ -143,7 +134,7 @@ export default class Div
 		// That's pretty cool that if args is an empty array,
 		// then JS will just ignore it completely!
 
-		this.adddivn( div ,name )
+		this.adddiv( div ,name )
 
 		if( append )
 		{
@@ -152,21 +143,6 @@ export default class Div
 			this.el.appendChild( el )
 		}
 		return div
-	}
-
-
-	deldiv( name )
-	{
-		const div	=this[name]
-
-		if( div )
-		{
-			this.html().divs.delete( div.el )
-
-			div.el?.remove()
-
-			div.css?.remove()
-		}
 	}
 
 

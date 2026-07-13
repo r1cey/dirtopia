@@ -10,6 +10,12 @@ export default class Interface
 
     html
 
+    con
+
+    can
+
+    fps
+
     stream
 
 
@@ -83,6 +89,17 @@ export default class Interface
     async newplinv( pl )
     {
 		return await this.html.loaddivgo( "plinv" ,pl )
+    }
+
+
+    clear()
+    {   
+        const html  =this.html
+
+        html.deldiv( 'login' )
+        html.deldiv( 'createpl' )
+
+        html.ks.plinv?.hide()
     }
 
 

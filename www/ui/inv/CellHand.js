@@ -1,6 +1,6 @@
 // import GridHold from "./GridHolder.js"
 
-import GridC from "./GridCell.js"
+import GridC from "./Cell.js"
 
 
 export default class GridHands extends GridC

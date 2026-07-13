@@ -6,7 +6,7 @@ import PCl	from './PeerCl.js'
 import Pls from './player/Players.js'
 import Maps	from './maps/Maps.js'
 import V	from './shared/Vec.js'
-import items from './items/itemTps.js'
+// import items from './items/itemTps.js'
 
 
 
@@ -29,7 +29,7 @@ export default class Client	extends Game
 
 	static Pls	=Pls
 
-	static items	=items
+	// static items	=items
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -79,7 +79,7 @@ export default class Client	extends Game
 
 		this.maps.jsonlocs.pl	=null
 
-		this.html.can.start()
+		// this.ui.can.start()
 	}
 }
 
@@ -101,13 +101,13 @@ export default class Client	extends Game
 
 Client.prototype. setpl	=async function( plmsg )
 {
-	this.html.deldiv('createpl')
+	this.ui.html.deldiv('createpl')
 
 	const pl	=this.pl	=this.pls.new( plmsg )
 
 	this.ui.newplinv( pl )
 
-	const can	=this.html.can
+	const can	=this.ui.can
 
 	can.pl	=pl
 
@@ -152,7 +152,7 @@ Client.prototype. setmaps	=function( grbin, grobj, trbin, trobj )
 
 	// if( maps.ready() )
 	{
-		const can	=this.html.can
+		const can	=this.ui.can
 
 		can.maps	=maps
 

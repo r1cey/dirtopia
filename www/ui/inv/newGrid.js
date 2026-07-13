@@ -26,6 +26,8 @@ export default( Base =Ui )=>class Grid	extends Base
 			this.add( item ,html )
 		})
 		this.sort()
+
+		this.finalize()
 	}
 
 
@@ -76,14 +78,18 @@ export default( Base =Ui )=>class Grid	extends Base
 
 		// html.addui( gridui )
 
-		return this.addcell( cell )
+		return this.addcell( cell ,html )
 	}
 
-	addcell( cell )
+
+	/** Separate so I don't need to create and delete divs
+	 * when moving objects */
+
+	addcell( cell ,html =this.html() )
 	{
 		cell.dad	=this
 
-		this.cells.push( cell )
+		this.cells.push( this.adddiv( cell ,html ))
 
 		if( this.height <= cell.height )	this.height	=cell.height + 1
 
@@ -93,19 +99,9 @@ export default( Base =Ui )=>class Grid	extends Base
 
 	finalize()
 	{
-		this.fill()
-	}
-
-
-	fill()
-	{
-		this.sort()
-
-		this.el.querySelectorAll( "gridel" ).forEach( el => el.remove() )
-
-		for(var gridel of this.cells )
+		for(var cell of this.cells )
 		{
-			this.el.appendChild( gridel.el )
+			this.addcellhtml( cell )
 		}
 	}
 
@@ -136,5 +132,11 @@ export default( Base =Ui )=>class Grid	extends Base
 	sort()
 	{
 		this.cells.sort(( a ,b )=> b.garea() - a.garea() )
+	}
+
+
+	addcellhtml( cell )
+	{
+		this.el.appendChild( cell.el )
 	}
 }

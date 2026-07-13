@@ -2,13 +2,13 @@ import DivGo	from "../DivGameObj.js"
 
 import V	from "../../shared/Vec.js"
 
-import{ sizes as gridcszs }	from "./gridccfg.js"
+import{ sizes as cellszs }	from "./gridccfg.js"
 
 
 
-export default( Base =DivGo )=>class GridDiv extends Base
+export default( Base =DivGo )=>class GridCell extends Base
 {
-	size	=new V(0,0)
+	size	=new V(1,1)
 	
 
 
@@ -16,9 +16,13 @@ export default( Base =DivGo )=>class GridDiv extends Base
 	{
 		super( gobj ,dad )
 
-		size.s( gridcszs[ gobj.gkey() ])
+		const size	=cellszs[ gobj.gkey() ]
 
+		if( size )	this.size.s( size )
+		
 		this.el.classList.add( "gridcell" )
+
+		/** setsize() */
 	}
 
 
@@ -51,7 +55,7 @@ export default( Base =DivGo )=>class GridDiv extends Base
 
 	setsize( size )
 	{
-		size	??=
+		size	??=this.size
 
 		this.el.style.gridArea	=`span ${size.y}/span ${size.x}`
 

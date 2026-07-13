@@ -1,9 +1,10 @@
 import DivGo from './DivGameObj.js'
-// import Con from '../../Console.js'
+import Con from './Console.js'
 import Can from './canvas/Canvas.js'
-// import Menu	from "../../Menu.js"
+import Menu	from "./Menu.js"
 // import ContextMenu	from "./ContextMenu.js"
 // import Imgs	from "../../Imgs.js"
+import Div	from "./Div.js"
 
 
 export var imgdir	="/imgs/"
@@ -16,28 +17,21 @@ export default class Html	extends DivGo
 
 	ui
 
-	divs	=new WeakMap()
+	get cl()	{return this.ui.game }
 
-	can	=this.adddiv( new Can( this.game.maps ,this ,document.getElementById("can") ))
+	get can()	{return this.ks.can }
 
-	// con	=new Con(this, document.querySelector('console'))
+	alldivs	=new WeakMap()
 
-	fps	=
-	{
-		el	:document.querySelector('fps')
-		,
-		set	:function( n )
-		{
-			this.el.textContent	=`${n}fps`
-		}
-	}
+	kids	={}
+
+	ks	=this.kids
+
 	// menu	=new Menu(this)
 
 	// ctxmenu
 
 	// imgs	=new Imgs(this)
-
-	login
 
 	// static ishtml	=true
 
@@ -51,6 +45,21 @@ export default class Html	extends DivGo
 		super( game ,null ,document.querySelector( "screen" ))
 
 		this.ui	=ui
+
+		ui.can	=this.adddiv(
+			
+			new Can( game.maps ,this ,document.getElementById("can") ))
+		ui.con	=this.adddiv(
+
+			new Con( this ,document.querySelector('console') )
+		)
+		const Fps	=class extends Div
+		{
+			set(val)	{ this.el.textContent	=`${n}fps` }
+		}
+		ui.fps	=this.adddiv( new Fps( this ,document.querySelector('fps') ))
+
+		ui.menu	=this.adddiv( new Menu(this) )
 	}
 
 
@@ -92,7 +101,7 @@ export default class Html	extends DivGo
 	{
 		var p	=dholder.newpinv( this )
 
-		this.addui( p )
+		this.adddiv( p )
 
 		this.ps[ isclpl ? "plinv" : "inv" ]	=p
 
@@ -102,26 +111,33 @@ export default class Html	extends DivGo
 	}
 
 
-	/** Run this for all new ui elements so we can do reverse
-	 * lookup from HTML element to our custom ui element;
-	 * for example when clicking, or drag&drop. *
-
-	addui( ui )
+	adddiv( div ,name )
 	{
-		this.divs.set( ui.el ,ui )
+		super.adddiv( div )
 
-		return ui
-	}*/
+		name	??=div.el.localName
 
-	/** Some child elements should reference parent ui to not be confused.
-	 * Maybe change later? *
+		this.kids[name]	=div
 
-	addel2ui( el ,ui )
+		return div
+	}
+
+
+	deldiv( name )
 	{
-		this.uis.set( el ,ui )
+		const div	=this.kids[name]
 
-		return ui
-	}*/
+		if( div )
+		{
+			delete this.kids[name]
+
+			this.alldivs.delete( div.el )
+
+			div.el?.remove()
+
+			div.css?.remove()
+		}
+	}
 
 
 
@@ -171,7 +187,7 @@ export default class Html	extends DivGo
 
 	resize()
 	{
-		this.can.resize()
+		this.ks.can.resize()
 	}
 }
 
@@ -244,30 +260,14 @@ Html.prototype. loadp	=async function( name, dad ,...args )
 
 
 
-Html.prototype. objchanged	=function( loc, key )
+/*Html.prototype. objchanged	=function( loc, key )
 {
 	var menu	=this.can.ctxmenu
 
 	if( ! menu )	return
 
 	if( menu.loc.eq(loc) )	menu.del()
-}
+}*/
 
 
 ///////////////////////////////////////////////////////////////////////////////
-
-
-
-Html.prototype. onresize	=function()
-{
-	const res	=this.resize
-
-	if( res.tout )	clearTimeout( res.tout )
-	
-	res.tout	=setTimeout(()=>
-		{
-			this.can?.resize()
-		},
-		res.delay
-	)
-}

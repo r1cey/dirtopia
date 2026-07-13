@@ -1,7 +1,7 @@
 // import Box	from "./Box.js"
 import ShHands from "../shared/player/Hands.js"
 
-import GridH	from "../ui/inv/GridHand.js"
+import GridH	from "../ui/inv/CellHand.js"
 
 // import V from "../shared/Vec.js"
 

@@ -18,7 +18,7 @@ export default newSS( newSG (class Serv
 {
 	cl
 
-	con()	{ return this.cl.html.con }
+	con()	{ return this.cl.ui.con }
 
 	url	="ws://127.0.0.1:8043"
 
