@@ -70,7 +70,7 @@ export default( Base =Ui )=>class Grid	extends Base
 
 	add( gobj ,html =this.html() )
 	{
-		debugger
+		// debugger
 
 		const cell	=gobj.ui_newgridc( this )
 		

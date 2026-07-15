@@ -3,11 +3,7 @@ import Con from './Console.js'
 import Can from './canvas/Canvas.js'
 import Menu	from "./Menu.js"
 // import ContextMenu	from "./ContextMenu.js"
-// import Imgs	from "../../Imgs.js"
 import Div	from "./Div.js"
-
-
-export var imgdir	="/imgs/"
 
 
 
@@ -31,8 +27,6 @@ export default class Html	extends DivGo
 
 	// ctxmenu
 
-	// imgs	=new Imgs(this)
-
 	// static ishtml	=true
 
 
@@ -55,7 +49,7 @@ export default class Html	extends DivGo
 		)
 		const Fps	=class extends Div
 		{
-			set(val)	{ this.el.textContent	=`${n}fps` }
+			set(val)	{ this.el.textContent	=`${val}fps` }
 		}
 		ui.fps	=this.adddiv( new Fps( this ,document.querySelector('fps') ))
 
@@ -137,6 +131,21 @@ export default class Html	extends DivGo
 
 			div.css?.remove()
 		}
+	}
+
+
+	async loaddiv( dirname ,args ,name ,append )
+	{
+		const div	=await super.loaddiv( dirname ,args ,append ,false )
+
+		if( div )	this.adddiv( div ,name )
+
+		return div
+	}
+
+	async loaddivgo( dirname ,gobj ,args =[] ,name ,append )
+	{
+		return await this.loaddiv( dirname ,[ gobj ,...args ], name ,append )
 	}
 
 

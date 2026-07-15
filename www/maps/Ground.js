@@ -18,9 +18,9 @@ export default class Gr extends newShGrM( Map )
 
 Gr.prototype. draw	=function( can )
 {
-	let vsq	=new V()
+	const vsq	=new V()
 
-	let h	=can.pl?.pos.h	|| 0
+	const h	=can.pl?.pos.h	|| 0
 
 	can.ctx.globalAlpha	=1
 
@@ -55,15 +55,15 @@ Gr.prototype. draw	=function( can )
 
 Gr.prototype. drawhex	=function( can, loc, plh, vsq, ic )
 {
-	var map	=this
+	const map	=this
 
 	vsq.set(loc).tosqc(can)
 
 	ic	??=map.i(loc)
 
-	var { r, h2 }	=can.units
+	const{ r, h2 }	=can.units
 
-	var h	=h2>>1
+	const h	=h2>>1
 
 	if( can.showslopes )
 	{
@@ -75,10 +75,9 @@ Gr.prototype. drawhex	=function( can, loc, plh, vsq, ic )
 
 		var arrcol	="#ffffff"
 	}
+	const ctx	=can.ctx
 
-	var ctx	=can.ctx
-
-	var col	=new Col()
+	const col	=new Col()
 
 	var max
 

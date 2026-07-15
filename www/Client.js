@@ -48,7 +48,9 @@ export default class Client	extends Game
 
 	async start()
 	{
-		this.ui.newlogin( this.srv )
+		// this.ui.newlogin( this.srv )
+
+		this.ui.setpage( "login" ,this.srv )
 
 		this.stream	=await navigator.mediaDevices.getUserMedia({audio:true})
 
@@ -79,7 +81,7 @@ export default class Client	extends Game
 
 		this.maps.jsonlocs.pl	=null
 
-		// this.ui.can.start()
+		this.ui.can.start()
 	}
 }
 
@@ -101,17 +103,17 @@ export default class Client	extends Game
 
 Client.prototype. setpl	=async function( plmsg )
 {
-	this.ui.html.deldiv('createpl')
+	// this.ui.html.deldiv('createpl')
+
+	this.ui.setpage()
 
 	const pl	=this.pl	=this.pls.new( plmsg )
 
-	this.ui.newplinv( pl )
+	this.ui.newclplinv( pl )
 
 	const can	=this.ui.can
 
-	can.pl	=pl
-
-	can.setpos(pl.pos)
+	can.setpl( pl )
 
 	can.draw()
 

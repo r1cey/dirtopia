@@ -2,19 +2,20 @@ import DivGo from '../DivGameObj.js'
 import V	from '../../shared/Vec.js'
 import Loc	from '../../shared/Loc.js'
 import Col	from '../../shared/Color.js'
+import Cell	from "../../maps/Cell.js"
 // import Mov from './Mov.js'
 import Touch	from './Touch.js'
-import CtxMenu	from './ContextMenu.js'
+import CtxM	from './ContextMenu.js'
 
 var rad60	=Math.PI/3
 
 export default class Can	extends DivGo
 {
-	imgs()	{return this.html().imgs }
+	imgs()	{return this.ui().imgs }
 
-	cl()	{return this.html().cl }
+	cl()	{return this.ui().game }
 
-	ui()	{return this.html().ui }
+	ui()	{return this.dad.ui }
 
 	w2()	{return this.el.width>>1 }
 	h2()	{return this.el.height>>1 }
@@ -87,13 +88,24 @@ export default class Can	extends DivGo
 
 		this.setpos(new V(0,0))
 
-		CtxMenu.can	=this
+		CtxM.can	=this
 
 		this.drawgrid()
 	}
 
 
 	///////////////////////////////////////////////////////////////////////////
+
+
+
+	setpl( pl )
+	{	
+		const can	=this
+		
+		can.pl	=pl
+
+		can.setpos(pl.pos)
+	}
 
 
 
@@ -111,7 +123,7 @@ export default class Can	extends DivGo
 
 		this.draw( dt )
 
-		this.html().fps.set(Math.floor(1000/dt))
+		this.ui().fps.set(Math.floor(1000/dt))
 		
 		if(tch.on)
 		{
@@ -148,19 +160,19 @@ export default class Can	extends DivGo
 
 Can.prototype. start	=function()
 {
-	var can	=this
+	const can	=this
 
 	// var el	=can.el
 	
 	if( can.time )	return
 
-	const html	=can.html()
+	// const html	=can.html()
 	
-	const ui	=html.ui
-	
+	const ui	=this.ui()
+
 	ui.clear()
 
-	ui.menu.setopts(
+	/*ui.menu.setopts(
 	[
 		{
 			name	:'zoomin'
@@ -179,9 +191,9 @@ Can.prototype. start	=function()
 		}
 	])
 
-	ui.menu.show()
+	ui.menu.show()*/
 
-	if(can.pl)
+	if( can.pl )
 	{
 		this.el.onpointerdown	=this.touch.ondown. bind(this.touch)
 	}
@@ -245,9 +257,9 @@ Can.prototype. gpos	=function()
 
 Can.prototype. draw	=function( dt )
 {
-	var can	=this
+	const can	=this
 
-	var { maps, pl }	=can
+	const{ maps, pl }	=can
 
 	// var{ r, h }	=can.units
 
@@ -257,15 +269,15 @@ Can.prototype. draw	=function( dt )
 
 	if( maps )
 	{
-		maps.gr.draw(can)
+		maps.gr.draw( can )
 
 		if( pl.loc.h === 0 )	can.drawclpl()
 		
-		maps.tr.draw(can, pl)
+		maps.tr.draw( can ,pl )
 	}
 	
 	{
-		let vispls	=this.cl().vispls
+		const vispls	=this.cl().vispls
 		
 		let plvis
 
@@ -303,6 +315,14 @@ Can.prototype. draw	=function( dt )
 
 Can.prototype. clicked	=function( possqel )
 {
+	const ui	=this.ui()
+
+	ui.ctxmclick()
+
+	const cell	=Cell.frommap( Loc.fromv( possqel ,a))
+
+	ui.ctxm	=new CtxM( this ,possqel )
+
 	const can	=this
 
 	if(can.ctxmenu)
@@ -319,7 +339,7 @@ Can.prototype. clicked	=function( possqel )
 
 		const ploc	=pl.loc
 
-		const menu	=new CtxMenu( this )
+		const menu	=new CtxM( this )
 
 		menu.setpos( possqel, ploc )
 

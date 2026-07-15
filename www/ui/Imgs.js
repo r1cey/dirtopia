@@ -1,43 +1,44 @@
-import{ imgdir }	from "./Html.js"
+import{ imgdir }	from "./UI.js"
 
 
 export default class I
 {
-	html
+	ui
 
 	o	={}
 
 
-	constructor(html)
+	constructor( ui )
 	{
-		this.html	=html
-		var dir	='./imgs/'
+		this.ui	=ui
 
-		var fns	=
+		// const dir	='./imgs/'
+
+		const fns	=
 		[
 			'leaves5.png' ,
 			"sand3.png" ,
-			"dewd.png",
+			"dewd.png" ,
 			"cactus.png"
 		]
-		var shadows	=
+		const shadows	=
 		{
 			"leaves5" :1
 		}
 		for(var fn of fns )
 		{
-			let img	=new Image()
+			const img	=new Image()
 
-			let name	=fn.slice(0,fn.lastIndexOf('.'))	//@TODO: fix "let"?
+			const name	=fn.slice(0,fn.lastIndexOf('.'))	//@TODO: fix "let"?
 				// name is used in onload
 
 			if( shadows[name] )
 			{
 				img.onload	=()=>
 				{
-					var can	=document.createElement("canvas")
+					const can	=document.createElement("canvas")
 
-					var ctx	=can.getContext("2d")
+					const ctx	=can.getContext("2d")
 
 					can.width	=img.width
 
@@ -45,9 +46,9 @@ export default class I
 
 					ctx.drawImage( img, 0,0 )
 
-					var imgdata	=ctx.getImageData( 0,0, img.width, img.height )
+					const imgdata	=ctx.getImageData( 0,0, img.width, img.height )
 					
-					var arr	=imgdata.data
+					const arr	=imgdata.data
 
 					for(var i =0 ;i< arr.length ;i +=4 )
 					{
@@ -58,7 +59,7 @@ export default class I
 					this.o[name+"_sh"]	=can
 				}
 			}
-			img.src	=dir+fn
+			img.src	=imgdir+fn
 
 			this.o[name]	=img
 		}

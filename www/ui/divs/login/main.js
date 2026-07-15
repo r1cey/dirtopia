@@ -7,6 +7,14 @@ export default class Login extends DivGo
 	{	
 		return this.el.querySelector('button')
 	}
+
+
+	constructor( ...args )
+	{
+		super( ...args )
+
+		this.start()
+	}
 }
 
 Login.prototype. start	=function()
@@ -23,7 +31,7 @@ Login.prototype. start	=function()
 
 		return false
 	}
-	this.show()
+	// this.show()
 
 	// document.body.insertBefore( this.el, document.body.firstChild )
 }

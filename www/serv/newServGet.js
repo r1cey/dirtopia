@@ -22,7 +22,9 @@ export default( Base )=>class SG extends Base
 
 	on_createpl( name )
 	{
-		this.cl.ui.newplcreate( name ,this )
+		// this.cl.ui.newplcreate( name ,this )
+
+		this.cl.ui.setpage( "createpl" ,this ,name )
 	}
 
 

@@ -198,6 +198,12 @@ actions>button
 }
 
 
+.grid cntsym
+{
+	grid-area	:span 1 / span 1 ; 
+}
+
+
 .grid hands
 {
 	background: #c7bb8f url(imgs/hands.png) ;

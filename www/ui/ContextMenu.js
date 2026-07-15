@@ -1,8 +1,31 @@
-import UiEl from "./Div.js"
-import V	from "./game/shared/Vec.js"
+import Div from "./Div.js"
+import DivGo	from "./DivGameObj.js"
+
+import V	from "../shared/Vec.js"
 
 
-export default class CtxM	extends UiEl
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+
+export default class CtxMenuMgr
+{
+	ui
+
+
+	constructor( ui )
+	{
+		this.ui	=ui
+	}
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+
+const newCtxM	=( Base )=> class CtxM	extends Base
 {
 	pos	=new V()
 
@@ -10,21 +33,19 @@ export default class CtxM	extends UiEl
 
 
 
-	constructor( gobj ,pointev )
+	constructor( dad ,pos ,...args )
 	{
-		super( "ACTIONS" ,gobj )
+		super( ...args ,dad ,"ACTIONS" )
 
-		this.pos.setev(pointev)
+		this.pos.set( pos )
 
-		if( gobj.isitem )
-		{
-			this.addopt( "move" ,()=>
-				{	
-					gobj.ui.inv.movmod()
-				}
-			)
-		}
 		this.setelpos()
+	}
+
+
+	static frompointev( dad ,pointev ,...args )
+	{
+		return new this( dad ,new V().setev( pointev ) ,...args )
 	}
 
 	
@@ -49,9 +70,9 @@ export default class CtxM	extends UiEl
 
 	setelpos()
 	{
-		var style	=this.el.style
+		const style	=this.el.style
 
-		var pos	=this.pos
+		const pos	=this.pos
 
 		style.left	=`${Math.floor(pos.x)}px`
 		style.top	=`${Math.floor(pos.y)}px`
@@ -63,7 +84,39 @@ export default class CtxM	extends UiEl
 
 
 
-class Opt	extends UiEl
+export class CtxM	extends( Div )
+{
+	constructor( dad ,pos )
+	{
+		super( dad ,pos )
+	}
+}
+
+
+
+export class CtxMGo	extends newCtxM( DivGo )
+{
+	constructor( dad ,pos ,gobj )
+	{
+		super( dad ,pos ,gobj )
+
+		if( gobj.isitem )
+		{
+			this.addopt( "move" ,()=>
+				{	
+					gobj.ui.inv.movmod()
+				}
+			)
+		}
+	}
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+
+class Opt	extends Div
 {
 	check
 

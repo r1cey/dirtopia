@@ -2,6 +2,12 @@
 
 import Html from "./Html.js"
 
+import Imgs	from "./Imgs.js"
+
+
+
+export const imgdir	="ui/imgs/"
+
 
 
 export default class Interface
@@ -13,6 +19,10 @@ export default class Interface
     con
 
     can
+
+    page
+
+	imgs	=new Imgs(this)
 
     fps
 
@@ -63,32 +73,49 @@ export default class Interface
     }
 
 
-
-    async newlogin( srv )
+    async setpage( pagen ,...args )
     {
-        const logindiv =await this.html.loaddivgo( "login" ,srv ,true )
-        
-        logindiv.start()
+        if( this.page )
+        {   
+            if( pagen === "clplinv" )
+            {
+                this.page.hide()
+            }
+            else    this.html.deldiv( pagen )
+        }
+        var div =null
 
-        return logindiv
-    }
+        this.page   =div
 
+        switch( pagen )
+        {
+            case "login" :
 
-    async newplcreate( name ,srv )
-    {
-        this.html.deldiv('login')
+            case "createpl" :
 
-		const div	=await this.html.loaddivgo( 'createpl' ,srv ,true )
-		
-		div.start( name )
+                div =await this.html.loaddiv( pagen ,args ,pagen ,true )
+            break
+            case "clplinv" :
+
+                div =this.html.ks[pagen]
+
+            default :
+
+            break
+        }
+        if( div )
+        {
+            div.show()
+        }
+        this.page   =div
 
         return div
     }
 
 
-    async newplinv( pl )
+    async newclplinv( pl )
     {
-		return await this.html.loaddivgo( "plinv" ,pl )
+		return await this.html.loaddivgo( "plinv" ,pl ,[] ,"clplinv" ,true )
     }
 
 

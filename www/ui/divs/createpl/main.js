@@ -10,6 +10,14 @@ export default class CreatePl extends DivGo
 	{
 		return this.el.querySelector('name')
 	}
+
+
+	constructor( srv ,name ,...args )
+	{
+		super( srv ,...args )
+
+		this.start( name )
+	}
 }
 
 CreatePl.prototype. start	=function( name )

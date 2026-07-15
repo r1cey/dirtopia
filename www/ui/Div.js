@@ -71,12 +71,12 @@ export default class Div
 	}
 
 
-	async loaddivgo( name ,gobj ,append )
+	async loaddivgo( name ,gobj ,args =[] ,append ,adddiv )
 	{
-		return this.loaddiv( name ,[ gobj ] ,append, Div.DivGo )
+		return this.loaddiv( name ,[ gobj ,...args ] ,append ,adddiv )
 	}
 
-	async loaddiv( name, args =[] ,append =true ,Class =Div )
+	async loaddiv( name, args ,append =true ,adddiv =true )
 	{
 		const dir	="divs"
 		
@@ -125,7 +125,7 @@ export default class Div
 		}
 		if( res[1].status === 'rejected' )
 		{
-			div	=new Class( ...args ,this ,el ,css )
+			console.error(`Failed to load class: ${name}/main.js`)
 		}
 		else
 		{
@@ -134,13 +134,15 @@ export default class Div
 		// That's pretty cool that if args is an empty array,
 		// then JS will just ignore it completely!
 
-		this.adddiv( div ,name )
+		if( ! div )	return
+
+		if( adddiv )	this.adddiv( div )
 
 		if( append )
 		{
 			div.hide()
 			
-			this.el.appendChild( el )
+			this.el.appendChild( div.el )
 		}
 		return div
 	}
@@ -173,6 +175,15 @@ export default class Div
 
 
 	///////////////////////////////////////////////////////////////////////////
+
+
+	static async loaddiv( name, args =[] ,append =true )
+	{
+		
+
+		return div
+	}
+
 
 
 	static fetch( url )

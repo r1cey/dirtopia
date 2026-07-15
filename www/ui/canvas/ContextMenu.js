@@ -1,4 +1,6 @@
-import Ui from '../Div.js'
+import{ CtxMGo }	from "../ContextMenu.js"
+
+import Cell	from "../../maps/Cell.js"
 
 import Loc from '../../shared/Loc.js'
 
@@ -33,7 +35,7 @@ class Opt
 
 
 
-export default class M
+export default class ContextMenuCanvas	extends CtxMGo
 {
 	// get can()	{return this.dad }
 
@@ -41,11 +43,9 @@ export default class M
 
 	// static opts	={}
 
-	pos	=new Loc()
+	// pos	=new Loc()
 
-	loc	=new Loc()
-
-	opts	=[]
+	// opts	=[]
 
 	ready	=false
 
@@ -55,9 +55,9 @@ export default class M
 
 
 
-	constructor( can )
+	constructor( can ,pos ,cell )
 	{
-		this.can	=can
+		super( can ,pos ,cell )
 	}
 
 
@@ -84,7 +84,7 @@ export default class M
 
 
 
-M.prototype. addopt	=function( str, act, check )
+ContextMenuCanvas.prototype. addopt	=function( str, act, check )
 {
 	var menu	=this
 
@@ -98,7 +98,7 @@ M.prototype. addopt	=function( str, act, check )
 
 
 
-M.prototype. show	=function()
+ContextMenuCanvas.prototype. show	=function()
 {
 	if( ! this.opts.length )	return
 
@@ -120,7 +120,7 @@ M.prototype. show	=function()
 
 
 
-M.prototype. del	=function()
+ContextMenuCanvas.prototype. del	=function()
 {
 	this.el.remove()
 
@@ -132,7 +132,7 @@ M.prototype. del	=function()
 
 
 
-M.prototype. setelpos	=function()
+ContextMenuCanvas.prototype. setelpos	=function()
 {
 	var style	=this.el.style
 
@@ -145,7 +145,7 @@ M.prototype. setelpos	=function()
 
 
 
-M.prototype. mov	=function( d )
+ContextMenuCanvas.prototype. mov	=function( d )
 {
 	this.pos.addv(d)
 
@@ -155,7 +155,7 @@ M.prototype. mov	=function( d )
 
 
 
-M.prototype. check	=function()
+ContextMenuCanvas.prototype. check	=function()
 {
 	var{ opts }	=this
 
@@ -166,7 +166,7 @@ M.prototype. check	=function()
 }
 
 
-M.prototype. click	=function( act, ev )
+ContextMenuCanvas.prototype. click	=function( act, ev )
 {
 	// this.cl().srv.s.act( act, this.pos.roundh() )
 

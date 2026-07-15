@@ -19,20 +19,20 @@ export default class Loc extends newPatha( V )
 	{
 		super( x, y )
 
-		if( typeof x === "number" )
-		{
-			this.h	=h
-		}
-		/*
-		if( Array.isArray( args[0] ) )	this.fromJSON( args[0] )
-
-		else if( args[0] instanceof Loc )	this.set( args[0] )
-
-		else if( args.length > 1 )	this.setxy( ...args )*/
+		this.h	=h
 	}
 
 
 	get isloc()	{return true }
+
+
+	static fromv( v ,h )	{ return new this().setvh( v ,h )}
+
+	
+	///////////////////////////////////////////////////////////////////////////
+
+
+	setvh( v ,h )	{ this.setxy( v.x ,v.y ,h )}
 
 
 	/*getcell( maps )	{return maps.loc2map(this).obj.g(this) }
