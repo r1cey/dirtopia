@@ -25,6 +25,8 @@ export default class PlBase	extends newJable(newISlot())
 	static allowed	=
 	{
 		belt	:1
+		,
+		seedbag	:10
 	}
 	
 

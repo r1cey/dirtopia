@@ -90,6 +90,31 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 		}
 	}
 
+
+	getitem( key ,id )
+	{
+		const invo	=this.inv[key]
+
+		if( invo )
+		{
+			if( invo.isitem )	return invo
+
+			else
+			{
+				if( id )	return invo[id]
+
+				else
+				{
+					for( id in invo )	return invo[id]
+				}
+			}
+		}
+		// return invo ?( invo.isitem	? invo	: invo[id] ): null
+	}
+
+	gitem	=this.getitem
+
+
 	///////////////////////////////////////////////////////////////////////////
 
 
@@ -162,17 +187,5 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 			
 			return invo[id]
 		}
-	}
-
-
-	getitem( key ,id )
-	{
-		const invo	=this.inv[key]
-
-		// if( invo.isitem )	return invo
-
-		// else	return invo[id]
-
-		return invo ?( invo.isitem	? invo	: invo[id] ): null
 	}
 }

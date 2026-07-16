@@ -18,7 +18,7 @@ export default( Base )=>class Page	extends( Base === 1 ? DivGo : Div )
 	{
 		this.el.style.display	="block"
 
-		this.html().can.el.addEventListener(
+		this.ui().can.el.addEventListener(
 			
 			"click" ,this.hide. bind(this),{ once :true }
 		)
