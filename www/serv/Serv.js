@@ -87,7 +87,7 @@ export default newSS( newSG (class Serv
 		{
 			this.con().write(`WebSocket error! ${ev.code}`)
 
-			this.cl.html.login?.reset()
+			this.cl.html.ks.login?.reset()
 		}
 		ws.onopen	=this.sendjson. bind(this, o )
 

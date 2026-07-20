@@ -9,6 +9,11 @@ export default class Div
 
 	css
 
+	/** Basically atm I'm only using it when adding to html root.
+	 * Maybe change later?	 */
+
+	name
+
 
 	static DivGo	//can't just import because of circular dependency with DivGameObj
 
@@ -54,6 +59,11 @@ export default class Div
 		}
 		return ui.gobj
 	}
+
+
+	getname()	{return this.name ?? this.elname() }
+
+	gname	=this.getname
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -148,10 +158,18 @@ export default class Div
 	}
 
 
+
 	hide()	{ this.el.style.display	="none" ;	return this }
 
 
 	show()	{ this.el.style.display ="" ;	return this }
+
+
+
+	elname()
+	{
+		return this.el.localName
+	}
 
 
 	///////////////////////////////////////////////////////////////////////////

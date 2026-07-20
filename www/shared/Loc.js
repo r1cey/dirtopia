@@ -26,7 +26,10 @@ export default class Loc extends newPatha( V )
 	get isloc()	{return true }
 
 
-	static fromv( v ,h )	{ return new this().setvh( v ,h )}
+
+	static set( loc )	{return new this( loc.x ,loc.y, loc.h )}
+
+	// static fromv( v ,h )	{return new this().setvh( v ,h )}
 
 	
 	///////////////////////////////////////////////////////////////////////////

@@ -39,6 +39,19 @@ export default class PlInv extends newPage( 1 )
 
 			el.appendChild( bel )
 		}
+		var sbag	=pl.gitem( "seedbag" )
+
+		if( sbag )
+		{
+			pl.foretp( "seedbag" ,( sbag )=>
+			{
+				const sbel	=document.createElement( "seedbag" )
+
+				this.seedbags.push( new Grid( sbag ,this ,sbel ))
+
+				el.appendChild( sbel )
+			})
+		}
 	}
 
 

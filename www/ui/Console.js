@@ -1,16 +1,14 @@
-export default class Console
-{
-	html
-	
-	el
+import Div	from "./Div.js"
 
+
+export default class Console	extends Div
+{
 	constructor(html, el)
 	{
-		this.html	=html
-
-		this.el	=el
+		super( html ,el )
 	}
 }
+
 
 Console.prototype. write	=function( str )
 {

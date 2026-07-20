@@ -75,17 +75,17 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 	///////////////////////////////////////////////////////////////////////////
 
 
-	fore( fn )
+	fore( fun )
 	{
 		for(var key in this.inv )
 		{
 			var invo	=this.inv[key]
 
-			if( invo.isitem )	fn( invo )
+			if( invo.isitem )	fun( invo )
 
 			else
 			{
-				for(var id in invo)	fn( invo[id] )
+				for(var id in invo)	fun( invo[id] )
 			}	
 		}
 	}
@@ -113,6 +113,26 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 	}
 
 	gitem	=this.getitem
+
+
+	
+	foretp( key ,fun )
+	{
+		const invo	=this.inv[key]
+
+		if( ! invo )	return
+
+		if( invo.isitem )
+		{
+			fun( invo )
+
+			return
+		}
+		for( var id in invo )
+		{
+			fun( invo[id] )
+		}
+	}
 
 
 	///////////////////////////////////////////////////////////////////////////

@@ -42,7 +42,8 @@ export default class Html	extends DivGo
 
 		ui.can	=this.adddiv(
 			
-			new Can( game.maps ,this ,document.getElementById("can") ))
+			new Can( game.maps ,this ,document.getElementById("can") ), "can"
+		)
 		ui.con	=this.adddiv(
 
 			new Con( this ,document.querySelector('console') )
@@ -109,9 +110,11 @@ export default class Html	extends DivGo
 	{
 		super.adddiv( div )
 
-		name	??=div.el.localName
+		if( name )	div.name	=name
 
-		this.kids[name]	=div
+		// name	??=div.elname()
+
+		this.kids[ div.gname() ]	=div
 
 		return div
 	}

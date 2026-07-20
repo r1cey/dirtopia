@@ -24,6 +24,8 @@ export default class Interface
 
 	imgs	=new Imgs(this)
 
+    ctxm
+
     fps
 
     stream
@@ -75,13 +77,17 @@ export default class Interface
 
     async setpage( pagen ,...args )
     {
-        if( this.page )
-        {   
-            if( pagen === "clplinv" )
+        var page  =this.page
+
+        if( page )
+        {
+            const name  =page.gname()
+
+            if( name === "clplinv" )
             {
-                this.page.hide()
+                page.hide()
             }
-            else    this.html.deldiv( pagen )
+            else    this.html.deldiv( name )
         }
         var div =null
 
@@ -98,9 +104,10 @@ export default class Interface
             case "clplinv" :
 
                 div =this.html.ks[pagen]
-
+            break
             default :
 
+                this.can.runtouch()
             break
         }
         if( div )
@@ -119,14 +126,25 @@ export default class Interface
     }
 
 
-    clear()
-    {   
-        const html  =this.html
 
-        html.deldiv( 'login' )
-        html.deldiv( 'createpl' )
+    setctxm( ctxm )
+    {
+        this.ctxm   =ctxm
 
-        html.ks.plinv?.hide()
+        const ondocclck   =( ev )=>
+        {
+            console.log( "doc click!" )
+            
+            if( ! ctxm.el.contains( ev.target ) )
+            {
+                this.ctxm   =null
+
+                this.html.deldiv( this.ctxm.elname() )
+
+                document.removeEventListener( "click" ,ondocclck )
+            }
+        }
+        document.addEventListener( "click" ,ondocclck )
     }
 
 

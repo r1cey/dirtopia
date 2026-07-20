@@ -55,7 +55,7 @@ export default class Can	extends DivGo
 
 	time	=0
 
-	animate	=false
+	animat	=false
 
 	showslopes	=false
 
@@ -109,7 +109,27 @@ export default class Can	extends DivGo
 
 
 
-	#frame(now)
+	runani()
+	{
+		const can	=this
+
+		if( can.animat )	return
+
+		this.time	=performance.now()
+
+		can.animat	=true
+
+		window.requestAnimationFrame( this.frame )
+	}
+
+	endani()
+	{
+		this.animat	=false
+	}
+
+
+
+	#frame( now )
 	{
 		const can	=this
 
@@ -143,7 +163,7 @@ export default class Can	extends DivGo
 
 		can.setpos(pl.pos)
 
-		if( can.animate )
+		if( can.animat )
 		{
 			window.requestAnimationFrame( this.frame )
 		}
@@ -158,19 +178,9 @@ export default class Can	extends DivGo
 
 
 
-Can.prototype. start	=function()
+Can.prototype. runtouch	=function()
 {
 	const can	=this
-
-	// var el	=can.el
-	
-	if( can.time )	return
-
-	// const html	=can.html()
-	
-	const ui	=this.ui()
-
-	ui.clear()
 
 	/*ui.menu.setopts(
 	[
@@ -193,23 +203,10 @@ Can.prototype. start	=function()
 
 	ui.menu.show()*/
 
-	if( can.pl )
+	if( can.pl && can.maps )
 	{
 		this.el.onpointerdown	=this.touch.ondown. bind(this.touch)
 	}
-
-	this.time	=performance.now()
-
-	can.animate	=true
-
-	window.requestAnimationFrame(this.frame. bind(this))
-}
-
-
-
-Can.prototype. stop	=function()
-{
-	this.animate	=false
 }
 
 
@@ -315,14 +312,16 @@ Can.prototype. draw	=function( dt )
 
 Can.prototype. clicked	=function( possqel )
 {
+	const can	=this
+
 	const ui	=this.ui()
 
-	ui.ctxmclick()
+	const loc	=this.cansq2loc( possqel )
 
-	const cell	=Cell.frommap( Loc.fromv( possqel ,a))
+	const cell	=Cell.frommaps( loc ,this.maps )
 
-	ui.ctxm	=new CtxM( this ,possqel )
-
+	ui.setctxm( new CtxM( this ,possqel ,cell ))
+	/*
 	const can	=this
 
 	if(can.ctxmenu)
@@ -429,6 +428,7 @@ Can.prototype. clicked	=function( possqel )
 
 		if( menu.ready )	can.ctxmenu	=menu
 	}
+		*/
 }
 
 
@@ -862,14 +862,15 @@ Can.prototype. drawdbug	=function(x, y)
 ///////////////////////////////////////////////////////////////////////////////
 
 
-/** Canvas related pixels to map location.
- * Changes parameter loc vector */
+/** Canvas related pixels to map location. */
 
-Can.prototype. cansq2maph	=function( locsq )
+Can.prototype. cansq2loc	=function( vcansq )
 {
-	locsq.tohexc( this ).addv( this.crn ).roundh()
+	const loc	=new Loc().set( vcansq )
 
-	locsq.h	=this.pl.loc.h
+	loc.tohexc( this ).addv( this.crn ).roundh()
 
-	return locsq
+	loc.h	=this.pl.loc.h
+
+	return loc
 }

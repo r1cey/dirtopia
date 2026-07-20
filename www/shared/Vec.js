@@ -131,7 +131,7 @@ V.newcube	=function(x, y, z)
 
 V.set	=function( v )
 {
-	return new this().set(v)
+	return new this( v.x ,v.y )
 }
 
 

@@ -77,11 +77,15 @@ export default class Client	extends Game
 
 	plmapsloaded()
 	{
+		const ui	=this.ui
+
 		this.maps.setpl( this.pl )
 
 		this.maps.jsonlocs.pl	=null
 
-		this.ui.can.start()
+		ui.can.runani()
+
+		ui.setpage()
 	}
 }
 
