@@ -6,8 +6,7 @@ import Loc from '../../shared/Loc.js'
 
 
 
-/**@todo CONVERT TO UIELEMENT ! */
-
+/*
 class Opt
 {
 	el
@@ -30,38 +29,67 @@ class Opt
 
 		this.check	=check
 	}
-}
+}*/
 
 
 
 
 export default class ContextMenuCanvas	extends CtxMGo
 {
-	// get can()	{return this.dad }
-
-	// cl()	{return this.html().cl }
-
-	// static opts	={}
-
-	// pos	=new Loc()
-
-	// opts	=[]
-
-	ready	=false
-
 	// int	=0
 
 	// _pos	=new Loc.Vec()	//pixels relative to screen
 
 
+	static opts	=
+	[
+		new this.Opt( function( cell )
+			{
+				return cell.isclpl()
+			},
+			function( cl )
+			{
+				cl.ui.spage( "clplinv" )
+			},
+			"equipment"
+		)
+	]
 
-	constructor( can ,pos ,cell )
+
+
+	constructor( can ,pos ,cell ,opts )
 	{
-		super( can ,pos ,cell )
+		opts	??=ContextMenuCanvas.gopts( cell )
+
+		const html	=can.html()
+
+		super( html ,pos ,cell ,opts )
+
+		const menu	=this
+
+		const{ loc }	=cell
+
+		const{ ui }	=html
+
+		
 	}
 
 
-	/** A convenient way to get hex loc from the pixel click pos */
+	static gopts( cell )
+	{
+		const{ loc ,map }	=cell
+
+		const opts	=[]
+
+		for(var opt of this.opts )
+		{
+			if( opt.check( cell ))	opts.push( opt )
+		}
+		return opts
+	}
+
+
+	/*
 
 	setpos( possqel, ploc )
 	{
@@ -76,7 +104,7 @@ export default class ContextMenuCanvas	extends CtxMGo
 		this.loc.set( pos ).tohexc( can ).addv( can.crn ).roundh()
 		
 		this.loc.h	=ploc.h
-	}
+	}*/
 }
 
 
@@ -86,9 +114,9 @@ export default class ContextMenuCanvas	extends CtxMGo
 
 ContextMenuCanvas.prototype. addopt	=function( str, act, check )
 {
-	var menu	=this
+	const menu	=this
 
-	this.el	??=document.createElement( "actions" )
+	// this.el	??=document.createElement( "actions" )
 
 	this.opts.push( new Opt( str, ()=>{ act(); menu.del() }, check, this.el ))
 }
@@ -177,10 +205,10 @@ ContextMenuCanvas.prototype. click	=function( act, ev )
 ///////////////////////////////////////////////////////////////////////////////
 
 
-
+/*
 Opt.prototype. enable	=function( bool )
 {
 	this.el.disabled	=!bool
 }
-
+*/
 

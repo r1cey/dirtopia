@@ -121,7 +121,7 @@ Client.prototype. setpl	=async function( plmsg )
 
 	can.draw()
 
-	if( can.maps )	this.plmapsloaded()
+	if( this.maps.isready() )	this.plmapsloaded()
 /*	{
 		let map	=this.maps.loc2map(pl.loc)
 
@@ -159,8 +159,6 @@ Client.prototype. setmaps	=function( grbin, grobj, trbin, trobj )
 	// if( maps.ready() )
 	{
 		const can	=this.ui.can
-
-		can.maps	=maps
 
 		maps.tr.can.width	=can.el.width
 

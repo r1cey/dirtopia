@@ -119,6 +119,8 @@ export default class Interface
         return div
     }
 
+    spage   =this.setpage
+
 
     async newclplinv( pl )
     {
@@ -131,20 +133,20 @@ export default class Interface
     {
         this.ctxm   =ctxm
 
-        const ondocclck   =( ev )=>
+        const ondoctouch   =( ev )=>
         {
             console.log( "doc click!" )
-            
+
             if( ! ctxm.el.contains( ev.target ) )
             {
                 this.ctxm   =null
 
                 this.html.deldiv( this.ctxm.elname() )
 
-                document.removeEventListener( "click" ,ondocclck )
+                document.removeEventListener( "pointerdown" ,ondoctouch )
             }
         }
-        document.addEventListener( "click" ,ondocclck )
+        document.addEventListener( "pointerdown" ,ondoctouch )
     }
 
 

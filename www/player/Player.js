@@ -181,6 +181,9 @@ export default class Player extends newPl( ShPl )
 	/** Is tile move acknowledged from server? */
 	ismovack	=true
 
+	
+	get isclpl()	{return true }
+
 	static Vis	=PlVis
 
 

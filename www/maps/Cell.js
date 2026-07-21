@@ -25,4 +25,17 @@ export default class Cell
 	{
 		return this.frommap( loc ,maps.loc2map(loc) )
 	}
+
+
+
+	isclpl()
+	{
+		const{ loc ,map }	=this
+
+		const cobj	=map.obj.g( loc )
+
+		// const pl	=?.pl
+
+		return cobj?.pl?.isclpl
+	}
 }

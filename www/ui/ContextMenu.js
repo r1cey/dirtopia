@@ -4,19 +4,25 @@ import DivGo	from "./DivGameObj.js"
 import V	from "../shared/Vec.js"
 
 
-
 ///////////////////////////////////////////////////////////////////////////////
 
 
 
-export default class CtxMenuMgr
+class Option
 {
-	ui
+	check
+
+	run
+
+	str
 
 
-	constructor( ui )
+	/**@arg check -( cell )
+	 * @arg run -( client ) */
+
+	constructor( check ,run ,str )
 	{
-		this.ui	=ui
+		Object.assign( this ,{ check ,run ,str })
 	}
 }
 
@@ -32,10 +38,15 @@ const newCtxM	=( Base )=> class CtxM	extends Base
 	opts	=[]
 
 
+	static Opt	=Option
 
-	constructor( dad ,pos ,...args )
+
+
+	constructor( dad ,pos ,opts ,...args )
 	{
 		super( ...args ,dad ,"ACTIONS" )
+
+		if( opts && Array.isArray( opts ))	this.opts	=opts
 
 		this.pos.set( pos )
 
@@ -55,7 +66,7 @@ const newCtxM	=( Base )=> class CtxM	extends Base
 
 	addopt( str, act )
 	{
-		var opt	=new Opt( this.gobj ,str ,act )
+		var opt	=new Option( this.gobj ,str ,act )
 		
 		this.opts.push( opt )
 
@@ -96,9 +107,9 @@ export class CtxM	extends( Div )
 
 export class CtxMGo	extends newCtxM( DivGo )
 {
-	constructor( dad ,pos ,gobj )
+	constructor( dad ,pos ,gobj ,opts )
 	{
-		super( dad ,pos ,gobj )
+		super( dad ,pos ,opts ,gobj )
 
 		if( gobj.isitem )
 		{
@@ -114,28 +125,27 @@ export class CtxMGo	extends newCtxM( DivGo )
 
 ///////////////////////////////////////////////////////////////////////////////
 
-
-
-class Opt	extends Div
+/*
+class Opt
 {
+	el
+
 	check
 
 
 
-	constructor( gobj ,str ,act ,check )
+	constructor( str, act, check, parel )
 	{
-		super( "button" ,gobj )
-
-		var el	=this.el
+		var el	=document.createElement('button')
 
 		el.textContent	=str
 	
-		el.onclick	=()=>
-			{
-				act()
+		el.onclick	=act
 
-				this.gobj.gcl().html.delctxm()
-			}
+		parel.appendChild( el )
+		
+		this.el	=el
+
 		this.check	=check
 	}
-}
+}*/

@@ -51,8 +51,6 @@ export default class Can	extends DivGo
 
 	pl
 
-	maps
-
 	time	=0
 
 	animat	=false
@@ -92,6 +90,15 @@ export default class Can	extends DivGo
 
 		this.drawgrid()
 	}
+
+
+	get maps()	{return this.gmaps() }
+
+
+	gmaps()	{return this.gobj }
+
+
+	gmap()	{return this.pl ? this.gmaps().loc2map(this.pl.loc) : null }
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -256,7 +263,9 @@ Can.prototype. draw	=function( dt )
 {
 	const can	=this
 
-	const{ maps, pl }	=can
+	const{ pl }	=can
+
+	const maps	=can.gmaps()
 
 	// var{ r, h }	=can.units
 
@@ -264,7 +273,7 @@ Can.prototype. draw	=function( dt )
 
 	// can.drawgrid()
 
-	if( maps )
+	if( maps.isready() )
 	{
 		maps.gr.draw( can )
 
@@ -314,13 +323,26 @@ Can.prototype. clicked	=function( possqel )
 {
 	const can	=this
 
+	// if( ! can.pl )	return
+
+	/*const{ pl }	=can
+
+	const ploc	=pl.loc*/
+
+	const loc	=can.cansq2loc( possqel )
+
+	const cell	=Cell.frommaps( loc ,can.gmaps() )
+
+	const opts	=CtxM.gopts( cell )
+
+	if( ! opts.length )	return
+
+	const ctxm	=new CtxM( can ,possqel ,cell ,opts )
+
+	
 	const ui	=this.ui()
 
-	const loc	=this.cansq2loc( possqel )
-
-	const cell	=Cell.frommaps( loc ,this.maps )
-
-	ui.setctxm( new CtxM( this ,possqel ,cell ))
+	// ui.setctxm( )
 	/*
 	const can	=this
 
@@ -332,11 +354,7 @@ Can.prototype. clicked	=function( possqel )
 	{
 		const srv	=can.cl().srv
 
-		const{ pl }	=can
-
 		const html	=can.html()
-
-		const ploc	=pl.loc
 
 		const menu	=new CtxM( this )
 
@@ -344,18 +362,7 @@ Can.prototype. clicked	=function( possqel )
 
 		let loc	=menu.loc
 
-		if( loc.eq(ploc) )
-		{
-			menu.addopt(
-				
-				"equipment"
-				,
-				()=>
-				{
-					html.ps.plinv.show()
-				}
-			)
-		}
+		
 		else if( loc.disth( ploc) === 1 )
 		{
 			const map	=pl.map()
