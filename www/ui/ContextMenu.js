@@ -8,7 +8,7 @@ import V	from "../shared/Vec.js"
 
 
 
-class Option
+class Option	extends Div
 {
 	check
 
@@ -20,9 +20,27 @@ class Option
 	/**@arg check -( cell )
 	 * @arg run -( client ) */
 
-	constructor( check ,run ,str )
+	constructor( check ,run ,str ,menu )
 	{
+		super( menu ,"BUTTON" )
+
 		Object.assign( this ,{ check ,run ,str })
+	}
+
+
+	static onclick()
+	{
+		const gobj	=this.getgo()
+
+		if( ! this.check( gobj ))
+		{
+			/** @todo recalculate all options */
+
+			return 
+		}
+		this.run( this.html().ui.game )
+
+		this.dad.del()
 	}
 }
 
@@ -42,13 +60,15 @@ const newCtxM	=( Base )=> class CtxM	extends Base
 
 
 
-	constructor( dad ,pos ,opts ,...args )
+	constructor( dad ,pos /*,opts*/ ,...args )
 	{
 		super( ...args ,dad ,"ACTIONS" )
 
-		if( opts && Array.isArray( opts ))	this.opts	=opts
+		// if( opts && Array.isArray( opts ))	this.opts	=opts
 
 		this.pos.set( pos )
+
+		this.setopts()
 
 		this.setelpos()
 	}
@@ -63,20 +83,37 @@ const newCtxM	=( Base )=> class CtxM	extends Base
 	///////////////////////////////////////////////////////////////////////////
 
 
+	///////////////////////////////////////////////////////////////////////////
 
-	addopt( str, act )
+
+
+	setopts()
 	{
-		var opt	=new Option( this.gobj ,str ,act )
-		
-		this.opts.push( opt )
+		// debugger
 
-		this.el.appendChild( opt.el )
+		const{ opts }	=this
 
-		return this
+		const Class	=this.constructor
+
+		for(const[ check ,run ,str ]of Class.opts )
+		{
+			if( check( this.gobj ))
+			{
+				const opt	=new Class.Opt( check ,run ,str ,this )
+
+				opts.push( opt )
+
+				const{ el }	=opt
+
+				el.textContent	=str
+
+				el.onclick	=Class.Opt.onclick.bind( opt )
+
+				this.el.appendChild( el )
+			}
+		}
 	}
 
-
-	///////////////////////////////////////////////////////////////////////////
 
 
 	setelpos()
@@ -107,45 +144,20 @@ export class CtxM	extends( Div )
 
 export class CtxMGo	extends newCtxM( DivGo )
 {
-	constructor( dad ,pos ,gobj ,opts )
+	constructor( dad ,pos ,gobj /*,opts*/ )
 	{
-		super( dad ,pos ,opts ,gobj )
+		super( dad ,pos /*,opts*/ ,gobj )
 
-		if( gobj.isitem )
+		/*if( gobj.isitem )
 		{
 			this.addopt( "move" ,()=>
 				{	
 					gobj.ui.inv.movmod()
 				}
 			)
-		}
+		}*/
 	}
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
-
-/*
-class Opt
-{
-	el
-
-	check
-
-
-
-	constructor( str, act, check, parel )
-	{
-		var el	=document.createElement('button')
-
-		el.textContent	=str
-	
-		el.onclick	=act
-
-		parel.appendChild( el )
-		
-		this.el	=el
-
-		this.check	=check
-	}
-}*/

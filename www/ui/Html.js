@@ -108,7 +108,7 @@ export default class Html	extends DivGo
 
 	adddiv( div ,name )
 	{
-		super.adddiv( div )
+		super.adddiv( div ,this )
 
 		if( name )	div.name	=name
 
@@ -122,18 +122,7 @@ export default class Html	extends DivGo
 
 	deldiv( name )
 	{
-		const div	=this.kids[name]
-
-		if( div )
-		{
-			delete this.kids[name]
-
-			this.alldivs.delete( div.el )
-
-			div.el?.remove()
-
-			div.css?.remove()
-		}
+		this.kids[name]?.del()
 	}
 
 

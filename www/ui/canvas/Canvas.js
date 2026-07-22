@@ -329,20 +329,19 @@ Can.prototype. clicked	=function( possqel )
 
 	const ploc	=pl.loc*/
 
-	const loc	=can.cansq2loc( possqel )
+	// const loc	=can.cansq2loc( possqel )
 
-	const cell	=Cell.frommaps( loc ,can.gmaps() )
+	// const cell	=Cell.frommaps( loc ,can.gmaps() )
+
+	const ctxm	=new CtxM( can ,possqel ,cell )
 
 	const opts	=CtxM.gopts( cell )
 
 	if( ! opts.length )	return
-
-	const ctxm	=new CtxM( can ,possqel ,cell ,opts )
-
 	
 	const ui	=this.ui()
 
-	// ui.setctxm( )
+	ui.setctxm( ctxm )
 	/*
 	const can	=this
 

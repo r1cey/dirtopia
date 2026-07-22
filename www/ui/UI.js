@@ -133,6 +133,12 @@ export default class Interface
     {
         this.ctxm   =ctxm
 
+        const html  =this.html
+
+        html.el.appendChild( ctxm.el )
+
+        html.adddiv( ctxm )
+
         const ondoctouch   =( ev )=>
         {
             console.log( "doc click!" )

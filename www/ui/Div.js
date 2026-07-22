@@ -158,6 +158,22 @@ export default class Div
 	}
 
 
+	del()
+	{
+		this.html().alldivs.delete( div.el )
+
+		this.el?.remove()
+
+		this.css?.remove()
+
+		const kids	=this.dad.kids
+
+		if( kids )
+		{
+			delete kids[this.gname()]
+		}
+	}
+
 
 	hide()	{ this.el.style.display	="none" ;	return this }
 

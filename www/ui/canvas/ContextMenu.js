@@ -43,7 +43,8 @@ export default class ContextMenuCanvas	extends CtxMGo
 
 	static opts	=
 	[
-		new this.Opt( function( cell )
+		[
+			function( cell )
 			{
 				return cell.isclpl()
 			},
@@ -52,30 +53,24 @@ export default class ContextMenuCanvas	extends CtxMGo
 				cl.ui.spage( "clplinv" )
 			},
 			"equipment"
-		)
+		]
 	]
 
 
 
-	constructor( can ,pos ,cell ,opts )
+	constructor( can ,pos /*,cell ,opts*/ )
 	{
-		opts	??=ContextMenuCanvas.gopts( cell )
+		// opts	??=ContextMenuCanvas.gopts( cell )
 
-		const html	=can.html()
+		const loc	=can.cansq2loc( possqel )
 
-		super( html ,pos ,cell ,opts )
+		const cell	=Cell.frommaps( loc ,can.gmaps() )
 
-		const menu	=this
-
-		const{ loc }	=cell
-
-		const{ ui }	=html
-
-		
+		super( html ,pos ,cell /*,opts*/ )		
 	}
 
 
-	static gopts( cell )
+	/*static gopts( cell )
 	{
 		const{ loc ,map }	=cell
 
@@ -86,7 +81,7 @@ export default class ContextMenuCanvas	extends CtxMGo
 			if( opt.check( cell ))	opts.push( opt )
 		}
 		return opts
-	}
+	}*/
 
 
 	/*
