@@ -52,11 +52,11 @@ Touch.prototype. ondown	=function( ev )
 
 Touch.prototype. onup	=function( ev )
 {
-	var tch	=this
+	const tch	=this
 
 	tch.on	=false
 
-	var el	=tch.can.el
+	const el	=tch.can.el
 
 	el.onpointermove	=null
 	el.onpointerup	=null
@@ -70,7 +70,7 @@ Touch.prototype. onup	=function( ev )
 
 Touch.prototype. onmove	=function( ev )
 {
-	var tch	=this
+	const tch	=this
 
 	// console.log(tch.pos)
 
@@ -94,9 +94,9 @@ Touch.prototype. onframe	=function()
 
 Touch.prototype. stopslct	=function( ev )
 {
-	if(ev.stopPropagation) ev.stopPropagation();
+	// if(ev.stopPropagation) ev.stopPropagation();
     if(ev.preventDefault) ev.preventDefault();
-    ev.cancelBubble=true;
-    ev.returnValue=false;
-    return false;
+    // ev.cancelBubble=true;
+    // ev.returnValue=false;
+    // return false;
 }

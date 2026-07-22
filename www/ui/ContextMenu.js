@@ -38,9 +38,11 @@ class Option	extends Div
 
 			return 
 		}
-		this.run( this.html().ui.game )
+		const ui	=this.ui()
 
-		this.dad.del()
+		ui.delctxm()
+
+		this.run( ui.game )
 	}
 }
 
@@ -54,6 +56,8 @@ const newCtxM	=( Base )=> class CtxM	extends Base
 	pos	=new V()
 
 	opts	=[]
+
+	onoutclck
 
 
 	static Opt	=Option
@@ -71,6 +75,8 @@ const newCtxM	=( Base )=> class CtxM	extends Base
 		this.setopts()
 
 		this.setelpos()
+
+		this.onoutclck	=this.#onoutclck. bind(this)
 	}
 
 
@@ -80,9 +86,6 @@ const newCtxM	=( Base )=> class CtxM	extends Base
 	}
 
 	
-	///////////////////////////////////////////////////////////////////////////
-
-
 	///////////////////////////////////////////////////////////////////////////
 
 
@@ -115,6 +118,12 @@ const newCtxM	=( Base )=> class CtxM	extends Base
 	}
 
 
+	///////////////////////////////////////////////////////////////////////////
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
 
 	setelpos()
 	{
@@ -124,6 +133,20 @@ const newCtxM	=( Base )=> class CtxM	extends Base
 
 		style.left	=`${Math.floor(pos.x)}px`
 		style.top	=`${Math.floor(pos.y)}px`
+	}
+
+
+
+	#onoutclck( ev )
+	{
+		const ctxm	=this
+
+		console.log( "doc click!" )
+
+		if( ! ctxm.el.contains( ev.target ) )
+		{
+			this.ui().delctxm()
+		}
 	}
 }
 

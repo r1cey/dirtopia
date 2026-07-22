@@ -62,11 +62,11 @@ export default class ContextMenuCanvas	extends CtxMGo
 	{
 		// opts	??=ContextMenuCanvas.gopts( cell )
 
-		const loc	=can.cansq2loc( possqel )
+		const loc	=can.cansq2loc( pos )
 
 		const cell	=Cell.frommaps( loc ,can.gmaps() )
 
-		super( html ,pos ,cell /*,opts*/ )		
+		super( can.html() ,pos ,cell /*,opts*/ )		
 	}
 
 
@@ -106,96 +106,19 @@ export default class ContextMenuCanvas	extends CtxMGo
 ///////////////////////////////////////////////////////////////////////////////
 
 
-
-ContextMenuCanvas.prototype. addopt	=function( str, act, check )
-{
-	const menu	=this
-
-	// this.el	??=document.createElement( "actions" )
-
-	this.opts.push( new Opt( str, ()=>{ act(); menu.del() }, check, this.el ))
-}
+///////////////////////////////////////////////////////////////////////////////
 
 
 ///////////////////////////////////////////////////////////////////////////////
 
 
 
-ContextMenuCanvas.prototype. show	=function()
-{
-	if( ! this.opts.length )	return
-
-	let{ el }	=this
-
-	var can	=this.can
-
-	// _pos.set(this.pos).tosqc( can )
-
-	this.setelpos()
-
-	can.el.parentElement.appendChild( el )
-
-	this.ready	=true
-
-	// this.int	=window.setInterval( this.check.bind(this), 821 )	//73bpm
-}
-
-
-
-
-ContextMenuCanvas.prototype. del	=function()
-{
-	this.el.remove()
-
-	this.can.ctxmenu	=null
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-
-ContextMenuCanvas.prototype. setelpos	=function()
-{
-	var style	=this.el.style
-
-	var pos	=this.pos
-
-	style.left	=`${Math.floor(pos.x)}px`
-	style.top	=`${Math.floor(pos.y)}px`
-}
-
-
-
-
-ContextMenuCanvas.prototype. mov	=function( d )
+/*ContextMenuCanvas.prototype. mov	=function( d )
 {
 	this.pos.addv(d)
 
 	this.setelpos()
-}
-
-
-
-
-ContextMenuCanvas.prototype. check	=function()
-{
-	var{ opts }	=this
-
-	for(var opt of opts)
-	{
-		opt.enable( opt.check() )
-	}
-}
-
-
-ContextMenuCanvas.prototype. click	=function( act, ev )
-{
-	// this.cl().srv.s.act( act, this.pos.roundh() )
-
-	this.can.delmenu()
-}
-
+}*/
 
 ///////////////////////////////////////////////////////////////////////////////
 

@@ -333,11 +333,9 @@ Can.prototype. clicked	=function( possqel )
 
 	// const cell	=Cell.frommaps( loc ,can.gmaps() )
 
-	const ctxm	=new CtxM( can ,possqel ,cell )
+	const ctxm	=new CtxM( can ,possqel )
 
-	const opts	=CtxM.gopts( cell )
-
-	if( ! opts.length )	return
+	if( ! ctxm.opts.length )	return
 	
 	const ui	=this.ui()
 

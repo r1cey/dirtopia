@@ -160,7 +160,7 @@ export default class Div
 
 	del()
 	{
-		this.html().alldivs.delete( div.el )
+		this.html().alldivs.delete( this.el )
 
 		this.el?.remove()
 

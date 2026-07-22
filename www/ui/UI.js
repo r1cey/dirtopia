@@ -139,20 +139,19 @@ export default class Interface
 
         html.adddiv( ctxm )
 
-        const ondoctouch   =( ev )=>
-        {
-            console.log( "doc click!" )
+        document.addEventListener( "pointerdown" ,ctxm.onoutclck )
+    }
 
-            if( ! ctxm.el.contains( ev.target ) )
-            {
-                this.ctxm   =null
 
-                this.html.deldiv( this.ctxm.elname() )
+    delctxm()
+    {
+        const ctxm  =this.ctxm
 
-                document.removeEventListener( "pointerdown" ,ondoctouch )
-            }
-        }
-        document.addEventListener( "pointerdown" ,ondoctouch )
+        this.ctxm   =null
+
+        ctxm.del()
+
+        document.removeEventListener( "pointerdown" ,ctxm.onoutclck )
     }
 
 
