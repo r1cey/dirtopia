@@ -187,6 +187,14 @@ actions>button
 }
 
 
+.grid ,.cell ,.bgcenter ,.grid>cntsym
+{
+	background-size: contain ;
+	background-position: center ;
+	background-repeat: no-repeat ;
+}
+
+
 .grid
 {
 	display: grid;
@@ -200,55 +208,42 @@ actions>button
 }
 
 
-.grid cntsym
+.grid > cntsym
 {
-	grid-area	:span 1 / span 1 ; 
+	grid-area	:span 1 / span 1 ;
+	background-color	:white ;
 }
 
 
-.grid hands
+belt.grid ,belt.grid > cntsym
 {
-	background: #c7bb8f url(imgs/hands.png) ;
-	background-size: contain ;
-	background-position: center ;
-	background-repeat: no-repeat ;
-
-	border: 1px inset rgb(174, 148, 64) ;
+	background-image:  url(imgs/items/belt.png) ;
+}
+belt.grid
+{
+	background-color:	#50ab49 ;
+	border:	1px inset #21a750a8;
 }
 
-.grid belt
+seedbag.grid ,seedbag.grid > cntsym
 {
-	background: #50ab49 url(imgs/items/belt.png) ;
-	background-size: contain ;
-	background-position: center ;
-	background-repeat: no-repeat ;
-	border: 1px inset #21a750a8;
+	background-image:  url(imgs/items/seedbag.png) ;
 }
-
-.grid seedbag
+seedbag.grid
 {
-	background: rgb(112, 186, 114) url(imgs/items/seed_pouch.png) ;
-	background-size: contain ;
-	background-position: center ;
-	background-repeat: no-repeat ;
+	background-color: rgb(112, 186, 114) ;
 	border: 1px inset rgb(30, 90, 65) ;
 }
 
 .grid multi
 {
-	background: url(imgs/items/multitool.png) ;
-	background-size: contain ;
-	background-position: center ;
-	background-repeat: no-repeat ;
+	background-image: url(imgs/items/multitool.png) ;
 	border: 1px outset #2abfff;
 }
 
 .grid cuc_seeds
 {
-	background: url(imgs/items/cucumber_seeds.png) ;
-	background-size: contain ;
-	background-position: center ;
-	background-repeat: no-repeat ;
+	background-image: url(imgs/items/cucumber_seeds.png) ;
 	border: 1px outset #3b2e24;
 }
 

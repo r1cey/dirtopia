@@ -3,7 +3,7 @@ import Ui from "../Div.js"
 // import CtxM	from "../ContextMenu.js" 
 
 
-export default( Base =Ui )=>class Grid	extends Base
+export default( Base =Ui )=>class GridCnt	extends Base
 {
 	cells	=[]
 
@@ -18,7 +18,15 @@ export default( Base =Ui )=>class Grid	extends Base
 		this.el.classList.add( "grid" )
 
 		// console.log( this ,dad ,eln ,dhold )
+		{
+			const cntsym	=document.createElement( "cntsym" )
 
+			cntsym.onclick	=( ev )=>
+			{
+				// new 
+			}
+			this.el.appendChild( cntsym )
+		}
 		const html	=this.html()
 
 		this.getgo().fore(( item )=>

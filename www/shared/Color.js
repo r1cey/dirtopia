@@ -1,19 +1,36 @@
 import newJable from "./newJsonable.js"
 
 
-export default class Color	//extends newJable()
+export default class Color	extends newJable()
 {
 	h
 	s
 	l
+	a
 
 	static key	="col"
 	
 
-	constructor( h =0, s =0, l =0 )
+
+	constructor( h =0 ,s =0 ,l =0 ,a =1 )
 	{
-		this.sethsl( h,s,l )
+		super()
+		
+		this.sethsla( h,s,l,a )
 	}
+
+
+
+	sethsla( h ,s ,l ,a =1 )
+	{	
+		this.h	=h
+		this.s	=s
+		this.l	=l
+		this.a	=a
+
+		return this
+	}
+
 }
 
 Color.prototype. c	=function()
@@ -25,18 +42,16 @@ Color.prototype. c	=function()
 
 Color.prototype. sethsl	=function( h, s, l )
 {
-	this.h	=h
-	this.s	=s
-	this.l	=l
-
-	return this
+	return this.sethsla( h ,s ,l ,1 )
 }
 
 
 
-Color.prototype. set	=function({ h, s, l })
+
+
+Color.prototype. set	=function({ h, s, l ,a })
 {
-	return this.sethsl( h, s, l )
+	return this.sethsla( h, s, l ,a )
 }
 
 
@@ -44,7 +59,7 @@ Color.prototype. set	=function({ h, s, l })
 
 Color.prototype. setj	=function(a)
 {
-	return this.sethsl(...a)
+	return this.sethsla(...a)
 }
 
 
@@ -58,18 +73,7 @@ Color.prototype. setj	=function(a)
 
 Color.prototype. toJSON	=function()
 {
-	return [this.h, this.s, this.l]
-}
-
-
-
-Color.prototype. sethsl	=function( h, s, l )
-{
-	this.h	=h
-	this.s	=s
-	this.l	=l
-
-	return this
+	return [this.h, this.s, this.l ,this.a ]
 }
 
 
@@ -93,7 +97,7 @@ Color.prototype. newmsg	=function()
 
 Color.prototype. str	=function()
 {
-	return `hsl(${this.h} ${this.s}% ${this.l}%)`
+	return `hsl(${this.h} ${this.s}% ${this.l}% / ${this.a})`
 }
 
 Color.prototype. inv	=function()

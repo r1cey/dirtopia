@@ -1,4 +1,4 @@
-import{ CtxMGo }	from "../ContextMenu.js"
+import CtxM	from "../ContextMenu.js"
 
 import Cell	from "../../maps/Cell.js"
 
@@ -34,39 +34,47 @@ class Opt
 
 
 
-export default class ContextMenuCanvas	extends CtxMGo
+export default class ContextMenuCanvas	extends CtxM
 {
-	// int	=0
+	loc
 
-	// _pos	=new Loc.Vec()	//pixels relative to screen
+	pl
 
 
-	static opts	=
+	static optcfgs	=
 	[
-		[
-			function( cell )
+		CtxM.newoptcfg
+		(
+			"equipment"
+			,
+			function()
 			{
-				return cell.isclpl()
+				return this.pl
 			},
 			function( cl )
 			{
-				cl.ui.spage( "clplinv" )
-			},
-			"equipment"
-		]
+				this.pl.isclpl ?
+
+					cl.ui.spage( "clplinv" )
+					:
+					console.log("show pl inv")
+			}
+		)
 	]
 
 
 
-	constructor( can ,pos /*,cell ,opts*/ )
+	constructor( can ,pos )
 	{
-		// opts	??=ContextMenuCanvas.gopts( cell )
+		// const cell	=Cell.frommaps( loc ,can.gmaps() )
 
-		const loc	=can.cansq2loc( pos )
+		super( can ,pos )
+		
+		const loc	=this.loc	=can.cansq2loc( pos )
 
-		const cell	=Cell.frommaps( loc ,can.gmaps() )
+		const pl	=this.pl	=can.gmap().obj.g( loc ).pl
 
-		super( can.html() ,pos ,cell /*,opts*/ )		
+		this.setopts()
 	}
 
 

@@ -87,7 +87,7 @@ export default newSS( newSG (class Serv
 		{
 			this.con().write(`WebSocket error! ${ev.code}`)
 
-			this.cl.html.ks.login?.reset()
+			this.cl.ui.html.ks.login?.reset()
 		}
 		ws.onopen	=this.sendjson. bind(this, o )
 
@@ -97,10 +97,10 @@ export default newSS( newSG (class Serv
 		{
 			// console.log(`Connection closed:`,ev)
 
-			this.cl.html.con.write
+			this.cl.ui.con.write
 				(`Connection closed: ${ev.code} ${ev.reason}`)
 			
-			this.cl.html.login?.reset()
+			this.cl.ui.html.ks.login?.reset()
 		}
 	}
 

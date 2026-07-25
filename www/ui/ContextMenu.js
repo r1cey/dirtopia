@@ -1,5 +1,5 @@
 import Div from "./Div.js"
-import DivGo	from "./DivGameObj.js"
+// import DivGo	from "./DivGameObj.js"
 
 import V	from "../shared/Vec.js"
 
@@ -10,29 +10,34 @@ import V	from "../shared/Vec.js"
 
 class Option	extends Div
 {
-	check
-
-	run
-
-	str
+	optcfg
 
 
-	/**@arg check -( cell )
-	 * @arg run -( client ) */
 
-	constructor( check ,run ,str ,menu )
+	constructor( menu ,optcfg )
 	{
 		super( menu ,"BUTTON" )
 
-		Object.assign( this ,{ check ,run ,str })
+		Object.assign( this ,{ optcfg })
+
+		const{ el }	=this
+
+		el.textContent	=optcfg.str
+
+		el.onclick	=menu.constructor.Opt.onclick.bind( this )
+
+		menu.el.appendChild( el )
 	}
+
 
 
 	static onclick()
 	{
-		const gobj	=this.getgo()
+		const{ optcfg }	=this
 
-		if( ! this.check( gobj ))
+		const menu	=this.dad
+
+		if( ! optcfg.test.call( menu ))
 		{
 			/** @todo recalculate all options */
 
@@ -42,7 +47,7 @@ class Option	extends Div
 
 		ui.delctxm()
 
-		this.run( ui.game )
+		optcfg.run.call( menu ,ui.game )
 	}
 }
 
@@ -51,8 +56,10 @@ class Option	extends Div
 
 
 
-const newCtxM	=( Base )=> class CtxM	extends Base
+export default class CtxM	extends Div
 {
+	tgt
+
 	pos	=new V()
 
 	opts	=[]
@@ -62,17 +69,22 @@ const newCtxM	=( Base )=> class CtxM	extends Base
 
 	static Opt	=Option
 
+	/** [ { str ,test ,run(client) } ,... ] */
+
+	static optcfgs	=[]
 
 
-	constructor( dad ,pos /*,opts*/ ,...args )
+	/** Call setopts() in this derived class or manually */
+
+	constructor( tgt ,pos )
 	{
-		super( ...args ,dad ,"ACTIONS" )
+		const html	=tgt.html()
 
-		// if( opts && Array.isArray( opts ))	this.opts	=opts
+		super( html ,"ACTIONS" )
+
+		this.tgt	=tgt
 
 		this.pos.set( pos )
-
-		this.setopts()
 
 		this.setelpos()
 
@@ -98,21 +110,13 @@ const newCtxM	=( Base )=> class CtxM	extends Base
 
 		const Class	=this.constructor
 
-		for(const[ check ,run ,str ]of Class.opts )
+		for(var optcfg of Class.optcfgs )
 		{
-			if( check( this.gobj ))
+			if( optcfg.test.call( this ))
 			{
-				const opt	=new Class.Opt( check ,run ,str ,this )
+				const opt	=new Class.Opt( this ,optcfg )
 
 				opts.push( opt )
-
-				const{ el }	=opt
-
-				el.textContent	=str
-
-				el.onclick	=Class.Opt.onclick.bind( opt )
-
-				this.el.appendChild( el )
 			}
 		}
 	}
@@ -120,6 +124,11 @@ const newCtxM	=( Base )=> class CtxM	extends Base
 
 	///////////////////////////////////////////////////////////////////////////
 
+
+	static newoptcfg( str ,test ,run )
+	{
+		return{ str ,test ,run }
+	}
 
 	///////////////////////////////////////////////////////////////////////////
 
@@ -155,32 +164,6 @@ const newCtxM	=( Base )=> class CtxM	extends Base
 
 
 
-export class CtxM	extends( Div )
-{
-	constructor( dad ,pos )
-	{
-		super( dad ,pos )
-	}
-}
-
-
-
-export class CtxMGo	extends newCtxM( DivGo )
-{
-	constructor( dad ,pos ,gobj /*,opts*/ )
-	{
-		super( dad ,pos /*,opts*/ ,gobj )
-
-		/*if( gobj.isitem )
-		{
-			this.addopt( "move" ,()=>
-				{	
-					gobj.ui.inv.movmod()
-				}
-			)
-		}*/
-	}
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////

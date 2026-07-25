@@ -97,6 +97,7 @@ export default class Can	extends DivGo
 
 	gmaps()	{return this.gobj }
 
+	/** @todo - look up all gmap() and see if it can be called without this.pl */
 
 	gmap()	{return this.pl ? this.gmaps().loc2map(this.pl.loc) : null }
 

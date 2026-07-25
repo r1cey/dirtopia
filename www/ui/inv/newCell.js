@@ -2,7 +2,7 @@ import DivGo	from "../DivGameObj.js"
 
 import V	from "../../shared/Vec.js"
 
-import{ sizes as cellszs }	from "./gridccfg.js"
+import cellcfg	from "./gridccfg.js"
 
 
 
@@ -16,11 +16,21 @@ export default( Base =DivGo )=>class GridCell extends Base
 	{
 		super( gobj ,dad )
 
-		const size	=cellszs[ gobj.gkey() ]
+		const{ el }	=this
 
-		if( size )	this.size.s( size )
-		
-		this.el.classList.add( "gridcell" )
+		const defs	=cellcfg[ gobj.gkey() ]
+
+		if( defs )
+		{
+			const defsize	=defs.csize
+
+			if( defsize )	this.size.s( defsize )
+
+			const defbgcol	=defs.cbg
+
+			if( defbgcol )	el.style.backgroundColor	=defbgcol.str()
+		}
+		el.classList.add( "cell" )
 
 		/** setsize() */
 	}

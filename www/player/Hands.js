@@ -1,6 +1,6 @@
 import ShHands from "../shared/player/Hands.js"
 
-import GridH	from "../ui/inv/Hands.js"
+// import GridH	from "../ui/inv/Hands.js"
 
 // import V from "../shared/Vec.js"
 
@@ -25,10 +25,10 @@ export default class Hands extends ShHands
 	///////////////////////////////////////////////////////////////////////////
 
 
-	ui_newgridc( daddiv )
+	/*ui_newgridc( daddiv )
 	{
 		return new GridH( this ,daddiv )
-	}
+	}*/
 
 
 	///////////////////////////////////////////////////////////////////////////

@@ -1,10 +1,10 @@
 import GridC from "./Cell.js"
 
-import newGrid from "./newGrid.js"
+import newGrid from "./newGridCnt.js"
 
 import V from "../../shared/Vec.js"
 
-import{ sizes as cellszs }	from "./gridccfg.js"
+// import cellcfg	from "./gridccfg.js"
 
 
 
@@ -20,9 +20,9 @@ export default class GridHolder	extends newGrid( GridC )
 	{
 		const size	=this.size
 
-		const defsz	=cellszs[this.gobj.gkey()]
+		// const defsz	=size.c()
 
-		var maxw	=defsz.x
+		var maxw	=size.x
 
 		var area	=this.starterarea()
 
@@ -36,15 +36,15 @@ export default class GridHolder	extends newGrid( GridC )
 
 			area	+= cell.size.area()
 		}
-		if( maxw > defsz.x )	size.x	=maxw
+		const defar	=size.area()
 
-		const defar	=defsz.area()
+		if( maxw > size.x )	size.x	=maxw
 
 		if( area > defar )
 		{
 			const h	=Math.ceil( area / size.x )
 		
-			if( h > defsz.y )	size.y	=h
+			if( h > size.y )	size.y	=h
 		}
 		this.setsize()
 	}

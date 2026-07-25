@@ -13,10 +13,6 @@ export default class GridContainer extends GridHold
 
     finalize()
     {
-        const cntsym	=document.createElement( "cntsym" )
-
-		this.el.appendChild( cntsym )
-
         super.finalize()
     }
 

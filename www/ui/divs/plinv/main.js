@@ -2,9 +2,9 @@
 
 import newPage	from "../../newPage.js"
 
-import Hands	from "../../inv/Hands.js"
+import Hands	from "./Hands.js"
 
-import newGrid	from "../../inv/newGrid.js"
+import newGrid	from "../../inv/newGridCnt.js"
 import DivGo	from "../../DivGameObj.js"
 
 import V from "../../../shared/Vec.js"
@@ -37,6 +37,8 @@ export default class PlInv extends newPage( 1 )
 
 			this.belt	=new Grid( belt ,this ,bel )
 
+			// bel.classList.add( "root" )
+
 			el.appendChild( bel )
 		}
 		var sbag	=pl.gitem( "seedbag" )
@@ -48,6 +50,8 @@ export default class PlInv extends newPage( 1 )
 				const sbel	=document.createElement( "seedbag" )
 
 				this.seedbags.push( new Grid( sbag ,this ,sbel ))
+
+				// sbel.classList.add( "root" )
 
 				el.appendChild( sbel )
 			})

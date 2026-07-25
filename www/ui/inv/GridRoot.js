@@ -1,4 +1,4 @@
-import newGrid from "./newGrid.js"
+import newGrid from "./newGridCnt.js"
 
 import Div from "../Div.js"
 
