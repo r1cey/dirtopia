@@ -14,6 +14,8 @@ export default class Interface
 {
     game
 
+    get cl()    {return this.game }
+
     html
 
     con
@@ -29,6 +31,8 @@ export default class Interface
     fps
 
     stream
+
+    itmoving
 
 
 
@@ -77,19 +81,19 @@ export default class Interface
 
     async setpage( pagen ,...args )
     {
-        var page  =this.page
+        var div  =this.page
 
-        if( page )
+        if( div )
         {
-            const name  =page.gname()
+            const name  =div.gname()
 
             if( name === "clplinv" )
             {
-                page.hide()
+                div.hide()
             }
             else    this.html.deldiv( name )
         }
-        var div =null
+        div =null
 
         this.page   =div
 
@@ -152,6 +156,21 @@ export default class Interface
         ctxm.del()
 
         document.removeEventListener( "pointerdown" ,ctxm.onoutclck )
+    }
+
+
+
+    runitemmoving( div )
+    {
+        this.itmoving =div
+
+        const gobj  =div.getgo()
+
+        const el    =document.createElement( "movover" )
+
+        el.innerText    =gobj.gkey()+" is moving!"
+
+        this.html.el.appendChild( el )
     }
 
 

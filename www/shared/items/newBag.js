@@ -25,7 +25,7 @@ export default( Base =newCnt() )=>class Bag extends Base
 	{
 		return Math.min(
 			
-			Math.floor( this.remvol() / item.vol() ),
+			Math.floor( this.remvol() / item.calcvol() ),
 
 			len
 		)

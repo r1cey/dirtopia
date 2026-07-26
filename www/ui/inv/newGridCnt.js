@@ -1,13 +1,19 @@
-import Ui from "../Div.js"
+import Div from "../Div.js"
 
-// import CtxM	from "../ContextMenu.js" 
+import CtxM	from "./ContextMenu.js" 
+
+// import Drag	from "../Drag.js"
 
 
-export default( Base =Ui )=>class GridCnt	extends Base
+export default( Base =Div )=>class GridCnt	extends Base
 {
+	cntsym
+
 	cells	=[]
 
 	height	=0
+
+	// drag
 
 
 
@@ -18,16 +24,22 @@ export default( Base =Ui )=>class GridCnt	extends Base
 		this.el.classList.add( "grid" )
 
 		// console.log( this ,dad ,eln ,dhold )
-		{
-			const cntsym	=document.createElement( "cntsym" )
 
-			cntsym.onclick	=( ev )=>
-			{
-				// new 
-			}
-			this.el.appendChild( cntsym )
-		}
 		const html	=this.html()
+
+		const cntsym	=this.cntsym	=new Div( this ,"cntsym" )
+		{		
+			cntsym.el.onclick	=( ev )=>
+			{
+				const ctxm	=CtxM.frompointev( this ,ev )
+
+				if( ctxm.opts.length )	html.ui.setctxm( ctxm )
+			}
+			this.el.appendChild( cntsym.el )
+		}
+		// this.drag	=new Drag( cntsym )
+
+		// this.drag.start()
 
 		this.getgo().fore(( item )=>
 		{
@@ -37,6 +49,36 @@ export default( Base =Ui )=>class GridCnt	extends Base
 
 		this.finalize()
 	}
+
+
+
+	gnav()
+	{
+		const nav	=[]
+
+		var div	=this
+
+		do{
+			var gobj	=div.getgo()
+
+			nav.unshift( gobj )
+			
+			div	=div.dad
+		}
+		while( ! gobj.ispl )
+
+		nav.unshift( div.html().ui.cl.pls )
+
+		return nav
+	}
+
+
+
+	setmoving()
+	{
+		this.cntsym.el.classList.add( "moving" )
+	}
+
 
 
 	addfinal( grido )

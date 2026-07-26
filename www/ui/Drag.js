@@ -1,8 +1,17 @@
 import V	from '../shared/Vec.js'
 
-export default class Touch
+
+/***********************************
+ * THIS DOESN'T WORK ATM
+ * BECAUSE BROWSERS DON'T ALLOW BOTH SCROLLING
+ * AND DRAGGING
+ * I want to start dragging of user holds the touch for a time
+ * Not possible right now
+ */
+
+export default class Drag
 {
-	ui
+	div
 
 	bound
 
@@ -14,17 +23,21 @@ export default class Touch
 
 	pos	=new V()
 
+	pointid
+
 	time	=0
 
-	ondown
+	ondown	=this.#ondown. bind(this)
 
-	onup
+	// readppos	=this.#readppos. bind(this)
 
-	ondrag
+	onup	=this.#onup. bind(this)
 
-	ondragup
+	ondrag	=this.#ondrag. bind(this)
 
-	onmove
+	ondragup	=this.#ondragup. bind(this)
+
+	onmove	=this.#onmove. bind(this)
 
 	ondragout
 
@@ -34,21 +47,11 @@ export default class Touch
 
 
 
-	constructor(ui ,bound =document )
+	constructor(div ,bound =document )
 	{
-		this.ui	=ui
+		this.div	=div
 
 		this.bound	=bound
-
-		this.ondown	=this.#ondown.bind(this)
-
-		this.onup	=this.#onup.bind(this)
-
-		// this.ondrag	=this.#ondrag.bind(this)
-
-		this.ondragup	=this.#ondragup.bind(this)
-
-		this.onmove	=this.#onmove.bind(this)
 
 		this.ondragout	=this.#ondragout.bind(this)
 
@@ -62,12 +65,12 @@ export default class Touch
 
 	start( isframe =true )
 	{
-		this.ui.el.addEventListener( "pointerdown" ,this.ondown )
+		this.div.el.addEventListener( "pointerdown" ,this.ondown )
 	}
 
 	stop()
 	{
-		this.ui.el.removeEventListener( "pointerdown" ,this.ondown )
+		this.div.el.removeEventListener( "pointerdown" ,this.ondown )
 	}
 
 
@@ -77,52 +80,76 @@ export default class Touch
 
 	#ondown( ev )
 	{
-		ev.stopPropagation()
+		// ev.stopPropagation()
 
-		const tch	=this
+		const drag	=this
 
-		tch.down	=true
+		drag.down	=true
 
-		window.addEventListener('pointerup' ,tch.onup )
-		window.addEventListener('pointercancel' ,tch.onup )
-		window.addEventListener('blur' ,tch.onup )
-		window.addEventListener('contextmenu' ,tch.onup )
-		tch.ui.el.addEventListener( "pointerout" ,tch.onup )
+		drag.pos.setev( ev )
 
-		setTimeout( tch.#ondrag.bind( tch, ev ), Touch.delay )
+		drag.pointid	=ev.pointerId
+
+		const{ onup }	=drag
+
+		const{ el }	=drag.div
+
+		window.addEventListener('pointerup' ,onup )
+		window.addEventListener('pointercancel' ,onup )
+		window.addEventListener('blur' ,onup )
+		window.addEventListener('contextmenu' ,onup )
+		el.addEventListener( "pointerout" ,onup )
+		el.addEventListener("pointermove", drag.onmov )
+
+		setTimeout( drag.ondrag, Drag.delay )
 	}
+
+
+
+	#readppos( ev )
+	{
+		this.pos.setev( ev )
+	}
+
+
 
 	#onup( ev )
 	{
-		var tch	=this
+		const drag	=this
 
-		tch.down	=false
+		drag.down	=false
 
 		// console.log( "up" )
 
-		window.removeEventListener('pointerup' ,tch.onup )
-		window.removeEventListener('pointercancel' ,tch.onup )
-		window.removeEventListener('blur' ,tch.onup )
-		window.removeEventListener('contextmenu' ,tch.onup )
-		tch.ui.el.removeEventListener( "pointerout" ,tch.onup )
+		const{ onup }	=drag
+
+		const{ el }	=drag.div
+
+		window.removeEventListener('pointerup' ,onup )
+		window.removeEventListener('pointercancel' ,onup )
+		window.removeEventListener('blur' ,onup )
+		window.removeEventListener('contextmenu' ,onup )
+		el.removeEventListener( "pointerout" ,onup )
+		el.removeEventListener("pointermove", drag.onmove )
 	}
 
 
-	#ondrag( ev )
+
+	#ondrag()
 	{
-		const tch	=this
+		const drag	=this
 
 		// console.log( tch.down )
 
-		if( ! tch.down )	return
+		if( ! drag.down )	return
 
-		tch.startt.setev( ev )
-		// tch.last.setev( ev )
-		tch.pos.setev( ev )
+		const{ pos }	=drag
 
-		const el	=tch.ui.el
+		drag.startt.set( pos )
 
-		el.setPointerCapture( ev.pointerId )
+		const{ el }	=drag.div
+
+		el.setPointerCapture( drag.pointid )
 
 		// el.style.pointerEvents	="none"
 
@@ -135,48 +162,52 @@ export default class Touch
 
 		el.style.position	="fixed"
 
-		el.style.left	=`${ev.clientX+1}px`
-		el.style.top	=`${ev.clientY+1}px`
+		el.style.left	=`${pos.x + 1}px`
+		el.style.top	=`${pos.y + 1}px`
 
 		const bound	=this.bound
 
-		document.body.classList.add( "dragging" )
+		// document.body.classList.add( "dragging" )
 
-		el.addEventListener("pointerup", tch.ondragup )
-		bound.addEventListener("pointercancel", tch.ondragout )
-		bound.addEventListener("mouseleave" ,tch.ondragout )
-		window.addEventListener('blur' ,tch.ondragout )
-		window.addEventListener('contextmenu' ,tch.ondragout )
-		el.addEventListener("pointermove", tch.onmove )
+		el.classList.add("drag")
+
+		const ondout	=drag.ondragout
+
+		el.addEventListener("pointerup", drag.ondragup )
+		bound.addEventListener("pointercancel", ondout )
+		bound.addEventListener("mouseleave" ,ondout )
+		window.addEventListener('blur' ,ondout )
+		window.addEventListener('contextmenu' ,ondout )
+		// el.addEventListener("pointermove", drag.onmove )
 
 		// tch.time	=performance.now()
 
 		requestAnimationFrame( this.onframe )
 	}
 
+
+
 	#ondragup( ev )
 	{
-		const tch	=this
+		const drag	=this
 
 		// var el	=tch.ui.el
 
-		const trgt	=document.elementFromPoint(ev.clientX, ev.clientY)
+		const tgt	=document.elementFromPoint(ev.clientX, ev.clientY)
+
+		console.log(tgt)
 
 		// 4. Act on the target
 		/*if (dropTarget && dropTarget.closest('.inventory-slot')) {
 			moveItemToSlot(el, dropTarget.closest('.inventory-slot'));
 		}*/
 
-		tch.ui.dragto?.( trgt )
+		// drag.div.dragto?.( trgt )
 
 		this.stopdrag( ev )
-
-		/*if(performance.now() - tch.time <= 200)
-		{
-			tch.uie.clicked?.( tch.pos )
-		}*/
-
 	}
+
+
 
 	#onmove( ev )
 	{
@@ -186,6 +217,8 @@ export default class Touch
 
 		return tch.stopdefs(ev)
 	}
+
+
 
 	#ondragout( ev )
 	{
@@ -203,7 +236,7 @@ export default class Touch
 
 		if( tch.down )
 		{
-			tch.ui.el.style.transform	=`translate(${tch.pos.x-tch.startt.x}px, ${tch.pos.y-tch.startt.y}px)`
+			tch.div.el.style.transform	=`translate(${tch.pos.x-tch.startt.x}px, ${tch.pos.y-tch.startt.y}px)`
 
 			requestAnimationFrame( this.onframe )
 		}
@@ -230,9 +263,11 @@ export default class Touch
 
 		tch.down	=false
 
-		document.body.classList.remove( "dragging" )
+		// document.body.classList.remove( "dragging" )
 
-		const el	=tch.ui.el
+		el.classList.remove("drag")
+
+		const el	=tch.div.el
 
 		el.style.transform	=""
 		el.style.width	=""
@@ -242,7 +277,7 @@ export default class Touch
 		el.style.top	=""
 		// el.style.pointerEvents	=""
 
-		el.releasePointerCapture( ev.pointerId )
+		el.releasePointerCapture( tch.pointid )
 
 		const bound	=tch.bound
 

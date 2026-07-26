@@ -248,7 +248,13 @@ seedbag.grid
 }
 
 
-.movoverlay
+.moving
+{
+	border	:3px inset red ;
+}
+
+
+movover
 {
     /* 1. Make it cover the whole screen */
     position: fixed;
