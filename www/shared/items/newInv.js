@@ -8,7 +8,35 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 
 
 
-	canadditem()	{return true }
+	has( item )
+	{
+		const key	=item.gkey()
+
+		const invobj	=this.inv[key]
+		
+		if( invobj )
+		{
+			if( item.isstck )	return item === invobj
+
+			else if( item.iscnt ) return invobj[item.id]
+
+			else console.error( this ,"Inv.has(" ,item )
+		}
+		return false
+	}
+
+
+
+	canadditem( item )
+	{
+		if( ! super.canadditem( item ))	return false
+
+		// if this is inside item
+		/** @todo maybe there's a faster way to check it than
+		 * just going over the entire tree of item */
+
+		return ! item.hasdeep?.( this )
+	}
 	
 
 	additem( item )
@@ -27,12 +55,14 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 
 			else	this.inv[key]	=item
 		}
-		else
+		else if( item.iscnt )
 		{
 			if( invobj )	invobj[item.id]	=item
 
 			else	this.inv[key]	={ [item.id] :item }
 		}
+		else	console.error( this ,"Inv.additem(" ,item )
+
 		return item
 	}
 
@@ -49,9 +79,9 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 		{
 			if( invobj.len <= len )	delete this.inv[key]
 			
-			if( ! ismov )	invobj.len	-= len
+			else	invobj.len	-= len
 		}
-		else
+		else if( item.iscnt )
 		{
 			delete invobj[item.id]
 
@@ -63,6 +93,8 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 			}
 			if( ! isused )	delete this.inv[key]
 		}
+		else	console.error( this ,"Inv.delitem" ,item )
+
 		if( this.isempty() && nav.at(-2).cnt2stck )
 		{
 			nav.at(-2).cnt2stck( this ,nav ,nav.length - 2 )
@@ -132,6 +164,31 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 		{
 			fun( invo[id] )
 		}
+	}
+
+
+
+	hasdeep( item )
+	{
+		for(var key in this.inv )
+		{
+			var invo	=this.inv[key]
+
+			if( invo.isstck )
+			{
+				if( invo === item )	return true
+			}
+			else
+			{
+				for(var id in invo )
+				{
+					var cnt	=invo[id]
+
+					if( cnt === item || cnt.hasdeep( item ))	return true
+				}
+			}
+		}
+		return false
 	}
 
 

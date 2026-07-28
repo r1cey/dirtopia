@@ -8,10 +8,12 @@ export default( Base )=>class Holder	extends Base
 	static isholder	=true
 	
 
+	/** Defined in derived class
+	@method has(item)	{} */
 	
 	canadditem( item ,len ,nav )
 	{
-		return true
+		return item !== this && ! this.has( item )
 	}
 		
 	/** Defined in derived class

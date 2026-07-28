@@ -247,6 +247,9 @@ G.prototype. movitem	=function( from ,item ,len ,to ,mover )
 
 	from.at(-1).delitem( item ,len ,from ,true )
 
+	/** @todo don't send to everyone if items are moved inside players'
+	 * inventory and no one else can see it */
+
 	this.srv.sendvis2( nav2loc(from) ,nav2loc(to) ,"itemmov" ,msg )
 }
 

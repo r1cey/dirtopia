@@ -2,18 +2,20 @@ export default( Base )=>class Soft	extends Base
 {
 	canadditem( item ,len ,nav )
 	{
-		len	=Math.min( super.canadditem( item ,len ,nav ), len )
+		// len	=super.canadditem( item ,len ,nav )
 
-		if( nav.at(-2).canchildadd )
+		// if( len <= 0 || !len )	return 0
+
+		// if( nav.at(-2).canchildadd )
 		{
 			return Math.min(
-				
-				nav.at(-2).canchildadd( item ,canlen ,nav ,nav.length - 2 )
+
+				super.canadditem( item ,len ,nav )
 				,
-				len
+				nav.at(-2).canchildadd?.( item ,len ,nav ,nav.length - 2 ) ?? Infinity
 			)
 		}
-		return len
+		// return len
 	}
 
 

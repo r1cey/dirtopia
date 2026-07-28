@@ -32,6 +32,8 @@ export default( Base =newInv() )=>class InvSlot extends Base
 
 	canadditem( item ,len ,nav )
 	{
+		if( ! super.canadditem( item ))	return 0
+
 		const key	=InvSlot.parsekey( item.gkey() )
 		
 		const maxlen	=this.constructor.maxlen(key) - this.glen(key)
@@ -64,6 +66,6 @@ export default( Base =newInv() )=>class InvSlot extends Base
 	{
 		return key.endsWith( StCnt_suff )	?
 		
-			key.substring( 0 ,StCnt_suff.length - 3 )	: key 
+			key.slice( 0 ,- StCnt_suff.length )	: key 
 	}
 }

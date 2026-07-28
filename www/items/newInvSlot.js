@@ -3,7 +3,7 @@
 import newISlot from "../shared/items/newInvSlot.js"
 
 
-export default( Base =newISlot() )=>class InvSlot    extends Base
+export default( Base )=>class InvSlot    extends newISlot( Base )
 {
     additem( item ,nav ,newcnt ,pushed2loc ,slotnewcnts )
 	{

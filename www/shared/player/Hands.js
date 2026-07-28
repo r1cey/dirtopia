@@ -5,7 +5,7 @@ import { nonenum } from "../utils.js"
 
 
 
-export default newHold( class Hand	extends newJable()
+export default class Hand	extends newHold( newJable() )
 {
 	item
 
@@ -40,8 +40,17 @@ export default newHold( class Hand	extends newJable()
 
 
 
+	has( item )
+	{
+		return this.item === item
+	}
+
+	
+
 	canadditem( item ,len )
 	{
+		if( ! super.canadditem( item ))	return false
+
 		if( this.item )
 		{
 			return this.candrop()
@@ -96,4 +105,4 @@ export default newHold( class Hand	extends newJable()
 	{
 		return new this( null ,msg?.item )
 	}*/
-})
+}

@@ -23,6 +23,8 @@ export default( Base =newCnt() )=>class Bag extends Base
 
 	canadditem( item ,len )
 	{
+		if( ! super.canadditem( item ))	return 0
+
 		return Math.min(
 			
 			Math.floor( this.remvol() / item.calcvol() ),
@@ -72,7 +74,7 @@ export default( Base =newCnt() )=>class Bag extends Base
 			
 			this.canadditem( item ,len )
 			,
-			nav[_i-1].canchildadd?.( item ,len ,nav ,_i - 1) || 0
+			nav[_i-1].canchildadd?.( item ,len ,nav ,_i - 1) ?? Infinity
 		)
 	}
 }

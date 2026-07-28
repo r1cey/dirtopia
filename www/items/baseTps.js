@@ -10,13 +10,14 @@ import newStCnt from "../shared/items/newStackCnt.js"
 
 import Cnt	from "./Cnt.js"
 // import newInv   from "../shared/items/newInv.js"
-// import newCnt from "../shared/items/newContainer.js"
+import newShCnt from "../shared/items/newContainer.js"
 
 import newSoft from "../shared/items/newSoft.js"
 import newHard from "../shared/items/newHard.js"
 import newBag from "../shared/items/newBag.js"
 
 import newSlot from "./newInvSlot.js"
+// import newShSlot	from "../shared/items/newInvSlot.js"
 
 
 
@@ -32,7 +33,7 @@ export const Organic	=newOrg( Stack )
 	
 export const StackCnt	=newStCnt( Stack )
 
-// const Cnt    =newCnt( newInv( Item ))
+// const Cnt    =newCnt()
 
 const ShBag	=newBag(Cnt)
 	
@@ -40,7 +41,7 @@ export const Bag	=newSoft(ShBag)
 	
 export const Box	=newHard(ShBag)
 
-const Slot	=newSlot(Cnt)
+const Slot	=newSlot( Cnt )
 	
 export const SoftRcpt	=newSoft(Slot)
 	

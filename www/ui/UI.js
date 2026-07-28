@@ -4,6 +4,8 @@ import Html from "./Html.js"
 
 import Imgs	from "./Imgs.js"
 
+import{ isarreq }	from "../utils.js"
+
 
 
 export const imgdir	="ui/imgs/"
@@ -164,6 +166,8 @@ export default class Interface
     {
         this.itmoving =div
 
+        div.setmoving?.()
+
         const gobj  =div.getgo()
 
         const el    =document.createElement( "movover" )
@@ -171,6 +175,38 @@ export default class Interface
         el.innerText    =gobj.gkey()+" is moving!"
 
         this.html.el.appendChild( el )
+    }
+
+
+    stopitemmoving()
+    {
+        const div	=this.itmoving
+
+        if( ! div ) return
+
+        this.itmoving   =null
+
+        div.stopmoving?.()
+
+        this.html.el.querySelector( "movover" ).remove()
+    }
+
+
+    itemmov( from ,item ,to )
+    {
+        if( this.itmoving )
+        {
+            const{ divm }	=this
+
+            const fromm	=divm.gnav()
+
+			const itemm	=fromm.pop()
+
+            if( isarreq( from ,fromm ))
+			{
+				this.stopitemmoving()
+			}
+		}
     }
 
 

@@ -65,9 +65,9 @@ export default class Client	extends Game
 
 		to.at(-1).additem( movit ,to ,newcnt ,pushed2loc ,slotnewcnts )
 
-		
-
 		from.at(-1).delitem( item ,len ,from )
+
+		this.ui.itemmov( from ,item ,to )
 	}
 
 

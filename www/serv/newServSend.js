@@ -61,7 +61,7 @@ export default( Base )=>class SS extends Base
 			,
 			len$id	:item.iscnt	? item.id :
 
-				item.isstck	? item.len :
+				item.isstck	? ( len>0 ? len : item.len ) :
 			
 					console.error( "em_movitem" ,from ,item ,to )
 			,

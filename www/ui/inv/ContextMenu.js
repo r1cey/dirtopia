@@ -1,12 +1,13 @@
 import CtxM	from "../ContextMenu.js"
 
 
+const newcfg	=CtxM.newoptcfg
 
 export default class CtxMInv	extends CtxM
 {
 	static optcfgs	=
 	[
-		CtxM.newoptcfg(
+		newcfg(
 
 			"move"
 			,
@@ -18,18 +19,12 @@ export default class CtxMInv	extends CtxM
 			{
 				const div	=this.tgt
 
-				div.setmoving()
-
-				// const gobj	=div.getgo()
+				// div.setmoving()
 
 				cl.ui.runitemmoving( div )
-
-				// document.
-
-				// debugger
 			}
 		),
-		CtxM.newoptcfg(
+		newcfg(
 
 			"move here"
 			,
@@ -45,13 +40,32 @@ export default class CtxMInv	extends CtxM
 
 				const gobj	=div.getgo()
 
-				if( gobj === gomov )	return false
-
 				return gobj.canadditem( gomov ,1 ,div.gnav() )
 			},
 			function( cl )
 			{
-				console.log( "ueee" )
+				const divmov	=cl.ui.itmoving
+
+				const from	=divmov.gnav()
+
+				const gomov	=from.pop()
+
+				cl.srv.send( "movitem" ,from ,gomov ,0 ,this.tgt.gnav() )
+			}
+		),
+		newcfg(
+
+			"cancel move"
+			,
+			function()
+			{
+				const ui	=this.ui()
+
+				return ui.itmoving
+			},
+			function( cl )
+			{
+				cl.ui.stopitemmoving()
 			}
 		)
 	]

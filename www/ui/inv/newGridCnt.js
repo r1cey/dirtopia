@@ -63,7 +63,7 @@ export default( Base =Div )=>class GridCnt	extends Base
 
 			nav.unshift( gobj )
 			
-			div	=div.dad
+			while( div.getgo() === gobj )	div	=div.dad
 		}
 		while( ! gobj.ispl )
 
@@ -77,6 +77,11 @@ export default( Base =Div )=>class GridCnt	extends Base
 	setmoving()
 	{
 		this.cntsym.el.classList.add( "moving" )
+	}
+
+	stopmoving()
+	{
+		this.cntsym.el.classList.remove( "moving" )
 	}
 
 
