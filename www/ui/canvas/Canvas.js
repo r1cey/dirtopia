@@ -165,6 +165,8 @@ export default class Can	extends DivGo
 			{
 				pl.dest.setv( dest )
 			}
+			// else	console.log( "stop" )
+			
 			tch.onframe()
 		}
 		pl.step()

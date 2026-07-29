@@ -72,7 +72,7 @@ export default class ContextMenuCanvas	extends CtxM
 		
 		const loc	=this.loc	=can.cansq2loc( pos )
 
-		const pl	=this.pl	=can.gmap().obj.g( loc ).pl
+		const pl	=this.pl	=can.gmap().obj.g( loc )?.pl
 
 		this.setopts()
 	}

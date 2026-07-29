@@ -74,6 +74,15 @@ export default class Pl extends PV
 
 
 
+	canmov( dest ,map )
+	{
+		map	??=this.game.maps.loc2map( dest )
+
+		return map.canplmov( dest ,this )
+	}
+
+
+
 	subwater( n )
 	{
 		return this.setwater( this.water - n )

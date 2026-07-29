@@ -4,7 +4,7 @@ import Html from "./Html.js"
 
 import Imgs	from "./Imgs.js"
 
-import{ isarreq }	from "../utils.js"
+import{ isarreq }	from "../shared/utils.js"
 
 
 

@@ -22,6 +22,8 @@ export default( Base )=>class SS extends Base
 
 	em_mov( loc )
 	{
+		// if( loc.eqxy( 49 ,13 ))	debugger
+
 		return[[ loc ]]
 	}
 

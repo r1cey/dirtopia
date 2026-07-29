@@ -67,13 +67,13 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 
 	step( dt )
 	{
-		var pl	=this
+		const pl	=this
 
-		var newpos	=new Loc()
+		const newpos	=new Loc()
 
-		var newloc	=new Loc()
+		const newloc	=new Loc()
 
-		var dv	=this.dest.c().subv(this.pos)
+		const dv	=this.dest.c().subv(this.pos)
 
 		if( dv.zero() )
 		{
@@ -87,28 +87,28 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 		{
 			let mul	=0.22
 
-			let map	=this.game.maps.gr
+			const map	=this.map()
 
-			switch( map.getwaterlvl( pl.loc ) )
+			if( map.isgr )
 			{
-				case 1:
-					mul	=0.17
-				break;
-				case 2:
-				case 3:
-					mul	=0.08
+				switch( map.getwaterlvl( pl.loc ) )
+				{
+					case 1:
+						mul	=0.17
+					break;
+					case 2:
+					case 3:
+						mul	=0.08
+				}
+				if( pl.water <= 0 )	mul=0.08
 			}
-
-			if( pl.water <= 0 )	mul=0.08
-
 			newpos.set(this.pos).addv(dv.mul( mul ))
 		}
-		
 		newloc.set( newpos ).roundh()
 
-		if( ! this.loc.eq( newloc ) )
+		if( ! this.loc.eq( newloc ))
 		{
-			if( this.onmov( newloc ) )
+			if( this.onmov( newloc ))
 			{
 				this.pos.set( newpos )
 
@@ -222,7 +222,7 @@ Player.prototype. lcl_acto	=function( path ,actk ,args )
 
 Player.prototype. onmov	=function( newloc )
 {
-	if( this.ismovack )
+	if( this.ismovack && this.canmov( newloc ))
 	{
 		this.ismovack	=false
 

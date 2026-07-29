@@ -137,11 +137,17 @@ Map.prototype. canplmov	=function( dest, pl )
 	}
 	return true*/
 
-	var o	=this.obj.g(dest)
+	const o	=this.obj.g(dest)
 
-	return this.inside(dest) && ( !o ||
-
-		( (!o.pl || o.pl===pl || o.pl===pl.name) && ( !o.item || !o.item.isblock )))
+	return this.inside(dest) &&
+	(
+		!o ||
+		(
+			( !o.pl || o.pl === pl || o.pl === pl.name )
+			&&
+			( !o.item || !o.item.isblock )
+		)
+	)
 }
 
 

@@ -108,6 +108,9 @@ export default function( Base )
 {
 	class Gr extends Base
 	{
+		get isgr()	{return this }
+		
+
 		static Bin	=Base.newBin( 1, bmap )
 
 		static bmap	=this.Bin.bmap
