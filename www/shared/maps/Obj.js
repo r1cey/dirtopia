@@ -40,20 +40,29 @@ Obj.prototype. get	=function(loc)
 Obj.prototype. g	=Obj.prototype. get
 
 
+/** Returns deleted property */
 
 Obj.prototype. del	=function( loc, key ,cell )
 {
-	var str	=loc.tovstr()
+	const str	=loc.tovstr()
 
 	cell	??=this.o[str]
 
+	const prop	=cell[key]
+
 	delete cell[key]
+
+	var isvac	=true
 
 	for( key in cell )
 	{
-		return
+		isvac	=false
+
+		break
 	}
-	delete this.o[str]
+	if( isvac )	delete this.o[str]
+
+	return prop
 }
 
 

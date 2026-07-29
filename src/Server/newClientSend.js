@@ -53,25 +53,25 @@ export default( Base =Object )=>class ClS extends Base
 
 	em_clplmov( delta )
 	{
-		var{ pl }	=this
+		const{ pl }	=this
 
-		var	loc	=pl.loc
+		const{ loc }	=pl
 		
-		var dir	=Loc.dirv2dirh( delta )
+		const dir	=Loc.dirv2dirh( delta )
 
-		var r	=pl.vision
+		const r	=pl.vision
 
-		var obj	={ gr	:0 , tr	:0 }
+		const msgo	={ gr	:0 , tr	:0 }
 
-		var boards	=this.game.maps.gshiftboards( loc, r, dir )
+		const msgbs	=this.game.maps.gshiftboards( loc, r, dir )
 
-		for(var n in boards )
+		for(var n in msgbs )
 		{
-			this.sendbin( boards[n].bin.getbuf() )
+			this.sendbin( msgbs[n].bin.getbuf() )
 
-			obj[n]	=boards[n].obj
+			msgo[n]	=msgbs[n].obj
 		}
-		return[[ obj, loc, r, dir ]]
+		return[[ msgo, loc, r, dir ]]
 	}
 
 

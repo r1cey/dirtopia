@@ -94,7 +94,7 @@ M.prototype. setbuf	=function( buf, code )
 
 
 
-Maps.prototype. shift	=function( grbin, grobj, trbin, trobj, dir )
+Maps.prototype. shift	=function( dir ,grbin ,grobj ,trbin ,trobj )
 {
 	this.gr.shift( dir, new Ground.MapShiftBo( grbin, grobj ) )
 

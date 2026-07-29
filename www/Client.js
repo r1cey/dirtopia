@@ -6,6 +6,7 @@ import PCl	from './PeerCl.js'
 import Pls from './player/Players.js'
 import Maps	from './maps/Maps.js'
 import V	from './shared/Vec.js'
+import Loc	from "./shared/Loc.js"
 // import items from './items/itemTps.js'
 
 
@@ -58,6 +59,9 @@ export default class Client	extends Game
 	}
 
 
+	///////////////////////////////////////////////////////////////////////////
+
+
 
 	movitem( from ,item ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts )
 	{
@@ -86,6 +90,36 @@ export default class Client	extends Game
 		ui.can.runani()
 
 		ui.setpage()
+	}
+
+
+	movclpl( dir ,mapshiftdets )
+	{
+		const cl	=this
+
+		const{ pl ,maps }	=cl
+
+		pl.ismovack	=true
+
+		maps.shift( dir ,...mapshiftdets )
+
+		const{ prevloc }	=pl
+
+		if( ! prevloc )
+		{
+			/** @todo the server moved player by itself somehow */
+
+			console.warn( "UNDEFINED BEHAVIOUR : client.movclpl" )
+		}
+		const newloc	=Loc.set( prevloc ).neighh( dir )
+
+		if( ! newloc.eq( pl.loc ))
+		{
+			console.error( "GRAVE ERROR : somehow srvr moved me wrong : client.movclpl" )
+		}
+		maps.movobjp( pl.prevloc ,"pl" ,newloc )
+
+		pl.prevloc	=null
 	}
 }
 

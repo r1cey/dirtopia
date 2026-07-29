@@ -50,8 +50,21 @@ export default class V	//extends newJable()
 		return this
 	}
 
+	static setxy( x ,y )
+	{
+		return new this( x ,y )
+	}
+
 
 	area()	{return this.x * this.y }
+
+
+	/** Returns square of distance  */
+	dist2( v )
+	{
+		return (v.x - this.x)**2 + (v.y - this.y)**2
+	}
+
 }
 
 
@@ -169,13 +182,8 @@ V.prototype. setj	=function(arr)
 	return this.setxy( ...arr )
 }
 V.prototype. seta	=V.prototype. setj
-/*V.prototype. setxy	=function( x , y )
-{
-	this.x	=x
-	this.y	=y
 
-	return this
-}*/
+
 /** @arg {x,y,z}	o	- One property is optional */
 V.prototype. setxyzh	=function( o )
 {

@@ -245,17 +245,17 @@ Buf.prototype. addobj	=function( obj, loc, r, dir )
 
 Buf.prototype. iscomplete	=function( i, buf )
 {
+	// const{ cl }	=this.srv
+
 	if( buf.Gr && buf.Tr && buf.obj )
 	{
 		if( buf.dir >= 0 )
 		{
-			this.srv.cl.pl.ismovack	=true
-
-			this.srv.cl.maps.shift( buf.Gr, buf.obj.gr , buf.Tr, buf.obj.tr, buf.dir )
+			this.srv.cl.movclpl( buf.dir ,[ buf.Gr ,buf.obj.gr ,buf.Tr ,buf.obj.tr ])
 		}
 		else
 		{
-			this.srv.cl.setmaps( buf.Gr, buf.obj.gr , buf.Tr, buf.obj.tr )
+			this.srv.cl.setmaps( buf.Gr ,buf.obj.gr ,buf.Tr ,buf.obj.tr )
 		}
 		this.a.splice( i, 1 )
 	}

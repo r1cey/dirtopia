@@ -15,37 +15,38 @@ export default( Base =Object )=>class ClientGet extends Base
 
 
 
-	on_mov( loca )
+	on_mov( desta )
 	{
-		var loc	=new Loc().setj( loca )
+		const dest	=new Loc().setj( desta )
 		
-		var{ pl }	=this
+		const{ pl }	=this
 
-		var map	=pl.map()
+		// var map	=pl.map()
 
-		if( ! map.canplmov( loc, pl ))
+		if( ! pl.canmov( dest ))
 		{
-			this.send("movrej" , loc )
+			this.send("movrej" , dest )
 
 			return
 		}
-		var{loc: curloc }	=pl
+		const{ loc }	=pl
 
-		if( curloc.eq( loc ))
+		if( loc.eq( dest ))
 		{
 			this.send("error" , "Already there." )
 			
 			return
 		}
-		curloc.forlineh( loc, (loc2)=>
+		loc.forlineh( dest, (loc2)=>
 		{
-			loc.set(loc2)
+			dest.set(loc2)
 
 			return true
 		})
-		pl.mov( loc )
+		pl.mov( dest )
 	}
 
+	
 	/** Relay WRTC message between clients through the server.
 	 * @arg	o
 	 * @arg	o.name	- name of the receiving player

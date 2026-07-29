@@ -180,6 +180,19 @@ export default class Can	extends DivGo
 	}
 
 	frame	=this.#frame.bind(this)
+
+
+
+	isclpl( possqel )
+	{
+		const can	=this
+
+		const size2	=V.setxy( can.w2() ,can.h2() )
+
+		const r	=this.pl.r * can.units.r
+
+		return size2.dist2( possqel ) < r**2
+	}
 }
 
 

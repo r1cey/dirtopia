@@ -178,7 +178,10 @@ class PlVis extends newPl( ShPlV )
 
 export default class Player extends newPl( ShPl )
 {
-	/** Is tile move acknowledged from server? */
+	/** Needed when we request mov ack from server. */
+	prevloc
+
+	/** Is cell move acknowledged from server? */
 	ismovack	=true
 
 	
@@ -220,13 +223,15 @@ Player.prototype. lcl_acto	=function( path ,actk ,args )
 
 
 
-Player.prototype. onmov	=function( newloc )
+Player.prototype. onmov	=function( dest )
 {
-	if( this.ismovack && this.canmov( newloc ))
+	if( this.ismovack && this.canmov( dest ))
 	{
 		this.ismovack	=false
 
-		this.srv.send("mov", newloc )
+		this.prevloc	=this.loc.c()
+
+		this.srv.send( "mov" ,dest )
 
 		return true
 	}

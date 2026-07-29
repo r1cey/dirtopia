@@ -150,7 +150,7 @@ export default class CtxM	extends Div
 	{
 		const ctxm	=this
 
-		console.log( "doc click!" )
+		// console.log( "doc click!" )
 
 		if( ! ctxm.el.contains( ev.target ) )
 		{

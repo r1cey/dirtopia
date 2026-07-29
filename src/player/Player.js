@@ -150,29 +150,29 @@ Player.prototype. clclosed	=function()
 
 /** //!!!newloc will be modified!!! */
 
-Player.prototype. mov	=function( loc )
+Player.prototype. mov	=function( dest )
 {
-	var pl	=this
+	const pl	=this
 
-	var{loc: curloc }	=pl
+	const{ loc }	=pl
 
-	var map	=pl.map()
+	const map	=pl.map()
 	
-	map.obj.del( curloc, "pl" )
+	map.obj.del( loc, "pl" )
 
 	// var dir	=Loc.dirv2dirh(loc.subv(newloc).neg())
 
-	var oldloc	=new Loc().set(curloc)
+	const orig	=Loc.set( loc )
 
-	curloc.set( loc )
+	loc.set( dest )
 
-	map.obj.set(loc).pl	=this
+	map.obj.set(dest).pl	=this
 
 	// this.srv?.send( "plmov" ,this ,oldloc )
 
-	this.cl.send( "clplmov" ,new Loc().set(loc).subv(oldloc) )
+	this.cl.send( "clplmov" ,Loc.set( dest ).subv( orig ))
 
-	if( loc.h === 0 )
+	if( dest.h === 0 )
 	{
 		map	=pl.game.maps.gr
 
@@ -186,7 +186,7 @@ Player.prototype. mov	=function( loc )
 				return true
 			}
 		}
-		,1 ,curloc )
+		,1 ,loc )
 	}
 	// console.log(`Player ${this.pl.name} moved to ${this.pl.loc.p()}.`)
 }

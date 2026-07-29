@@ -85,6 +85,17 @@ export default class Maps	extends newPatha()
 	}
 
 
+
+	movobjp( from ,key ,to )
+	{
+		const prop	=this.loc2map(from).obj.del( from ,key )
+
+		this.loc2map(to).obj.set( to )[key]	=prop
+
+		return prop
+	}
+
+
 	pmsg2obj( locj )	{return new Loc().setj( locj )}
 
 
