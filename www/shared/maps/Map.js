@@ -156,10 +156,12 @@ Map.prototype. canadditem	=function( loc ,item ,len )
 {
 	var curitem	=this.obj.g(loc)?.item
 
-	if( curitem?.isstck && curitem.gkey() === item.gkey() )	return 100
+	if( curitem )
+	{
+		if( curitem.isstck && curitem.gkey() === item.gkey() )	return 100
 
-	if( curitem )	return 0
-
+		else	return 0
+	}
 	return 100
 }
 

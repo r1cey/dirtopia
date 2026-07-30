@@ -145,12 +145,14 @@ Maps.prototype. fore	=function( fun )
 }
 
 
-/** @todo If item not found in location, find closest similar item. *
+/** @todo If item not found in location, find closest similar item. */
 
-Maps.prototype. getitem	=function( loc ,key )
+Maps.prototype. getitem	=function( loc )
 {
-	return this.loc2map(loc).obj.g(loc)?.[key]
-}*/
+	return this.loc2map(loc).obj.g(loc)?.item
+}
+
+Maps.prototype. gitem	=Maps.prototype.getitem
 
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -37,13 +37,13 @@ Gr.prototype. draw	=function( can )
 
 	can.forcell(( loc )=>
 	{
-		if( ! this.inside(loc) )	return
+		if( ! this.inside( loc ))	return
 
-		var o	=this.obj.get(loc)
+		const cell	=this.obj.get(loc)
 
-		for(var key in o )
+		for(var key in cell )
 		{
-			o[key].draw?.( can, loc, vsq )
+			cell[key].draw?.( can ,loc ,vsq )
 		}
 	})
 }

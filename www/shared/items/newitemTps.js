@@ -29,6 +29,18 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 		{
 			dir
 
+			static
+			{
+				for(var rd =-1 ;rd <= 1 ;rd += 2 )
+				{
+					this.acts["rot"+rd]	=
+					[
+						function( nav ,pl ){ return pl.canreach( nav.gloc() )}
+						,
+						function(){ this.dir =V.roth( this.dir ,rd )}
+					]
+				}
+			}
 
 			constructor()
 			{

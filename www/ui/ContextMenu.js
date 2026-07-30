@@ -64,7 +64,7 @@ export default class CtxM	extends Div
 
 	opts	=[]
 
-	onoutclck
+	onoutclck	=this.#onoutclck. bind(this)
 
 
 	static Opt	=Option
@@ -87,8 +87,6 @@ export default class CtxM	extends Div
 		this.pos.set( pos )
 
 		this.setelpos()
-
-		this.onoutclck	=this.#onoutclck. bind(this)
 	}
 
 
@@ -101,6 +99,7 @@ export default class CtxM	extends Div
 	///////////////////////////////////////////////////////////////////////////
 
 
+	/** Simply goes through optcfgs in constructor and adds if test passe. */
 
 	setopts()
 	{

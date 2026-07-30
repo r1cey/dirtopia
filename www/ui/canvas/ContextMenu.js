@@ -6,32 +6,7 @@ import Loc from '../../shared/Loc.js'
 
 
 
-/*
-class Opt
-{
-	el
-
-	check
-
-
-
-	constructor( str, act, check, parel )
-	{
-		var el	=document.createElement('button')
-
-		el.textContent	=str
-	
-		el.onclick	=act
-
-		parel.appendChild( el )
-		
-		this.el	=el
-
-		this.check	=check
-	}
-}*/
-
-
+const newopt	=CtxM.newoptcfg
 
 
 export default class ContextMenuCanvas	extends CtxM
@@ -43,13 +18,13 @@ export default class ContextMenuCanvas	extends CtxM
 
 	static optcfgs	=
 	[
-		CtxM.newoptcfg
-		(
+		newopt(
+
 			"equipment"
 			,
 			function()
 			{
-				return this.pl
+				return this.pl && this.gclpl().canreach( this.pl.loc )
 			},
 			function( cl )
 			{
@@ -59,7 +34,40 @@ export default class ContextMenuCanvas	extends CtxM
 					:
 					console.log("show pl inv")
 			}
-		)
+		),
+		newopt(
+
+			"rotate ↻"
+			,
+			ifdewd
+			,
+			function( cl )
+			{
+				cl.srv.send("rotitem" ,this.loc ,1 )
+			}
+		),
+		newopt(
+
+			"rotate ↺"
+			,
+			ifdewd
+			,
+			function( cl )
+			{
+				cl.srv.send( "rotitem" ,this.loc ,-1 )
+			}
+		),
+		newopt( "move ↑" ,ifdewd ,movitem( 2 ))
+		,
+		newopt( "move ↗" ,ifdewd ,movitem( 1 ))
+		,
+		newopt( "move ↘" ,ifdewd ,movitem( 0 ))
+		,
+		newopt( "move ↓" ,ifdewd ,movitem( 5 ))
+		,
+		newopt( "move ↙" ,ifdewd ,movitem( 4 ))
+		,
+		newopt( "move ↖" ,ifdewd ,movitem( 3 ))
 	]
 
 
@@ -79,44 +87,67 @@ export default class ContextMenuCanvas	extends CtxM
 			pl	=can.isclpl( pos )
 		}
 		this.pl	=pl
-		
+
 		this.setopts()
 	}
 
 
-	/*static gopts( cell )
+
+	gcan()	{return this.tgt }
+
+	gmap()	{return this.gcan().gmap()	}
+
+	gclpl()	{return this.gcan().pl }
+
+	gcello()	{return this.gmap().obj.g(this.loc) }
+
+	gco	=this.gcello
+
+
+
+	setopts()
 	{
-		const{ loc ,map }	=cell
+		super.setopts()
 
-		const opts	=[]
+		const{ loc ,opts }	=this
 
-		for(var opt of this.opts )
+		const cpl	=this.gclpl()
+
+		const{ Opt }	=this.constructor
+
+		if( cpl.canreach( loc ))
 		{
-			if( opt.check( cell ))	opts.push( opt )
+			const item	=this.gcello()?.item
+
+			if( item )
+			{
+				for(var act in item.acts )
+				{
+					opts.push( new Opt( this ,newopt( )))
+				}
+			}
 		}
-		return opts
-	}*/
+	}
+}
 
 
-	/*
+///////////////////////////////////////////////////////////////////////////////
 
-	setpos( possqel, ploc )
+
+function ifdewd()
+{
+	return this.gmap().obj.g(this.loc)?.dewd
+}
+
+
+function movitem( dir )
+{
+	return function movitem( cl )
 	{
-		var can	=this.can
-
-		var pos	=this.pos
-
-		pos.set( possqel )
-
-		// pos.set( possqel ).tohexc( can ).addv( can.crn )
-
-		this.loc.set( pos ).tohexc( can ).addv( can.crn ).roundh()
-		
-		this.loc.h	=ploc.h
-	}*/
+		cl.srv.send("movobj" ,this.loc ,dir ,this.gco()?.dewd )
+	}
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -124,23 +155,3 @@ export default class ContextMenuCanvas	extends CtxM
 
 
 ///////////////////////////////////////////////////////////////////////////////
-
-
-
-/*ContextMenuCanvas.prototype. mov	=function( d )
-{
-	this.pos.addv(d)
-
-	this.setelpos()
-}*/
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-/*
-Opt.prototype. enable	=function( bool )
-{
-	this.el.disabled	=!bool
-}
-*/
-

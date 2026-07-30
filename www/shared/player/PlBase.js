@@ -48,6 +48,10 @@ export default class PlBase	extends newJable(newISlot())
 	///////////////////////////////////////////////////////////////////////////
 
 
+
+	canreach( dest )	{return this.loc.disth( dest ) <= 0 }
+
+
 	// toJSON( key )	{return  /^\\d+$/.test(key) ? this.name : this 	}
 
 	tonavmsg()	{return this.name }

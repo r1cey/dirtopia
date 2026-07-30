@@ -21,6 +21,8 @@ export default class It	extends newJable()
 
 	get isitem()	{return this }
 
+	static acts	={}
+
 
 
 	vol()	{return this.constructor.vol }

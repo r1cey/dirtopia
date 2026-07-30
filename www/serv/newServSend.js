@@ -43,10 +43,13 @@ export default( Base )=>class SS extends Base
 	}
 
 
+	/** @arg item - is optional */
 
-	em_rotobj( loc ,dir ,obj )
+	em_rotitem( loc ,dir ,item )
 	{
-		return [[ loc, obj.sim_rot( dir ), obj.constructor.key ]]
+		item	??=this.cl.maps.gitem( loc )
+
+		return [[ loc ,item.sim_rot( dir ) ,item.gkey() ]]
 	}
 
 

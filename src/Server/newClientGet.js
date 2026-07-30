@@ -46,7 +46,7 @@ export default( Base =Object )=>class ClientGet extends Base
 		pl.mov( dest )
 	}
 
-	
+
 	/** Relay WRTC message between clients through the server.
 	 * @arg	o
 	 * @arg	o.name	- name of the receiving player
@@ -148,28 +148,28 @@ get. climb	=function( o )
 	}
 
 
-/**@todo Check that not rotating players on accident... *
+	/**@todo Check that not rotating players on accident... */
 
-get. rotobj	=function( loca, dir, key )
-{
-	var{ pl, game }	=this
-
-	var loc	=new Loc().setj(loca)
-
-	if( this.pl.sendreach( loc ) )	return
-
-	var obj	=this.game.maps.getitem( loc, key )
-
-	if( ! obj )
+	on_rotobj( loca, dir, key )
 	{
-		this.send("error" ,[ `Object ${key} not found.` ])
+		const{ pl, game }	=this
 
-		return
+		const loc	=new Loc().setj(loca)
+
+		if( ! pl.canreach( loc ))	return
+
+		const item	=game.maps.getitem( loc, key )
+
+		if( ! obj )
+		{
+			this.send("error" ,[ `Object ${key} not found.` ])
+
+			return
+		}
+		dir	=Loc.steprot( obj.dir, dir )
+
+		pl.rotobj( loc, dir, obj )
 	}
-	dir	=Loc.steprot( obj.dir, dir )
-
-	pl.rotobj( loc, dir, obj )
-}
 
 
 /** path[], act, params[] *
