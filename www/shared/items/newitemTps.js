@@ -26,35 +26,34 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 	addst( "multi" ,30*20*150 )
 
 	addblock( "dewd" ,class Dewd extends Block
+	{
+		dir
+
+		static
 		{
-			dir
-
-			static
+			for(let ddir =-1 ;ddir <= 1 ;ddir += 2 )
 			{
-				for(var rd =-1 ;rd <= 1 ;rd += 2 )
-				{
-					this.acts["rot"+rd]	=
-					[
-						function( nav ,pl ){ return pl.canreach( nav.gloc() )}
-						,
-						function(){ this.dir =V.roth( this.dir ,rd )}
-					]
-				}
-			}
-
-			constructor()
-			{
-				super()
-
-				this.dir	??=rnd(6)
-			}
-
-			sim_rot( ddir )
-			{
-				return V.roth( this.dir, ddir )
+				this.acts["rot"+ddir]	=
+				[
+					function( nav ,pl ){ return pl.canreach( nav.gloc() )}
+					,
+					function(){ this.dir =V.roth( this.dir ,ddir )}
+				]
 			}
 		}
-	)
+
+		constructor()
+		{
+			super()
+
+			this.dir	??=rnd(6)
+		}
+
+		sim_rot( ddir )
+		{
+			return V.roth( this.dir, ddir )
+		}
+	})
 	for(var key in itTps )
 	{
 		Object.defineProperty( itTps[key] ,'name' ,{ value: key })
