@@ -35,15 +35,15 @@ export default( Base =Item )=>class Block	extends Base
 
 					const map	=nav.gmap()
 
-					map.obj.s(dest).item	=nav.last()
+					map.obj.s(dest).item	=this
 
 					map.obj.del( loc ,"item" )
-
+					/*
 					const plloc	=pl.loc.c()
 
 					map.obj.del( plloc ,"pl" )
 
-					map.obj.s( plloc.neighh( dir )).pl	=pl
+					map.obj.s( plloc.neighh( dir )).pl	=pl*/
 				}
 			]
 		}

@@ -159,9 +159,25 @@ export default newSS( newSG (class Server
 		}
 		else if(typeof msg === 'string')
 		{
-			let[ act, args ]	=JSON.parse(ev.data, this.jrev.fn )
+			const[ act, args ,nava ]	=JSON.parse(ev.data, this.jrev.fn )
 
-			this["on_"+act]?.( ...args )
+			if( act === "act" )
+			{
+				const actk	=args
+
+				const nav	=this.cl.newnav( nava )
+
+				if( nav.error >= 0 )	return
+
+				const obj	=nav.last()
+
+				const act	=obj.constructor.acts[actk]
+
+				if( !act )	return console.error( "Srv.onmsg: no act" ,obj ,actk )
+
+				act[1].call( obj , nav, this.cl.pl )
+			}
+			else	this["on_"+act]?.( ...args )
 
 			console.log(act, ...args )
 		}

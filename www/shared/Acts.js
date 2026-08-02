@@ -7,7 +7,7 @@ export default class Actions
 			function( game ,pl ,itnav ,tonav )
 			{
 				if( ! pl.canreach( itnav.gloc() ) ||
-				
+				.
 					! pl.canreach( tonav.gloc() ))	return 0
 
 				return tonav.canmovitem( itnav.last() )
