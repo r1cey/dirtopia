@@ -19,7 +19,9 @@ export default class Client extends newClG( newClS() )
 
 	srv
 
-	get game()	{return this.srv.game }
+	get game()	{return this.ggame() }
+
+	ggame()	{return this.srv.game }
 
 	tc	=new Timecode( MapG.Bin.timecodelen )
 
@@ -91,9 +93,28 @@ export default class Client extends newClG( newClS() )
 	{
 		console.log(`${this.pl.name}: WS msg: ${data.toString()}`)
 
-		var[ act, args ]	=JSON.parse( data.toString(), this.constructor.jrev.fn )
+		const[ act ,args ,nava ]	=JSON.parse( data.toString(), this.constructor.jrev.fn )
 
-		this["on_"+act]?.( ...args )
+		if( act === "act" )
+		{
+			const actk	=args
+
+			const nav	=this.ggame().newnav( nava )
+
+			if( nav.error >= 0 )	return
+
+			const obj	=nav.last()
+
+			const act	=obj.constructor.acts[actk]
+
+			if( !act )	return console.error( "Client.onmsg: no act" ,obj ,actk )
+
+			if( act[0].call( obj , nav, this.pl ))
+			{
+				act[1].call( obj , nav, this.pl )
+			}
+		}
+		else	this["on_"+act]?.( ...args )
 
 		// this["on_"+act]?.(...args)
 		

@@ -158,17 +158,17 @@ get. climb	=function( o )
 
 		if( ! pl.canreach( loc ))	return
 
-		const item	=game.maps.getitem( loc, key )
+		const item	=game.maps.getitem( loc )
 
-		if( ! obj )
+		if( ! item || item.gkey() !== key )
 		{
 			this.send("error" ,[ `Object ${key} not found.` ])
 
 			return
 		}
-		dir	=Loc.steprot( obj.dir, dir )
+		dir	=Loc.steprot( item.dir, dir )
 
-		pl.rotobj( loc, dir, obj )
+		pl.rotobj( loc, dir, item )
 	}
 
 

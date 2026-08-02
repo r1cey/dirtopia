@@ -1,6 +1,8 @@
 import CtxM	from "../ContextMenu.js"
 
-import Cell	from "../../maps/Cell.js"
+// import Cell	from "../../maps/Cell.js"
+
+import Nav	from "../../shared/Nav.js"
 
 import Loc from '../../shared/Loc.js'
 
@@ -34,7 +36,7 @@ export default class ContextMenuCanvas	extends CtxM
 					:
 					console.log("show pl inv")
 			}
-		),
+		)/*,
 		newopt(
 
 			"rotate ↻"
@@ -67,7 +69,7 @@ export default class ContextMenuCanvas	extends CtxM
 		,
 		newopt( "move ↙" ,ifdewd ,movitem( 4 ))
 		,
-		newopt( "move ↖" ,ifdewd ,movitem( 3 ))
+		newopt( "move ↖" ,ifdewd ,movitem( 3 ))*/
 	]
 
 
@@ -95,13 +97,15 @@ export default class ContextMenuCanvas	extends CtxM
 
 	gcan()	{return this.tgt }
 
+	gcl()	{return this.html().gcl() }
+
 	gmap()	{return this.gcan().gmap()	}
 
 	gclpl()	{return this.gcan().pl }
 
 	gcello()	{return this.gmap().obj.g(this.loc) }
 
-	gco	=this.gcello
+	static{this.prototype. gco	=this.prototype. gcello }
 
 
 
@@ -111,19 +115,34 @@ export default class ContextMenuCanvas	extends CtxM
 
 		const{ loc ,opts }	=this
 
-		const cpl	=this.gclpl()
+		// const cl	=this.gcl()
 
-		const{ Opt }	=this.constructor
+		const clpl	=this.gclpl()
 
-		if( cpl.canreach( loc ))
+		const nav	=new Nav([ cl.maps ,loc ])
+
+		const srv	=this.gcl().srv
+
+		const item	=this.gcello()?.item
+
+		nav.add( item )
+
+		if( item )
 		{
-			const item	=this.gcello()?.item
-
-			if( item )
+			for(const actk in item.constructor.acts )
 			{
-				for(var act in item.acts )
+				const act	=item.constructor.acts[actk]
+
+				if( act[0].call( item ,nav ,clpl ))
 				{
-					opts.push( new Opt( this ,newopt( )))
+					this.addopta(
+					[
+						k2s[actk] || actk
+						,
+						act[0].bind( item ,nav ,clpl )
+						,
+						srv.senda. bind(srv, actk ,nav )
+					])
 				}
 			}
 		}
@@ -153,5 +172,20 @@ function movitem( dir )
 
 ///////////////////////////////////////////////////////////////////////////////
 
+
+const k2s	=
+{
+	"mov2"	:"move ↑"
+	,
+	"mov1"	:"move ↗"
+	,
+	"mov0"	:"move ↘"
+	,
+	"mov5"	:"move ↓"
+	,
+	"mov4"	:"move ↙"
+	,
+	"mov3"	:"move ↖"
+}
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -29,7 +29,7 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 	{
 		dir
 
-		static
+		/*static
 		{
 			for(let ddir =-1 ;ddir <= 1 ;ddir += 2 )
 			{
@@ -40,7 +40,7 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 					function(){ this.dir =V.roth( this.dir ,ddir )}
 				]
 			}
-		}
+		}*/
 
 		constructor()
 		{

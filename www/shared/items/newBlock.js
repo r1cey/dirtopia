@@ -15,11 +15,36 @@ export default( Base =Item )=>class Block	extends Base
 			[
 				function( nav ,pl )
 				{
-					const dest	=nav.gloc().c().neighh( dir )
+					const loc	=nav.gloc()
 
-					return pl.canreach( nav.gloc() ) && nav.gmap().canadditem( dest ,nav.last() )
+					const dest	=loc.c().neighh( dir )
+
+					const map	=nav.gmap()
+
+					return pl.canreach( loc ) &&
+					
+						! map.obj.g(dest)?.item &&
+
+						map.canplmov( dest )
 				},
-				null
+				function( nav ,pl )
+				{
+					const loc	=nav.gloc()
+
+					const dest	=loc.c().neighh( dir )
+
+					const map	=nav.gmap()
+
+					map.obj.s(dest).item	=nav.last()
+
+					map.obj.del( loc ,"item" )
+
+					const plloc	=pl.loc.c()
+
+					map.obj.del( plloc ,"pl" )
+
+					map.obj.s( plloc.neighh( dir )).pl	=pl
+				}
 			]
 		}
 	}	

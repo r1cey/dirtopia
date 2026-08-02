@@ -113,15 +113,25 @@ export default class CtxM	extends Div
 		{
 			if( optcfg.test.call( this ))
 			{
-				const opt	=new Class.Opt( this ,optcfg )
-
-				opts.push( opt )
+				this.addopt( optcfg )
 			}
 		}
 	}
 
 
 	///////////////////////////////////////////////////////////////////////////
+
+
+	addopt( optcfg)
+	{
+		const Class	=this.constructor
+
+		const opt	=new Class.Opt( this ,optcfg )
+
+		this.opts.push( opt )
+	}
+
+	addopta( arr )	{ this.addopt( this.constructor.newoptcfg( ...arr ))}
 
 
 	static newoptcfg( str ,test ,run )

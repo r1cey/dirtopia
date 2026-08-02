@@ -1,3 +1,4 @@
+// import Acts	from "../shared/Acts.js"
 import newSS from './newServSend.js'
 import newSG	from "./newServGet.js"
 
@@ -14,7 +15,7 @@ import JRev from "../JsonRevivr.js"
 
 
 
-export default newSS( newSG (class Serv
+export default newSS( newSG (class Server
 {
 	cl
 
@@ -111,6 +112,14 @@ export default newSS( newSG (class Serv
 		var[ outa, rep ]	=this["em_"+fn]( ...args )
 
 		if( outa )	this.sendjson([ fn, outa ], rep )
+	}
+
+
+	senda( actk ,nav )
+	{
+		// const clpl	=this.cl.pl
+
+		this.sendjson([ "act" ,actk ,nav ])
 	}
 
 

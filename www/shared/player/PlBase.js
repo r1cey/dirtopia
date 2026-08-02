@@ -49,7 +49,7 @@ export default class PlBase	extends newJable(newISlot())
 
 
 
-	canreach( dest )	{return this.loc.disth( dest ) <= 0 }
+	canreach( dest )	{return this.loc.disth( dest ) <= 1 }
 
 
 	// toJSON( key )	{return  /^\\d+$/.test(key) ? this.name : this 	}

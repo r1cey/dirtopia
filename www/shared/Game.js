@@ -1,6 +1,8 @@
 import Maps from "./maps/Maps.js"
 import Players from "./player/Players.js"
 
+import Nav from "./Nav.js"
+
 
 
 export default class Game
@@ -55,28 +57,12 @@ export default class Game
 
 	///////////////////////////////////////////////////////////////////////////
 
-	/**@todo do all of the error handling */
 
-	msg2nav( arr )
+	
+	newnav( arr )
 	{
-		switch( arr[0] )
-		{
-			case "maps"	:
-				
-				arr[0]	=this.maps
-			break
-			case "pls"	:
-				
-				arr[0]	=this.pls
-			break
-		}
-		const len	=arr.length
+		const nav	=Nav.frommsg( arr ,this )
 
-		for(var i =1 ;i<len;++i)
-		{
-			arr[i]	=arr[i-1].pmsg2obj?.( arr[i] ,arr ,i )
-
-			if( ! arr[i] )	return -1
-		}
+		return nav
 	}
 }

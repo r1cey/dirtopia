@@ -13,7 +13,9 @@ export default class Html	extends DivGo
 
 	ui
 
-	get cl()	{return this.ui.game }
+	get cl()	{return this.gcl() }
+
+	gcl()	{return this.ui.game }
 
 	get can()	{return this.ks.can }
 

@@ -50,11 +50,11 @@ export default class V	//extends newJable()
 		return this
 	}
 
-	static setxy( x ,y )
-	{
-		return new this( x ,y )
-	}
 
+	static setj( arr )
+	{
+		return new this( ...arr )
+	}
 
 	area()	{return this.x * this.y }
 

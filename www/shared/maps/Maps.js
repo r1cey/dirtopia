@@ -1,5 +1,7 @@
 import Loc from "../Loc.js"
 
+import LocC	from "../LocCell.js"
+
 import newPatha from "../newPathable.js"
 
 
@@ -96,7 +98,7 @@ export default class Maps	extends newPatha()
 	}
 
 
-	pmsg2obj( locj )	{return new Loc().setj( locj )}
+	pmsg2obj( locj )	{return LocC.setj( locj )}
 
 
 	toJSON()	{return undefined }

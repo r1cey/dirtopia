@@ -40,7 +40,21 @@ export default class Map extends newBoard(newBinMap)
 	get game()	{return this.maps.game }
 
 
-	newcell( v )	{return new Cell( this ,v )}
+
+	setitem( loc ,item )
+	{
+		this.obj.s(loc).item	=item
+	}
+
+	getitem( loc )
+	{
+		return this.obj.g(loc)?.item
+	}
+
+	static{this.prototype. gitem	=this.prototype.getitem }
+
+
+	// newcell( v )	{return new Cell( this ,v )}
 
 
 	/**@todo Also don't allow to put items where tree trunks are.
@@ -143,7 +157,7 @@ Map.prototype. canplmov	=function( dest, pl )
 	(
 		!o ||
 		(
-			( !o.pl || o.pl === pl || o.pl === pl.name )
+			( !o.pl || o.pl === pl || o.pl === pl?.name )
 			&&
 			( !o.item || !o.item.isblock )
 		)
@@ -165,12 +179,6 @@ Map.prototype. canadditem	=function( loc ,item ,len )
 	return 100
 }
 
-
-
-Map.prototype. setitem	=function( loc ,item )
-{
-	this.obj.s(loc).item	=item
-}
 
 
 Map.prototype. delitem	=function( loc ,item ,len )

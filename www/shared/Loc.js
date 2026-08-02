@@ -53,7 +53,7 @@ export default class Loc extends newPatha( V )
 	///////////////////////////////////////////////////////////////////////////
 
 
-	pmsg2obj( key ,nav ,i )	{return nav[i-1].loc2map(this).obj.g(this)?.item }
+	pmsg2obj( key ,nava ,i )	{return nava[i-1].loc2map(this).obj.g(this)?.item }
 
 
 	getitem( key ,id ,nav )	{return this.pmsg2obj( key ,nav ,nav.length-1 )}
@@ -175,47 +175,6 @@ Loc.prototype. subv	=function( v )
 
 
 ///////////////////////////////////////////////////////////////////////////////
-
-
-
-Loc.prototype. canadditem	=function( item ,len , nav )
-{
-	return nav.at(-2).loc2map(this).canadditem( this ,item ,len )
-}
-
-
-Loc.prototype. additem	=function( item ,nav ,msg )
-{
-	nav.at(-2).loc2map(this).setitem( this ,item )
-}
-
-
-Loc.prototype. delitem	=function( item ,len ,nav )
-{
-	nav.at(-2).loc2map(this).delitem( this ,item ,len )
-}
-
-
-Loc.prototype.canchildadd	=function( item ,len ,nav ,_i )
-{
-	return nav.at(-2).loc2map(this).canchildadd( this ,item ,len )
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-
-Loc.prototype. stck2cnt	=function( stck ,nav , i ,msg )
-{
-	return nav[0].stck2cnt( this ,stck ,msg )
-}
-
-
-Loc.prototype. cnt2stck	=function( cnt ,nav )
-{
-	nav[0].loc2map(this).setitem( this ,cnt.newstck() )
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////

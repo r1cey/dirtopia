@@ -174,7 +174,7 @@ Player.prototype. mov	=function( dest )
 
 	if( dest.h === 0 )
 	{
-		map	=pl.game.maps.gr
+		// map	=pl.game.maps.gr
 
 		map.fore(( loc )=>
 		{

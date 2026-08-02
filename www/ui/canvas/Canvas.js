@@ -187,7 +187,7 @@ export default class Can	extends DivGo
 	{
 		const can	=this
 
-		const size2	=V.setxy( can.w2() ,can.h2() )
+		const size2	=new V( can.w2() ,can.h2() )
 
 		const r	=this.pl.r * can.units.r
 
