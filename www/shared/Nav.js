@@ -44,6 +44,8 @@ export default class Nav
 
 	gmap()	{return this.a[0].loc2map( this.a[1] )}
 
+	ggame()	{return this.a[0].game }
+
 
 	dad( len =1 )	{return this.at(-len) }
 

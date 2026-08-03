@@ -13,7 +13,7 @@ export default( Base =Item )=>class Block	extends Base
 		{
 			this.acts["mov"+dir]	=
 			[
-				function( nav ,pl )
+				function test( nav ,pl )
 				{
 					const loc	=nav.gloc()
 
@@ -21,29 +21,45 @@ export default( Base =Item )=>class Block	extends Base
 
 					const map	=nav.gmap()
 
-					return pl.canreach( loc ) &&
+					if( ! pl.canreach( loc ) ||
 					
-						! map.obj.g(dest)?.item &&
+						map.obj.g(dest)?.item ||
 
-						map.canplmov( dest )
+						! map.canplmov( dest ,pl )
+					){
+						return false
+					}
+					const plloc	=pl.loc
+
+					if( dest.eq(plloc) )
+					{
+						return map.forring(( loc )=> map.canplmov(loc) ,1 ,plloc )
+					}
+					return true
 				},
-				function( nav ,pl )
+				function run( nav ,pl ,newplloc )
 				{
 					const loc	=nav.gloc()
 
 					const dest	=loc.c().neighh( dir )
 
+					if( ! newplloc )
+					{
+						const plloc	=pl.loc
+
+						if( dest.eq(plloc) )
+						{
+							newplloc	=map.forring(( loc )=> map.canplmov(loc) ,1 ,pl.loc )
+						}
+						else	newplloc	=loc
+					}
+					pl.mov( newplloc )
+
+					// const game	=nav.ggame()
+
 					const map	=nav.gmap()
 
-					map.obj.s(dest).item	=this
-
-					map.obj.del( loc ,"item" )
-					/*
-					const plloc	=pl.loc.c()
-
-					map.obj.del( plloc ,"pl" )
-
-					map.obj.s( plloc.neighh( dir )).pl	=pl*/
+					map.movitem( loc, dest ,this )
 				}
 			]
 		}

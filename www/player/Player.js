@@ -87,7 +87,7 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 		{
 			let mul	=0.22
 
-			const map	=this.map()
+			const map	=this.gmap()
 
 			if( map.isgr )
 			{

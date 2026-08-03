@@ -161,7 +161,7 @@ export default class Can	extends DivGo
 
 			const destloc	=can.v2.set(dest).roundh()
 
-			if( pl.map().canplmov( destloc, pl ) )
+			if( pl.gmap().canplmov( destloc, pl ) )
 			{
 				pl.dest.setv( dest )
 			}

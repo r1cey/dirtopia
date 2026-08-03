@@ -175,17 +175,17 @@ function movitem( dir )
 
 const k2s	=
 {
-	"mov2"	:"move ↑"
+	"mov2"	:"drag ↑"
 	,
-	"mov1"	:"move ↗"
+	"mov1"	:"drag ↗"
 	,
-	"mov0"	:"move ↘"
+	"mov0"	:"drag ↘"
 	,
-	"mov5"	:"move ↓"
+	"mov5"	:"drag ↓"
 	,
-	"mov4"	:"move ↙"
+	"mov4"	:"drag ↙"
 	,
-	"mov3"	:"move ↖"
+	"mov3"	:"drag ↖"
 }
 
 ///////////////////////////////////////////////////////////////////////////////

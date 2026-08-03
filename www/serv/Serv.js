@@ -179,7 +179,7 @@ export default newSS( newSG (class Server
 			}
 			else	this["on_"+act]?.( ...args )
 
-			console.log(act, ...args )
+			console.log( act ,args ,nava )
 		}
 	}
 }))

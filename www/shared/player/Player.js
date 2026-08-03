@@ -28,6 +28,7 @@ export default class Pl extends PV
 	///////////////////////////////////////////////////////////////////////////////
 
 
+	/** @todo Maybe move the pls assignment to PlBase? */
 	
 	constructor( pls )
 	{
@@ -40,7 +41,7 @@ export default class Pl extends PV
 	///////////////////////////////////////////////////////////////////////////////
 
 
-	map()
+	gmap()
 	{
 		return this.game.maps.loc2map( this.loc )
 	}
@@ -118,14 +119,14 @@ export default class Pl extends PV
 
 	candrop( item )
 	{
-		return this.map().getloc4item( this.loc )
+		return this.gmap().getloc4item( this.loc )
 	}
 		
 	drop( item )
 	{
 		const pl	=this
 
-		const map	=pl.map()
+		const map	=pl.gmap()
 
 		const loc	=map.getloc4item( pl.loc )
 

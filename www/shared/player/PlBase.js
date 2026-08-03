@@ -33,6 +33,7 @@ export default class PlBase	extends newJable(newISlot())
 	///////////////////////////////////////////////////////////////////////////
 
 
+
 	/*constructor( name , r =0.62 ,loc =new Loc(0,0,0) ,col =new Col(0,100,50) )
 	{
 		super({ name ,r , loc ,col })
@@ -42,6 +43,7 @@ export default class PlBase	extends newJable(newISlot())
 	///////////////////////////////////////////////////////////////////////////
 	
 
+
 	get ispl()	{return this }
 
 
@@ -50,6 +52,41 @@ export default class PlBase	extends newJable(newISlot())
 
 
 	canreach( dest )	{return this.loc.disth( dest ) <= 1 }
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	mov( dest )
+	{
+		const pl	=this
+
+		const{ loc }	=pl
+
+		const map	=pl.gmap()
+		
+		map.obj.del( loc, "pl" )
+
+		map.obj.set(dest).pl	=this
+
+		loc.set( dest )
+
+		if( dest.h === 0 )
+		{
+			map.fore(( loc )=>
+			{
+				if( map.iswater(loc) )
+				{
+					/**@todo reinstate later */
+					// pl.setwater( 1 )
+
+					return true
+				}
+			}
+			,1 ,loc )
+		}
+	}
 
 
 	// toJSON( key )	{return  /^\\d+$/.test(key) ? this.name : this 	}

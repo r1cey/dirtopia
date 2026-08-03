@@ -42,7 +42,7 @@ export default class Game
 
 		this.pls.s( pl )
 
-		pl.map().obj.g(pl.loc)
+		// pl.gmap().obj.g(pl.loc)
 
 		this.maps.setpl( pl )
 	}
@@ -58,7 +58,7 @@ export default class Game
 	///////////////////////////////////////////////////////////////////////////
 
 
-	
+
 	newnav( arr )
 	{
 		const nav	=Nav.frommsg( arr ,this )

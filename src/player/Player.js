@@ -52,7 +52,10 @@ class PlSlp extends SrvPl( ShPl.Vis )
 }*/
 
 
-export default class Player extends newISlot( ShPl )
+const PlBase	=newISlot( ShPl )
+
+
+export default class Player extends PlBase
 {	
 	static Hands	=Hands
 	
@@ -103,6 +106,16 @@ export default class Player extends newISlot( ShPl )
 
 
 
+	mov( dest )
+	{
+		const orig	=Loc.set( this.loc )
+
+		super.mov( dest )
+
+		// this.srv?.send( "plmov" ,this ,oldloc )
+
+		this.cl.send( "clplmov" ,orig.subv(dest).neg() )
+	}
 	///////////////////////////////////////////////////////////////////////////
 }
 
@@ -146,51 +159,6 @@ Player.prototype. clclosed	=function()
 
 
 ///////////////////////////////////////////////////////////////////////////////
-
-
-/** //!!!newloc will be modified!!! */
-
-Player.prototype. mov	=function( dest )
-{
-	const pl	=this
-
-	const{ loc }	=pl
-
-	const map	=pl.map()
-	
-	map.obj.del( loc, "pl" )
-
-	// var dir	=Loc.dirv2dirh(loc.subv(newloc).neg())
-
-	const orig	=Loc.set( loc )
-
-	loc.set( dest )
-
-	map.obj.set(dest).pl	=this
-
-	// this.srv?.send( "plmov" ,this ,oldloc )
-
-	this.cl.send( "clplmov" ,Loc.set( dest ).subv( orig ))
-
-	if( dest.h === 0 )
-	{
-		// map	=pl.game.maps.gr
-
-		map.fore(( loc )=>
-		{
-			if( map.iswater(loc) )
-			{
-				/**@todo reinstate later */
-				// pl.setwater( 1 )
-
-				return true
-			}
-		}
-		,1 ,loc )
-	}
-	// console.log(`Player ${this.pl.name} moved to ${this.pl.loc.p()}.`)
-}
-
 
 
 /** I can presend location of tree to not look for it every time

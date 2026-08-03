@@ -113,7 +113,9 @@ export default class Client extends newClG( newClS() )
 				
 			if( act[0].call( obj , nav, this.pl ))
 			{
-				act[1].call( obj , nav, this.pl )
+				const res	=act[1].call( obj , nav, this.pl )
+
+				if( res )	msg.concat( res )
 
 				this.sendjson( msg )
 			}

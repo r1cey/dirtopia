@@ -173,7 +173,6 @@ export default function( id, bmap, base=newBin )
 				{
 					if( fun( v, map ))	return v
 				}
-
 				v.neighh(dir)
 			}
 		}
