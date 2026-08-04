@@ -47,7 +47,7 @@ class Option	extends Div
 
 		ui.delctxm()
 
-		optcfg.run.call( menu ,ui.game )
+		optcfg.run.call( menu /*,ui.game*/ )
 	}
 }
 

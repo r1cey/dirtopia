@@ -47,6 +47,12 @@ export default( Base =Object )=>class ClientGet extends Base
 	}
 
 
+	on_mapshift( dir )
+	{
+		this.send( "clplmov" ,dir )
+	}
+
+
 	/** Relay WRTC message between clients through the server.
 	 * @arg	o
 	 * @arg	o.name	- name of the receiving player

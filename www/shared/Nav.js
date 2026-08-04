@@ -41,10 +41,9 @@ export default class Nav
 	
 		else	console.error( "Nav.gloc" ,arr )
 	}
-
-	gmap()	{return this.a[0].loc2map( this.a[1] )}
-
 	ggame()	{return this.a[0].game }
+
+	gmap()	{return this.ggame().maps.loc2map( this.gloc() )}
 
 
 	dad( len =1 )	{return this.at(-len) }

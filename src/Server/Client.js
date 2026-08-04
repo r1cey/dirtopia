@@ -88,6 +88,8 @@ export default class Client extends newClG( newClS() )
 ///////////////////////////////////////////////////////////////////////////////
 
 
+	/** @todo Can shorten comm by responding with "act" code instead of
+	 * entire action. Obviously needs unique code implementation at client. */
 
 	onmsg( data, isbin )
 	{

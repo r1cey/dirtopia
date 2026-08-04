@@ -74,6 +74,9 @@ export default class PlBase	extends newAct( newJable(newISlot()) )
 	get ispl()	{return this }
 
 
+	ggame()	{return this.pls.game }
+
+
 	///////////////////////////////////////////////////////////////////////////
 
 
@@ -97,28 +100,30 @@ export default class PlBase	extends newAct( newJable(newISlot()) )
 
 		const{ loc }	=pl
 
-		const map	=pl.gmap()
-		
-		map.obj.del( loc, "pl" )
+		// const map	=pl.gmap()
 
-		map.obj.set(dest).pl	=this
+		pl.ggame().maps.movobjp( loc ,"pl" ,dest )
+		
+		// map.obj.del( loc, "pl" )
+
+		// map.obj.set(dest).pl	=this
 
 		loc.set( dest )
-
+/*
 		if( dest.h === 0 )
 		{
 			map.fore(( loc )=>
 			{
 				if( map.iswater(loc) )
 				{
-					/**@todo reinstate later */
+					/**@todo reinstate later *
 					// pl.setwater( 1 )
 
 					return true
 				}
 			}
 			,1 ,loc )
-		}
+		}*/
 	}
 
 

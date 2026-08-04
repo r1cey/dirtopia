@@ -97,7 +97,6 @@ export default class Maps	extends newPatha()
 		return prop
 	}
 
-
 	pmsg2obj( locj )	{return LocC.setj( locj )}
 
 

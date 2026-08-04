@@ -55,9 +55,11 @@ export default( Base =Item )=>class Block	extends Base
 
 				// const game	=nav.ggame()
 
-				const map	=nav.gmap()
+				// const map	=nav.gmap()
 
-				map.movitem( loc, dest ,this )
+				nav.ggame().maps.movobjp( loc, "item" ,dest )
+
+				return newplloc
 			}
 		]
 	}	

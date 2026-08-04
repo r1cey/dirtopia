@@ -77,10 +77,15 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 
 		if( dv.zero() )
 		{
+			/**@todo maybe better to do this in Player class somehow */
+			if( this.isforcemov )	this.isforcemov	=false
+			
 			return false
 		}
 		else if(dv.disth() < 0.1 )
 		{
+			if( this.isforcemov )	this.isforcemov	=false
+
 			newpos.set(this.dest)
 		}
 		else
@@ -184,21 +189,32 @@ export default class Player extends newPl( ShPl )
 	/** Is cell move acknowledged from server? */
 	ismovack	=true
 
+	isforcemov	=false
+
 	
 	get isclpl()	{return true }
 
 	static Vis	=PlVis
 
 
-	constructor( ...args )
+	/*constructor( ...args )
 	{
 		super( ...args )
-/*
-		var page	=this.newpinv()
+	}*/
 
-		page.hide()
 
-		this.game.html.el.appendChild( page.el )*/
+	/** Forcefully moves player to a new location.
+	 * Assume location already updated by server.
+	 * @todo What if called while move is not acknowledged from server?
+	 * @todo Consider cancelling canvas drag when forcefully moving. */
+
+	mov( dest )
+	{
+		this.isforcemov	=true
+
+		this.ismovack	=true
+
+		this.dest.set( dest )
 	}
 }
 
@@ -225,6 +241,8 @@ Player.prototype. lcl_acto	=function( path ,actk ,args )
 
 Player.prototype. onmov	=function( dest )
 {
+	if( this.isforcemov )	return true
+
 	if( this.ismovack && this.canmov( dest ))
 	{
 		this.ismovack	=false

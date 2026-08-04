@@ -119,7 +119,7 @@ export default newSS( newSG (class Server
 	{
 		// const clpl	=this.cl.pl
 
-		this.sendjson([ "act" ,nav ,actk ,...args ])
+		this.sendjson([ "act" ,[ nav ,actk ,...args ]])
 	}
 
 
@@ -159,11 +159,11 @@ export default newSS( newSG (class Server
 		}
 		else if(typeof msg === 'string')
 		{
-			const[ act, args ,nava ]	=JSON.parse(ev.data, this.jrev.fn )
+			const[ act, args ,actk ,...args2 ]	=JSON.parse(ev.data, this.jrev.fn )
 
 			if( act === "act" )
 			{
-				const actk	=args
+				const nava	=args
 
 				const nav	=this.cl.newnav( nava )
 
@@ -175,11 +175,11 @@ export default newSS( newSG (class Server
 
 				if( !act )	return console.error( "Srv.onmsg: no act" ,obj ,actk )
 
-				act[1].call( obj , nav, this.cl.pl )
+				act[1].call( obj ,nav ,this.cl.pl ,...args2 )
 			}
 			else	this["on_"+act]?.( ...args )
 
-			console.log( act ,args ,nava )
+			console.log( act ,args ,actk ,...args2 )
 		}
 	}
 }))

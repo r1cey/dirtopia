@@ -155,18 +155,20 @@ export default class Can	extends DivGo
 		
 		if(tch.on)
 		{
-			const deltasq	=can.v3.set(tch.pos).subv(tch.last)
-
-			const dest	=can.v.set(deltasq).tohexc(can).addv(pl.dest)
-
-			const destloc	=can.v2.set(dest).roundh()
-
-			if( pl.gmap().canplmov( destloc, pl ) )
+			if( ! pl.isforcemov )
 			{
-				pl.dest.setv( dest )
+				const deltasq	=can.v3.set(tch.pos).subv(tch.last)
+
+				const dest	=can.v.set(deltasq).tohexc(can).addv(pl.dest)
+
+				const destloc	=can.v2.set(dest).roundh()
+
+				if( pl.gmap().canplmov( destloc, pl ))
+				{
+					pl.dest.setv( dest )
+				}
+				// else	console.log( "stop" )
 			}
-			// else	console.log( "stop" )
-			
 			tch.onframe()
 		}
 		pl.step()

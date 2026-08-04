@@ -154,18 +154,6 @@ export default class ContextMenuCanvas	extends CtxM
 							}
 						}
 				}
-
-				if( act[0].call( item ,nav ,clpl ))
-				{
-					this.addopta(
-					[
-						k2s[actk] || actk
-						,
-						act[0].bind( item ,nav ,clpl )
-						,
-						srv.senda. bind(srv, actk ,nav )
-					])
-				}
 			}
 		}
 	}
