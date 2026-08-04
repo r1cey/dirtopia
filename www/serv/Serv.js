@@ -10,6 +10,8 @@ import Loc from "../shared/Loc.js"
 // import Hands	from "./player/Hands.js"
 import JRev from "../JsonRevivr.js"
 
+import Acts	from "./Acts.js"
+
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -28,6 +30,8 @@ export default newSS( newSG (class Server
 	jrev	//json reviver
 
 	buf	=new Buf(this)
+
+	acts	=new Acts( this )
 
 
 

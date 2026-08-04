@@ -183,6 +183,15 @@ class PlVis extends newPl( ShPlV )
 
 export default class Player extends newPl( ShPl )
 {
+	movack	=
+	{
+		prevloc	:null
+		,
+		newloc	:null
+		,
+		actid	:null
+	}
+
 	/** Needed when we request mov ack from server. */
 	prevloc
 
