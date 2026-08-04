@@ -242,7 +242,7 @@ Player.prototype. onmov	=function( dest )
 
 Player.prototype. rejmov	=function()
 {
-	this.dest.set( this.loc )	//TODO: fix this!
+	this.dest.set( this.prevloc )
 
 	this.ismovack	=true
 }

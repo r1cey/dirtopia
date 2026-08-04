@@ -1,6 +1,7 @@
 import newJable from "../newJsonable.js"
 
 // import newPathable from "../newPathable.js"
+import newAct	from "../newActionable.js"
 
 
 /** A volume unit is 125 cubic mm which is a sunflower seed */
@@ -10,7 +11,7 @@ export var mm3perunit	=125
 export var key	="item"
 
 
-export default class It	extends newJable()
+export default class It	extends newAct( newJable() )
 {
 	static key	=key
 
@@ -20,8 +21,6 @@ export default class It	extends newJable()
 	// static mm3pu	=mm3perunit
 
 	get isitem()	{return this }
-
-	static acts	={}
 
 
 

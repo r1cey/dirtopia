@@ -1,7 +1,5 @@
 import PV	from "./PlVis.js"
 
-import{ nonenum } from "../utils.js"
-
 
 
 export default class Pl extends PV
@@ -26,16 +24,6 @@ export default class Pl extends PV
 
 
 	///////////////////////////////////////////////////////////////////////////////
-
-
-	/** @todo Maybe move the pls assignment to PlBase? */
-	
-	constructor( pls )
-	{
-		super()
-
-		nonenum( this ,"pls" ,pls )
-	}
 
 
 	///////////////////////////////////////////////////////////////////////////////

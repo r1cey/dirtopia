@@ -129,9 +129,31 @@ export default class ContextMenuCanvas	extends CtxM
 
 		if( item )
 		{
-			for(const actk in item.constructor.acts )
+			const acts	=item.constructor.acts
+
+			for(const actk in acts )
 			{
-				const act	=item.constructor.acts[actk]
+				const act	=acts[actk]
+
+				switch( actk )
+				{
+					case "drag" :
+
+						for(var dir =0 ;dir< 6 ;dir++)
+						{
+							if( act[0].call( item ,nav ,clpl ,dir ))
+							{
+								this.addopta(
+								[
+									"drag "+arrows[dir]
+									,
+									act[0].bind( item ,nav ,clpl ,dir )
+									,
+									srv.senda. bind(srv ,nav ,actk ,dir )
+								])
+							}
+						}
+				}
 
 				if( act[0].call( item ,nav ,clpl ))
 				{
@@ -173,19 +195,6 @@ function movitem( dir )
 ///////////////////////////////////////////////////////////////////////////////
 
 
-const k2s	=
-{
-	"mov2"	:"drag ↑"
-	,
-	"mov1"	:"drag ↗"
-	,
-	"mov0"	:"drag ↘"
-	,
-	"mov5"	:"drag ↓"
-	,
-	"mov4"	:"drag ↙"
-	,
-	"mov3"	:"drag ↖"
-}
+const arrows	=[ "↘" ,"↗" ,"↑" ,"↖" ,"↙" ,"↓" ]
 
 ///////////////////////////////////////////////////////////////////////////////

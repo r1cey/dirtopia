@@ -51,13 +51,13 @@ export default( Base =Object )=>class ClS extends Base
 
 	/** This client's player had moved. */
 
-	em_clplmov( delta )
+	em_clplmov( dir )
 	{
 		const{ pl }	=this
 
 		const{ loc }	=pl
 		
-		const dir	=Loc.dirv2dirh( delta )
+		// const dir	=Loc.dirv2dirh( delta )
 
 		const r	=pl.vision
 

@@ -98,8 +98,8 @@ V.prototype. tosqc	=function( can )
 ///////////////////////////////////////////////////////////////////////////////
 
 
-
-// V.dirv is set at the bottom - bug
+/** @todo can make it faster by manual check rather than loop
+ *  V.dirv is set at the bottom - bug */
 
 V.dirv2dirh	=function(v)
 {

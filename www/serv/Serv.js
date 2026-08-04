@@ -115,11 +115,11 @@ export default newSS( newSG (class Server
 	}
 
 
-	senda( actk ,nav )
+	senda( nav ,actk ,...args )
 	{
 		// const clpl	=this.cl.pl
 
-		this.sendjson([ "act" ,actk ,nav ])
+		this.sendjson([ "act" ,nav ,actk ,...args ])
 	}
 
 

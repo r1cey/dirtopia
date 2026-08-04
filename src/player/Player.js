@@ -3,7 +3,7 @@ import newISlot from '../items/newInvSlot.js'
 import Hands from './Hands.js'
 
 import V from '../../www/shared/Vec.js'
-import Loc from '../Loc.js'
+import Loc from '../../www/shared/Loc.js'
 
 import * as fs	from '../fs.js'
 
@@ -64,6 +64,23 @@ export default class Player extends PlBase
 			key :"cl" , fromJSON :()=> null
 		}
 	)
+	static
+	{
+		this.dupacts()
+
+		this.acts.mov[1]	=function run( nav ,pl ,dir )
+		{
+			// const orig	=Loc.set( this.loc )
+
+			// const dest	=new Loc()
+
+			PlBase.acts.mov[1].call( this ,nav ,pl, dir )
+
+			// this.srv?.send( "plmov" ,this ,oldloc )
+
+			this.cl.send( "clplmov" ,dir )
+		}
+	}
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -106,7 +123,7 @@ export default class Player extends PlBase
 
 
 
-	mov( dest )
+	/*mov( dest )
 	{
 		const orig	=Loc.set( this.loc )
 
@@ -115,7 +132,7 @@ export default class Player extends PlBase
 		// this.srv?.send( "plmov" ,this ,oldloc )
 
 		this.cl.send( "clplmov" ,orig.subv(dest).neg() )
-	}
+	}*/
 	///////////////////////////////////////////////////////////////////////////
 }
 

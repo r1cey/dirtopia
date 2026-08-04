@@ -17,7 +17,7 @@ export default( Base =Object )=>class ClientGet extends Base
 
 	on_mov( desta )
 	{
-		const dest	=new Loc().setj( desta )
+		const dest	=Loc.setj( desta )
 		
 		const{ pl }	=this
 
@@ -33,17 +33,17 @@ export default( Base =Object )=>class ClientGet extends Base
 
 		if( loc.eq( dest ))
 		{
-			this.send("error" , "Already there." )
+			this.send( "error" ,"Already there." )
 			
 			return
 		}
-		loc.forlineh( dest, (loc2)=>
+		loc.forlineh( dest ,( loc2 )=>
 		{
-			dest.set(loc2)
-
-			return true
+			return dest.set( loc2 )
 		})
-		pl.mov( dest )
+		pl.actrun( "mov" ,Loc.dirv2dirh( dest.subv( loc )))
+
+		// pl.mov( dest )
 	}
 
 

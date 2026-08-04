@@ -95,11 +95,11 @@ export default class Client extends newClG( newClS() )
 
 		const msg	=JSON.parse( data.toString(), this.constructor.jrev.fn )
 
-		const[ act ,args ,nava ]	=msg
+		const[ act ,args ,actk ,...args2 ]	=msg
 
 		if( act === "act" )
 		{
-			const actk	=args
+			const nava	=args
 
 			const nav	=this.ggame().newnav( nava.slice() )
 
@@ -107,13 +107,13 @@ export default class Client extends newClG( newClS() )
 
 			const obj	=nav.last()
 
-			const act	=obj.constructor.acts[actk]
+			const act	=obj.gact( actk )
 
 			if( !act )	return console.error( "Client.onmsg: no act" ,obj ,actk )
 				
-			if( act[0].call( obj , nav, this.pl ))
+			if( act[0].call( obj , nav, this.pl ,...args2 ))
 			{
-				const res	=act[1].call( obj , nav, this.pl )
+				const res	=act[1].call( obj , nav, this.pl ,...args2 )
 
 				if( res )	msg.concat( res )
 
