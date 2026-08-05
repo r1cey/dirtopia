@@ -33,24 +33,31 @@ export default {
 			this.send( "error" ,id ,"Couldn't find act" )
 
 			return console.error( "Client.onmsg: no act" ,nava ,actk )
-		} 
-		if( args ?
+		}
+		const testres	=args ?
 			
 			act[0].call( obj , nav, this.pl ,...args )
 			:
 			act[0].call( obj , nav, this.pl )
-		){
+				
+		if( testres &&( !Array.isArray(testres) || testres[0] ))
+		{
 			const res	=args ?
 			
 				act[1].call( obj , nav, this.pl ,...args )
 				:
 				act[1].call( obj , nav, this.pl )
 
-			const msg	=res	?[ "actyes" ,id ,res ]	:[ "actyes" ,id ]
-
-			this.sendjson( msg )
+			this.sendactyes( id ,res )
 		}
-		else	this.sendjson([ "error" ,id ])
+		else
+		{
+			testres && Array.isArray(testres) ?
+			
+				this.sendactrej( id ,testres[1] )
+				:
+				this.sendactrej( id )
+		}
 	}
 ,
 

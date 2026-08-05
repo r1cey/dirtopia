@@ -123,7 +123,7 @@ export default newSS( class Server
 	{
 		const id	=this.acts.add([ nav ,actk ,...args ])
 
-		this.sendjson([ "act" ,[ id ,nav ,actk ,...args ]])
+		this.sendjson([ "act" ,[ id ,nav ,actk ,args ]])
 	}
 
 

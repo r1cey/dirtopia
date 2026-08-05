@@ -41,13 +41,13 @@ export default class PlBase	extends newAct( newJable(newISlot()) )
 	{
 		this.acts["mov"]	=
 		[
-			function test( nav ,pl ,dir )
+			function test( nav ,pl ,dest )
 			{
-				return this.canmov( this.loc.c().neighh( dir ))
+				return this.canmov( dest )
 			},
-			function act( nav ,pl ,dir )
+			function act( nav ,pl ,dest )
 			{
-				this.mov( this.loc.c().neighh( dir ))
+				this.mov( dest )
 			}
 		]
 	}

@@ -78,6 +78,18 @@ export default class Client extends newClS()
 	}
 
 
+
+	sendactyes( id ,args )
+	{
+		this.sendjson( args ?[ "actyes" ,id ,args ] :[ "actyes" ,id ])
+	}
+
+	sendactrej( id ,arg )
+	{
+		this.sendjson( arg ?[ "actrej" ,id ,arg ] :[ "actrej" ,id ])
+	}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -99,6 +111,7 @@ export default class Client extends newClS()
 			console.error( `${this.pl.name} Msg: not found: ${act}`)
 		}
 	}
+
 
 
 	onclose( code, reason /*, wsclosed =false*/ )

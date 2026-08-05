@@ -58,7 +58,7 @@ export default {
 	{
 		this.buf.addobj( obj, new Loc().setj(loca), r )
 	}
-,
+	
 
 	/**	This are the units that you see. 
 	* @arg o
@@ -74,23 +74,34 @@ export default {
 		}
 	}*/
 
-
+	,
 	act( ...args )
 	{
 		console.log( ...args )
 	}
-,
+
+	,
+	actyes( id ,args )
+	{
+		console.log( id ,...args )
+	}
+	,
+	actrej( id ,arg )
+	{
+		console.log( id ,arg )
+	}
+
 
 	///////////////////////////////////////////////////////////////////////////////
 
-
+	,
 	/** Received a map changing method
 	* @param o 
 	* @arg o.mapid
 	* @arg o.act	-method name
 	* @arg o.loc
 	* @arg {array}	o.vals */
-
+	
 	mapset_( mapid, loca, act, vals )
 	{
 		var map	=this.cl.maps.fromid( mapid )

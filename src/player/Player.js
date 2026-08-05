@@ -15,6 +15,9 @@ import JRev from "../JsonRevivr.js"
 
 // var jsontr	=newjsontrans()
 
+
+const scrloc	=new Loc()
+
 /*
 const SrvPl	=(c) => class extends c
 {
@@ -68,18 +71,38 @@ export default class Player extends PlBase
 	{
 		this.dupacts()
 
-		this.acts.mov[1]	=function run( nav ,pl ,dir )
-		{
-			// const orig	=Loc.set( this.loc )
+		this.acts.mov	=
+		[
+			function test( nav ,pl ,desta )
+			{
+				const dest	=scrloc.setj( desta )
 
-			// const dest	=new Loc()
+				const{ pl }	=this
+		
+				const{ loc }	=pl
+		
+				if( loc.eq( dest ))
+				{
+					return	[ false ,"Already there." ]
+				}
+				loc.forlineh( dest ,( loc2 )=>
+				{
+					return dest.set( loc2 )
+				})
+				return PlBase.acts.mov[0].call( this ,nav ,pl ,dest )
+			},
+			function run( nav ,pl ,desta )
+			{
+				// const orig	=Loc.set( this.loc )
 
-			PlBase.acts.mov[1].call( this ,nav ,pl, dir )
+				const dest	=scrloc.setj( desta )
 
-			// this.srv?.send( "plmov" ,this ,oldloc )
+				PlBase.acts.mov[1].call( this ,nav ,pl, dest )
 
-			this.cl.send( "clplmov" ,dir )
-		}
+				// this.srv?.send( "plmov" ,this ,oldloc )
+
+				this.cl.send( "clplmov" ,dir )
+			}
 	}
 
 

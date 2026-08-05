@@ -1,6 +1,7 @@
 export default( Base =Object )=>class Actionable extends Base
 {
-	/** acts[key] =[ test(nav ,pl ,...args ) ,run(nav ,pl ,...args) ] */
+	/** acts[key] =[ test(nav ,pl ,...args ) ,run(nav ,pl ,...args) ] 
+	 * Test function return argument for failure as [ false ,arg ] */
 	static acts	={}
 
 
