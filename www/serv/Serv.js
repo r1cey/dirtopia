@@ -113,17 +113,17 @@ export default newSS( newSG (class Server
 
 	send( fn, ...args )
 	{
-		var[ outa, rep ]	=this["em_"+fn]( ...args )
+		const res	=this["em_"+fn]( ...args )
 
-		if( outa )	this.sendjson([ fn, outa ], rep )
+		if( res )	this.sendjson([ fn, ...res[0] ], res[1] )
 	}
 
 
 	senda( nav ,actk ,...args )
 	{
-		// const clpl	=this.cl.pl
+		const id	=this.acts.add([ nav ,actk ,...args ])
 
-		this.sendjson([ "act" ,[ nav ,actk ,...args ]])
+		this.sendjson([ "act" ,[ id ,nav ,actk ,...args ]])
 	}
 
 

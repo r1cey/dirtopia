@@ -252,9 +252,9 @@ export default( Base =Object )=>class ClS extends Base
 	}
 
 
-	em_error( str )
+	em_error( actid =0 ,str )
 	{
-		return[[ str ]]
+		return[[ actid ,str ]]
 	}
 }
 

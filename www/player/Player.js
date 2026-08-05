@@ -13,9 +13,16 @@ import PageInv from '../ui/inv/PageInv.js'
 
 const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 {
+	/** The exact, fractional position */
 	pos	=new Loc()
 
+	/** can never be something forbidden */
 	dest	=new Loc()
+
+	/** Scratch vector (to save on garbage collection) */
+	scrloc	=new Loc()
+
+	scrloc2	=new Loc()
 
 
 	static Hands	=Hands
@@ -41,7 +48,7 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 
 	// set pls( pls )	{ this.dad	=pls	}
 
-	get srv()	{return this.game.srv }
+	gsrv()	{return this.ggame().srv }
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -69,24 +76,19 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 	{
 		const pl	=this
 
-		const newpos	=new Loc()
+		const{ pos ,dest }	=pl
 
-		const newloc	=new Loc()
-
-		const dv	=this.dest.c().subv(this.pos)
+		const dv	=this.scrloc.s(dest).subv(pos)
 
 		if( dv.zero() )
 		{
-			/**@todo maybe better to do this in Player class somehow */
-			if( this.isforcemov )	this.isforcemov	=false
-			
 			return false
 		}
-		else if(dv.disth() < 0.1 )
-		{
-			if( this.isforcemov )	this.isforcemov	=false
+		// const newpos	=new Loc() 
 
-			newpos.set(this.dest)
+		if(dv.disth() < 0.1 )
+		{
+			pos.set( dest )
 		}
 		else
 		{
@@ -107,20 +109,15 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 				}
 				if( pl.water <= 0 )	mul=0.08
 			}
-			newpos.set(this.pos).addv(dv.mul( mul ))
+			pos.addv(dv.mul( mul ))
 		}
-		newloc.set( newpos ).roundh()
+		const newloc	=this.scrloc.set( pos ).roundh()
 
 		if( ! this.loc.eq( newloc ))
 		{
-			if( this.onmov( newloc ))
-			{
-				this.pos.set( newpos )
-
-				this.loc.set( newloc )
-			}
-		}
-		else	this.pos.set( newpos )
+			this.onmov( newloc )
+		}	
+		this.loc.set( newloc )
 	}
 
 
@@ -183,21 +180,9 @@ class PlVis extends newPl( ShPlV )
 
 export default class Player extends newPl( ShPl )
 {
-	movack	=
-	{
-		prevloc	:null
-		,
-		newloc	:null
-		,
-		actid	:null
-	}
+	srvloc	=new Loc()
 
-	/** Needed when we request mov ack from server. */
-	prevloc
-
-	/** Is cell move acknowledged from server? */
-	ismovack	=true
-
+	/** Is used when server moves the player */
 	isforcemov	=false
 
 	
@@ -214,16 +199,23 @@ export default class Player extends newPl( ShPl )
 
 	/** Forcefully moves player to a new location.
 	 * Assume location already updated by server.
-	 * @todo What if called while move is not acknowledged from server?
 	 * @todo Consider cancelling canvas drag when forcefully moving. */
 
 	mov( dest )
 	{
 		this.isforcemov	=true
 
-		this.ismovack	=true
-
 		this.dest.set( dest )
+	}
+
+
+	setj( msg )
+	{
+		super.setj( msg )
+
+		this.srvloc.set( this.loc )
+
+		return this
 	}
 }
 
@@ -250,19 +242,14 @@ Player.prototype. lcl_acto	=function( path ,actk ,args )
 
 Player.prototype. onmov	=function( dest )
 {
-	if( this.isforcemov )	return true
-
-	if( this.ismovack && this.canmov( dest ))
+	if( this.isforcemov )
 	{
-		this.ismovack	=false
-
-		this.prevloc	=this.loc.c()
-
-		this.srv.send( "mov" ,dest )
-
-		return true
+		if( dest.eq( this.srvloc ))
+		{
+			this.isforcemov	=false
+		}
 	}
-	return false
+	else	this.gsrv().senda( this.nav ,"mov", dest )
 }
 
 
@@ -278,7 +265,7 @@ Player.prototype. rejmov	=function()
 
 Player.prototype. climb	=function( loc )
 {
-	this.srv().send.climb( this.loc.h ?false:true , this.loc )
+	this.gsrv().send.climb( this.loc.h ?false:true , this.loc )
 /*
 	var pl	=this
 

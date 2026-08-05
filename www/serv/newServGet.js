@@ -333,6 +333,14 @@ export default( Base )=>class SG extends Base
 
 		map.obj.g(o.loc)[o.key][o.act]( ... o.params )
 	}
+
+
+	on_error( actid ,msg )
+	{
+		this.acts.del( actid )
+
+		if( msg )	console.error( "on_error" ,msg )
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////

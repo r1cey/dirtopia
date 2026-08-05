@@ -4,5 +4,23 @@ export default class Acts
 
 	MAX	=65536
 
-	acts	=new Map()
+	map	=new Map()
+
+
+
+	add( act )
+	{
+		const id	=this.i++
+
+		if( this.i >= this.MAX )	this.i	=0
+
+		this.map.set( id, act )
+
+		return id
+	}
+
+	del( id )
+	{
+		this.map.delete( id )
+	}
 }

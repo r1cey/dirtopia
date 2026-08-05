@@ -2,7 +2,7 @@ import newClS	from "./newClientSend.js"
 
 import V from '../../www/shared/Vec.js'
 
-import newClG from './newClientGet.js'
+import on from './newClientGet.js'
 
 import MapG	from "../maps/Ground.js"
 
@@ -11,7 +11,7 @@ import JRev from '../JsonRevivr.js'
 
 
 
-export default class Client extends newClG( newClS() )
+export default class Client extends newClS()
 {
 	ws
 
@@ -97,38 +97,17 @@ export default class Client extends newClG( newClS() )
 
 		const msg	=JSON.parse( data.toString(), this.constructor.jrev.fn )
 
-		const[ act ,args ,actk ,...args2 ]	=msg
+		const[ act ,args ]	=msg
 
-		if( act === "act" )
+		const fun	=on[act]
+
+		if( fun )	fun.apply( this, args )
+
+		else
 		{
-			const nava	=args
-
-			const nav	=this.ggame().newnav( nava.slice() )
-
-			if( nav.error >= 0 )	return
-
-			const obj	=nav.last()
-
-			const act	=obj.gact( actk )
-
-			if( !act )	return console.error( "Client.onmsg: no act" ,obj ,actk )
-				
-			if( act[0].call( obj , nav, this.pl ,...args2 ))
-			{
-				const res	=act[1].call( obj , nav, this.pl ,...args2 )
-
-				if( res )	msg.concat( res )
-
-				this.sendjson( msg )
-			}
+			console.error( `${this.pl.name} Msg: not found: ${act}`)
 		}
-		else	this["on_"+act]?.( ...args )
-
-		// this["on_"+act]?.(...args)
-		
-		// console.error( `Client Msg: not found: ${prop}`)
 	}
-
 
 
 	onclose( code, reason /*, wsclosed =false*/ )

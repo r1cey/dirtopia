@@ -6,16 +6,48 @@ import Loc from '../../www/shared/Loc.js'
 
 
 
-export default( Base =Object )=>class ClientGet extends Base
-{
+// export default( Base =Object )=>class ClientGet extends Base
+export default {
 
 
 
 	///////////////////////////////////////////////////////////////////////////
 
 
+	act( id ,nava ,actk ,...args )
+	{
+		const nav	=this.ggame().newnav( nava.slice() )
 
-	on_mov( desta )
+		if( nav.error >= 0 )
+		{
+			this.send( "error" ,id ,"Couldn't parse nav" )
+
+			return	console.error( "Client.onmsg: bad nav" ,nava )
+		}
+		const obj	=nav.last()
+
+		const act	=obj.gact( actk )
+
+		if( !act )
+		{
+			this.send( "error" ,id ,"Couldn't find act" )
+
+			return console.error( "Client.onmsg: no act" ,nava ,actk )
+		} 
+		if( act[0].call( obj , nav, this.pl ,...args ))
+		{
+			const res	=act[1].call( obj , nav, this.pl ,...args )
+
+			const msg	=res	? [ "actyes" ,...res ]	: [ "actyes" ]
+
+			this.sendjson( msg )
+		}
+		else	this.send( "error" ,id )
+	}
+,
+
+
+	mov( desta )
 	{
 		const dest	=Loc.setj( desta )
 		
@@ -45,12 +77,12 @@ export default( Base =Object )=>class ClientGet extends Base
 
 		// pl.mov( dest )
 	}
+,
 
-
-	on_mapshift( dir )
+	mapshift( dir )
 	{
 		this.send( "clplmov" ,dir )
-	}
+	},
 
 
 	/** Relay WRTC message between clients through the server.
@@ -59,7 +91,7 @@ export default( Base =Object )=>class ClientGet extends Base
 	 * @arg {Object}	o.msg
 	 */
 
-	on_wrtc( o )
+	wrtc( o )
 	{
 		var cl2	=this.game.pls[o.name].cl
 
@@ -80,8 +112,8 @@ export default( Base =Object )=>class ClientGet extends Base
 
 		cl2.s.wrtc( o )
 	}
-
-	on_dig( o )
+,
+	dig( o )
 	{
 		var tool	=o
 
@@ -109,10 +141,10 @@ get. climb	=function( o )
 
 	pl.climb( o.dir )
 }*/
-
+,
 	/**@todo Handle errors */
 
-	on_movitem({ from, key, len$id, to })
+	movitem({ from, key, len$id, to })
 	{
 		const{ game }	=this
 
@@ -152,11 +184,11 @@ get. climb	=function( o )
 		}
 		game.movitem( from ,item ,lenadd ,to ,this.pl )
 	}
-
+,
 
 	/**@todo Check that not rotating players on accident... */
 
-	on_rotobj( loca, dir, key )
+	rotobj( loca, dir, key )
 	{
 		const{ pl, game }	=this
 
