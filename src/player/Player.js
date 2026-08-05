@@ -67,7 +67,7 @@ export default class Player extends PlBase
 			key :"cl" , fromJSON :()=> null
 		}
 	)
-	static
+	/*static
 	{
 		this.dupacts()
 
@@ -97,13 +97,13 @@ export default class Player extends PlBase
 
 				const dest	=scrloc.setj( desta )
 
-				PlBase.acts.mov[1].call( this ,nav ,pl, dest )
+				PlBase.acts.mov[1].call( this ,nav ,pl, dir )
 
 				// this.srv?.send( "plmov" ,this ,oldloc )
 
 				this.cl.send( "clplmov" ,dir )
 			}
-	}
+	}*/
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -146,16 +146,21 @@ export default class Player extends PlBase
 
 
 
-	/*mov( dest )
+	mov( dir )
 	{
-		const orig	=Loc.set( this.loc )
+		const{ pl }	=this
 
-		super.mov( dest )
+		const{ loc }	=pl
+		
+		/** Technically, I can change loc directly here
+		 * since super.mov should move there regardless of anything */
+		super.mov( scrloc.s(pl.loc).neighh(dir) )
+
+		pl.cl?.send( "shiftmap" ,dir )	
 
 		// this.srv?.send( "plmov" ,this ,oldloc )
+	}
 
-		this.cl.send( "clplmov" ,orig.subv(dest).neg() )
-	}*/
 	///////////////////////////////////////////////////////////////////////////
 }
 

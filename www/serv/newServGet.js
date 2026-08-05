@@ -54,7 +54,7 @@ export default {
 	* @arg {obj} o.obj	-{gr, tr}
 	*/
 
-	setmap( obj, loca, r )
+	setmap([ obj, loca, r ])
 	{
 		this.buf.addobj( obj, new Loc().setj(loca), r )
 	}
@@ -114,42 +114,42 @@ export default {
 		}
 		map["set"+act]( loc, ...vals )
 	}
-,
-
+	
+	
 	///////////////////////////////////////////////////////////////////////////////
+	
+	, 
+	/** Player walks there */
 
+	mov( desta )
+	{
+		const{ pl }	=this.cl
 
+		const dest	=Loc.setj( desta )
+
+		pl.srvloc.s( dest )
+
+		if( ! pl.loc.eq( dest ))
+		{
+			pl.mov( dest )
+		}
+	}
+
+	,
 	/** This is your new water level. */
 
 	plwater( lvl )
 	{
 		this.cl.pl.water	=lvl
 	}
-,
-
-
+	
+	
+	,
 	plheat( lvl )
 	{
 		// console.log(lvl)
 
 		this.cl.pl.heat	=lvl
-	}
-,
-
-
-	/** Your player moved here. New information added.
-	* @arg {Object}	msg
-	* @arg				msg.loc	- new location
-	* @arg 			msg.r	- radius of visible map
-	* @arg 			msg.dir	- direction of movement
-	* @arg {Object} 	msg.obj
-	* @arg {Array}		msg.obj.gr	- cells in order, empty cells are empty entries
-	* @arg {Array} 	msg.obj.tr
-	*/
-
-	clplmov( obj, loca, r, dir )
-	{
-		this.buf.addobj( obj ,new Loc().setj(loca) ,r ,dir )
 	}
 ,
 
@@ -351,13 +351,29 @@ export default {
 
 		map.obj.g(o.loc)[o.key][o.act]( ... o.params )
 	}
-,
 
+
+	,
 	error( actid ,msg )
 	{
 		this.acts.del( actid )
 
 		if( msg )	console.error( "error" ,msg )
+	}
+
+
+	/** As player moves, new map information is sent.
+	* @arg {Object}	msg
+	* @arg			msg.loc	- new location
+	* @arg 			msg.r	- radius of visible map
+	* @arg 			msg.dir	- direction of movement
+	* @arg {Object} msg.obj
+	* @arg {Array}	msg.obj.gr	- cells in order, empty cells are empty entries
+	* @arg {Array} 	msg.obj.tr */
+	,
+	shiftmap([ obj, loca, r, dir ])
+	{
+		this.buf.addobj( obj ,new Loc().setj(loca) ,r ,dir )
 	}
 }
 

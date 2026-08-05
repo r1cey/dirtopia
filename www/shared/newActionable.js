@@ -1,6 +1,6 @@
 export default( Base =Object )=>class Actionable extends Base
 {
-	/** acts[key] =[ test(nav ,pl ,...args ) ,run(nav ,pl ,...args) ] 
+	/** acts[key] =[ test(nav ,pl ,arg ), run(nav ,pl ,arg )] 
 	 * Test function return argument for failure as [ false ,arg ] */
 	static acts	={}
 
@@ -26,8 +26,14 @@ export default( Base =Object )=>class Actionable extends Base
 	}
 
 
-	actrun( key ,nav ,pl ,...args )
+	actrun( key ,nav ,pl ,args )
 	{
-		return this.constructor.acts[key][1].call( this ,nav ,pl , ...args )
+		return this.constructor.acts[key][1].call( this ,nav ,pl ,args )
+	}
+	static{this.prototype. runact	=this.prototype. actrun }
+
+	testact( key ,nav ,pl ,args )
+	{
+		return this.constructor.acts[key][0].call( this ,nav ,pl ,args )
 	}
 }

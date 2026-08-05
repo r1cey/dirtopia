@@ -74,7 +74,7 @@ export default class Client extends newClS()
 
 		const res	=fun.apply( this, args )
 
-		if( res )	this.sendjson([ fnk, ...res[0] ], res[1] )
+		if( res )	this.sendjson([ fnk, res[0] ], res[1] )
 	}
 
 
@@ -100,11 +100,11 @@ export default class Client extends newClS()
 	{
 		console.log(`${this.pl.name}: WS msg: ${data.toString()}`)
 
-		const[ act ,args ]	=JSON.parse( data.toString(), this.constructor.jrev.fn )
+		const[ act ,arg ]	=JSON.parse( data.toString(), this.constructor.jrev.fn )
 
 		const fun	=on[act]
 
-		if( fun )	fun.apply( this, args )
+		if( fun )	fun.call( this, arg )
 
 		else
 		{

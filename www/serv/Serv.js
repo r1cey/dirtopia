@@ -110,6 +110,8 @@ export default newSS( class Server
 	}
 
 
+	/** @todo Get rid of "em_"
+	 * Function can return an array: [val ,replcl ]	*/
 
 	send( fn, ...args )
 	{
@@ -163,11 +165,11 @@ export default newSS( class Server
 		}
 		else if(typeof msg === 'string')
 		{
-			const[ act, ...args ]	=JSON.parse(ev.data, this.jrev.fn )
+			const[ act, arg ]	=JSON.parse(ev.data, this.jrev.fn )
 
-			on[act].apply( this, args )
+			on[act].call( this ,arg )
 
-			console.log( act ,...args )
+			console.log( act ,arg )
 		}
 	}
 })
@@ -195,6 +197,7 @@ class Buf
 }
 
 
+/** @todo Check what's happening with the array. Can it fill up? */
 
 Buf.prototype. addbinbuf	=function( bbuf, code )
 {
@@ -264,7 +267,7 @@ Buf.prototype. iscomplete	=function( i, buf )
 	{
 		if( buf.dir >= 0 )
 		{
-			this.srv.cl.movclpl( buf.dir ,[ buf.Gr ,buf.obj.gr ,buf.Tr ,buf.obj.tr ])
+			this.srv.cl.shiftmap( buf.dir ,[ buf.Gr ,buf.obj.gr ,buf.Tr ,buf.obj.tr ])
 		}
 		else
 		{

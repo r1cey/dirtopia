@@ -93,33 +93,15 @@ export default class Client	extends Game
 	}
 
 
-	movclpl( dir ,mapshiftdets )
+	shiftmap( dir ,mapshiftdets )
 	{
 		const cl	=this
 
 		const{ pl ,maps }	=cl
 
-		pl.ismovack	=true
-
 		maps.shift( dir ,...mapshiftdets )
 
-		const{ prevloc }	=pl
-
-		if( ! prevloc )
-		{
-			/** @todo the server moved player by itself somehow */
-
-			console.warn( "UNDEFINED BEHAVIOUR : client.movclpl" )
-		}
-		const newloc	=Loc.set( prevloc ).neighh( dir )
-
-		if( ! newloc.eq( pl.loc ))
-		{
-			console.error( "GRAVE ERROR : somehow srvr moved me wrong : client.movclpl" )
-		}
-		maps.movobjp( pl.prevloc ,"pl" ,newloc )
-
-		pl.prevloc	=null
+		// maps.movobjp( pl.prevloc ,"pl" ,newloc )
 	}
 }
 

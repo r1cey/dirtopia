@@ -20,11 +20,9 @@ export default( Base )=>class SS extends Base
 
 
 
-	em_mov( loc )
+	em_mov( dest )
 	{
-		// if( loc.eqxy( 49 ,13 ))	debugger
-
-		return[[ loc ]]
+		return[ dest ]
 	}
 
 

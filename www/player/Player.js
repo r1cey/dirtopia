@@ -177,8 +177,9 @@ class PlVis extends newPl( ShPlV )
 }
 
 
+const PlBase	=newPl( ShPl )
 
-export default class Player extends newPl( ShPl )
+export default class Player extends PlBase
 {
 	srvloc	=new Loc()
 
@@ -190,11 +191,33 @@ export default class Player extends newPl( ShPl )
 
 	static Vis	=PlVis
 
+	/*static
+	{
+		this.dupacts()
+
+		this.acts.mov[0]	=function( nav ,pl ,dest )
+		{
+			return	
+		}
+	}*/
+
 
 	/*constructor( ...args )
 	{
 		super( ...args )
 	}*/
+
+
+	canmov( dest ,map )
+	{
+		const pl	=this
+
+		return	pl.loc.eq( dest ) ||
+
+				pl.srvloc.eq( dest ) ||
+				
+				( pl.loc.eq( pl.srvloc )&& super.canmov( dest ,map ))
+	}
 
 
 	/** Forcefully moves player to a new location.
@@ -207,6 +230,21 @@ export default class Player extends newPl( ShPl )
 
 		this.dest.set( dest )
 	}
+
+
+
+	onmov( dest )
+	{
+		if( this.isforcemov )
+		{
+			if( dest.eq( this.srvloc ))
+			{
+				this.isforcemov	=false
+			}
+		}
+		else	this.gsrv().send( "mov" ,dest )
+	}
+
 
 
 	setj( msg )
@@ -240,17 +278,7 @@ Player.prototype. lcl_acto	=function( path ,actk ,args )
 
 
 
-Player.prototype. onmov	=function( dest )
-{
-	if( this.isforcemov )
-	{
-		if( dest.eq( this.srvloc ))
-		{
-			this.isforcemov	=false
-		}
-	}
-	else	this.gsrv().senda( this.nav ,"mov", dest )
-}
+Player.prototype. 
 
 
 

@@ -14,7 +14,7 @@ export default( Base =Object )=>class ClS extends Base
 
 	em_setclpl()
 	{
-		return[[ this.pl ]]
+		return[ this.pl ]
 	}
 
 
@@ -51,33 +51,15 @@ export default( Base =Object )=>class ClS extends Base
 
 	/** This client's player had moved. */
 
-	em_clplmov( dir )
+	em_mov( dest )
 	{
-		const{ pl }	=this
-
-		const{ loc }	=pl
-		
-		// const dir	=Loc.dirv2dirh( delta )
-
-		const r	=pl.vision
-
-		const msgo	={ gr	:0 , tr	:0 }
-
-		const msgbs	=this.game.maps.gshiftboards( loc, r, dir )
-
-		for(var n in msgbs )
-		{
-			this.sendbin( msgbs[n].bin.getbuf() )
-
-			msgo[n]	=msgbs[n].obj
-		}
-		return[[ msgo, loc, r, dir ]]
+		return[ dest ]
 	}
 
 
-	em_movrej( newloc )
+	em_movrej( curloc )
 	{
-		return[[ newloc ]]
+		return[ curloc ]
 	}
 
 
@@ -243,6 +225,29 @@ export default( Base =Object )=>class ClS extends Base
 
 
 	///////////////////////////////////////////////////////////////////////////////
+
+
+
+	em_shiftmap( dir )
+	{
+		const{ pl }	=this
+
+		const{ loc }	=pl
+
+		const r	=pl.vision
+
+		const msgo	={ gr	:0 , tr	:0 }
+
+		const msgbs	=this.ggame().maps.gshiftboards( loc, r, dir )
+
+		for(var n in msgbs )
+		{
+			this.sendbin( msgbs[n].bin.getbuf() )
+
+			msgo[n]	=msgbs[n].obj
+		}
+		return[[ msgo, loc, r, dir ]]
+	}
 
 
 

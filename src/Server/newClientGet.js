@@ -6,6 +6,10 @@ import Loc from '../../www/shared/Loc.js'
 
 
 
+const scrloc	=new Loc()
+const scrloc2	=new Loc()
+
+
 // export default( Base =Object )=>class ClientGet extends Base
 export default {
 
@@ -59,38 +63,37 @@ export default {
 				this.sendactrej( id )
 		}
 	}
-,
-
+	
+	,
+	/** Player wants to move on own accord */
 
 	mov( desta )
 	{
-		const dest	=Loc.setj( desta )
+		const dest	=scrloc.setj( desta )
 		
 		const{ pl }	=this
 
-		// var map	=pl.map()
-
-		if( ! pl.canmov( dest ))
-		{
-			this.send("movrej" , dest )
-
-			return
-		}
 		const{ loc }	=pl
 
 		if( loc.eq( dest ))
 		{
-			this.send( "error" ,"Already there." )
-			
-			return
+			/** @todo Some kind of error correction?? */
+
+			return	console.error( pl.name+".onmov: Already there." ,dest )
 		}
 		loc.forlineh( dest ,( loc2 )=>
 		{
 			return dest.set( loc2 )
 		})
-		pl.actrun( "mov" ,Loc.dirv2dirh( dest.subv( loc )))
+		if( ! pl.canmov( dest ))
+		{
+			this.send( "movrej" ,loc )
 
-		// pl.mov( dest )
+			return
+		}
+		pl.mov( Loc.dirv2dirh( scrloc2.set(dest).subv(loc) ))
+
+		this.send( "mov" ,dest )
 	}
 ,
 

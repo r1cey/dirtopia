@@ -37,7 +37,7 @@ export default class PlBase	extends newAct( newJable(newISlot()) )
 		,
 		seedbag	:10
 	}
-	static
+	/*static
 	{
 		this.acts["mov"]	=
 		[
@@ -50,7 +50,7 @@ export default class PlBase	extends newAct( newJable(newISlot()) )
 				this.mov( dest )
 			}
 		]
-	}
+	}*/
 	
 
 	///////////////////////////////////////////////////////////////////////////
@@ -131,9 +131,14 @@ export default class PlBase	extends newAct( newJable(newISlot()) )
 
 	tonavmsg()	{return this.name }
 
-
-	actrun( key ,...args )
+/*
+	actrun( key ,arg )
 	{
-		return super.actrun( key ,this.nav ,this ,...args )
+		return super.actrun( key ,this.nav ,this ,arg )
 	}
+
+	testrun( key ,arg )
+	{
+		return super.testact( key ,this.nav ,this ,arg )
+	}*/
 }
