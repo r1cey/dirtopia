@@ -14,9 +14,9 @@ export default {
 	///////////////////////////////////////////////////////////////////////////
 
 
-	act( id ,nava ,actk ,...args )
+	act( id ,nava ,actk ,args )
 	{
-		const nav	=this.ggame().newnav( nava.slice() )
+		const nav	=this.ggame().newnav( nava )
 
 		if( nav.error >= 0 )
 		{
@@ -34,15 +34,23 @@ export default {
 
 			return console.error( "Client.onmsg: no act" ,nava ,actk )
 		} 
-		if( act[0].call( obj , nav, this.pl ,...args ))
-		{
-			const res	=act[1].call( obj , nav, this.pl ,...args )
+		if( args ?
+			
+			act[0].call( obj , nav, this.pl ,...args )
+			:
+			act[0].call( obj , nav, this.pl )
+		){
+			const res	=args ?
+			
+				act[1].call( obj , nav, this.pl ,...args )
+				:
+				act[1].call( obj , nav, this.pl )
 
-			const msg	=res	? [ "actyes" ,...res ]	: [ "actyes" ]
+			const msg	=res	?[ "actyes" ,id ,res ]	:[ "actyes" ,id ]
 
 			this.sendjson( msg )
 		}
-		else	this.send( "error" ,id )
+		else	this.sendjson([ "error" ,id ])
 	}
 ,
 

@@ -70,18 +70,11 @@ export default class Client extends newClS()
 
 	send( fnk, ...args )
 	{
-		var methk	="em_"+fnk
+		const fun	=this["em_"+fnk]
 
-		/** @todo remove in production */
-		if( ! this[methk] )
-		{
-			console.error( `Client.${fnk} doesn't exist` )
+		const res	=fun.apply( this, args )
 
-			return
-		}
-		var[ outa, rep ]	=this[methk]( ...args )
-
-		if( outa )	this.sendjson([ fnk, outa ], rep )
+		if( res )	this.sendjson([ fnk, ...res[0] ], res[1] )
 	}
 
 
@@ -95,9 +88,7 @@ export default class Client extends newClS()
 	{
 		console.log(`${this.pl.name}: WS msg: ${data.toString()}`)
 
-		const msg	=JSON.parse( data.toString(), this.constructor.jrev.fn )
-
-		const[ act ,args ]	=msg
+		const[ act ,args ]	=JSON.parse( data.toString(), this.constructor.jrev.fn )
 
 		const fun	=on[act]
 

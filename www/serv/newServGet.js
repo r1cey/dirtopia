@@ -6,9 +6,10 @@ import Maps	from '../maps/Maps.js'
 
 
 
-export default( Base )=>class SG extends Base
-{
-	constructor(...args)	{ super(...args) }
+// export default( Base )=>class SG extends Base
+export default {
+
+	// constructor(...args)	{ super(...args) }
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -20,13 +21,13 @@ export default( Base )=>class SG extends Base
 
 /** Player with [name] doesn't exist and needs to be created. */
 
-	on_createpl( name )
+	createpl( name )
 	{
 		// this.cl.ui.newplcreate( name ,this )
 
 		this.cl.ui.setpage( "createpl" ,this ,name )
 	}
-
+,
 
 	///////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +35,7 @@ export default( Base )=>class SG extends Base
 
 	/** This is your player. */
 
-	on_setclpl( plmsg )
+	setclpl( plmsg )
 	{
 		// debugger
 
@@ -43,7 +44,7 @@ export default( Base )=>class SG extends Base
 
 		this.cl.setpl( plmsg )
 	}
-
+,
 
 
 	/** This is what you see.
@@ -53,11 +54,11 @@ export default( Base )=>class SG extends Base
 	* @arg {obj} o.obj	-{gr, tr}
 	*/
 
-	on_setmap( obj, loca, r )
+	setmap( obj, loca, r )
 	{
 		this.buf.addobj( obj, new Loc().setj(loca), r )
 	}
-
+,
 
 	/**	This are the units that you see. 
 	* @arg o
@@ -74,6 +75,12 @@ export default( Base )=>class SG extends Base
 	}*/
 
 
+	act( ...args )
+	{
+		console.log( ...args )
+	}
+,
+
 	///////////////////////////////////////////////////////////////////////////////
 
 
@@ -84,7 +91,7 @@ export default( Base )=>class SG extends Base
 	* @arg o.loc
 	* @arg {array}	o.vals */
 
-	on_mapset_( mapid, loca, act, vals )
+	mapset_( mapid, loca, act, vals )
 	{
 		var map	=this.cl.maps.fromid( mapid )
 
@@ -92,31 +99,31 @@ export default( Base )=>class SG extends Base
 
 		if( map !== this.cl.maps.loc2map( loc ))
 		{
-			console.error("srv.on_mapset_", act, loc, vals )
+			console.error("srv.mapset_", act, loc, vals )
 		}
 		map["set"+act]( loc, ...vals )
 	}
-
+,
 
 	///////////////////////////////////////////////////////////////////////////////
 
 
 	/** This is your new water level. */
 
-	on_plwater( lvl )
+	plwater( lvl )
 	{
 		this.cl.pl.water	=lvl
 	}
+,
 
 
-
-	on_plheat( lvl )
+	plheat( lvl )
 	{
 		// console.log(lvl)
 
 		this.cl.pl.heat	=lvl
 	}
-
+,
 
 
 	/** Your player moved here. New information added.
@@ -129,19 +136,19 @@ export default( Base )=>class SG extends Base
 	* @arg {Array} 	msg.obj.tr
 	*/
 
-	on_clplmov( obj, loca, r, dir )
+	clplmov( obj, loca, r, dir )
 	{
 		this.buf.addobj( obj ,new Loc().setj(loca) ,r ,dir )
 	}
-
+,
 
 	/** { loc } */
 
-	on_movrej( msg )
+	movrej( msg )
 	{
 		this.cl.pl.rejmov()
 	}
-
+,
 
 	/** A visible player moved.
 	* If it was seen before, only need name.
@@ -152,7 +159,7 @@ export default( Base )=>class SG extends Base
 	* @arg [o.name]
 	*/
 
-	on_plmov( o )
+	plmov( o )
 	{
 		var vispls	=this.srv.cl.vispls
 
@@ -180,14 +187,14 @@ export default( Base )=>class SG extends Base
 
 		plvis.dest.setj(o.loc)
 	}
-
+,
 	/** Player changed connection status.
 	*@arg	o
 	*@arg	o.name
 	*@arg	o.cl
 	*/
 
-	on_plconn( o )
+	plconn( o )
 	{
 		var cl	=this.cl()
 
@@ -202,10 +209,10 @@ export default( Base )=>class SG extends Base
 			cl.delpcl( name )
 		}
 	}
-
+,
 	/** New player was created. */
 
-	on_newpl( pl2visa )
+	newpl( pl2visa )
 	{
 		var pl2vis	=new Pl.Vis(pl2visa, true, this.srv.cl )
 
@@ -215,7 +222,7 @@ export default( Base )=>class SG extends Base
 
 		return pl2vis	//why??
 	}
-
+,
 	/** Receive WRTC messages from another client through the server.
 	* @arg	o
 	* @arg	o.name	- name of the sending player
@@ -225,7 +232,7 @@ export default( Base )=>class SG extends Base
 	* @arg	[o.msg.icecandi]
 	*/
 
-	async on_wrtc( o )
+	async wrtc( o )
 	{
 		var pcl	=this.cl().genepcl( o.name, false )
 
@@ -248,14 +255,14 @@ export default( Base )=>class SG extends Base
 			pcl.onicecandi( msg.icecandi )
 		}
 	}
-
+,
 
 
 	/** @arg o.newloc
 	* @arg o.dir
 	*/
 
-	on_clplclimb( o )
+	clplclimb( o )
 	{
 		var pl	=this.cl.pl
 
@@ -274,13 +281,13 @@ export default( Base )=>class SG extends Base
 		dest.h	=desth
 		pos.h	=desth
 	}
-
+,
 	///////////////////////////////////////////////////////////////////////////
 
 
 	/** len can be len or id */
 
-	on_itemmov({ from ,item_ :item ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts })
+	itemmov({ from ,item_ :item ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts })
 	{
 		const{ cl }	=this
 
@@ -290,7 +297,7 @@ export default( Base )=>class SG extends Base
 
 		if( err )
 		{
-			console.error( "on_itemmov" ,from ,to )
+			console.error( "itemmov" ,from ,to )
 
 			return
 		}
@@ -298,7 +305,7 @@ export default( Base )=>class SG extends Base
 
 		if( ! item )
 		{
-			console.error( "on_itemmov" ,from ,item ,len )
+			console.error( "itemmov" ,from ,item ,len )
 
 			return
 		}
@@ -311,7 +318,7 @@ export default( Base )=>class SG extends Base
 		cl.movitem( from ,item ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts )
 	}
 
-	/*on_rotobj( loca ,key ,dir ,pln )
+	/*rotobj( loca ,key ,dir ,pln )
 	{
 		var{ cl }	=this
 
@@ -326,20 +333,20 @@ export default( Base )=>class SG extends Base
 
 
 	/** { loc, key, act, params } */
-
-	on_actonobj( o )
+,
+	actonobj( o )
 	{
 		var map	=this.cl.maps.loc2map( o.loc )
 
 		map.obj.g(o.loc)[o.key][o.act]( ... o.params )
 	}
+,
 
-
-	on_error( actid ,msg )
+	error( actid ,msg )
 	{
 		this.acts.del( actid )
 
-		if( msg )	console.error( "on_error" ,msg )
+		if( msg )	console.error( "error" ,msg )
 	}
 }
 

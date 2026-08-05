@@ -1,6 +1,6 @@
 // import Acts	from "../shared/Acts.js"
 import newSS from './newServSend.js'
-import newSG	from "./newServGet.js"
+import on	from "./newServGet.js"
 
 import Gr from '../maps/Ground.js'
 import Tr from '../maps/Trees.js'
@@ -17,7 +17,7 @@ import Acts	from "./Acts.js"
 
 
 
-export default newSS( newSG (class Server
+export default newSS( class Server
 {
 	cl
 
@@ -115,7 +115,7 @@ export default newSS( newSG (class Server
 	{
 		const res	=this["em_"+fn]( ...args )
 
-		if( res )	this.sendjson([ fn, ...res[0] ], res[1] )
+		if( res )	this.sendjson([ fn, res[0] ], res[1] )
 	}
 
 
@@ -163,30 +163,14 @@ export default newSS( newSG (class Server
 		}
 		else if(typeof msg === 'string')
 		{
-			const[ act, args ,actk ,...args2 ]	=JSON.parse(ev.data, this.jrev.fn )
+			const[ act, ...args ]	=JSON.parse(ev.data, this.jrev.fn )
 
-			if( act === "act" )
-			{
-				const nava	=args
+			on[act].apply( this, args )
 
-				const nav	=this.cl.newnav( nava )
-
-				if( nav.error >= 0 )	return
-
-				const obj	=nav.last()
-
-				const act	=obj.constructor.acts[actk]
-
-				if( !act )	return console.error( "Srv.onmsg: no act" ,obj ,actk )
-
-				act[1].call( obj ,nav ,this.cl.pl ,...args2 )
-			}
-			else	this["on_"+act]?.( ...args )
-
-			console.log( act ,args ,actk ,...args2 )
+			console.log( act ,...args )
 		}
 	}
-}))
+})
 
 	///////////////////////////////////////////////////////////////////////////////
 
