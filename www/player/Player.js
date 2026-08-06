@@ -11,18 +11,17 @@ import PageInv from '../ui/inv/PageInv.js'
 
 
 
+const scrloc	=new Loc()
+
+
+
 const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 {
-	/** The exact, fractional position */
+	/** The exact visual fractional position */
 	pos	=new Loc()
 
-	/** can never be something forbidden */
+	/** The cell the player is going to visually */
 	dest	=new Loc()
-
-	/** Scratch vector (to save on garbage collection) */
-	scrloc	=new Loc()
-
-	scrloc2	=new Loc()
 
 
 	static Hands	=Hands
@@ -52,25 +51,10 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 
 
 	///////////////////////////////////////////////////////////////////////////
-
-
-
-	setj( msg )
-	{
-		super.setj( msg )
-
-		this.dest.set( this.loc )
-
-		this.pos.set( this.loc )
-
-		return this
-	}
 	
-	/*setloc()
-	{
-		this.loc.set(this.dest).roundh()
-	}*/
 
+	/** Shift pos.
+	 * @todo Atm only applicable on client player */
 
 	step( dt )
 	{
@@ -78,13 +62,9 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 
 		const{ pos ,dest }	=pl
 
-		const dv	=this.scrloc.s(dest).subv(pos)
+		if( pos.eq( dest ))	return
 
-		if( dv.zero() )
-		{
-			return false
-		}
-		// const newpos	=new Loc() 
+		const dv	=scrloc.s(dest).subv(pos)
 
 		if(dv.disth() < 0.1 )
 		{
@@ -111,13 +91,14 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 			}
 			pos.addv(dv.mul( mul ))
 		}
-		const newloc	=this.scrloc.set( pos ).roundh()
+		/*const newloc	=this.scrloc.set( pos ).roundh()
 
-		if( ! this.loc.eq( newloc ))
+		if( ! this.visloc.eq( newloc ))
 		{
 			this.onmov( newloc )
-		}	
-		this.loc.set( newloc )
+
+			this.visloc.set( newloc )
+		}*/	
 	}
 
 
@@ -136,14 +117,19 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 	}
 
 
-	/*static fromJSON( val ,pls )
+
+	setj( msg )
 	{
-		const pl	=super.fromJSON( val ,pls )
+		super.setj( msg )
 
-		pl.hands.pl	=pl
+		this.dest.set( this.loc )
 
-		return pl
-	}*/
+		this.pos.set( this.loc )
+
+		this.visloc.set( this.loc )
+
+		return this
+	}
 }
 
 
@@ -181,8 +167,14 @@ const PlBase	=newPl( ShPl )
 
 export default class Player extends PlBase
 {
-	srvloc	=new Loc()
+	srvloc	=this.loc
 
+	movbuf	=
+	{
+		max	:5
+		,
+		a	:new Array( 5 )
+	}
 	/** Is used when server moves the player */
 	isforcemov	=false
 
@@ -208,41 +200,65 @@ export default class Player extends PlBase
 	}*/
 
 
-	canmov( dest ,map )
+
+	/*canmov( dest ,map )
 	{
 		const pl	=this
 
-		return	pl.loc.eq( dest ) ||
+		const{ visloc }	=pl
 
-				pl.srvloc.eq( dest ) ||
+		return	visloc.eq( dest ) ||
+
+				pl.movbuf.a.at(-1).eq( dest ) ||
 				
-				( pl.loc.eq( pl.srvloc )&& super.canmov( dest ,map ))
+				super.canmov( dest ,map )
+	}*/
+
+
+	vismov( dest )
+	{
+		if( ! this.canmov( dest ))	return
+
+		const{ movbuf }	=this
+
+		if( movbuf.a.length >= movbuf.max )	return
+
+		this.gsrv().send.mov( dest )
+
+		this.dest.set( dest )
+
+		movbuf.a.push( dest.clone() )
 	}
 
 
-	/** Forcefully moves player to a new location.
-	 * Assume location already updated by server.
+	/** Assume location already updated by server.
 	 * @todo Consider cancelling canvas drag when forcefully moving. */
 
-	mov( dest )
+	forcemov( dest )
 	{
+		this.mov( dest )
+		
 		this.isforcemov	=true
 
 		this.dest.set( dest )
 	}
 
 
+	/** Whenever player moves cell on screen. */
 
 	onmov( dest )
 	{
 		if( this.isforcemov )
 		{
-			if( dest.eq( this.srvloc ))
+			if( dest.eq( this.loc ))
 			{
 				this.isforcemov	=false
 			}
 		}
-		else	this.gsrv().send( "mov" ,dest )
+		else
+		{
+			this.gsrv().send( "mov" ,dest )
+		}
 	}
 
 
@@ -275,19 +291,6 @@ Player.prototype. lcl_acto	=function( path ,actk ,args )
 
 
 ///////////////////////////////////////////////////////////////////////////////
-
-
-
-Player.prototype. 
-
-
-
-Player.prototype. rejmov	=function()
-{
-	this.dest.set( this.prevloc )
-
-	this.ismovack	=true
-}
 
 
 

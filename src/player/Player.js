@@ -145,10 +145,11 @@ export default class Player extends PlBase
 	///////////////////////////////////////////////////////////////////////////
 
 
+	/** Sends map shift. */
 
 	mov( dir )
 	{
-		const{ pl }	=this
+		const pl	=this
 
 		const{ loc }	=pl
 		

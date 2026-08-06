@@ -63,7 +63,10 @@ export default class Can	extends DivGo
 
 	showlvls	=false
 
-	v	=new V()	//just utility buffers for ease of garbage collection
+	// dragpos	=new V()
+
+	/** Scratch vectors against garbage collection */
+	v	=new V()
 	v2	=new V()
 	v3	=new V()
 
@@ -143,9 +146,7 @@ export default class Can	extends DivGo
 
 		const dt	=now - this.time
 
-		const pl	=can.pl
-
-		const tch	=can.touch
+		const{ pl ,touch :tch }	=can
 
 		this.time	=now
 
@@ -157,15 +158,15 @@ export default class Can	extends DivGo
 		{
 			if( ! pl.isforcemov )
 			{
-				const deltasq	=can.v3.set(tch.pos).subv(tch.last)
+				const deltasq	=can.v.set(tch.pos).subv(tch.last)
 
-				const dest	=can.v.set(deltasq).tohexc(can).addv(pl.dest)
+				const dest	=can.v2.set(deltasq).tohexc(can).addv(pl.dest)
 
-				const destloc	=can.v2.set(dest).roundh()
+				const destloc	=can.v3.set(dest).roundh()
 
-				if(	pl.canmov( destloc ))
+				if( ! destloc.eq( pl.dest ))
 				{
-					pl.dest.setv( dest )
+					pl.vismov( destloc )
 				}
 				// else	console.log( "stop" )
 			}

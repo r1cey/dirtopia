@@ -93,6 +93,7 @@ export default class PlBase	extends newAct( newJable(newISlot()) )
 	///////////////////////////////////////////////////////////////////////////
 
 
+	/** Updates map obj too */
 
 	mov( dest )
 	{
@@ -104,10 +105,6 @@ export default class PlBase	extends newAct( newJable(newISlot()) )
 
 		pl.ggame().maps.movobjp( loc ,"pl" ,dest )
 		
-		// map.obj.del( loc, "pl" )
-
-		// map.obj.set(dest).pl	=this
-
 		loc.set( dest )
 /*
 		if( dest.h === 0 )

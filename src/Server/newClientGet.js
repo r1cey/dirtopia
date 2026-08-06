@@ -63,7 +63,7 @@ export default {
 				this.sendactrej( id )
 		}
 	}
-	
+
 	,
 	/** Player wants to move on own accord */
 
@@ -79,21 +79,24 @@ export default {
 		{
 			/** @todo Some kind of error correction?? */
 
-			return	console.error( pl.name+".onmov: Already there." ,dest )
+			console.warn( pl.name+".onmov: Already there." ,dest )
+
+			this.send( "mov" ,dest )
 		}
-		loc.forlineh( dest ,( loc2 )=>
+		else if( loc.disth( dest ) > 1 || ! pl.canmov( dest ))
+		{
+			this.send( "movrej" ,dest )
+		}
+		else
+		{
+			pl.mov( Loc.dirv2dirh( scrloc2.set(dest).subv(loc) ))
+
+			this.send( "mov" ,dest )
+		}
+		/*loc.forlineh( dest ,( loc2 )=>
 		{
 			return dest.set( loc2 )
-		})
-		if( ! pl.canmov( dest ))
-		{
-			this.send( "movrej" ,loc )
-
-			return
-		}
-		pl.mov( Loc.dirv2dirh( scrloc2.set(dest).subv(loc) ))
-
-		this.send( "mov" ,dest )
+		})*/
 	}
 ,
 

@@ -125,14 +125,16 @@ export default {
 	{
 		const{ pl }	=this.cl
 
+		const{ visloc ,srvloc }	=pl
+
 		const dest	=Loc.setj( desta )
-
-		pl.srvloc.s( dest )
-
-		if( ! pl.loc.eq( dest ))
+ 
+		/** visloc.eq(srvloc) means player moved back before this arrives. */
+		if( ! visloc.eq( dest ) && ! visloc.eq( srvloc ))
 		{
-			pl.mov( dest )
+			pl.forcemov( dest )
 		}
+		else	pl.mov( dest )
 	}
 
 	,
@@ -155,9 +157,17 @@ export default {
 
 	/** { loc } */
 
-	movrej( msg )
+	movrej( desta )
 	{
-		this.cl.pl.rejmov()
+		const{ pl }	=this.cl
+
+		const dest	=Loc.setj( desta )
+
+		if( pl.movbuf.a[0].eq( dest ))
+		{
+			pl.movbuf.a.shift()
+		}
+		else	console.error( "movrej" ,dest ,pl.movbuf.a )
 	}
 ,
 
