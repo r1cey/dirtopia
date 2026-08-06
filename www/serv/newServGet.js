@@ -125,16 +125,35 @@ export default {
 	{
 		const{ pl }	=this.cl
 
-		const{ visloc ,srvloc }	=pl
+		const dest	=Loc.setj(desta)
 
-		const dest	=Loc.setj( desta )
- 
-		/** visloc.eq(srvloc) means player moved back before this arrives. */
-		if( ! visloc.eq( dest ) && ! visloc.eq( srvloc ))
+		const mba	=pl.movbuf.a
+
+		if( mba[0].eq(dest) )
 		{
-			pl.forcemov( dest )
+			mba.shift()
+
+			pl.mov( dest )
 		}
-		else	pl.mov( dest )
+		else	console.error( "mov" ,dest ,mba )
+	}
+	
+	,
+	movrej([ desta ,loca ])
+	{
+		const{ pl }	=this.cl
+
+		const dest	=Loc.setj(desta)
+
+		const mba	=pl.movbuf.a
+
+		if( mba[0].eq(dest) )
+		{
+			mba.shift()
+
+			if( ! mba.length )	pl.forcemov( dest.setj(loca) )
+		}
+		else	console.error( "movrej" ,dest ,mba )
 	}
 
 	,
@@ -152,22 +171,6 @@ export default {
 		// console.log(lvl)
 
 		this.cl.pl.heat	=lvl
-	}
-,
-
-	/** { loc } */
-
-	movrej( desta )
-	{
-		const{ pl }	=this.cl
-
-		const dest	=Loc.setj( desta )
-
-		if( pl.movbuf.a[0].eq( dest ))
-		{
-			pl.movbuf.a.shift()
-		}
-		else	console.error( "movrej" ,dest ,pl.movbuf.a )
 	}
 ,
 

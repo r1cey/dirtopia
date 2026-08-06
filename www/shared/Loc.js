@@ -47,7 +47,13 @@ export default class Loc extends newPatha( V )
 	isempty( nav ,_i )	{return this.getcell( nav.dad(_i) )?.item }*/
 
 	
-	// fromJSON( a )	{return new this( ...a )}
+	setvj( va ,h )
+	{
+		this.x	=va[0]
+		this.y	=va[1]
+		this.h	=h ?? this.h
+		return this
+	}
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -104,11 +110,6 @@ Loc.prototype. setxy	=function( x, y, l )
 
 	return this
 }
-/*Loc.prototype. setj	=function( a )
-{
-	return this.setxy( ...a )
-}*/
-//Loc.prototype.fromJSON	=Loc.prototype.setj
 
 
 

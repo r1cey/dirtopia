@@ -65,6 +65,8 @@ export default class V	//extends newJable()
 		return (v.x - this.x)**2 + (v.y - this.y)**2
 	}
 
+
+	toJSON()	{return[ this.x ,this.y ]}
 }
 
 

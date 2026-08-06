@@ -67,13 +67,13 @@ export default {
 	,
 	/** Player wants to move on own accord */
 
-	mov( desta )
+	mov( veca )
 	{
-		const dest	=scrloc.setj( desta )
-		
 		const{ pl }	=this
-
+		
 		const{ loc }	=pl
+
+		const dest	=scrloc.setvj( veca ,loc.h )
 
 		if( loc.eq( dest ))
 		{
@@ -85,7 +85,7 @@ export default {
 		}
 		else if( loc.disth( dest ) > 1 || ! pl.canmov( dest ))
 		{
-			this.send( "movrej" ,dest )
+			this.send( "movrej" ,[ dest ,loc ])
 		}
 		else
 		{

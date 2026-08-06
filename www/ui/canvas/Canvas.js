@@ -158,12 +158,12 @@ export default class Can	extends DivGo
 		{
 			if( ! pl.isforcemov )
 			{
-				const deltasq	=can.v.set(tch.pos).subv(tch.last)
+				const deltasq	=can.v.set(tch.pos).subv(tch.start)
 
-				const dest	=can.v2.set(deltasq).tohexc(can).addv(pl.dest)
+				const dest	=can.v2.set(deltasq).tohexc(can).addv(pl.loc)
 
 				const destloc	=can.v3.set(dest).roundh()
-
+				
 				if( ! destloc.eq( pl.dest ))
 				{
 					pl.vismov( destloc )

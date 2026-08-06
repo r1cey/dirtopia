@@ -64,8 +64,6 @@ Touch.prototype. onup	=function( ev )
 
 	const pl	=tch.can.pl
 
-	if( ! pl.isforcemov )	pl.dest.set( pl.pos )
-
 	if(performance.now() - tch.time <= 200)
 	{
 		tch.can.clicked( tch.pos )

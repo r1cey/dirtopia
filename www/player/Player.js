@@ -126,7 +126,7 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 
 		this.pos.set( this.loc )
 
-		this.visloc.set( this.loc )
+		// this.visloc.set( this.loc )
 
 		return this
 	}
@@ -173,7 +173,7 @@ export default class Player extends PlBase
 	{
 		max	:5
 		,
-		a	:new Array( 5 )
+		a	:[]
 	}
 	/** Is used when server moves the player */
 	isforcemov	=false
@@ -214,25 +214,26 @@ export default class Player extends PlBase
 				super.canmov( dest ,map )
 	}*/
 
+	/** User dragged player to new cell
+	 * @arg destv {Vec} */
 
-	vismov( dest )
+	vismov( destv )
 	{
-		if( ! this.canmov( dest ))	return
+		if( ! this.canmov( destv ))	return
 
 		const{ movbuf }	=this
 
 		if( movbuf.a.length >= movbuf.max )	return
 
-		this.gsrv().send.mov( dest )
+		this.gsrv().send( "mov" ,destv )
 
-		this.dest.set( dest )
+		const dest	=this.dest.setv( destv )
 
 		movbuf.a.push( dest.clone() )
 	}
 
 
-	/** Assume location already updated by server.
-	 * @todo Consider cancelling canvas drag when forcefully moving. */
+	/** @todo Consider cancelling canvas drag when forcefully moving. */
 
 	forcemov( dest )
 	{
@@ -244,7 +245,7 @@ export default class Player extends PlBase
 	}
 
 
-	/** Whenever player moves cell on screen. */
+	/** Whenever player moves cell on screen. *
 
 	onmov( dest )
 	{
@@ -259,18 +260,18 @@ export default class Player extends PlBase
 		{
 			this.gsrv().send( "mov" ,dest )
 		}
-	}
+	}*/
 
 
 
-	setj( msg )
+	/*setj( msg )
 	{
 		super.setj( msg )
 
 		this.srvloc.set( this.loc )
 
 		return this
-	}
+	}*/
 }
 
 
