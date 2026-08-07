@@ -241,6 +241,8 @@ export default class Player extends PlBase
 		
 		this.isforcemov	=true
 
+		this.ggame().ui.can.stopdrag()
+
 		this.dest.set( dest )
 	}
 

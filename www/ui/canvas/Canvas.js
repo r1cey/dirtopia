@@ -89,7 +89,7 @@ export default class Can	extends DivGo
 
 		this.setpos(new V(0,0))
 
-		CtxM.can	=this
+		// CtxM.can	=this
 
 		this.drawgrid()
 	}
@@ -231,7 +231,7 @@ Can.prototype. runtouch	=function()
 
 	if( can.pl && can.maps )
 	{
-		this.el.onpointerdown	=this.touch.ondown. bind(this.touch)
+		this.el.onpointerdown	=this.touch.ondown. bind(this.touch ,this.pl.dest.c() )
 	}
 }
 

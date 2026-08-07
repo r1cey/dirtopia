@@ -10,6 +10,8 @@ export default class Touch
 
 	start	=new V()
 
+	startloc
+
 	last	=new V()
 
 	pos	=new V()
@@ -27,7 +29,7 @@ export default class Touch
 
 
 
-Touch.prototype. ondown	=function( ev )
+Touch.prototype. ondown	=function( startloc ,ev )
 {
 	var tch	=this
 
@@ -46,6 +48,8 @@ Touch.prototype. ondown	=function( ev )
 	el.onpointermove	=this.onmove. bind(this)
 
 	tch.time	=performance.now()
+
+	tch.startloc	=startloc
 
 	return tch.stopslct(ev)
 }
