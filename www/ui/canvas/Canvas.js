@@ -6,8 +6,13 @@ import Cell	from "../../maps/Cell.js"
 // import Mov from './Mov.js'
 import Touch	from './Touch.js'
 import CtxM	from './ContextMenu.js'
+ 
 
-var rad60	=Math.PI/3
+const rad60	=Math.PI/3
+
+/** Scratch vector */
+const scrv	=new V()
+
 
 export default class Can	extends DivGo
 {
@@ -156,9 +161,13 @@ export default class Can	extends DivGo
 		
 		if(tch.on)
 		{
-			if( ! pl.isforcemov )
+			const deltasq	=scrv.set(tch.pos).subv(tch.last )
+
+			if( ! deltasq.zero() )	pl.ondrag( deltasq.tohexc(can) )
+
+			/*if( ! pl.isforcemov )
 			{
-				const deltasq	=can.v.set(tch.pos).subv(tch.start)
+				const deltasq	=scrv.set(tch.pos).subv(tch.start)
 
 				const dest	=can.v2.set(deltasq).tohexc(can).addv(pl.loc)
 
@@ -169,7 +178,7 @@ export default class Can	extends DivGo
 					pl.vismov( destloc )
 				}
 				// else	console.log( "stop" )
-			}
+			}*/
 			tch.onframe()
 		}
 		pl.step()
@@ -231,7 +240,7 @@ Can.prototype. runtouch	=function()
 
 	if( can.pl && can.maps )
 	{
-		this.el.onpointerdown	=this.touch.ondown. bind(this.touch ,this.pl.dest.c() )
+		this.el.addEventListener( 'pointerdown', this.touch.ondown )
 	}
 }
 

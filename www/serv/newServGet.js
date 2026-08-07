@@ -127,15 +127,18 @@ export default {
 
 		const dest	=Loc.setj(desta)
 
+		pl.mov( dest )
+
 		const mba	=pl.movbuf.a
 
-		if( mba[0].eq(dest) )
+		if( mba[0]?.eq(dest) )
 		{
 			mba.shift()
-
-			pl.mov( dest )
 		}
-		else	console.error( "mov" ,dest ,mba )
+		else
+		{
+			pl.forcemov( dest )
+		}
 	}
 	
 	,

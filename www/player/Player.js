@@ -12,6 +12,7 @@ import PageInv from '../ui/inv/PageInv.js'
 
 
 const scrloc	=new Loc()
+const scrl2	=new Loc()
 
 
 
@@ -22,6 +23,9 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 
 	/** The cell the player is going to visually */
 	dest	=new Loc()
+
+	/** Just so we don't need to calculate it everytime */
+	visloc	=new Loc()
 
 
 	static Hands	=Hands
@@ -91,18 +95,18 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 			}
 			pos.addv(dv.mul( mul ))
 		}
-		/*const newloc	=this.scrloc.set( pos ).roundh()
+		const newloc	=scrloc.set( pos ).roundh()
 
 		if( ! this.visloc.eq( newloc ))
 		{
-			this.onmov( newloc )
+			this.onvismov( newloc )
 
 			this.visloc.set( newloc )
-		}*/	
+		}
 	}
 
 
-	onmov()	{return true }
+	onvismov()	{return true }
 
 
 	newpinv( dadui )
@@ -126,7 +130,7 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 
 		this.pos.set( this.loc )
 
-		// this.visloc.set( this.loc )
+		this.visloc.set( this.loc )
 
 		return this
 	}
@@ -139,7 +143,7 @@ class PlVis extends newPl( ShPlV )
 	rcl
 
 
-	onmov( newloc )
+	onvismov( newloc )
 	{
 		if( ! this.game.pl.sees( newloc ))
 		{
@@ -214,20 +218,32 @@ export default class Player extends PlBase
 				super.canmov( dest ,map )
 	}*/
 
-	/** User dragged player to new cell
-	 * @arg destv {Vec} */
 
-	vismov( destv )
+	ondrag( delta )
 	{
-		if( ! this.canmov( destv ))	return
+		const pl	=this
 
+		if( pl.isforcemov )	return
+
+		const dest	=scrloc.s( pl.dest ).addv( delta )
+		
+		const destloc	=scrl2.s( dest ).roundh()
+
+		if( ! pl.canmov( destloc ))	return
+
+		pl.dest.set( dest )
+	}
+
+
+	/** When player moves visibly to new cell */
+
+	onvismov( dest )
+	{
 		const{ movbuf }	=this
 
 		if( movbuf.a.length >= movbuf.max )	return
 
-		this.gsrv().send( "mov" ,destv )
-
-		const dest	=this.dest.setv( destv )
+		this.gsrv().send( "mov" ,dest )
 
 		movbuf.a.push( dest.clone() )
 	}
@@ -237,19 +253,19 @@ export default class Player extends PlBase
 
 	forcemov( dest )
 	{
-		this.mov( dest )
-		
 		this.isforcemov	=true
 
-		this.ggame().ui.can.stopdrag()
+		this.movbuf.a.length	=0
 
 		this.dest.set( dest )
+
+		// this.ggame().ui.can.stopdrag()
 	}
 
 
 	/** Whenever player moves cell on screen. *
 
-	onmov( dest )
+	onvismov( dest )
 	{
 		if( this.isforcemov )
 		{

@@ -7,7 +7,7 @@ import Loc from '../../www/shared/Loc.js'
 
 
 const scrloc	=new Loc()
-const scrloc2	=new Loc()
+const scrl2	=new Loc()
 
 
 // export default( Base =Object )=>class ClientGet extends Base
@@ -67,19 +67,22 @@ export default {
 	,
 	/** Player wants to move on own accord */
 
-	mov( veca )
+	mov( desta )
 	{
 		const{ pl }	=this
 		
 		const{ loc }	=pl
 
-		const dest	=scrloc.setvj( veca ,loc.h )
+		const dest	=scrloc.setj( desta )
 
 		if( loc.eq( dest ))
 		{
 			/** @todo Some kind of error correction?? */
 
 			console.warn( pl.name+".onmov: Already there." ,dest )
+
+			/** Sending this because client still needs to clear
+			 * movement queue */
 
 			this.send( "mov" ,dest )
 		}
@@ -89,7 +92,7 @@ export default {
 		}
 		else
 		{
-			pl.mov( Loc.dirv2dirh( scrloc2.set(dest).subv(loc) ))
+			pl.mov( Loc.dirv2dirh( scrl2.set(dest).subv(loc) ))
 
 			this.send( "mov" ,dest )
 		}

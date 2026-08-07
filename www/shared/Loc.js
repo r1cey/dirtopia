@@ -94,9 +94,11 @@ Loc.prototype. c	=Loc.prototype. clone
 
 Loc.prototype. set	=function({ x, y, h })
 {
-	return this.setxy( x, y, h )
+	return this.setxy( x, y, h ?? this.h )
 
 }
+Loc.prototype. s	=Loc.prototype. set
+
 Loc.prototype. setv	=function({ x, y })
 {
 	return this.setxy( x, y, this.h )
@@ -159,7 +161,7 @@ Loc.prototype. add	=function( x, y, h =0 )
 }
 Loc.prototype. addv	=function( v )
 {
-	return this.add( v.x, v.y, 0 )
+	return this.add( v.x, v.y, v.h ?? 0 )
 }
 
 Loc.prototype. sub	=function( x, y, h =0 )
