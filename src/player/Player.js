@@ -146,7 +146,10 @@ export default class Player extends PlBase
 	///////////////////////////////////////////////////////////////////////////
 
 
-	/** Sends map shift. */
+	/** Sends map shift.
+	 * @todo Sometimes it gets loc instead of dir because shared method gets
+	 * loc. I don't know how to fix it.
+	*/
 
 	mov( dir )
 	{
@@ -154,7 +157,15 @@ export default class Player extends PlBase
 
 		const oldloc	=scrl2.s( pl.loc )
 
-		const newloc	=scrloc.s(oldloc).neighh(dir)
+		var newloc
+
+		if( dir.isloc )
+		{
+			newloc	=dir
+
+			dir	=Loc.dirv2dirh( scrloc.s(newloc).subv(oldloc) )
+		}
+		else	newloc	=scrloc.s(oldloc).neighh(dir)
 
 		super.mov( newloc )
 
