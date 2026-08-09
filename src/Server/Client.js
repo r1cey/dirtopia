@@ -78,18 +78,6 @@ export default class Client extends newClS()
 	}
 
 
-
-	sendactyes( id ,args )
-	{
-		this.sendjson( args ?[ "actyes" ,id ,args ] :[ "actyes" ,id ])
-	}
-
-	sendactrej( id ,arg )
-	{
-		this.sendjson( arg ?[ "actrej" ,id ,arg ] :[ "actrej" ,id ])
-	}
-
-
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -100,12 +88,23 @@ export default class Client extends newClS()
 	{
 		console.log(`${this.pl.name}: WS msg: ${data.toString()}`)
 
-		const[ act ,arg ]	=JSON.parse( data.toString(), this.constructor.jrev.fn )
+		const msg	=JSON.parse( data.toString(), this.constructor.jrev.fn )
+
+		const[ act ,arg ]	=msg
 
 		const fun	=on[act]
 
-		if( fun )	fun.call( this, arg )
+		if( fun )
+		{
+			const res	=fun.call( this, arg )
 
+			if( res )
+			{
+				if( typeof res !== "boolean" )	msg.push( res )
+
+				this.sendjson( msg )
+			}
+		}
 		else
 		{
 			console.error( `${this.pl.name} Msg: not found: ${act}`)

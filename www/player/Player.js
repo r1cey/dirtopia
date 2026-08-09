@@ -18,13 +18,15 @@ const scrl2	=new Loc()
 
 const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 {
-	/** The exact visual fractional position */
+	/**@arg loc	-Server side location */
+
+	/** Current exact position. */
 	pos	=new Loc()
 
-	/** The cell the player is going to visually */
+	/** Where player is moving to. */
 	dest	=new Loc()
 
-	/** Just so we don't need to calculate it everytime */
+	/** Scratch loc for current loc */
 	visloc	=new Loc()
 
 
@@ -58,7 +60,7 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 	
 
 	/** Shift pos.
-	 * @todo Atm only applicable on client player */
+	 * @returns new loc if player moved to new cell, otherwise undefined. */
 
 	step( dt )
 	{
@@ -99,9 +101,9 @@ const newPl	=( Base )=>class ClPl	extends /*newISlot(newDHold(*/ Base //))
 
 		if( ! this.visloc.eq( newloc ))
 		{
-			this.onvismov( newloc )
-
 			this.visloc.set( newloc )
+
+			return newloc
 		}
 	}
 
@@ -143,6 +145,8 @@ class PlVis extends newPl( ShPlV )
 	rcl
 
 
+	/** @todo this is now handled in derived step */
+
 	onvismov( newloc )
 	{
 		if( ! this.game.pl.sees( newloc ))
@@ -171,8 +175,6 @@ const PlBase	=newPl( ShPl )
 
 export default class Player extends PlBase
 {
-	srvloc	=this.loc
-
 	movbuf	=
 	{
 		max	:5
@@ -181,6 +183,9 @@ export default class Player extends PlBase
 	}
 	/** Is used when server moves the player */
 	isforcemov	=false
+
+	/** Just a scratch vector for destination cell */
+	destloc	=new Loc()
 
 	
 	get isclpl()	{return true }
@@ -219,7 +224,7 @@ export default class Player extends PlBase
 	}*/
 
 
-	ondrag( delta )
+	movdest( delta )
 	{
 		const pl	=this
 
@@ -229,23 +234,37 @@ export default class Player extends PlBase
 		
 		const destloc	=scrl2.s( dest ).roundh()
 
-		if( ! pl.canmov( destloc ))	return
+		const{ movbuf }	=this
 
+		if( ! destloc.eq( pl.destloc ))
+		{
+			if(
+				!pl.canmov( destloc )
+				||
+				movbuf.a.length >= movbuf.max
+			){
+				return
+			}
+			pl.destloc.set( destloc )
+		}
 		pl.dest.set( dest )
 	}
 
 
-	/** When player moves visibly to new cell */
-
-	onvismov( dest )
+	step( dt )
 	{
-		const{ movbuf }	=this
+		const newloc	=super.step( dt )
 
-		if( movbuf.a.length >= movbuf.max )	return
+		if( this.isforcemov )
+		{
+			if( this.pos.eq( this.dest ))	this.isforcemov	=false
+		}
+		else if( newloc )
+		{
+			this.gsrv().send( "mov" ,newloc )
 
-		this.gsrv().send( "mov" ,dest )
-
-		movbuf.a.push( dest.clone() )
+			this.movbuf.a.push( newloc.clone() )
+		}
 	}
 
 
@@ -255,9 +274,11 @@ export default class Player extends PlBase
 	{
 		this.isforcemov	=true
 
+		this.mov( dest )
+
 		this.movbuf.a.length	=0
 
-		this.dest.set( dest )
+		this.destloc.s( this.dest.set( dest ))
 
 		// this.ggame().ui.can.stopdrag()
 	}
@@ -282,14 +303,14 @@ export default class Player extends PlBase
 
 
 
-	/*setj( msg )
+	setj( msg )
 	{
 		super.setj( msg )
 
-		this.srvloc.set( this.loc )
+		this.destloc.set( this.loc )
 
 		return this
-	}*/
+	}
 }
 
 

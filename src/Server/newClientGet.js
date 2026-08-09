@@ -10,6 +10,12 @@ const scrloc	=new Loc()
 const scrl2	=new Loc()
 
 
+
+/** IF FUNCTION RETURNS TRUTHY VALUE, SAME MESSAGE WILL BE SENT BACK TO CLIENT
+ * IF RETURN VALUE IS NOT BOOLEAN, IT WILL BE APPENDED TO THE MSG ARRAY */
+
+
+
 // export default( Base =Object )=>class ClientGet extends Base
 export default {
 
@@ -18,13 +24,16 @@ export default {
 	///////////////////////////////////////////////////////////////////////////
 
 
-	act( id ,nava ,actk ,args )
+	/** Player acted on an object.
+	 * @arg msg	- [ nav[], actkey, arg ]	 */
+
+	act([ nava ,actk ,arg ])
 	{
 		const nav	=this.ggame().newnav( nava )
 
 		if( nav.error >= 0 )
 		{
-			this.send( "error" ,id ,"Couldn't parse nav" )
+			// this.send( "error" ,id ,"Couldn't parse nav" )
 
 			return	console.error( "Client.onmsg: bad nav" ,nava )
 		}
@@ -34,34 +43,30 @@ export default {
 
 		if( !act )
 		{
-			this.send( "error" ,id ,"Couldn't find act" )
+			// this.send( "error" ,id ,"Couldn't find act" )
 
 			return console.error( "Client.onmsg: no act" ,nava ,actk )
 		}
-		const testres	=args ?
-			
-			act[0].call( obj , nav, this.pl ,...args )
-			:
-			act[0].call( obj , nav, this.pl )
+		const testres	=act[0].call( obj , nav, this.pl ,arg )
 				
 		if( testres &&( !Array.isArray(testres) || testres[0] ))
 		{
-			const res	=args ?
-			
-				act[1].call( obj , nav, this.pl ,...args )
-				:
-				act[1].call( obj , nav, this.pl )
-
-			this.sendactyes( id ,res )
+			const res	=act[1].call(
+				
+				obj ,nav ,this.pl ,arg
+				,
+				typeof testres === "boolean"	? undefined	: testres
+			)
+			return testres
 		}
-		else
+		/*else
 		{
 			testres && Array.isArray(testres) ?
 			
 				this.sendactrej( id ,testres[1] )
 				:
 				this.sendactrej( id )
-		}
+		}*/
 	}
 
 	,
@@ -83,12 +88,14 @@ export default {
 
 			/** Sending this because client still needs to clear
 			 * movement queue */
-
 			this.send( "mov" ,dest )
 		}
 		else if( loc.disth( dest ) > 1 || ! pl.canmov( dest ))
 		{
 			this.send( "movrej" ,[ dest ,loc ])
+
+			/** @todo What happens with map shift if player
+			 * is forced to move???	*/
 		}
 		else
 		{

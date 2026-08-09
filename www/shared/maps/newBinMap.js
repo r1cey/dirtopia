@@ -145,8 +145,9 @@ export default function( id, bmap, base=newBin )
 
 	/** DON'T CHANGE VALUES OF VECTOR IN FUN() !!!
 	 * If fun returns true then stop looping?
-	 * fun( loc, map )
-	 */
+	 * @arg {function} fun -( loc, map )
+	 * @returns {null|Loc}	-if fun returned true, returns the location
+	 * 		where it happened. */
 
 	BM.prototype. forring	=function( fun, r, c ,map )
 	{

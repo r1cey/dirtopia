@@ -41,25 +41,11 @@ export default( Base =Item )=>class Block	extends Base
 
 				const dest	=loc.c().neighh( dir )
 
-				if( ! newplloc )
-				{
-					const plloc	=pl.loc
-
-					if( dest.eq(plloc) )
-					{
-						newplloc	=map.forring(( loc )=> map.canplmov(loc) ,1 ,pl.loc )
-					}
-					else	newplloc	=loc
-				}
-				pl.mov( newplloc )
-
-				// const game	=nav.ggame()
-
-				// const map	=nav.gmap()
-
 				nav.ggame().maps.movobjp( loc, "item" ,dest )
 
-				return newplloc
+				if( ! newplloc )	newplloc	=dest.s(loc)
+
+				pl.mov( newplloc )
 			}
 		]
 	}	

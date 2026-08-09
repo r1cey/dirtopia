@@ -17,6 +17,7 @@ import JRev from "../JsonRevivr.js"
 
 
 const scrloc	=new Loc()
+const scrl2	=new Loc()
 
 /*
 const SrvPl	=(c) => class extends c
@@ -99,7 +100,7 @@ export default class Player extends PlBase
 
 				PlBase.acts.mov[1].call( this ,nav ,pl, dir )
 
-				// this.srv?.send( "plmov" ,this ,oldloc )
+				// this.gsrv()?.send( "plmov" ,this ,oldloc )
 
 				this.cl.send( "clplmov" ,dir )
 			}
@@ -120,7 +121,7 @@ export default class Player extends PlBase
 
 
 
-	srv()	{return this.pls.game.server }
+	gsrv()	{return this.pls.game.server }
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -151,15 +152,15 @@ export default class Player extends PlBase
 	{
 		const pl	=this
 
-		const{ loc }	=pl
-		
-		/** Technically, I can change loc directly here
-		 * since super.mov should move there regardless of anything */
-		super.mov( scrloc.s(pl.loc).neighh(dir) )
+		const oldloc	=scrl2.s( pl.loc )
 
-		pl.cl?.send( "shiftmap" ,dir )	
+		const newloc	=scrloc.s(oldloc).neighh(dir)
 
-		// this.srv?.send( "plmov" ,this ,oldloc )
+		super.mov( newloc )
+
+		pl.cl?.send( "shiftmap" ,dir )
+
+		this.gsrv()?.sendplvis2( oldloc ,newloc ,pl ,"plmov" ,newloc )
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -189,18 +190,18 @@ Player.prototype. conncl	=function( cl )
 
 	cl.send("setmap")
 
-	this.game.srv?.sendplvis( this ,"plconn" ,[ this ,true ])
+	this.game.gsrv?.sendplvis( this ,"plconn" ,[ this ,true ])
 }*/
 
 
 /*
 Player.prototype. clclosed	=function()
 {
-	this.srv?.cls.del( this.name )
+	this.gsrv()?.cls.del( this.name )
 
 	this.cl	=null
 
-	this.srv?.send.plconn( this )
+	this.gsrv()?.send.plconn( this )
 }*/
 
 
@@ -253,7 +254,7 @@ Player.prototype. climb	=function( hdir )
 
 	destmap.scello(loc).pl	=pl
 
-	pl.srv?.send_plclimb( pl, hdir )*/
+	pl.gsrv()?.send_plclimb( pl, hdir )*/
 }
 
 
@@ -262,7 +263,7 @@ Player.prototype. rotobj	=function( loc ,dir ,obj )
 {
 	obj.dir	=dir
 
-	this.srv?.sendvis( loc ,["rotobj" ,[loc, dir ,obj.constructor.key ]])
+	this.gsrv()?.sendvis( loc ,["rotobj" ,[loc, dir ,obj.constructor.key ]])
 }
 
 
@@ -270,7 +271,7 @@ Player.prototype. actonobj	=function( path, act, params )
 {
 	if( obj[act]( ...params ) )
 
-		this.srv?.send_plactonobj( this, loc, objkey, act, params )
+		this.gsrv()?.send_plactonobj( this, loc, objkey, act, params )
 }
 
 /*
@@ -282,7 +283,7 @@ Player.prototype. additem	=function( item, len )
 	{
 		this.cl?.send( "setclplitem" ,[ item ,addl ])
 
-		this.srv?.sendplvis( this ,"setplitem" ,[ this ,item ,addl ])
+		this.gsrv()?.sendplvis( this ,"setplitem" ,[ this ,item ,addl ])
 	}
 	return addl
 }
@@ -343,7 +344,7 @@ Player.prototype. forisseencls	=function( fun )
 {
 	var pl	=this
 
-	pl.game.srv.forcls(( cl2 )=>
+	pl.game.gsrv().forcls(( cl2 )=>
 	{
 		if( cl2.pl.seespl(pl) )	fun( cl2, pl )
 	})

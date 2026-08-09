@@ -75,20 +75,9 @@ export default {
 	}*/
 
 	,
-	act( ...args )
+	act( arg )
 	{
-		console.log( ...args )
-	}
-
-	,
-	actyes( id ,args )
-	{
-		console.log( id ,...args )
-	}
-	,
-	actrej( id ,arg )
-	{
-		console.log( id ,arg )
+		console.log( arg )
 	}
 
 
@@ -156,7 +145,12 @@ export default {
 
 			if( ! mba.length )	pl.forcemov( dest.setj(loca) )
 		}
-		else	console.error( "movrej" ,dest ,mba )
+		else
+		{
+			console.error( "movrej" ,dest ,mba )
+
+			pl.forcemov( dest.setj(loca) )
+		}
 	}
 
 	,

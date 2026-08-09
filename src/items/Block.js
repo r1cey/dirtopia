@@ -1,15 +1,37 @@
 import newBlock from "../../www/shared/items/newBlock.js"
 
 
-export default class Block	extends newBlock()
+const Base	=newBlock()
+
+export default class Block	extends Base
 {
 	static
 	{
-		for(let dir =0 ;dir< 6 ;dir++)
-		{
-			this.acts["mov"+dir][1]	=function( nav ,pl )
-			{
+		this.dupacts()
 
+		this.acts.drag[1]	=function run( nav ,pl ,dir ,newplloc )
+		{
+			Base.acts.drag[1].call( this , nav ,pl ,dir ,newplloc )
+
+			const loc	=nav.gloc()
+
+			if( newplloc )
+			{
+				nav.ggame().srv?.sendplvis3(
+					
+					loc ,pl.loc ,newplloc
+					,
+					pl ,"act" ,[ pl.name ,nav ,"drag" ,dir ,newplloc ]
+				)
+			}
+			else
+			{
+				nav.ggame().srv?.sendplvis3(
+					
+					loc ,pl.loc ,loc.c().neighh(dir)
+					,
+					pl ,"act" ,[ pl.name ,nav ,"drag" ,dir ,newplloc ]
+				)
 			}
 		}
 	}

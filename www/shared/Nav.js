@@ -3,14 +3,14 @@ import Pls	from "./player/Players.js"
 
 export default class Nav
 {
-	a
+	a	=[]
 
 	error	=-1
 
 
 	constructor( a )
 	{
-		this.a	=a ?? []
+		if( a )	this.a	=a
 	}
 
 
@@ -18,9 +18,9 @@ export default class Nav
 
 	static frommsg( arr ,game )
 	{
-		const nav	=new this( arr )
+		const nav	=new this()
 
-		return nav.frommsg( game )
+		return nav.frommsg( game ,arr )
 	}
 
 
@@ -52,11 +52,13 @@ export default class Nav
 	///////////////////////////////////////////////////////////////////////////
 
 
-	frommsg( game )
+	frommsg( game ,msga )
 	{
 		const arr	=this.a
+
+		const len	=arr.length	=msga.length
 		
-		switch( arr[0] )
+		switch( msga[0] )
 		{
 			case "maps"	:
 				
@@ -68,21 +70,21 @@ export default class Nav
 			break
 			default :
 
-				console.error( "Nav.frommsg" ,arr[0] )
+				console.error( "Nav.frommsg" ,msga[0] )
 
 				this.error	=0
 		}
-		const len	=arr.length
-
 		for(var i =1 ;i<len;++i)
 		{
-			arr[i]	=arr[i-1].pmsg2obj?.( arr[i] ,arr ,i-1 )
+			arr[i]	=arr[i-1].pmsg2obj?.( msga[i] ,arr ,i-1 )
 
 			if( ! arr[i] )
 			{
-				console.error( "Nav.frommsg" ,arr )
+				console.error( "Nav.frommsg" ,msga )
 
 				this.error	=i
+
+				return this
 			}
 		}
 		return this
@@ -97,13 +99,17 @@ export default class Nav
 	toJSON()
 	{
 		const arr	=this.a
-		
-		const len	=arr.length
 
+		const len	=arr.length
+		
+		const msga	=new Array( len )
+		
 		for(var i =0 ;i< len ;i++)
 		{
-			if( arr[i].tonavmsg )	arr[i]	=arr[i].tonavmsg()
+			var o	=arr[i]
+
+			msga[i]	=o.tonavmsg?.() ?? o
 		}
-		return arr
+		return msga
 	}
 }

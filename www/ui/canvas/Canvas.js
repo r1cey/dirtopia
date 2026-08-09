@@ -163,7 +163,7 @@ export default class Can	extends DivGo
 		{
 			const deltasq	=scrv.set(tch.pos).subv(tch.last )
 
-			if( ! deltasq.zero() )	pl.ondrag( deltasq.tohexc(can) )
+			if( ! deltasq.zero() )	pl.movdest( deltasq.tohexc(can) )
 
 			/*if( ! pl.isforcemov )
 			{

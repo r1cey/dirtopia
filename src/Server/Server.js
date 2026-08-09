@@ -124,7 +124,6 @@ Server.prototype. sendplvis	=function( pl ,fnk ,...args )
 	}
 }
 
-
 Server.prototype. sendvis2	=function( loc1, loc2 ,fnk ,...args )
 {
 	var dict	=this.cls.o
@@ -136,6 +135,40 @@ Server.prototype. sendvis2	=function( loc1, loc2 ,fnk ,...args )
 		if( cl.pl.sees(loc1) || cl.pl.sees(loc2) )
 		{
 			cl.send( fnk ,...args )
+		}
+	}
+}
+
+Server.prototype. sendplvis2	=function( loc1 ,loc2 ,pl ,fnk ,arg )
+{
+	const dict	=this.cls.o
+
+	for(var n in dict )
+	{
+		var cl	=dict[n]
+
+		var pl2	=cl.pl
+
+		if( pl2 !== pl &&( pl2.sees(loc1) || pl2.sees(loc2) ))
+		{
+			cl.send( fnk ,arg )
+		}
+	}
+}
+
+Server.prototype. sendplvis3	=function( loc1 ,loc2 ,loc3 ,pl ,fnk ,arg )
+{
+	const dict	=this.cls.o
+
+	for(var n in dict )
+	{
+		var cl	=dict[n]
+
+		var pl2	=cl.pl
+
+		if( pl2 !== pl &&( pl2.sees(loc1) || pl2.sees(loc2) || pl2.sees(loc3) ))
+		{
+			cl.send( fnk ,arg )
 		}
 	}
 }

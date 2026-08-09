@@ -10,7 +10,7 @@ import Loc from "../shared/Loc.js"
 // import Hands	from "./player/Hands.js"
 import JRev from "../JsonRevivr.js"
 
-import Acts	from "./Acts.js"
+// import Acts	from "./Acts.js"
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -31,7 +31,7 @@ export default newSS( class Server
 
 	buf	=new Buf(this)
 
-	acts	=new Acts( this )
+	// acts	=new Acts( this )
 
 
 
@@ -102,9 +102,10 @@ export default newSS( class Server
 		{
 			// console.log(`Connection closed:`,ev)
 
-			this.cl.ui.con.write
-				(`Connection closed: ${ev.code} ${ev.reason}`)
-			
+			this.cl.ui.con.write(
+				
+				`Connection closed: ${ev.code} ${ev.reason}`
+			)
 			this.cl.ui.html.ks.login?.reset()
 		}
 	}
@@ -121,11 +122,11 @@ export default newSS( class Server
 	}
 
 
-	senda( nav ,actk ,...args )
+	senda( nav ,actk ,arg )
 	{
-		const id	=this.acts.add([ nav ,actk ,...args ])
+		// const id	=this.acts.add([ nav ,actk ,args ])
 
-		this.sendjson([ "act" ,[ id ,nav ,actk ,args ]])
+		this.sendjson([ "act" ,[ nav ,actk ,arg ]])
 	}
 
 
