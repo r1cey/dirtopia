@@ -23,7 +23,7 @@ export default class Block	extends Base
 					
 					oldloc ,oldplloc ,newplloc
 					,
-					pl ,"act" ,[ pl.name ,nav ,"drag" ,dir ,newplloc ]
+					pl ,"actpl" ,[ pl.name ,nav ,"drag" ,dir ,newplloc ]
 				)
 			}
 			else
@@ -32,7 +32,7 @@ export default class Block	extends Base
 					
 					oldloc ,oldplloc ,oldloc.c().neighh(dir)
 					,
-					pl ,"act" ,[ pl.name ,nav ,"drag" ,dir ,newplloc ]
+					pl ,"actpl" ,[ pl.name ,nav ,"drag" ,dir ,newplloc ]
 				)
 			}
 		}

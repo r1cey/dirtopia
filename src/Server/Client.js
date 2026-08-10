@@ -100,8 +100,6 @@ export default class Client extends newClS()
 
 			if( res )
 			{
-				if( typeof res !== "boolean" )	msg.push( res )
-
 				this.sendjson( msg )
 			}
 		}

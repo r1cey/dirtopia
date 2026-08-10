@@ -27,12 +27,14 @@ export default {
 	/** Player acted on an object.
 	 * @arg msg	- [ nav[], actkey, arg ]	 */
 
-	act([ nava ,actk ,arg ])
+	act( msga )
 	{
+		const[ nava ,actk ,arg ]	=msga
+
 		const nav	=this.ggame().newnav( nava )
 
 		if( nav.error >= 0 )
-		{
+		{ 
 			// this.send( "error" ,id ,"Couldn't parse nav" )
 
 			return	console.error( "Client.onmsg: bad nav" ,nava )
@@ -51,13 +53,17 @@ export default {
 				
 		if( testres &&( !Array.isArray(testres) || testres[0] ))
 		{
+			const isdata =typeof testres !== "boolean"
+
 			const res	=act[1].call(
 				
 				obj ,nav ,this.pl ,arg
 				,
-				typeof testres === "boolean"	? undefined	: testres
+				isdata	? testres : undefined
 			)
-			return testres
+			if( isdata )	msga.push( testres )
+
+			return true
 		}
 		/*else
 		{

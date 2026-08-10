@@ -1,6 +1,7 @@
 import Item from "../shared/items/Item.js"
 
-import newBlock from "../shared/items/newBlock.js"
+// import newBlock from "../shared/items/newBlock.js"
+import Block from "./Block.js"
 
 import Stack from "./Stack.js"
 // import newStack from "../shared/items/newStackable.js"
@@ -23,7 +24,8 @@ import newSlot from "./newInvSlot.js"
 
 // var Item	=newIt()
 
-export const Block	=newBlock( Item )
+// export const Block	=newBlock( Item )
+export{ Block }
 	
 // export const Stack    =newStack( Item )
 

@@ -75,11 +75,48 @@ export default {
 	}*/
 
 	,
-	act( arg )
+	act([ nava ,actk ,arg ,testres ])
 	{
-		console.log( arg )
-	}
+		const nav	=this.cl.newnav( nava )
 
+		if( nav.error >= 0 )
+		{
+			return	console.error( "Srvr.onact: bad nav" ,nava )
+		}
+		const obj	=nav.last()
+
+		const act	=obj.gact( actk )
+
+		if( !act )
+		{
+			return console.error( "Srvr.onact: no act" ,nava ,actk )
+		}
+		act[1].call( obj ,nav ,this.cl.pl ,arg ,testres )
+	}
+ 
+	,
+	actpl([ plname ,nava ,actk ,arg ,testres ])
+	{
+		const nav	=this.cl.newnav( nava )
+
+		if( nav.error >= 0 )
+		{
+			return	console.error( "Srvr.onact: bad nav" ,nava )
+		}
+		const obj	=nav.last()
+
+		const act	=obj.gact( actk )
+
+		if( !act )
+		{
+			return console.error( "Srvr.onact: no act" ,nava ,actk )
+		}
+		const pl	=this.cl.pls.g(plname)
+
+		if( ! pl )	return console.error( "Srvr.onact: no pl" ,plname )
+
+		act[1].call( obj ,nav ,pl ,arg ,testres )
+	}
 
 	///////////////////////////////////////////////////////////////////////////////
 
