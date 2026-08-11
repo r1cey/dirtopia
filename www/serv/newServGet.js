@@ -336,35 +336,27 @@ export default {
 
 	itemmov({ from ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts })
 	{
-		debugger
+		// debugger
 
 		const{ cl }	=this
 
-		var err	=cl.msg2nav( from )
+		from	=cl.newnav( from )
 
-		err	=cl.msg2nav( to )
+		to	=cl.newnav( to )
 
-		if( err )
+		if( from.error >= 0 || to.error >= 0 )
 		{
 			console.error( "itemmov" ,from ,to )
 
 			return
 		}
-		item	=from.at(-1).getitem( item ,len )
-
-		if( ! item )
-		{
-			console.error( "itemmov" ,from ,item ,len )
-
-			return
-		}
-		len	=item.iscnt	? 1	: len
+		const item	=from.last()
 
 		mover	=cl.pls.g(mover)
 
-		if( pushed2loc )	pushed2loc	=new Loc().setj( pushed2loc )
+		if( pushed2loc )	pushed2loc	=Loc.setj( pushed2loc )
 
-		cl.movitem( from ,item ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts )
+		cl.movitem( from ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts )
 	}
 
 	/*rotobj( loca ,key ,dir ,pln )

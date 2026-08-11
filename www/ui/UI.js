@@ -192,9 +192,17 @@ export default class Interface
     }
 
 
-    itemmov( from ,item ,to )
+    itemmov( from ,to )
     {
-        if( this.itmoving )
+		const page	=this.page
+
+		if(( from.ispl() || to.ispl() )&& page?.gname() === "clplinv" )
+		{
+			debugger
+
+		}
+
+        /*if( this.itmoving )
         {
             const{ divm }	=this
 
@@ -206,7 +214,7 @@ export default class Interface
 			{
 				this.stopitemmoving()
 			}
-		}
+		}*/
     }
 
 

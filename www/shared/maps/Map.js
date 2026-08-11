@@ -168,15 +168,17 @@ Map.prototype. canplmov	=function( dest, pl )
 
 Map.prototype. canadditem	=function( loc ,item ,len )
 {
-	var curitem	=this.obj.g(loc)?.item
+	const curitem	=this.obj.g(loc)?.item
 
 	if( curitem )
 	{
-		if( curitem.isstck && curitem.gkey() === item.gkey() )	return 100
-
+		if( curitem.isstck && curitem.gkey() === item.gkey() )
+		{
+			return 99 - curitem.len
+		}
 		else	return 0
 	}
-	return 100
+	return 99
 }
 
 

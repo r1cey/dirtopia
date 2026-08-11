@@ -27,15 +27,15 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 
 
 
-	canadditem( item )
+	canadditem( item ,len )
 	{
-		if( ! super.canadditem( item ))	return false
+		if( ! super.canadditem( item ))	return 0
 
 		// if this is inside item
 		/** @todo maybe there's a faster way to check it than
 		 * just going over the entire tree of item */
 
-		return ! item.hasdeep?.( this )
+		return !item.hasdeep?.(this)	? len	:0
 	}
 	
 
@@ -95,9 +95,9 @@ export default( Base =Object )=>class Inv extends newHold( Base )
 		}
 		else	console.error( this ,"Inv.delitem" ,item )
 
-		if( this.isempty() && nav.at(-2).cnt2stck )
+		if( this.isempty() && nav.at(-3).cnt2stck )
 		{
-			nav.at(-2).cnt2stck( this ,nav ,nav.length - 2 )
+			nav.at(-3).cnt2stck( this ,nav ,nav.length - 3 )
 
 			return this
 		}

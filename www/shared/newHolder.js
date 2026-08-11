@@ -11,9 +11,10 @@ export default( Base )=>class Holder	extends Base
 	/** Defined in derived class
 	@method has(item)	{} */
 	
+	/**@returns { number }*/
 	canadditem( item ,len ,nav )
 	{
-		return item !== this && ! this.has( item )
+		return item!==this && !this.has(item)	? len	:0
 	}
 		
 	/** Defined in derived class

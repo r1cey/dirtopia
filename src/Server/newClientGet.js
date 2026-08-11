@@ -209,7 +209,7 @@ get. climb	=function( o )
 			
 			return
 		}
-		// const len	=item.iscnt	? 1	: len$id
+		const item	=from.last()
 
 		const lenadd	=to.last().canadditem( item ,len ,to )
 

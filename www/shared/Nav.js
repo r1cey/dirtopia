@@ -45,6 +45,10 @@ export default class Nav
 
 	gmap()	{return this.ggame().maps.loc2map( this.gloc() )}
 
+	ispl()	{return this.a[0] instanceof Pls }
+
+	ismap()	{return this.a[0] instanceof Maps }
+
 
 	dad( len =1 )	{return this.at(-len) }
 
@@ -53,6 +57,8 @@ export default class Nav
 	push( o )	{this.a.push( o ); return this }
 
 	slice()	{return new this.constructor( this.a.slice() )}
+
+	get length()	{return this.a.length }
 
 	
 	///////////////////////////////////////////////////////////////////////////

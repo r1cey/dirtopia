@@ -124,7 +124,7 @@ Server.prototype. sendplvis	=function( pl ,fnk ,...args )
 	}
 }
 
-Server.prototype. sendvis2	=function( loc1, loc2 ,fnk ,...args )
+Server.prototype. sendvis2	=function( loc1, loc2 ,fnk ,arg )
 {
 	var dict	=this.cls.o
 
@@ -134,7 +134,7 @@ Server.prototype. sendvis2	=function( loc1, loc2 ,fnk ,...args )
 
 		if( cl.pl.sees(loc1) || cl.pl.sees(loc2) )
 		{
-			cl.send( fnk ,...args )
+			cl.send( fnk ,arg )
 		}
 	}
 }

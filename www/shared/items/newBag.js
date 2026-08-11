@@ -74,7 +74,7 @@ export default( Base =newCnt() )=>class Bag extends Base
 			
 			this.canadditem( item ,len )
 			,
-			nav[_i-1].canchildadd?.( item ,len ,nav ,_i - 1) ?? Infinity
+			nav.at(_i-1).canchildadd?.( item ,len ,nav ,_i - 1) ?? Infinity
 		)
 	}
 }

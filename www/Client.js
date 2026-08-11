@@ -63,15 +63,17 @@ export default class Client	extends Game
 
 
 
-	movitem( from ,item ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts )
+	movitem( from ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts )
 	{
+		const item	=from.last()
+
 		const movit	= item.isstck && item.len > len ?	item.clone( len )	: item
 
-		to.at(-1).additem( movit ,to ,newcnt ,pushed2loc ,slotnewcnts )
+		to.at(-2).additem( movit ,to ,newcnt ,pushed2loc ,slotnewcnts )
 
 		from.at(-1).delitem( item ,len ,from )
 
-		this.ui.itemmov( from ,item ,to )
+		this.ui.itemmov( from ,to )
 	}
 
 

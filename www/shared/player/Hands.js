@@ -46,16 +46,27 @@ export default class Hand	extends newHold( newJable() )
 	}
 
 	
+	/**@todo Set how much can be added exactly. */
 
 	canadditem( item ,len )
 	{
-		if( ! super.canadditem( item ))	return false
+		return ! super.canadditem( item )	?
+
+			0
+			:
+			this.item	?
+			
+				this.candrop()	? len	:0
+				:
+				len
+
+		/*if( ! super.canadditem( item ))	return 0
 
 		if( this.item )
 		{
-			return this.candrop()
+			return this.candrop()	? len	:0
 		}
-		return true
+		return len*/
 	}
 
 
@@ -83,7 +94,7 @@ export default class Hand	extends newHold( newJable() )
 
 	candrop()
 	{
-		this.pl.candrop( this.item )
+		return this.pl.candrop( this.item )
 	}
 
 
