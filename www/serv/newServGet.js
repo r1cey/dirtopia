@@ -334,8 +334,10 @@ export default {
 
 	/** len can be len or id */
 
-	itemmov({ from ,item_ :item ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts })
+	itemmov({ from ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts })
 	{
+		debugger
+
 		const{ cl }	=this
 
 		var err	=cl.msg2nav( from )

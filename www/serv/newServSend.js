@@ -50,11 +50,12 @@ export default( Base )=>class SS extends Base
 		[
 			from
 			,
-			item.iscnt	? item.id :
+			len
+			/*item.iscnt	? item.id :
 
 				item.isstck	? ( len>0 ? len : item.len ) :
 			
-					console.error( "em_movitem" ,from ,to )
+					console.error( "em_movitem" ,from ,to )*/
 			,
 			to
 		]

@@ -48,6 +48,12 @@ export default class Nav
 
 	dad( len =1 )	{return this.at(-len) }
 
+	at( i )	{return this.a.at(i) }
+
+	push( o )	{this.a.push( o ); return this }
+
+	slice()	{return new this.constructor( this.a.slice() )}
+
 	
 	///////////////////////////////////////////////////////////////////////////
 

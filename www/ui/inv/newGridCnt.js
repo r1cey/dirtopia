@@ -4,6 +4,8 @@ import CtxM	from "./ContextMenu.js"
 
 // import Drag	from "../Drag.js"
 
+import Nav	from "../../shared/Nav.js"
+
 
 export default( Base =Div )=>class GridCnt	extends Base
 {
@@ -54,22 +56,22 @@ export default( Base =Div )=>class GridCnt	extends Base
 
 	gnav()
 	{
-		const nav	=[]
+		const nava	=[]
 
 		var div	=this
 
 		do{
 			var gobj	=div.getgo()
 
-			nav.unshift( gobj )
+			nava.unshift( gobj )
 			
 			while( div.getgo() === gobj )	div	=div.dad
 		}
 		while( ! gobj.ispl )
 
-		nav.unshift( div.html().ui.cl.pls )
+		nava.unshift( div.html().ui.cl.pls )
 
-		return nav
+		return new Nav( nava )
 	}
 
 

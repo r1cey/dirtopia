@@ -103,7 +103,7 @@ export default newSS( class Server
 			// console.log(`Connection closed:`,ev)
 
 			this.cl.ui.con.write(
-				
+
 				`Connection closed: ${ev.code} ${ev.reason}`
 			)
 			this.cl.ui.html.ks.login?.reset()
@@ -167,10 +167,10 @@ export default newSS( class Server
 		else if(typeof msg === 'string')
 		{
 			const[ act, arg ]	=JSON.parse(ev.data, this.jrev.fn )
+			
+			console.log( act ,arg )
 
 			on[act].call( this ,arg )
-
-			console.log( act ,arg )
 		}
 	}
 })

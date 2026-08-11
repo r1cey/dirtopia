@@ -237,20 +237,22 @@ G.prototype. save	=async function()
 /**@arg {Nav} from
  * @arg {Nav} to */
 
-G.prototype. movitem	=function( from ,item ,len ,to ,mover )
+G.prototype. movitem	=function( from ,len ,to ,mover )
 {
-	const msg	={ from ,item_ :item ,len ,to ,mover }
+	const item	=from.last()
+
+	const msg	={ from ,len ,to ,mover }
 
 	const movitem	= item.isstck && item.len > len ?	item.clone( len )	: item
 
-	to.at(-1).additem( movitem ,to ,msg )
+	to.last().additem( movitem ,to ,msg )
 
-	from.at(-1).delitem( item ,len ,from ,true )
+	from.at(-2).delitem( item ,len ,from ,true )
 
 	/** @todo don't send to everyone if items are moved inside players'
 	 * inventory and no one else can see it */
 
-	this.srv.sendvis2( nav2loc(from) ,nav2loc(to) ,"itemmov" ,msg )
+	this.srv.sendvis2( from.gloc() ,to.gloc() ,"itemmov" ,msg )
 }
 
 

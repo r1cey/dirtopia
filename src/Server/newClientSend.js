@@ -113,12 +113,6 @@ export default {
 ,
 	itemmov( msg )
 	{
-		const item	=msg.item_
-
-		if( item.iscnt )	msg.len	=item.id
-
-		msg.item_	=item.gkey()
-
 		msg.mover	=msg.mover.name
 
 		if( msg.newcnt )	msg.newcnt	=msg.newcnt.id
@@ -134,23 +128,7 @@ export default {
 				ncnts[i]	=ncnts[i].id
 			}
 		}
-		return [[ msg ], ( key ,val )=>
-		{
-			switch( key )
-			{
-				case "from" :
-
-				case "to" :
-
-					const len	=val.length
-
-					for(var i =0;i<len;i++)
-					{
-						val[i]	=val[i].tonavmsg()
-					}
-			}
-			return val
-		}]
+		return msg
 	}
 
 

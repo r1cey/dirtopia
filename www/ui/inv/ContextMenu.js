@@ -18,7 +18,7 @@ export default class CtxMInv	extends CtxM
 
 				const to	=this.gclpl().handsnav
 
-				this.ui().cl.srv.send( "movitem" ,from ,0 ,to )
+				this.ui().cl.srv.send( "movitem" ,from ,this.tgt.getgo().glen() ,to )
 			}
 		)
 		/*newcfg(

@@ -23,6 +23,7 @@ export default class It	extends newAct( newJable() )
 	get isitem()	{return this }
 
 
+	glen()	{return 1 }
 
 	vol()	{return this.constructor.vol }
 

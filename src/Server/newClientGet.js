@@ -181,45 +181,45 @@ get. climb	=function( o )
 ,
 	/**@todo Handle errors */
 
-	movitem({ from, key, len$id, to })
+	movitem([ froma ,len ,toa ])
 	{
 		const{ game }	=this
 
-		var err	=game.msg2nav( from )
+		const from	=game.newnav( froma )
 
-		if( err )
+		if( from.error >= 0 )
 		{
 			console.error( "on_movitem" ,from )
 			
 			return
 		}
-		const item	=from.at(-1).getitem( key ,len$id )
+		/*const item	=from.at(-1).getitem( key ,len$id )
 
 		if( ! item )
 		{
 			console.error( "on_movitem" ,from ,key ,len$id )
 			
 			return
-		}
-		err	=game.msg2nav( to )
+		}*/
+		const to	=game.newnav( toa )
 
-		if( err )
+		if( to.error >= 0 )
 		{
 			console.error( "on_movitem" ,to )
 			
 			return
 		}
-		const len	=item.iscnt	? 1	: len$id
+		// const len	=item.iscnt	? 1	: len$id
 
-		const lenadd	=to.at(-1).canadditem( item ,len ,to )
+		const lenadd	=to.last().canadditem( item ,len ,to )
 
 		if( lenadd <= 0 )
 		{
-			console.error( "on_moveitem" ,from ,item ,len$id ,len ,lenadd ,to )
+			console.error( this.pl.name+" on_moveitem" ,from ,len ,lenadd ,to )
 			
 			return
 		}
-		game.movitem( from ,item ,lenadd ,to ,this.pl )
+		game.movitem( from ,lenadd ,to ,this.pl )
 	}
 ,
 

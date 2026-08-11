@@ -27,6 +27,9 @@ export default( Base =Item )=>class St	extends Base
 	get isstck()	{return this }
 
 
+	glen()	{return this.len }
+
+
 	calcvol()	{return this.vol() * this.len }
 
 
@@ -40,25 +43,6 @@ export default( Base =Item )=>class St	extends Base
 
 		return newst
 	}
-
-	/**	Doesn't reduce the num of this item. 
-	 * @returns new obj or this. *
-	take( l =1 )
-	{
-		var out
-
-		if( l < this.len )
-		{
-			out	=new this.constructor( this ,l )
-
-			// this.num	-= l
-		}
-		else
-		{
-			out	=this
-		}
-		return 	out
-	}*/
 
 
 	/**@returns true if object remains empty */

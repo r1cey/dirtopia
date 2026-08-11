@@ -1,11 +1,13 @@
 import GridC from "./Cell.js"
 
-import Drag from "../Drag.js"
+// import Drag from "../Drag.js"
+
+import CtxM	from "./ContextMenu.js"
 
 
 export default class GridItem	extends GridC
 {
-	drag 	=new Drag( this )
+	// drag 	=new Drag( this )
 
 
 	constructor( gobj ,dad )
@@ -16,13 +18,25 @@ export default class GridItem	extends GridC
 
 		this.el.classList.add( "drag" )
 
-		this.drag.start()
+		// this.drag.start()
 
-		// this.setclick()
+		this.el.onclick	=( ev )=>
+		{
+			const ctxm	=CtxM.frompointev( this ,ev )
+
+			if( ctxm.opts.length )	this.ui().setctxm( ctxm )
+		}
 	}
 
 
 	///////////////////////////////////////////////////////////////////////////
+
+
+
+	gnav()
+	{
+		return this.dad.gnav().push( this.gobj )
+	}
 
 
 
