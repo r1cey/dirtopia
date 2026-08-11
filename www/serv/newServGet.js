@@ -122,17 +122,16 @@ export default {
 
 	,
 	/** Received a map changing method
-	* @param o 
-	* @arg o.mapid
-	* @arg o.act	-method name
-	* @arg o.loc
-	* @arg {array}	o.vals */
+	* @arg mapid
+	* @arg act	-method name
+	* @arg loca
+	* @arg {array}	vals */
 	
-	mapset_( mapid, loca, act, vals )
+	mapset_([ mapid, loca, act, vals ])
 	{
-		var map	=this.cl.maps.fromid( mapid )
+		const map	=this.cl.maps.fromid( mapid )
 
-		var loc	=new Loc().setj(loca)
+		const loc	=Loc.setj(loca)
 
 		if( map !== this.cl.maps.loc2map( loc ))
 		{
@@ -190,24 +189,14 @@ export default {
 		}
 	}
 
-	,
-	/** This is your new water level. */
 
-	plwater( lvl )
-	{
-		this.cl.pl.water	=lvl
-	}
-	
-	
 	,
-	plheat( lvl )
+	plset([ prop ,val ])
 	{
-		// console.log(lvl)
-
-		this.cl.pl.heat	=lvl
+		this.cl.pl[prop]	=val
 	}
+
 ,
-
 	/** A visible player moved.
 	* If it was seen before, only need name.
 	* Otherwise get info on new player.

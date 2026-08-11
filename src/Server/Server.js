@@ -93,9 +93,9 @@ Server.prototype. send	=function( fnk ,...args )
 
 
 
-Server.prototype. sendvis	=function( loc ,fnk ,...args )
+Server.prototype. sendvis	=function( loc ,funk ,arg ,replcr )
 {
-	var dict	=this.cls.o
+	const dict	=this.cls.o
 
 	for(var n in dict )
 	{
@@ -103,7 +103,7 @@ Server.prototype. sendvis	=function( loc ,fnk ,...args )
 
 		if( cl.pl.sees(loc) )
 		{
-			cl.send( fnk ,...args )
+			cl.send( funk ,arg ,replcr )
 		}
 	}
 }

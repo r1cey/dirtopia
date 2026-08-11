@@ -41,38 +41,26 @@ export default( Base )=>class SS extends Base
 	}
 
 
-	/** @arg item - is optional */
 
-	em_rotitem( loc ,dir ,item )
+	em_movitem( from ,len ,to )
 	{
-		item	??=this.cl.maps.gitem( loc )
-
-		return [[ loc ,item.sim_rot( dir ) ,item.gkey() ]]
-	}
-
-
-
-	em_movitem( from ,item ,len ,to )
-	{
-		// console.log( JSON.stringify([ navfrom, item, navto ]))
+		const item	=from.last()
 
 		const msg	=
-		{
+		[
 			from
 			,
-			key	:item.gkey()
-			,
-			len$id	:item.iscnt	? item.id :
+			item.iscnt	? item.id :
 
 				item.isstck	? ( len>0 ? len : item.len ) :
 			
-					console.error( "em_movitem" ,from ,item ,to )
+					console.error( "em_movitem" ,from ,to )
 			,
 			to
-		}
-		if( ! msg.len$id )	return []
+		]
+		if( ! msg[1] )	return []
 
-		return [[msg], ( key ,val )=>
+		return [msg/*, ( key ,val )=>
 			{
 				switch( key )
 				{
@@ -88,7 +76,7 @@ export default( Base )=>class SS extends Base
 						}
 				}
 				return val
-			}]
+			}*/]
 	}
 
 

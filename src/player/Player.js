@@ -378,21 +378,21 @@ Player.prototype. disconn	=function()
 
 Player.prototype. setwater	=function( lvl )
 {
-	var oldlvl	=this.water
+	const oldlvl	=this.water
 
 	lvl	=ShPl.prototype. setwater.call(this, lvl )
 
-	oldlvl !== lvl && this.cl && this.cl.sendjson([ "plwater" ,[ lvl ]])
+	oldlvl !== lvl && this.cl?.send( "plset" ,["water" ,lvl ])
 }
 
 
 Player.prototype. setheat	=function( lvl )
 {
-	var oldlvl	=this.heat
+	const oldlvl	=this.heat
 
 	lvl	=ShPl.prototype. setheat.call(this, lvl )
 
-	oldlvl !== lvl && this.cl && this.cl.sendjson({ plheat: lvl })
+	oldlvl !== lvl && this.cl?.send( "plset" ,["heat" ,lvl ])
 }
 
 

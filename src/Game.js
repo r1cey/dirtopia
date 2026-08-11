@@ -183,11 +183,11 @@ G.prototype. start	=async function( confpa )
 	}
 	maps.jsonlocs.pl	=null
 
-	// g.time.hour.int	=setInterval( g.hour.bind(g), 60*1000*60*1.5 )
+	g.time.hour.int	=setInterval( g.hour.bind(g), 60*1000*60*1.5 )
 
-	// g.time.min15.int	=setInterval(g.min15.bind(g), 12*60*1000)
+	g.time.min15.int	=setInterval(g.min15.bind(g), 12*60*1000)
 
-	// g.time.sec.int	=setInterval( this.sec.bind(this), 1000*60/73)
+	g.time.sec.int	=setInterval( this.sec.bind(this), 1000*60/73)
 
 	this.server.start()
 
@@ -338,13 +338,14 @@ G.prototype. sec	=function()
 }
 
 
+/** @todo I can make one loop if I make a separate 1 bit bitmap
+ * for cells which were iterated over */
+
 G.prototype. min15	=function()
 {
-	var g	=this
+	const g	=this
 
-	var gr	=g.maps.gr
-
-	var tr	=g.maps.tr
+	const{ gr ,tr }	=g.maps
 
 	var itime	=g.time.min15.i
 
@@ -352,7 +353,7 @@ G.prototype. min15	=function()
 
 	gr.fore(( loc )=>
 	{
-		var ic	=gr.ic(loc)
+		const ic	=gr.ic(loc)
 
 		switch( gr.getwsr_i( ic ))
 		{
@@ -372,13 +373,13 @@ G.prototype. min15	=function()
 	{
 		// var ic	=gr.ic(loc)
 
-		var o	=gr.obj.g(loc)
+		const o	=gr.obj.g(loc)
 
 		if( o )
 		{
 			if( o.pl )
 			{
-				let pl	=o.pl
+				const pl	=o.pl
 
 				if(pl.cl)
 				{
@@ -389,11 +390,18 @@ G.prototype. min15	=function()
 					pl.subwater( 0.007 )
 				}
 			}
-			if( o.dewd )
+			if( o.item )
 			{
-				let driploc	=new Loc(loc).neighh( o.dewd.dir )
+				const item	=o.item
 
-				gr.wet( driploc )
+				switch( item.gkey() )
+				{
+					case "dewd" :
+
+						let driploc	=loc.c().neighh( item.dir )
+						
+						gr.wet( driploc )
+				}
 			}
 		}
 	})
@@ -455,19 +463,6 @@ G.prototype. hour	=function()
 	gr.fore(( loc )=>
 	{
 		var ic	=gr.ic(loc)
-
-		switch( gr.getwsr_i( ic ))
-		{
-			case "soil" :
-
-				let lvl	=gr.getsoilhum_i( ic )
-
-				if( lvl > 0 && lvl < 4 && gr.getshade_i( ic ) )
-				{
-					gr.dry_i( ic, loc )
-				}
-				
-		}
 	})
 }
 

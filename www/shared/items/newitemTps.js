@@ -29,18 +29,17 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 	{
 		dir
 
-		/*static
+		static
 		{
-			for(let ddir =-1 ;ddir <= 1 ;ddir += 2 )
-			{
-				this.acts["rot"+ddir]	=
-				[
-					function( nav ,pl ){ return pl.canreach( nav.gloc() )}
-					,
-					function(){ this.dir =V.roth( this.dir ,ddir )}
-				]
-			}
-		}*/
+			this.acts["rot"]	=
+			[
+				function( nav ,pl ,ddir )
+				{
+					return	pl.canreach( nav.gloc() )&& ! pl.hands.item
+				},
+				function( nav ,pl ,ddir ){ this.dir =V.roth( this.dir ,ddir )}
+			]
+		}
 
 		constructor()
 		{

@@ -1,7 +1,7 @@
 export default( Base =Object )=>class Pathable	extends Base
 {
-	/**@method pmsg2obj(str,nav,i) */
+	/**@method pmsg2obj(str,nava,i) */
 
-	/**@method getitem(key,id,nav) */
+	/**@method getitem(key,id,nava) */
 	
 }

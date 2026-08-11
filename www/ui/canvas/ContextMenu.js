@@ -28,48 +28,15 @@ export default class ContextMenuCanvas	extends CtxM
 			{
 				return this.pl && this.gclpl().canreach( this.pl.loc )
 			},
-			function( cl )
+			function()
 			{
 				this.pl.isclpl ?
 
-					cl.ui.spage( "clplinv" )
+					this.html().ui.spage( "clplinv" )
 					:
 					console.log("show pl inv")
 			}
-		)/*,
-		newopt(
-
-			"rotate ↻"
-			,
-			ifdewd
-			,
-			function( cl )
-			{
-				cl.srv.send("rotitem" ,this.loc ,1 )
-			}
-		),
-		newopt(
-
-			"rotate ↺"
-			,
-			ifdewd
-			,
-			function( cl )
-			{
-				cl.srv.send( "rotitem" ,this.loc ,-1 )
-			}
-		),
-		newopt( "move ↑" ,ifdewd ,movitem( 2 ))
-		,
-		newopt( "move ↗" ,ifdewd ,movitem( 1 ))
-		,
-		newopt( "move ↘" ,ifdewd ,movitem( 0 ))
-		,
-		newopt( "move ↓" ,ifdewd ,movitem( 5 ))
-		,
-		newopt( "move ↙" ,ifdewd ,movitem( 4 ))
-		,
-		newopt( "move ↖" ,ifdewd ,movitem( 3 ))*/
+		)
 	]
 
 
@@ -150,6 +117,23 @@ export default class ContextMenuCanvas	extends CtxM
 									act[0].bind( item ,nav ,clpl ,dir )
 									,
 									srv.senda. bind(srv ,nav ,actk ,dir )
+								])
+							}
+						}
+					break
+					case "rot" :
+
+						for(var ddir =-1 ;ddir <= 1 ;ddir += 2 )
+						{
+							if( act[0].call( item ,nav ,clpl ,ddir ))
+							{
+								this.addopta(
+								[
+									"rotate "+( ddir > 0 ? "↺" :"↻" )
+									,
+									act[0].bind( item ,nav ,clpl ,ddir )
+									,
+									srv.senda .bind(srv, nav ,"rot" ,ddir )
 								])
 							}
 						}

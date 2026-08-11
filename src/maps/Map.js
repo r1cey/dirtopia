@@ -97,7 +97,7 @@ Map.prototype. set_	=function( name, loc, ...vals )
 {
 	this["set"+name]( loc, ...vals )
 
-	this.game?.server?.send_mapset_( this, name, loc, vals )
+	this.game?.server?.sendvis( loc ,"mapset_" ,[ this, name, loc, vals ])
 }
 
 
@@ -107,7 +107,7 @@ Map.prototype. set_ic_	=function( name, ic, loc, ...vals )
 {
 	this["set"+name+"_i"]( ic, ...vals )
 
-	this.game?.server?.send_mapset_( this, name, loc, vals )
+	this.game?.server?.sendvis( loc ,"mapset_" ,[ this, name, loc, vals ])
 }
 
 

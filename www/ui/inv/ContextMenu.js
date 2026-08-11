@@ -8,6 +8,20 @@ export default class CtxMInv	extends CtxM
 	static optcfgs	=
 	[
 		newcfg(
+			"take"
+			,
+			function(){return	! this.ui().cl.pl.hands.item }
+			,
+			function()
+			{
+				const from	=this.tgt.gnav()
+
+				const to	=this.gclpl().handsnav
+
+				this.ui().cl.srv.send( "movitem" ,from ,0 ,to )
+			}
+		)
+		/*newcfg(
 
 			"move"
 			,
@@ -15,13 +29,13 @@ export default class CtxMInv	extends CtxM
 			{
 				return ! this.ui().itmoving
 			},
-			function( cl )
+			function()
 			{
 				const div	=this.tgt
 
 				// div.setmoving()
 
-				cl.ui.runitemmoving( div )
+				this.html().ui.runitemmoving( div )
 			}
 		),
 		newcfg(
@@ -42,15 +56,15 @@ export default class CtxMInv	extends CtxM
 
 				return gobj.canadditem( gomov ,1 ,div.gnav() )
 			},
-			function( cl )
+			function()
 			{
-				const divmov	=cl.ui.itmoving
+				const divmov	=this.ui().itmoving
 
 				const from	=divmov.gnav()
 
 				const gomov	=from.pop()
 
-				cl.srv.send( "movitem" ,from ,gomov ,0 ,this.tgt.gnav() )
+				this.html().ui.cl.srv.send( "movitem" ,from ,gomov ,0 ,this.tgt.gnav() )
 			}
 		),
 		newcfg(
@@ -63,11 +77,11 @@ export default class CtxMInv	extends CtxM
 
 				return ui.itmoving
 			},
-			function( cl )
+			function()
 			{
-				cl.ui.stopitemmoving()
+				this.ui().stopitemmoving()
 			}
-		)
+		)*/
 	]
 
 
@@ -76,5 +90,14 @@ export default class CtxMInv	extends CtxM
 		super( tgt ,pos )
 
 		this.setopts()
+	}
+
+
+
+	setopts()
+	{
+		super.setopts()
+
+
 	}
 }

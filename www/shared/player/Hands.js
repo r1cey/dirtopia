@@ -100,6 +100,7 @@ export default class Hand	extends newHold( newJable() )
 	///////////////////////////////////////////////////////////////////////////
 
 
+	tonavmsg()	{return "hands" }
 
 	/*static fromJSON( msg )
 	{

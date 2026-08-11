@@ -20,6 +20,8 @@ export default( Base =Item )=>class Block	extends Base
 				const map	=nav.gmap()
 
 				if( ! pl.canreach( loc ) ||
+
+					pl.hands.item ||
 				
 					map.obj.g(dest)?.item ||
 

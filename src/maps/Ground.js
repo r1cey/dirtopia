@@ -14,7 +14,7 @@ export default class G extends ShGr
 {
 	static name	='ground'
 
-
+ 
 	constructor( game, trees )
 	{
 		super( game )

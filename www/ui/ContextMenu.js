@@ -90,6 +90,9 @@ export default class CtxM	extends Div
 	}
 
 
+	gclpl()	{return this.ui().cl.pl }
+
+
 	static frompointev( dad ,pointev ,...args )
 	{
 		return new this( dad ,new V().setev( pointev ) ,...args )

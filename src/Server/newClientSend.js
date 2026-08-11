@@ -5,21 +5,22 @@ import Loc from '../../www/shared/Loc.js'
 
 
 
-export default( Base =Object )=>class ClS extends Base
-{
+// export default( Base =Object )=>class ClS extends Base
+
+export default {
 	
 ///////////////////////////////////////////////////////////////////////////////
 
 
 
-	em_setclpl()
+	setclpl()
 	{
-		return[ this.pl ]
+		return this.pl
 	}
 
 
-
-	em_setmap	=function()
+,
+	setmap()
 	{
 		const{ pl }	=this
 
@@ -33,39 +34,42 @@ export default( Base =Object )=>class ClS extends Base
 
 		this.sendbin( slicedtr.bin.getbuf())
 
-		return[
+		return{
+			
+			val :
 			[
 				{ gr :slicedgr.obj.o, tr :slicedtr.obj.o }
 				,
 				pl.loc
 				,
 				pl.vision
-			] ,
-			( key, val )=> key==="pl"&&pl.name===val.name ? val.name : val
-		]
+			],
+			replcr	:
+				( key, val )=> key==="pl"&&pl.name===val.name ? val.name : val
+		}
 	}
 
 
 	//////////////////////////////////////////////////////////////////////////////
 
-
+,
 	/** This client's player had moved. */
 
-	em_mov( dest )
+	mov( dest )
 	{
-		return[ dest ]
+		return dest
 	}
 
-
-	em_movrej( curloc )
+,
+	movrej( curloc )
 	{
-		return[ curloc ]
+		return curloc
 	}
 
-
+,
 	/** Assumes player has already climbed */
 
-	em_clplclimb( dir )
+	clplclimb( dir )
 	{
 		this.sendjson({ clplclimb: { dir, newloc: this.pl.loc }})
 	}
@@ -73,28 +77,27 @@ export default( Base =Object )=>class ClS extends Base
 
 	///////////////////////////////////////////////////////////////////////////////
 
-
+,
 	/** @arg {string} act 
 	 * @arg {array} vals */
 
-	em_mapset_( map, act, loc, vals )
+	mapset_([ map, eff, loc, vals ])
 	{
 		return [
-			[
-				map.bin.constructor.id
-				,
-				loc
-				,
-				act
-				,
-				vals
-			]
+		
+			map.bin.constructor.id
+			,
+			loc
+			,
+			eff
+			,
+			vals
 		]
 	}
 
 
-
-	em_mapobjset( map, loc, key )
+,
+	mapobjset([ map, loc, key ])
 	{
 		this.sendjson({mapobjset:
 			[
@@ -107,8 +110,8 @@ export default( Base =Object )=>class ClS extends Base
 	///////////////////////////////////////////////////////////////////////////
 
 
-
-	em_itemmov( msg )
+,
+	itemmov( msg )
 	{
 		const item	=msg.item_
 
@@ -152,18 +155,18 @@ export default( Base =Object )=>class ClS extends Base
 
 
 	///////////////////////////////////////////////////////////////////////////
-
+,
 	/** New player born. */
 
-	em_newpl( pl2 )
+	newpl( pl2 )
 	{
 		return [[ pl2 ]]
 	}
 
-
+,
 	/** Different player connected */
 
-	em_plconn( pl2, connstat )
+	plconn([ pl2, connstat ])
 	{
 		return [[ pl2.name ,connstat ]]
 	}
@@ -200,10 +203,10 @@ export default( Base =Object )=>class ClS extends Base
 	}*/
 
 
-
+,
 	/** Player object should have old location still. */
 
-	em_plmov( clid, pl2n, newloc, seen, pl2 )
+	plmov([ clid, pl2n, newloc, seen, pl2 ])
 	{
 		var pl	=this.cl.pl
 
@@ -217,8 +220,8 @@ export default( Base =Object )=>class ClS extends Base
 	}
 
 
-
-	em_actonobj( loc, key, act, params )
+,
+	actonobj([ loc, key, act, params ])
 	{
 		this.sendjson({actonobj:{ loc, key, act, params }})
 	}
@@ -227,8 +230,8 @@ export default( Base =Object )=>class ClS extends Base
 	///////////////////////////////////////////////////////////////////////////////
 
 
-
-	em_shiftmap( dir )
+,
+	shiftmap( dir )
 	{
 		const{ pl }	=this
 
@@ -246,20 +249,20 @@ export default( Base =Object )=>class ClS extends Base
 
 			msgo[n]	=msgbs[n].obj
 		}
-		return[[ msgo, loc, r, dir ]]
+		return[ msgo, loc, r, dir ]
 	}
 
 
-
-	em_wrtc( o )
+,
+	wrtc( o )
 	{
-		return[[ o ]]
+		return o
 	}
 
-
-	em_error( actid =0 ,str )
+	,
+	error([ actid =0 ,str ])
 	{
-		return[[ actid ,str ]]
+		return[ actid ,str ]
 	}
 }
 

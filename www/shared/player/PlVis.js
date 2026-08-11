@@ -3,6 +3,9 @@ import newJable from "../newJsonable.js"
 
 import Hands from "./Hands.js"
 
+import Nav	from "../Nav.js"
+import{ nonenum } from "../utils.js"
+
 
 /** Class for visible players.*/
 
@@ -30,10 +33,12 @@ export default class PlVis	extends PlBase
 
 
 
-	/*constructor( hands )
+	constructor( ...args )
 	{
-		this.hands	=hands	??new this.constructor.Hands( this ) 
-	}*/
+		super( ...args )
+
+		nonenum( this ,"handsnav" ,new Nav([ this.pls ,this ,this.hands ]))
+	}
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -120,5 +125,8 @@ export default class PlVis	extends PlBase
 
 
 
-	// newhands()	{return new Hands( this )}
+	pmsg2obj( key ,nava ,i )
+	{
+		return key === "hands"	? this.hands	: super.pmsg2obj( key ,nava ,i )
+	}
 }

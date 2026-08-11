@@ -1,4 +1,4 @@
-import newClS	from "./newClientSend.js"
+import em	from "./newClientSend.js"
 
 import V from '../../www/shared/Vec.js'
 
@@ -11,7 +11,7 @@ import JRev from '../JsonRevivr.js'
 
 
 
-export default class Client extends newClS()
+export default class Client //extends newClS()
 {
 	ws
 
@@ -37,7 +37,7 @@ export default class Client extends newClS()
 
 	constructor(ws, pl, srv )
 	{
-		super()
+		// super()
 
 		Object.assign(this,{ srv, ws, pl })
 
@@ -68,13 +68,22 @@ export default class Client extends newClS()
 
 
 
-	send( fnk, ...args )
+	send( funk, arg ,replcr )
 	{
-		const fun	=this["em_"+fnk]
+		const fun	=em[funk]
 
-		const res	=fun.apply( this, args )
+		if( fun )
+		{
+			arg	=fun.call( this, arg )
 
-		if( res )	this.sendjson([ fnk, res[0] ], res[1] )
+			if( arg.replcr )
+			{
+				replcr	=arg.replcr
+
+				arg	=arg.val
+			}
+		}
+		this.sendjson([ funk, arg ], replcr )
 	}
 
 
