@@ -50,7 +50,7 @@ export default class Hand	extends newHold( newJable() )
 
 	canadditem( item ,len )
 	{
-		return ! super.canadditem( item )	?
+		return ! super.canadditem( item ,len )	?
 
 			0
 			:

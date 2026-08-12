@@ -69,9 +69,9 @@ export default class Client	extends Game
 
 		const movit	= item.isstck && item.len > len ?	item.clone( len )	: item
 
-		to.at(-2).additem( movit ,to ,newcnt ,pushed2loc ,slotnewcnts )
+		to.at(-1).additem( movit ,to ,newcnt ,pushed2loc ,slotnewcnts )
 
-		from.at(-1).delitem( item ,len ,from )
+		from.at(-2).delitem( item ,len ,from )
 
 		this.ui.itemmov( from ,to )
 	}

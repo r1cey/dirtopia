@@ -46,9 +46,15 @@ export default class PlInv extends newPage( 1 )
 	
 	go2div( gobj )
 	{
-		const div	=this
+		if( gobj === this.gobj )	return this
 
-		if( gobj === div.gobj )	return div
+		const div	=this.fore(( div ) =>
+		{
+			if( div.gobj === gobj )	return div
+
+			div.fore?.(( div )=>)
+		})
+		return div
 
 		const gobjk	=gobj.gkey()
 
@@ -58,13 +64,21 @@ export default class PlInv extends newPage( 1 )
 
 		if( gobjk === "seedbag" )
 		{
-			const sbdiv	=div.seedbags.find( sbdiv => sbdiv.getgo() === gobj )
+			const sbdiv	=div.seedbags.find( sbdiv => sbdiv.gobj === gobj )
 
 			if( sbdiv )	return sbdiv
 
 			else	console.error( "PlInv.go2div: no div for sbag" ,gobj )
 		}
 		console.error( "PlInv.go2div: no div for gobj" ,gobj )
+
+
+		function findgobj( gobj ,div )
+		{
+			if( div.gobj === gobj )	return div
+
+			return div.fore?.( findgobj.bind( null ,gobj ))
+		}
 	}
 
 
@@ -74,19 +88,19 @@ export default class PlInv extends newPage( 1 )
 
 		if( gobjk === "belt" )
 		{
-			this.belt	=null
+			this.belt.del()
 
-			this.el.removeChild( this.belt.el )
+			this.belt	=null
 		}
 		else if( gobjk === "seedbag" )
 		{
 			const{ seedbags: sbags }	=this
 
-			const i	=sbags.findIndex( sbdiv => sbdiv.getgo() === item )
+			const i	=sbags.findIndex( sbdiv => sbdiv.gobj === item )
 
 			if( i >= 0)
 			{
-				this.el.removeChild( sbags[i].el )
+				sbags[i].del()
 
 				sbags.splice( i ,1 )
 			}
@@ -107,6 +121,16 @@ export default class PlInv extends newPage( 1 )
 			this.addsbag( item )
 		}
 		else	console.error( "PlInv.additem" ,item )
+	}
+
+
+	fore( fun )
+	{
+		fun( this.hands )
+
+		if( this.belt )	fun( this.belt )
+
+		this.seedbags.forEach( fun )
 	}
 
 

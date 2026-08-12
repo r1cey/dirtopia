@@ -18,6 +18,9 @@ export default( Base =Div )=>class GridCnt	extends Base
 	// drag
 
 
+	///////////////////////////////////////////////////////////////////////////
+
+
 
 	constructor( ...args )
 	{
@@ -53,6 +56,9 @@ export default( Base =Div )=>class GridCnt	extends Base
 	}
 
 
+	///////////////////////////////////////////////////////////////////////////
+
+
 
 	gnav()
 	{
@@ -75,53 +81,42 @@ export default( Base =Div )=>class GridCnt	extends Base
 	}
 
 
+	///////////////////////////////////////////////////////////////////////////
 
-	setmoving()
+
+	additem( item )
 	{
-		this.cntsym.el.classList.add( "moving" )
+		const divit	=this.add( item )
+
+		const{ cells }	=this
+
+		const itarea	=divit.garea()
+
+		for(var i=0;i< cells.length ;i++)
+		{
+			if( cells[i].garea() < itarea )	break
+		}
+		if( cells[i] )		cells[i].el.before( divit.el )
+
+		else	this.addcellhtml( divit )
+
+		cells.splice( i ,0 ,divit )
 	}
 
-	stopmoving()
+
+	delitem( item )
 	{
-		this.cntsym.el.classList.remove( "moving" )
-	}
-
-
-
-	addfinal( grido )
-	{
-		this.add( grido )
-
-		this.finalize()
-	}
-
-	adduifinal( gridui )
-	{
-		this.addcell( gridui )
-
-		this.finalize()
-	}
-
-	/**@returns truthy if element was found */
-
-	delui( ui )
-	{
-		ui.dad	=null
-
-		const griduis	=this.cells
-
-		const i	=griduis.indexOf( ui )
+		const i	=this.cells.findIndex( divit => divit.gobj === item )
 
 		if( i < 0 )	return
 
-		griduis.splice( i, 1 )
+		this.cells[i].del()
 
-		ui.el.remove()
-
-		this.rescanh()
-
-		return true
+		this.cells.splice( i ,1 )
 	}
+
+
+	///////////////////////////////////////////////////////////////////////////
 
 
 
@@ -196,4 +191,56 @@ export default( Base =Div )=>class GridCnt	extends Base
 	{
 		this.el.appendChild( cell.el )
 	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+	
+	/*setmoving()
+	{
+		this.cntsym.el.classList.add( "moving" )
+	}
+
+	stopmoving()
+	{
+		this.cntsym.el.classList.remove( "moving" )
+	}*/
+
+
+
+	/*addfinal( grido )
+	{
+		this.add( grido )
+
+		this.finalize()
+	}
+
+	adduifinal( gridui )
+	{
+		this.addcell( gridui )
+
+		this.finalize()
+	}*/
+
+	/**@returns truthy if element was found */
+
+	/*delui( ui )
+	{
+		ui.dad	=null
+
+		const griduis	=this.cells
+
+		const i	=griduis.indexOf( ui )
+
+		if( i < 0 )	return
+
+		griduis.splice( i, 1 )
+
+		ui.el.remove()
+
+		this.rescanh()
+
+		return true
+	}*/
 }
