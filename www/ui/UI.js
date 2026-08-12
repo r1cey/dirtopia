@@ -198,8 +198,13 @@ export default class Interface
 
 		if(( from.ispl() || to.ispl() )&& page?.gname() === "clplinv" )
 		{
-			debugger
+			const fromdiv	=page.go2div( from.at(-2) )
 
+			if( fromdiv )	fromdiv.delitem( from.last() )
+
+			const todiv	=page.go2div( to.last() )
+
+			if( todiv )	todiv.additem( from.last() )
 		}
 
         /*if( this.itmoving )

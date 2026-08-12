@@ -28,6 +28,14 @@ plinv hands
 }
 
 
+plinv hands > *
+{
+	display: block ;
+	width: 100% ;
+	height: 100% ;
+}
+
+
 plinv belt
 {
 	min-width: 85% ;

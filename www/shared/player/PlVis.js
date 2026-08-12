@@ -48,7 +48,7 @@ export default class PlVis	extends PlBase
 	{
 		const it	=this.hands.item
 
-		if( it )	fn( it )
+		// if( it )	fn( it )
 
 		super.fore( fn )
 	}

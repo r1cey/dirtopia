@@ -187,7 +187,7 @@ actions>button
 }
 
 
-.grid ,.cell ,.bgcenter ,.grid>cntsym
+.grid ,.cell ,.bgcenter ,.grid>cntsym ,hands > *
 {
 	background-size: contain ;
 	background-position: center ;
@@ -215,7 +215,7 @@ actions>button
 }
 
 
-belt.grid ,belt.grid > cntsym
+belt ,belt > cntsym
 {
 	background-image:  url(imgs/items/belt.png) ;
 }
@@ -225,7 +225,7 @@ belt.grid
 	border:	1px inset #21a750a8;
 }
 
-seedbag.grid ,seedbag.grid > cntsym
+seedbag ,seedbag > cntsym
 {
 	background-image:  url(imgs/items/seedbag.png) ;
 }
@@ -235,13 +235,13 @@ seedbag.grid
 	border: 1px inset rgb(30, 90, 65) ;
 }
 
-.grid multi
+multi
 {
 	background-image: url(imgs/items/multitool.png) ;
 	border: 1px outset #2abfff;
 }
 
-.grid cuc_seeds
+cuc_seeds
 {
 	background-image: url(imgs/items/cucumber_seeds.png) ;
 	border: 1px outset #3b2e24;
