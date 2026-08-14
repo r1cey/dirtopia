@@ -11,12 +11,18 @@ export default class Cnt	extends newContainer()
 	static idpool	=new IdPool()
 
 
-	constructor(...args)
+	/** Hope constructor is not needed in any base classes.
+	 * Is a quick way to make usable containers. */
+
+	constructor( isuniq )
 	{
-		super(...args)
+		super()
 
 		this.openedby.toJSON	=()=>undefined
+
+		if( isuniq )	this.setuniq()
 	}
+	
 	
 	delitem( item ,len ,nav ,ismov )
 	{

@@ -7,6 +7,9 @@ import Map	from './Map.js'
 
 import { rnd } from "../../www/shared/utils.js"
 
+import itTps	from '../items/itemTypes.js'
+import LocC	from '../LocCell.js'
+
 
 var ShGr	=newShGr(Map)
 
@@ -20,6 +23,40 @@ export default class G extends ShGr
 		super( game )
 
 		this.trees	=trees
+	}
+
+
+	/** Add 3 dewds for player to get water from. 
+	 * @todo change radius for search? */
+
+	addstuff4newpl( spawnloc )
+	{
+		const map	=this
+
+		const g	=this.game
+
+		// const items	=g.constructor.items
+
+		let idewd =0
+
+		map.fore(( loc )=>
+			{
+				const mapo	=map.obj.g(loc)
+
+				if( ! map.getshade( loc ) && map.canplmov( loc ) &&
+				
+					map.getwsr( loc ) !== "water" && ! mapo?.item )
+				{
+					/** Don't forget that server needs to be notified */
+					g.additem([ g.maps,new LocC().s(loc) ],new itTps.dewd() )
+
+					idewd ++
+
+					if( idewd >= 3)	return true
+				}
+			},
+			null, spawnloc
+		)
 	}
 }
 

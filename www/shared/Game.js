@@ -4,6 +4,11 @@ import Players from "./player/Players.js"
 import Nav from "./Nav.js"
 
 
+/** Since back and front-end are done in JS, this shared directory
+ * is the root of the game. With Game class being the main class for both
+ * server and client.
+ * 
+ * Anton is considering making it a God object or even a global variable. */
 
 export default class Game
 {
@@ -12,27 +17,16 @@ export default class Game
 	pls	=new this.constructor.Pls( this )
 
 
+	/** Child classes can override Maps and Players classes */
+
 	static Maps	=Maps
 
 	static Pls	=Players
 
+	/** Anton is considering attaching item types collection to Game obj. */
+
 	/** @static
 	@var itTps	 */
-
-
-
-	newpl( plmsg )
-	{
-		const g	=this
-
-		const items	=this.constructor.items
-
-		const pl	=this.pls.new( plmsg ,items )
-
-		this.maps.setpl( pl )
-		
-		return pl
-	}
 
 
 

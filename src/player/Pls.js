@@ -5,6 +5,8 @@ import Loc	from '../../www/shared/Loc.js'
 
 import * as fs from '../fs.js'
 
+import itTps	from './items/itemTypes.js'
+
 
 
 export default class Pls	extends ShPls
@@ -32,28 +34,40 @@ export default class Pls	extends ShPls
 	//////////////////////////////////////////////////////////////
 
 
+	/** As usual, updates both itself and maps.
+	 * Gets starting location from map.
+	 * Adds inventory items and map tools.
+	 * @todo Put new players under a new tree once enough are created. */
 
 	new( plmsg )
 	{
-		const pl	=super.new( plmsg )
+		console.log( `Creating new player: ${plmsg.name}` )
 
-		const game	=this.game
+		const map	=this.game.maps.gr
+		
+		const loc	=map.obj.o.spawns[0]
+
+		plmsg.loc	=loc.toJSON()
+
+		const pl	=super.new( plmsg )
 
 		/** add starter items */
 		{
-			let belt	=game.newitem( "belt", true )
+			let belt	=new itTps.belt( 1 )
 			
-			belt.additem( game.newitem( "multi" ))
+			belt.additem( new itTps.multi() )
 			
 			pl.additem( belt )
 
-			let sbag	=game.newitem( "seedbag", true )
+			let sbag	=new itTps.seedbag( 1 )
 			
-			sbag.additem( game.newitem( "cuc_seeds", 15 ) )
+			sbag.additem( new itTps.cuc_seeds( 15 ))
 
 			pl.additem( sbag )
 		}
-		pl.save( this.conf.dir )		
+		pl.save( this.conf.dir )
+
+		map.addstuff4newpl( pl.loc ,this.constructor.items.dewd )
 		
 		return pl
 	}

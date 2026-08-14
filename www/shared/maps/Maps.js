@@ -5,20 +5,12 @@ import LocC	from "../LocCell.js"
 import newPatha from "../newPathable.js"
 
 
-/*export default ( newGround, newTrees )=> class extends Maps
-{
-	ground	=newGround()
-	
-	trees	=newTrees()
-
-	static Trees	=Trees
-
-	static Ground	=Ground
-}*/
-
-
-///////////////////////////////////////////////////////////////////////////////
-
+/** Maps holds all of the map data.
+ * 
+ * At the moment, there are only two maps.
+ * One for the ground. And one for the tree level.
+ * 
+ * Is used as root for Nav paths. */
 
 
 export default class Maps	extends newPatha()

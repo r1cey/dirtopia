@@ -9,13 +9,21 @@ import V	from "../Vec.js"
 import{ rnd }	from "../utils.js"
 
 
+/** Now, the main dilemma is between making a different class for every
+ * item type, or making a single class with a type property.
+ * At the moment, it's unique classes for each type.
+ * 
+ * This function takes the list of base types and then on top of them creates
+ * a class for every single item type. */
+
+
 export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt })=>
 {
 	const itTps	={}
 
 	const Seed	=class Seed extends Stack{ plantable() {}}
 
-	
+
 	addsrcpt( "belt" ,15*15*10 ,
 		{
 			"multi"	:1,

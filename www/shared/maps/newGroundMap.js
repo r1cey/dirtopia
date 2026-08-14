@@ -22,34 +22,6 @@ export default( Map )=>class GM extends newGround(Map)
 		return this.getvegty_i(ic) === "apple" && this.getveglvl_i(ic) > 3
 	}
 
-
-	/** @todo change radius for search? */
-
-	adddewds4newpl( spawnloc ,Dewd =this.game.constructor.items.dewd )
-	{
-		const map	=this
-
-		const g	=this.game
-
-		// const items	=g.constructor.items
-
-		let idewd =0
-
-		map.fore(( loc )=>
-			{
-				if( ! map.getshade( loc ) && ! map.obj.g( loc )?.item )
-				{
-					g.additem([ g.maps,loc ],new Dewd() )
-
-					idewd ++
-
-					if( idewd >= 3)	return true
-				}
-			},
-			null, spawnloc
-		)
-	}
-
 	///////////////////////////////////////////////////////////////////////////
 
 

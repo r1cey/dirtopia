@@ -3,6 +3,11 @@ import newPatha from "../newPathable.js"
 import Pl from "./Player.js"
 
 
+/** Since players are rapid moving objects, they get their own management
+ * outside of the maps. It creates overhead since their position needs to be
+ * updated on the map dictionaries as well.
+ * 
+ * This class is used as root for Nav paths. */
 
 export default class Players	extends newPatha()
 {
@@ -50,6 +55,8 @@ export default class Players	extends newPatha()
 
 		this.s( pl )
 
+		this.game.maps.setpl( pl )
+		
 		return pl
 	}
 
