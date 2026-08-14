@@ -13,11 +13,11 @@ export default class LocCell	extends newAct( Loc )
 			{
 				return pl.canreach( this ) && pl.hands.item?.plantable &&
 				
-					nav[0].loc2map(this).plantable( this )
+					nav.at(0).loc2map(this).plantable( this )
 			},
 			function run( nav ,pl ,time =0 )
 			{
-				const map	=nav[0].loc2map(this)
+				const map	=nav.at(0).loc2map(this)
 				
 				map.setveg( this ,"cucumber" ,0 ,time )
 			}
@@ -55,7 +55,7 @@ export default class LocCell	extends newAct( Loc )
 
 	stck2cnt( stck ,nav , i ,msg )
 	{
-		return nav[0].stck2cnt( this ,stck ,msg )
+		return nav.at(0).stck2cnt( this ,stck ,msg )
 	}
 
 

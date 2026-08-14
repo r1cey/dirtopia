@@ -5,6 +5,7 @@ import Ground from './Ground.js'
 import Trees from './Canopy.js'
 
 import { ensuredir }	from "../fs.js"
+import LocC from '../LocCell.js'
 
 
 
@@ -56,6 +57,9 @@ export default class Ms extends shMaps
 		}
 		return cell.pl	=pl		
 	}*/
+
+
+	pmsg2obj( locj )	{return LocC.setj( locj )}
 }
 
 

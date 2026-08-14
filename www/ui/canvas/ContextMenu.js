@@ -5,6 +5,7 @@ import CtxM	from "../ContextMenu.js"
 import Nav	from "../../shared/Nav.js"
 
 import Loc from '../../shared/Loc.js'
+import LocC	from '../../shared/LocCell.js'
 
 
 
@@ -45,19 +46,19 @@ export default class ContextMenuCanvas	extends CtxM
 			{
 				const{ loc }	=this
 
-				const map	=this.gmap()
-
-				const clpl	=this.gclpl()
-
-				return clpl.canreach( loc ) && clpl.hands.item?.plantable &&
-				
-					map.plantable( loc )
+				return LocC.acts.plant[0]. call(loc,
+					
+					new Nav([this.gcl().maps ,loc ]), this.gclpl() )
 			},
-			this.gsrv().senda. bind(
+			function()
+			{
+				const srv	=this.gsrv()
+
+				srv.senda. call(
 				
-				this.gsrv() ,new Nav([ this.gcl().maps ,this.loc ]) ,"plant" )
-
-
+					srv ,new Nav([ this.gcl().maps ,this.loc ]) ,"plant" )
+			}
+		)
 	]
 
 

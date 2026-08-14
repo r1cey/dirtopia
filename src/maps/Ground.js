@@ -181,22 +181,6 @@ G.prototype. genriver	=function( r, maxc )
 
 
 
-G.prototype. grow	=function( loc )
-{
-	var ic	=this.ic( loc )
-
-	if( this.getplfl_i( ic) !== "plant" )	return
-
-	var type	=this.getvegty_i( ic)
-
-	if( type === "none" )	return
-
-	this.set_ic_( "veglvl", ic, loc, this.getveglvl_i( ic) )
-
-	loc.h	=this.trees.getloc().h
-
-	this.trees.growtree( loc, type )
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////

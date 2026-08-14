@@ -105,7 +105,6 @@ T.prototype. growtree	=function( loc, type, brs, ic )
 	type	??=this.ground.getvegty( loc )
 
 	ic	??=m.ic(loc)
-
 	{
 		let t	=m.getfloorty_i( ic )
 	

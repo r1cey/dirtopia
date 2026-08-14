@@ -84,9 +84,11 @@ export default( Map )=>class GM extends newGround(Map)
 
 	plantable( loc )
 	{
-		const item	=this.obj.g(loc)?.item
+		const mapo	=this.obj.g(loc)
 
-		return this.plantable_i( this.ic( loc )) && !item?.isblock
+		const item	=mapo?.item
+
+		return this.plantable_i( this.ic( loc )) && !mapo?.pl && !item?.isblock
 	}
 
 

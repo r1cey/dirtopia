@@ -91,7 +91,7 @@ export default class CtxM	extends Div
 
 	
 
-	gcl()	{return this.ui().cl) }
+	gcl()	{return this.ui().cl }
 
 	gclpl()	{return this.gcl().pl }
 
