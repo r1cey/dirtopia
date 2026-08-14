@@ -91,6 +91,8 @@ Gr.prototype. drawhex	=function( can, loc, plh, vsq, ic )
 
 			if( lvl === 0 )
 			{
+				/** @todo get rid of new vec? */
+
 				can.drawimg( loc, can.imgs().o.sand3, 1, new V() )
 			}
 			else

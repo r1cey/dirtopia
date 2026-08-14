@@ -13,6 +13,9 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 {
 	const itTps	={}
 
+	const Seed	=class Seed extends Stack{ plantable() {}}
+
+	
 	addsrcpt( "belt" ,15*15*10 ,
 		{
 			"multi"	:1,
@@ -21,7 +24,7 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 	)
 	addbag( "seedbag", 40*25*20 ,55*45*45 ,Bag )
 
-	addst( "cuc_seeds" ,125 )
+	addst( "cuc_seeds" ,125 ,Seed )
 
 	addst( "multi" ,30*20*150 )
 
@@ -58,6 +61,9 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 		Object.defineProperty( itTps[key] ,'name' ,{ value: key })
 	}
 	return itTps
+
+
+	///////////////////////////////////////////////////////////////////////////
 
 
 

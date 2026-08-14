@@ -1,8 +1,30 @@
 import Loc	from "./Loc.js"
 
+import newAct	from "./newActionable.js"
 
-export default class LocCell	extends Loc
+
+export default class LocCell	extends newAct( Loc )
 {
+	static
+	{
+		this.acts.plant	=
+		[
+			function test( nav ,pl )
+			{
+				return pl.canreach( this ) && pl.hands.item?.plantable &&
+				
+					nav[0].loc2map(this).plantable( this )
+			},
+			function run( nav ,pl ,time =0 )
+			{
+				const map	=nav[0].loc2map(this)
+				
+				map.setveg( this ,"cucumber" ,0 ,time )
+			}
+		]
+	}
+
+
 	canadditem( item ,len , nav )
 	{
 		return nav.at(-2).loc2map(this).canadditem( this ,item ,len )

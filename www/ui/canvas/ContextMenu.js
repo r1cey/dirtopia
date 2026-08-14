@@ -36,7 +36,28 @@ export default class ContextMenuCanvas	extends CtxM
 					:
 					console.log("show pl inv")
 			}
-		)
+		),
+		newopt(
+
+			"plant"
+			,
+			function()
+			{
+				const{ loc }	=this
+
+				const map	=this.gmap()
+
+				const clpl	=this.gclpl()
+
+				return clpl.canreach( loc ) && clpl.hands.item?.plantable &&
+				
+					map.plantable( loc )
+			},
+			this.gsrv().senda. bind(
+				
+				this.gsrv() ,new Nav([ this.gcl().maps ,this.loc ]) ,"plant" )
+
+
 	]
 
 
@@ -64,11 +85,7 @@ export default class ContextMenuCanvas	extends CtxM
 
 	gcan()	{return this.tgt }
 
-	gcl()	{return this.html().gcl() }
-
 	gmap()	{return this.gcan().gmap()	}
-
-	gclpl()	{return this.gcan().pl }
 
 	gcello()	{return this.gmap().obj.g(this.loc) }
 

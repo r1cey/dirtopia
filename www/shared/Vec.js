@@ -286,6 +286,12 @@ V.prototype. addv	=function( v )
 	this.add( v.x, v.y)
 	return this
 }
+V.prototype. addxy	=function( x, y )
+{
+	this.x	+= x
+	this.y	+= y
+	return this
+}
 
 V.prototype. sub	=function( x, y )
 {
@@ -296,6 +302,12 @@ V.prototype. sub	=function( x, y )
 V.prototype. subv	=function( v )
 {
 	this.sub(v.x, v.y)
+	return this
+}
+V.prototype. subxy	=function( x, y )
+{
+	this.x	-= x
+	this.y	-= y
 	return this
 }
 

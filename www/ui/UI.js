@@ -206,7 +206,6 @@ export default class Interface
 
 			if( todiv )	todiv.additem( from.last() )
 		}
-
         /*if( this.itmoving )
         {
             const{ divm }	=this

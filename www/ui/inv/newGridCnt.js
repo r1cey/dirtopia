@@ -81,6 +81,23 @@ export default( Base =Div )=>class GridCnt	extends Base
 	}
 
 
+	/** Iterates over every single divgo in this div including itself */
+
+	fore( fun )
+	{
+		if( fun( this ))	return this
+
+		for(var i=0;i< this.cells.length ;i++)
+		{
+			const cdiv	=this.cells[i]
+
+			const res	=cdiv.fore	? cdiv.fore( fun )	:fun( cdiv )
+
+			if( res )	return res
+		}
+	}
+
+
 	///////////////////////////////////////////////////////////////////////////
 
 

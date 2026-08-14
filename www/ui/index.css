@@ -237,13 +237,13 @@ seedbag.grid
 
 multi
 {
-	background-image: url(imgs/items/multitool.png) ;
+	background-image: url(imgs/items/multi.png) ;
 	border: 1px outset #2abfff;
 }
 
 cuc_seeds
 {
-	background-image: url(imgs/items/cucumber_seeds.png) ;
+	background-image: url(imgs/items/cuc_seeds.png) ;
 	border: 1px outset #3b2e24;
 }
 

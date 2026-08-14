@@ -89,8 +89,14 @@ export default class CtxM	extends Div
 		this.setelpos()
 	}
 
+	
 
-	gclpl()	{return this.ui().cl.pl }
+	gcl()	{return this.ui().cl) }
+
+	gclpl()	{return this.gcl().pl }
+
+	gsrv()	{return this.gcl().srv }
+
 
 
 	static frompointev( dad ,pointev ,...args )

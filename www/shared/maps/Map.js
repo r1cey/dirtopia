@@ -41,6 +41,10 @@ export default class Map extends newBoard(newBinMap)
 
 
 
+	isplantable( loc )	{return false }
+
+
+
 	setitem( loc ,item )
 	{
 		this.obj.s(loc).item	=item

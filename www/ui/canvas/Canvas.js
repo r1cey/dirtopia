@@ -205,6 +205,12 @@ export default class Can	extends DivGo
 
 		return size2.dist2( possqel ) < r**2
 	}
+
+
+	calcsqcrn()
+	{
+		return this._crn.s(this.crn).tosqc(this)
+	}
 }
 
 
@@ -264,7 +270,9 @@ Can.prototype. zoom	=function( x )
 
 Can.prototype. clear	=function()
 {
-	this.ctx.clearRect( this._crn.x, this._crn.y,
+	const crn	=this.calcsqcrn()
+
+	this.ctx.clearRect( crn.x, crn.y,
 			this.el.width, this.el.height )
 }
 
@@ -309,7 +317,51 @@ Can.prototype. draw	=function( dt )
 		
 		maps.tr.draw( can ,pl )
 	}
-	
+	if( pl.hands.item )
+	{
+		const{ ctx }	=can
+
+		const imgs	=can.imgs()
+
+		const maxsize	=90
+
+		const crn	=can.calcsqcrn().addxy( can.el.width - maxsize - 20 , 20 )
+
+		ctx.strokeStyle	='#ff0000'
+		ctx.lineWidth	=1
+		ctx.beginPath()
+		ctx.rect( crn.x + 0.5, crn.y + 0.5, maxsize, maxsize )
+		ctx.closePath()
+		ctx.stroke()
+
+		let img	=imgs.o.hands
+
+		const size	=scrv.setxy( img.width ,img.height )
+
+		let ratio	=maxsize / Math.max( size.x ,size.y )
+
+		size.mul( ratio ).round()
+
+		ctx.drawImage( img, crn.x ,crn.y ,size.x ,size.y )
+
+		img	=imgs.o[pl.hands.item.gkey()]
+
+		if( img )
+		{
+			size.setxy( img.width ,img.height )
+
+			size.mul(( maxsize -10 )/ Math.max( size.x ,size.y )).round()
+
+			ctx.drawImage( img
+				,
+				crn.x +(( maxsize - size.x )>>1)
+				,
+				crn.y +(( maxsize - size.y )>>1)
+				,
+				size.x - 10 ,size.y - 10
+			)
+		}
+	}
 	{
 		const vispls	=this.cl().vispls
 		
@@ -329,20 +381,11 @@ Can.prototype. draw	=function( dt )
 		this.drawbargui( 0, this.pl.water, '#2211ff' )
 
 		this.drawbargui( 1, this.pl.heat, '#fc2200' )
-/*
-		if( can.menu )
-		{
-			can.drawmenu()
-		}*/
 	}
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
-
-
-
-
 
 
 /**  */
@@ -351,16 +394,6 @@ Can.prototype. clicked	=function( possqel )
 {
 	const can	=this
 
-	// if( ! can.pl )	return
-
-	/*const{ pl }	=can
-
-	const ploc	=pl.loc*/
-
-	// const loc	=can.cansq2loc( possqel )
-
-	// const cell	=Cell.frommaps( loc ,can.gmaps() )
-
 	const ctxm	=new CtxM( can ,possqel )
 
 	if( ! ctxm.opts.length )	return
@@ -368,109 +401,15 @@ Can.prototype. clicked	=function( possqel )
 	const ui	=this.ui()
 
 	ui.setctxm( ctxm )
-	/*
-	const can	=this
-
-	if(can.ctxmenu)
-	{
-		can.ctxmenu.del()
-	}
-	else
-	{
-		const srv	=can.cl().srv
-
-		const html	=can.html()
-
-		const menu	=new CtxM( this )
-
-		menu.setpos( possqel, ploc )
-
-		let loc	=menu.loc
-
-		
-		else if( loc.disth( ploc) === 1 )
-		{
-			const map	=pl.map()
-
-			if( map.climbable( loc ))
-			{
-				menu.addopt( "climb", ()=> can.pl.climb(loc) )
-			}
-			if( pl.hands.item?.constructor.key=="cucumber_seeds" && map.plantable?.( loc ))
-			{
-				menu.addopt( "plant cucumbers", ()=> console.log("planted") )
-			}
-			const o	=map.obj.g(loc)
-
-			if( o )
-			{
-				if( o.dewd )
-				{
-					let key	="dewd"
-
-					// let opath	=["maps",loc,"dewd"]
-
-					let item	=o.dewd
-
-					menu.addopt( "rotate CW" ,()=>
-					{
-						srv.send("rotobj" ,loc ,1 ,dewd )
-					})
-					menu.addopt( "rotate CCW" ,()=>
-					{
-						srv.send("rotobj" ,loc ,-1 ,dewd )
-					})
-					menu.addopt( "move N" ,()=>
-					{
-						srv.send("movobj" ,loc ,2 ,dewd )
-					})
-					menu.addopt( "move NE", ()=>
-					{
-						srv.send("movobj" ,loc ,1 ,dewd )
-					})
-					menu.addopt( "move SE", ()=>
-					{
-						srv.send("movobj" ,loc ,0 ,dewd )
-					})
-					menu.addopt( "move S", ()=>
-					{
-						srv.send("movobj" ,loc ,5 ,dewd )
-					})
-					menu.addopt( "move SW", ()=>
-					{
-						srv.send("movobj" ,loc ,4 ,dewd )
-					})
-					menu.addopt( "move NW", ()=>
-					{
-						srv.send("movobj" ,loc ,3 ,dewd )
-					})
-				}
-			}
-
-			switch(loc.h)
-			{
-				case 0 :
-
-					// map	=can.maps.gr
-
-					
-			}
-		}
-		menu.show()
-
-		if( menu.ready )	can.ctxmenu	=menu
-	}
-		*/
 }
-
 
 
 
 Can.prototype. trnsfrm	=function()
 {
-	var crn	=this._crn
+	const crn	=this.calcsqcrn()
 
-	crn.set( this.crn ).tosqc( this)
+	// crn.set( this.crn ).tosqc( this)
 
 	this.ctx.setTransform(1,0,0,1,
 		-crn.x, -crn.y)
@@ -605,37 +544,32 @@ Can.prototype. drawpl	=function( pl )
 
 Can.prototype. drawbargui	=function( i, val,  col )
 {
-var can	=this
+	const can	=this
 
-	var ctx	=this.ctx
+	const{ ctx }	=can
 	
-	var margin	=10
+	const margin	=10
 
-	var size	=new V(20, 100)
+	const size	=scrv.setxy(20, 100)
 	
-	var c	=can.crn.c().tosqc(can).add( margin*(i+1) + size.x*i, margin )
-
-	var empty	=1 - val
+	const c	=can.calcsqcrn().round().addxy( margin*(i+1) + size.x*i, margin )
 
 	ctx.fillStyle	=col
+	
+	ctx.beginPath()
+	ctx.rect( c.x, c.y + Math.round( size.y *( 1 - val )),
+	
+		size.x, Math.round( size.y * val ))
+
+	ctx.closePath()
+	
+	ctx.fill()
+	
+	ctx.strokeStyle	='#aa9988'
 	ctx.lineWidth	=1
 
 	ctx.beginPath()
-	ctx.moveTo( c.x, c.y+size.y*empty)
-	ctx.lineTo( c.x, c.y+size.y)
-	ctx.lineTo( c.x+size.x, c.y+size.y)
-	ctx.lineTo( c.x+size.x, c.y+size.y*empty)
-	ctx.closePath()
-
-	ctx.fill()
-
-	ctx.strokeStyle	='#aa9988'
-
-	ctx.beginPath()
-	ctx.moveTo( c.x, c.y )
-	ctx.lineTo( c.x, c.y+size.y )
-	ctx.lineTo( c.x+size.x, c.y+size.y )
-	ctx.lineTo( c.x+size.x, c.y )
+	ctx.rect( c.x + 0.5, c.y + 0.5, size.x, size.y )
 	ctx.closePath()
 
 	ctx.stroke()
@@ -875,7 +809,6 @@ Can.prototype. drawl	=function( x1, y1, x2, y2 )
 
 	ctx.stroke()
 }
-
 
 
 

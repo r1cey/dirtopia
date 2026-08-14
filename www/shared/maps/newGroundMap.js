@@ -4,49 +4,56 @@ import BoMS	from "./BoardMShift.js"
 
 
 
-export default function( Map )
+export default( Map )=>class GM extends newGround(Map)
 {
-	class GM extends newGround(Map)
+	trees
+
+	get tr()	{return this.trees }
+
+
+	static MapShiftBo	=newGround( BoMS )
+
+
+
+	climbable( loc )
 	{
-		trees
+		var ic	=this.ic(loc)
 
-		get tr()	{return this.trees }
-
-
-		static MapShiftBo	=newGround( BoMS )
+		return this.getvegty_i(ic) === "apple" && this.getveglvl_i(ic) > 3
+	}
 
 
+	/** @todo change radius for search? */
 
-		adddewds4newpl( spawnloc ,Dewd =this.game.constructor.items.dewd )
-		{
-			const map	=this
+	adddewds4newpl( spawnloc ,Dewd =this.game.constructor.items.dewd )
+	{
+		const map	=this
 
-			const g	=this.game
+		const g	=this.game
 
-			// const items	=g.constructor.items
+		// const items	=g.constructor.items
 
-			let idewd =0
+		let idewd =0
 
-			map.fore(( loc )=>
+		map.fore(( loc )=>
+			{
+				if( ! map.getshade( loc ) && ! map.obj.g( loc )?.item )
 				{
-					if( ! map.getshade( loc ) && ! map.obj.g( loc )?.item )
-					{
-						g.additem([ g.maps,loc ],new Dewd() )
+					g.additem([ g.maps,loc ],new Dewd() )
 
-						idewd ++
+					idewd ++
 
-						if( idewd >= 3)	return true
-					}
-				},
-				null, spawnloc
-			)
-		}
+					if( idewd >= 3)	return true
+				}
+			},
+			null, spawnloc
+		)
 	}
 
 	///////////////////////////////////////////////////////////////////////////
 
 
-	GM.prototype. canplmov	=function( dest, pl )
+	canplmov( dest, pl )
 	{
 		var ic	=this.ic(dest)
 
@@ -68,16 +75,18 @@ export default function( Map )
 
 
 	
-	GM.prototype. nemptycell	=function( loc )
+	nemptycell( loc )
 	{
 		return this.nemptycell_i( this.ic(loc) )
 	}
 
 
 
-	GM.prototype. plantable	=function( loc )
+	plantable( loc )
 	{
-		this.plantable_i( this.ic( loc ))
+		const item	=this.obj.g(loc)?.item
+
+		return this.plantable_i( this.ic( loc )) && !item?.isblock
 	}
 
 
@@ -86,18 +95,18 @@ export default function( Map )
 
 
 
-	GM.prototype. getwsr	=function( loc )
+	getwsr( loc )
 	{
 		return this.getwsr_i(this.ic(loc))
 	}
-	GM.prototype. setwsr	=function( loc, str )
+	setwsr( loc, str )
 	{
 		return this.setwsr_i(this.ic(loc), str )
 	}
 
 
 
-	GM.prototype. setsoil	=function( loc, lvl )
+	setsoil( loc, lvl )
 	{
 		if( lvl < 0 )	lvl	=0
 
@@ -107,24 +116,24 @@ export default function( Map )
 	}
 
 
-	GM.prototype. issoil	=function( loc )
+	issoil( loc )
 	{
 		return this.issoil_i( this.ic( loc ))
 	}
 
 	
-	GM.prototype. getsoilhum	=function( loc )
+	getsoilhum( loc )
 	{
 		return this.getsoilhum_i(this.ic( loc ))
 	}
-	GM.prototype. setsoilhum	=function( loc, lvl )
+	setsoilhum( loc, lvl )
 	{
 		return this.setsoilhum_i(this.ic( loc ), lvl )
 	}
 
 	
 
-	GM.prototype. setwater	=function( loc, lvl )
+	setwater( loc, lvl )
 	{
 		if( lvl < 1 )	lvl	=1
 
@@ -134,13 +143,13 @@ export default function( Map )
 	}
 
 
-	GM.prototype. iswater	=function(loc)
+	iswater(loc)
 	{
 		return this.iswater_i(this.ic(loc))
 	}
 
 
-	GM.prototype. getwaterlvl	=function( loc )
+	getwaterlvl( loc )
 	{
 		var ic	=this.ic(loc)
 
@@ -149,42 +158,36 @@ export default function( Map )
 
 
 
-	GM.prototype. setveg	=function( loc, type, lvl, time )
+	setveg( loc, type, lvl, time )
 	{
 		this.setveg_i(this.ic(loc), type, lvl, time )
 	}
 
 
-	GM.prototype. getvegty	=function( loc )
+	getvegty( loc )
 	{
 		return this.getvegty_i( this.ic(loc))
 	}
 
 
-	GM.prototype. getveglvl	=function( loc )
+	getveglvl( loc )
 	{
 		return this.getveglvl_i( this.ic(loc))
 	}
 
-	GM.prototype. setveglvl	=function( loc, lvl )
+	setveglvl( loc, lvl )
 	{
 		this.setveglvl_i( this.ic(loc), lvl )
 	}
 
-	GM.prototype. getvegtime	=function( loc )
+	getvegtime( loc )
 	{
 		return this.getvegtime_i( this.ic(loc) )
 	}
 
 
-	GM.prototype. getshade	=function( loc )
+	getshade( loc )
 	{
 		return this.getshade_i( this.ic(loc) )
 	}
-
-
-	///////////////////////////////////////////////////////////////////////////
-
-
-	return GM
 }

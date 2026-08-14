@@ -64,7 +64,7 @@ var bmap	=
 							,
 							bits	:7
 							,
-							valsa	:["none","umbrtr","sandpedro",,"apple"]
+							valsa	:["none","umbrtr","sandpedro",,"apple","cucumber"]
 						},
 						{
 							name	:"lvl"
@@ -104,58 +104,45 @@ var bmap	=
 
 /** @returns {class} */
 
-export default function( Base )
+export default( Base )=>class Gr extends Base
 {
-	class Gr extends Base
-	{
-		get isgr()	{return this }
-		
-
-		static Bin	=Base.newBin( 1, bmap )
-
-		static bmap	=this.Bin.bmap
-	}
-
-
-	///////////////////////////////////////////////////////////////////////////
-
-
+	get isgr()	{return this }
 	
-	Gr.prototype. climbable	=function( loc )
-	{
-		var ic	=this.ic(loc)
 
-		return this.getvegty_i(ic) === "apple" && this.getveglvl_i(ic) > 3
-	}
+	static Bin	=Base.newBin( 1, bmap )
+
+	static bmap	=this.Bin.bmap
 
 
-	///////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////
 
 
-	Gr.prototype. nemptycell_i	=function( ic )
+
+	nemptycell_i( ic )
 	{
 		return this.bin.getval( ic, Gr.Bin.bmap.wsr.ty )
 	}
 
 
-	Gr.prototype. plantable_i	=function( ic )
+
+	plantable_i( ic )
 	{
 		return this.getwsr_i(ic) === "soil" && this.getplfl_i(ic) === "plant" &&
 			this.getvegty_i(ic) === "none"
 	}
 
 	
-	Gr.prototype. getwsr_i	=function( ic )
+	getwsr_i( ic )
 	{
 		return this.bin.getval_str( ic, Gr.Bin.bmap.wsr.ty )
 	}
-	Gr.prototype. setwsr_i	=function( ic, str )
+	setwsr_i( ic, str )
 	{
 		this.bin.setval_str( ic, Gr.Bin.bmap.wsr.ty, str )
 	}
 
 
-	Gr.prototype. setsoil_i	=function( ic, lvl )
+	setsoil_i( ic, lvl )
 	{
 		this.setwsr_i( ic, "soil" )
 
@@ -163,24 +150,24 @@ export default function( Base )
 	}
 
 
-	Gr.prototype. issoil_i	=function( ic )
+	issoil_i( ic )
 	{
 		return this.bin.getval_str( ic, Gr.Bin.bmap.wsr.ty ) === "soil"
 	}
 
 	
-	Gr.prototype. getsoilhum_i	=function(ic)
+	getsoilhum_i(ic)
 	{
 		return this.bin.getval( ic, Gr.Bin.bmap.wsr.lvl )
 	}
-	Gr.prototype. setsoilhum_i	=function(ic, lvl )
+	setsoilhum_i(ic, lvl )
 	{
 		this.bin.setval( ic, Gr.Bin.bmap.wsr.lvl, lvl )
 	}
 
 
 
-	Gr.prototype. setwater_i	=function( ic, lvl )
+	setwater_i( ic, lvl )
 	{
 		this.bin.setval_str( ic, Gr.Bin.bmap.wsr.ty, "water" )
 
@@ -188,20 +175,20 @@ export default function( Base )
 	}
 
 	
-	Gr.prototype. iswater_i	=function( ic )
+	iswater_i( ic )
 	{
 		return this.bin.getval_str( ic, Gr.Bin.bmap.wsr.ty ) === "water"
 	}
 
 
-	Gr.prototype. getwaterlvl_i	=function( ic )
+	getwaterlvl_i( ic )
 	{
 		return this.bin.getval( ic, Gr.Bin.bmap.wsr.lvl ) + 1
 	}
 
 
 
-	Gr.prototype. setveg_i	=function( ic, type, lvl =0, time =0 )
+	setveg_i( ic, type, lvl =0, time =0 )
 	{
 		this.bin.setval_str( ic, Gr.Bin.bmap.plfl.ty, "plant" )
 
@@ -213,37 +200,37 @@ export default function( Base )
 	}
 
 
-	Gr.prototype. getplfl_i	=function( ic )
+	getplfl_i( ic )
 	{
 		return this.bin.getval_str( ic, Gr.Bin.bmap.plfl.ty )
 	}
 
 
-	Gr.prototype. getvegty_i	=function( ic )
+	getvegty_i( ic )
 	{
 		return this.bin.getval_str( ic, Gr.Bin.bmap.plfl.plant.ty )
 	}
 
 
-	Gr.prototype. getveglvl_i	=function( ic )
+	getveglvl_i( ic )
 	{
 		return this.bin.getval( ic, Gr.Bin.bmap.plfl.plant.lvl )
 	}
 
-	Gr.prototype. setveglvl_i	=function( ic, lvl )
+	setveglvl_i( ic, lvl )
 	{
 		this.bin.setval( ic, Gr.Bin.bmap.plfl.plant.lvl, lvl )
 	}
 
 
-	Gr.prototype. getvegtime_i	=function( ic )
+	getvegtime_i( ic )
 	{
 		return this.bin.getval( ic, Gr.Bin.bmap.plfl.plant.time )
 	}
 
 
 
-	Gr.prototype. getshade_i	=function( ic )
+	getshade_i( ic )
 	{
 		return this.maps.trees.getleafl_i( ic )
 	}
@@ -252,40 +239,30 @@ export default function( Base )
 	///////////////////////////////////////////////////////////////////////////
 
 	
-	Gr.maxwater	=function()
+	static maxwater()
 	{
 		return ( this.maxhum() >> 1 ) + 1
 	}
 
-	Gr.maxwat		=Gr.maxwater
+	static maxwat		=Gr.maxwater
 
 
 
-	Gr.maxhum	=function()
+	static maxhum()
 	{
 		return this.Bin.getmaxval( Gr.Bin.bmap.wsr.lvl )
 	}
 
 
 
-	Gr.maxveglvl	=function()
+	static maxveglvl()
 	{
 		return Gr.Bin.getmaxval( Gr.Bin.bmap.plfl.plant.lvl )
 	}
 
 
-	Gr.maxvegtime	=function()
+	static maxvegtime()
 	{
 		return Gr.Bin.getmaxval( Gr.Bin.bmap.plfl.plant.time )
 	}
-
-
-	///////////////////////////////////////////////////////////////////////////
-
-
-	return Gr
 }
-
-
-
-//////////////////////////////////////////////////////////

@@ -1,5 +1,7 @@
 import{ imgdir }	from "./UI.js"
 
+import itemTps	from "../items/itemTps.js"
+
 
 export default class I
 {
@@ -18,8 +20,8 @@ export default class I
 		[
 			'leaves5.png' ,
 			"sand3.png" ,
-			"dewd.png" ,
-			"cactus.png"
+			"cactus.png",
+			"hands.png"
 		]
 		const shadows	=
 		{
@@ -29,8 +31,7 @@ export default class I
 		{
 			const img	=new Image()
 
-			const name	=fn.slice(0,fn.lastIndexOf('.'))	//@TODO: fix "let"?
-				// name is used in onload
+			const name	=fn.slice(0,fn.lastIndexOf('.'))
 
 			if( shadows[name] )
 			{
@@ -62,6 +63,14 @@ export default class I
 			img.src	=imgdir+fn
 
 			this.o[name]	=img
+		}
+		for(var key in itemTps )
+		{
+			const img	=new Image()
+
+			img.src	=imgdir+"items/"+key+".png"
+
+			this.o[key]	=img
 		}
 	}
 }

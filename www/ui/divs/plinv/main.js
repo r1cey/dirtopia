@@ -46,39 +46,11 @@ export default class PlInv extends newPage( 1 )
 	
 	go2div( gobj )
 	{
-		if( gobj === this.gobj )	return this
-
-		const div	=this.fore(( div ) =>
-		{
-			if( div.gobj === gobj )	return div
-
-			div.fore?.(( div )=>)
-		})
+		const div	=this.fore( div =>
+		
+			div.gobj === gobj	? div	:null
+		)
 		return div
-
-		const gobjk	=gobj.gkey()
-
-		if( gobjk === "hands" )	return div.hands
-
-		if( gobjk === "belt" )	return div.belt
-
-		if( gobjk === "seedbag" )
-		{
-			const sbdiv	=div.seedbags.find( sbdiv => sbdiv.gobj === gobj )
-
-			if( sbdiv )	return sbdiv
-
-			else	console.error( "PlInv.go2div: no div for sbag" ,gobj )
-		}
-		console.error( "PlInv.go2div: no div for gobj" ,gobj )
-
-
-		function findgobj( gobj ,div )
-		{
-			if( div.gobj === gobj )	return div
-
-			return div.fore?.( findgobj.bind( null ,gobj ))
-		}
 	}
 
 
@@ -124,13 +96,26 @@ export default class PlInv extends newPage( 1 )
 	}
 
 
+	/** Iterates over every single divgo in this div including itself */
+
 	fore( fun )
 	{
-		fun( this.hands )
+		if( fun( this ))	return this
 
-		if( this.belt )	fun( this.belt )
+		if( fun( this.hands ))	return this.hands
 
-		this.seedbags.forEach( fun )
+		if( this.belt )
+		{
+			const res	=this.belt.fore( fun )
+
+			if( res )	return res
+		}
+		for(var i=0;i< this.seedbags.length ;i++)
+		{
+			const res	=this.seedbags[i].fore( fun )
+
+			if( res )	return res
+		}
 	}
 
 
