@@ -34,11 +34,7 @@ import Loc	from "../Loc.js"
 @prop {object<string, number>}	[valso]	-Auto. Automatically created reverse
 	lookup of named values. Goes with "valsa".
 @prop {number}	[offset]	-Auto. Automatically calculated bit offset from the
-	beginning of cell in that typed array.
-@prop {string[]}	[path]	-Auto. Used for intermediary building. When
-	scanning bmap array the first time and flattening it to break into
-	different typed arrays, the key path to this value is stored here. Later
-	we can use it to build the proper bmap object tree. */
+	beginning of cell in that typed array. */
 
 
 
@@ -81,9 +77,9 @@ export default( id, bmapdef, structadd )=>class Bin	extends BinBase
 	 * chain into different layers. Complicated to explain without drawing.
 	 * @type {BmapBin[][]} */
 
-	static bmapbins	=bmapdef ? build_bigbinlayers( bmapdef) : []
+	static bmapbins	=bmapdef ? build_binlayers( bmapdef) : [[]]
 	
-	static bmap	=build_bmap( this.bmapbins )
+	static bmap	=bins2bmap( this.bmapbins ,bmapdef )
 
 	static
 	{
@@ -504,7 +500,7 @@ function build_binlayers( bmapdef )
 
 	const first_splitbin	=split_bin( layers[0].at(-1) )
 
-	if( first_splitbin === layers[0].at(-1) )	return layers
+	if( first_splitbin?.[0] === layers[0].at(-1) )	return layers
 
 	for(var bins of layers )
 	{
@@ -516,10 +512,45 @@ function build_binlayers( bmapdef )
 
 		if( ! splitbin )	return layers
 
-		bins.splice( bins.length-1, 1, splitbin )
+		bins.splice( -1, 1, ...splitbin )
 	}
 	return layers
 }
+
+
+/** Sets offsets, bin indices, stuff like that.
+ * Since bins' vals already has pointrs to bmap vals, we don't need a dedicated
+ * bmap instance. We just return it for convenience.
+ * @arg {TABin[][]} bmapbins
+ * @arg bmap
+ * @return bmap */
+
+function bins2bmap( bmapbins ,bmap )
+{
+	for(var layer of bmapbins )
+	{
+		for(var i =0, len =layer.length;i<len;i++)
+		{
+			const bin	=layer[i]
+
+			let offset	=0
+
+			for(var val of bin.vals )
+			{
+				val.bin_i	=i
+
+				val.offset	=offset
+
+				offset	+= val.bits
+			}
+		}
+	}
+	return bmap
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
 
 /** Build data catching bin layers. The bins used are full sized, not fully
  * optmized.
@@ -538,8 +569,14 @@ function build_bigbinlayers( bmapdef ,bins =[] )
 
 	breakdown_bmapdef( bmapdef, setvals, condvals )
 
-	fit_in_bins( bins ,setvals ,32 )
+	if( ! fit_in_bins( bins ,setvals ,32 ))
+	{
+		console.error("build_bigbinlayers - error: values don't fit in bins" ,
+			
+			bmapdef )
 
+		return layers
+	}
 	if( condvals.length )
 	{
 		for(var condval of condvals )
@@ -548,11 +585,11 @@ function build_bigbinlayers( bmapdef ,bins =[] )
 			{
 				const def	=condval.def[valk]
 
+				// Duplicate the bins so we don't overwrite the original ones.
+
 				const binsdup	=bins.map(( bin )=>dupbin( bin ))
 
 				layers.push( ...build_bigbinlayers( def ,binsdup ))
-				
-				// Duplicate bin
 			}
 		}
 	}
@@ -560,6 +597,10 @@ function build_bigbinlayers( bmapdef ,bins =[] )
 
 	return layers
 }
+
+
+///////////////////////////////////////////////////////////////////////////////
+
 
 /** Bmapdef gets replaced with properly defined objects */
 
@@ -621,150 +662,6 @@ function dupbin( bin )
 }
 
 
-function break_condsub( obj )
-{
-	var condvals	=[]
-
-	for(var condval in obj )
-	{
-
-
-
-		const bmapdef	=obj[condval]
-
-		for(var k in bmapdef )
-		{
-		}
-	}
-}
-
-function bmapdef2arr( bmapdef )
-{
-	
-
-
-
-	const bmapflat	=[]
-
-	bmap_flat( bmapdef, bmapflat )
-
-	var bmapbins	=fit_in_bins( bmapflat, 32 )
-
-	return bmapbins
-}
-
-
-/** Sets offsets too */
-
-function build_bmap( bmapbins )
-{
-	const bmap	={}
-
-	for(var i =0, len =bmapbins.length;i<len;i++)
-	{
-		const bin	=bmapbins[i]
-
-		var offset	=0
-
-		for(var val of bin.vals )
-		{
-			if( val.condsubd )
-			{
-				for(var cond in val.condsubd )
-				{
-					let inval, inoffset	=0
-
-					for(inval of val.condsubd[cond] )
-					{
-						inval.offset	=offset + inoffset
-
-						build_keys( bmap, inval.path, inval )
-
-						inval.bin_i	=i
-
-						inoffset	+= inval.bits
-					}
-				}
-			}
-			else
-			{
-				val.offset	=offset
-
-				build_keys( bmap, val.path, val )
-
-				val.bin_i	=i
-			}
-
-			offset	+= val.bits
-		}
-	}
-
-	return bmap
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-/** Recursive function.
- * Also calculates valso !
- * Been a while. I think this flattens bmap somehow.
- * @arg {BmapVal[]} bmapao	-Array of values to flatten.
- * @arg {BmapVal[]} bmapflat	-Final array to add the flattened values to.
- * @arg {string} [pref=""]	-Don't use when called manually. Needed for recursion.
- * 	Is needed to build the path to the value in the bmap object tree later.
- * @return {number} -number of bits this bmap layer takes */
-
-function bmap_flat( bmapao, bmapflat, pref ="" )
-{
-	/** How many bits does this layer take. */
-	var bits	=0
-
-	for(var val of bmapao )
-	{
-		if( val.subd )
-		{
-			// added pref here
-
-			bits	+= bmap_flat( val.subd, bmapflat, pref+val.n+"_" )
-		}
-		else if( val.condsubd )
-		{
-			val.path	=pref
-
-			let maxsize	=0
-
-			for(let cond in val.condsubd )
-			{
-				let flat	=[]
-
-				let size	=bmap_flat( val.condsubd[cond], flat, pref+cond+"_" ) //`%{bmapflat.at(-1).path}_${cond}_`
-
-				val.condsubd[cond]	=flat
-
-				if( size > maxsize )	maxsize	=size
-			}
-
-			val.bits	=maxsize
-
-			bmapflat.push( val )
-		}
-		else
-		{
-			val.path	=pref+val.n
-
-			val.valso	=build_valslookup( val.valsa ) // add condition
-
-			bmapflat.push( val )
-
-			bits	+= val.b
-		}
-	}
-
-	return bits
-}
-
-
 /**	Splits an array of bmap values into multiple bins of a certain size.
  * @return {TABin[] } */
 
@@ -815,43 +712,85 @@ function fit_in_bins( bins ,vals, binsize =32 )
 					bits	:val.bits
 				})
 			}
+			// if nothing fits
 			else
 			{
-				console.error("splitting bins - error", val )
-
-				return bins	// should be empty
+				return
 			}
 		}
 	}
-	// bins.splice( bins.length-1, 1, split_bin( bins.at(-1) ))
-
-	return bins//.flat()
+	return bins
 }
 
 
-/** Put o at path in root object */
+/** Takes one bin and attempts to split it into smaller bins if possible.
+ * There's cheating here since we assume that maximum size is 32 bits
+ * so not many splitting options are here. Either [8], [16], or [16,8].
+ * In any case, even if can't split, return array with any appropriate bins.
+ * @arg {TABin[]} */
 
-function build_keys( root, path, o )
+function split_bin( bin )
 {
-	path	=path.split('_')
+	var max	=bin.size
 
-	var prop	=root
+	// var bitsum	=bin.vals.reduce(( offset, val )=> offset+val.bits , 0 )
 
-	for(var i =0, len =path.length-1 ;i<len;i++)
+	const bitsum	=bin.bits
+
+	var bytes	=1
+
+	for(var top =8 ; top <= max ; top += 8 )
 	{
-		var key	=path[i]
-
-		if( ! prop[key] )
+		if( bytes<<3 === top )
 		{
-			prop[key]	={}
+			if( bitsum <= top )
+			{
+				const newbin	=dupbin( bin )
+
+				newbin.size	=top
+
+				return[ newbin ]
+			}
+			bytes	<<= 1
 		}
+		else if( bitsum <= top )
+		{
+			const bins	=fit_in_bins( [] ,bin.vals, bytes<<2 )//8*bytes/2
 
-		prop	=prop[key]
+			if( ! bins )	return[ bin ]
+
+			const lastbin	=split_bin( bins.at(-1) )
+
+			return[ bins[0] ,lastbin[0] ]
+		}
 	}
+	return[ bin ]
+}
 
-	prop[path[i]]	=o
 
-	return root
+/** Get already split bin and try to split this bin the same way.
+ * @arg {TABin} bin
+ * @arg {TABin[]} splitbins */
+
+function split_bin_set( bin, splitbins )
+{
+	var finalbins	=[]
+
+	var nextbins	=[ bin ]
+
+	for(var splbin of splitbins )
+	{
+		const bins	=fit_in_bins( [] ,nextbins[0].vals, splbin.size )
+
+		if( ! bins )	return
+
+		finalbins.push( bins[0] )
+
+		nextbins	=bins.slice( 1 )
+
+		if( ! nextbins.length )	break
+	}
+	return finalbins
 }
 
 
@@ -876,51 +815,4 @@ function build_valslookup( valsa )
 		}
 	}
 	return valso
-}
-
-
-/** Takes one bin and attempts to split it into smaller bins if possible
- * @arg {TABin} */
-
-function split_bin( bin )
-{
-	var max	=bin.size
-
-	// var bitsum	=bin.vals.reduce(( offset, val )=> offset+val.bits , 0 )
-
-	const bitsum	=bin.bits
-
-	var bytes	=1
-
-	for(var top =8 ; top <= max ; top += 8 )
-	{
-		if( bytes<<3 === top )
-		{
-			if( bitsum <= top )
-			{
-				return{ size :top ,vals :bin.vals }
-			}
-
-			bytes	<<= 1
-		}
-		else if( bitsum <= top )
-		{
-			var bins	=fit_in_bins( [] ,bin.vals, bytes<<2 )//8*bytes/2
-
-			if( ! bins.length )	return bin
-
-			return bins
-		}
-	}
-	return bin
-}
-
-
-/** Get already split bin and try to split this bin the same way.
- * @arg {TABin} bin
- * @arg {TABin[]} splitbin */
-
-function split_bin_set( bin, splitbin )
-{
-
 }
