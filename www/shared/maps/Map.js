@@ -44,6 +44,7 @@ export default class Map extends newBoard(newBinMap)
 	isplantable( loc )	{return false }
 
 
+	/** The method which updates other map properties depending on item */
 
 	setitem( loc ,item )
 	{
@@ -169,20 +170,28 @@ Map.prototype. canplmov	=function( dest, pl )
 }
 
 
+/** Handle-all main method to check if an item can be added at a location.
+ * Derived maps need to calculate how many or which
+ * items exactly can be added.
+ @arg curitem	-Derived classes might do additional checks so they can
+	provide curitem to save on time.
+ @return {len}	-If there's an appropriate stack at destination already
+ 	return the length of the stack. Otherwise, either return full
+	length or zero. */
 
-Map.prototype. canadditem	=function( loc ,item ,len )
+Map.prototype. canadditem	=function( loc ,item ,len ,curitem )
 {
-	const curitem	=this.obj.g(loc)?.item
+	curitem	??=this.obj.g(loc)?.item
 
 	if( curitem )
 	{
 		if( curitem.isstck && curitem.gkey() === item.gkey() )
 		{
-			return 99 - curitem.len
+			return curitem.len
 		}
 		else	return 0
 	}
-	return 99
+	return len
 }
 
 

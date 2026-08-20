@@ -6,7 +6,10 @@ import{ AddMsg } from "../../www/shared/Msgs.js"
 
 export default class Hands extends ShHands
 {
-	additem( item ,nav ,msg )
+	/** The question is whether we forcefully drop item from hand
+	 * when adding an item. */
+
+	/*additem( item ,nav ,msg )
 	{
 		const droploc	=super.additem( item )
 
@@ -18,4 +21,5 @@ export default class Hands extends ShHands
 		}
 		// return msg
 	}
+	}*/
 }

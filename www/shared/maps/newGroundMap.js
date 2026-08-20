@@ -2,9 +2,17 @@ import newGround	from "./newGround.js"
 
 import BoMS	from "./BoardMShift.js"
 
+import vegdefs	from "./plants/defs.js"
 
 
-export default( Map )=>class GM extends newGround(Map)
+/** Complete Ground class.
+ * 
+ * Can calculate neighbors.
+ * 
+ * Also, decided to use this class if same method can have a lower level
+ * and higher level versions. Here being the higher level version. */
+
+export default( Map )=>class GroundMap extends newGround(Map)
 {
 	trees
 
@@ -12,35 +20,6 @@ export default( Map )=>class GM extends newGround(Map)
 
 
 	static MapShiftBo	=newGround( BoMS )
-
-
-
-	climbable( loc )
-	{
-		var ic	=this.ic(loc)
-
-		return this.getvegty_i(ic) === "apple" && this.getveglvl_i(ic) > 3
-	}
-
-	///////////////////////////////////////////////////////////////////////////
-
-
-	canplmov( dest, pl )
-	{
-		var ic	=this.ic(dest)
-
-		var plfl	=GM.Bin.bmap.plfl
-
-		var plty	=this.bin.getval_str( ic, plfl.plant.ty )
-
-		return this.nemptycell_i(ic) && Map.prototype.canplmov.call(this, dest, pl ) &&
-		
-			! ( this.bin.getval_str( ic, plfl.ty ) === "plant" &&
-				
-				( plty === "apple" || plty === "umbrtr" ) &&
-			
-				this.bin.getval( ic, plfl.plant.lvl ) > 3 )
-	}
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -54,13 +33,130 @@ export default( Map )=>class GM extends newGround(Map)
 
 
 
-	plantable( loc )
+	canplmov( dest, pl )
 	{
-		const mapo	=this.obj.g(loc)
+		const ic	=this.ic(dest)
 
-		const item	=mapo?.item
+		const plfl	=GroundMap.Bin.bmap.plfl
 
-		return this.plantable_i( this.ic( loc )) && !mapo?.pl && !item?.isblock
+		const vegty	=this.bin.getval_str( ic, plfl.plant.ty )
+
+		if( ! this.nemptycell_i(ic) || ! super.canplmov( dest, pl ))
+		{
+			return false
+		}
+		if( this.issoil_i(ic) && this.hasplant_i( ic))
+		{
+			const vegty	=this.getvegty_i( ic)
+
+			const vegdef	=vegdefs[vegty]
+
+			switch( vegdef.sz )
+			{
+				case "tree" :
+
+					const age	=this.getvegage_i( ic ,vegdef )
+
+					if( age > 3 )	return false
+
+				/** @todo Add bush */
+			}
+		}
+		return true
+	}
+
+
+	/** @todo Old. Needs updating. */
+
+	climbable( loc )
+	{
+		var ic	=this.ic(loc)
+
+		return this.getvegty_i(ic) === "apple" && this.getveglvl_i(ic) > 3
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+	/** Kill plant if block item is set */
+
+	setitem( loc ,item )
+	{
+		super.setitem( loc ,item )
+
+		const ic	=this.ic(loc)
+
+		if( item?.isblock && this.isdryplant_i( ic) && this.getveglvl_i( ic) > 0 )
+		{
+			/** @todo Return nutrients to ground */
+
+			this.setvegty_i( ic ,"none" )
+		}
+	}
+
+	/**
+	@returns	-If player is the only thing potentially stopping the block
+		return -1. Otherwise return 1 or 0.*/
+
+	canaddblock( dest )
+	{
+		switch( this.getwsr(dest) )
+		{
+			case "water" :
+			
+			case "none" :
+
+				return 0
+		}
+		const veglvl	=this.getveglvl(dest)
+
+		const desto	=this.obj.g(dest)
+
+		if( veglvl > 1 || desto?.item )	return 0
+
+		if( desto?.pl )	return -1
+
+		return 1
+	}
+
+
+	/////////////////////////////////////////////////////////////////////////////
+
+
+	/** @todo How many items can be put on ground? */
+
+	canadditem( loc ,item ,len )
+	{
+		const cello	=this.obj.g(loc)
+
+		const curitem	=cello?.item
+
+		if( ! super.canadditem( loc, item, len, curitem ) ||
+
+			( item.isblock && this.canaddblock(loc) <= 0 ))
+		{
+			return 0
+		}
+		switch( this.getwsr(loc) )
+		{
+			case "water" :
+			
+			case "none" :
+
+				return 0
+		}
+		const veglvl	=this.getveglvl(loc)
+
+		if( veglvl > 3 )	return 0
+
+		var max	=99
+
+		if( cello?.pl  || veglvl > 0 )	max	=10
+ 
+		if( curitem )	max	-= curitem.len
+
+		return Math.min( len, max < 0 ? 0 : max )
 	}
 
 
@@ -68,26 +164,20 @@ export default( Map )=>class GM extends newGround(Map)
 	///////////////////////////////////////////////////////////////////////////
 
 
+	/** @todo Different items have different allowed len. */
 
-	getwsr( loc )
+	plantable( loc )
 	{
-		return this.getwsr_i(this.ic(loc))
+		const mapo	=this.obj.g(loc)
+
+		const item	=mapo?.item
+
+		return this.plantable_i( this.ic( loc )) && !mapo?.pl &&
+			! (
+				item &&( item.isblock ||( item.isstck && item.len > 10 ))
+			)
 	}
-	setwsr( loc, str )
-	{
-		return this.setwsr_i(this.ic(loc), str )
-	}
 
-
-
-	setsoil( loc, lvl )
-	{
-		if( lvl < 0 )	lvl	=0
-
-		if( lvl > GM.maxhum() )	lvl	=GM.maxhum()
-
-		this.setsoil_i(this.ic( loc ), lvl )
-	}
 
 
 	issoil( loc )
@@ -95,14 +185,14 @@ export default( Map )=>class GM extends newGround(Map)
 		return this.issoil_i( this.ic( loc ))
 	}
 
-	
-	getsoilhum( loc )
+
+	setsoil( loc, lvl )
 	{
-		return this.getsoilhum_i(this.ic( loc ))
-	}
-	setsoilhum( loc, lvl )
-	{
-		return this.setsoilhum_i(this.ic( loc ), lvl )
+		if( lvl < 0 )	lvl	=0
+
+		if( lvl > GroundMap.maxhum() )	lvl	=GroundMap.maxhum()
+
+		this.setsoil_i(this.ic( loc ), lvl )
 	}
 
 	
@@ -111,7 +201,7 @@ export default( Map )=>class GM extends newGround(Map)
 	{
 		if( lvl < 1 )	lvl	=1
 
-		if( lvl > GM.maxwater() )	lvl	=GM.maxwater()
+		if( lvl > GroundMap.maxwater() )	lvl	=GroundMap.maxwater()
 
 		this.setwater_i(this.ic( loc ), lvl )
 	}
@@ -131,6 +221,30 @@ export default( Map )=>class GM extends newGround(Map)
 	}
 
 
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	getwsr( loc )
+	{
+		return this.getwsr_i(this.ic(loc))
+	}
+	setwsr( loc, str )
+	{
+		return this.setwsr_i(this.ic(loc), str )
+	}
+
+	
+	getsoilhum( loc )
+	{
+		return this.getsoilhum_i(this.ic( loc ))
+	}
+	setsoilhum( loc, lvl )
+	{
+		return this.setsoilhum_i(this.ic( loc ), lvl )
+	}
+
+
 
 	setveg( loc, type, lvl, time )
 	{
@@ -138,15 +252,24 @@ export default( Map )=>class GM extends newGround(Map)
 	}
 
 
+	/** Can return "none" if not a plant */
+
 	getvegty( loc )
 	{
-		return this.getvegty_i( this.ic(loc))
+		const ic	=this.ic(loc)
+
+		return this.isveg_i( ic) && this.getvegty_i( ic)
 	}
 
+	/**@returns If not a plant, returns -1 */
 
 	getveglvl( loc )
 	{
-		return this.getveglvl_i( this.ic(loc))
+		const m	=this
+
+		const ic	=m.ic(loc)
+
+		return m.isveg_i( ic)	? m.getveglvl_i( ic) :-1
 	}
 
 	setveglvl( loc, lvl )

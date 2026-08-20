@@ -1,24 +1,21 @@
-import Loc from '../Loc.js'
+// import Loc from '../Loc.js'
 
 
-///////////////////////////////////////////////////////////////////////////////
+/** This is the basis of full maps.
+ * Full maps have both binary data and object data.
+ * Here it's just an array of cells so can't deal with Locations. */
 
+/** 
+ * @arg {(id,bmapa,structadd)=>Bin}	newBin */
 
-export default function(newBin)
-{
-	class C extends Bo
-	{	
-		static newBin	=newBin
-	}
-
-	return C
+export default( newBin )=>class Board	extends BoardBase
+{	
+	static newBin	=newBin
 }
 
 
-///////////////////////////////////////////////////////////////////////////////
 
-
-class Bo
+class BoardBase
 {
 	bin
 
@@ -26,29 +23,22 @@ class Bo
 	 * For inner values, look into Obj.js */
 	obj	=[]
 
-	////---
 
-	/** {function}	-Not the actual class, but the function which makes it.
-	 * Defined in derived class
-	@static
-	@var newBin */
-}
-
-
-///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
 
 
 
-Bo.prototype.setloc	=function( loc )
-{
-	this.bin.setloc( loc )
-}
+	setloc( loc )
+	{
+		this.bin.setloc( loc )
+	}
 
 
-Bo.prototype. getloc	=function()
-{
-	return this.bin.getloc()
-}
+	getloc()
+	{
+		return this.bin.getloc()
+	}
 
 	
-///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+}

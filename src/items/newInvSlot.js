@@ -8,13 +8,15 @@ export default( Base )=>class InvSlot    extends newISlot( Base )
 		{
             const len   =item.len
 
-			const newcnts   =msg.slotnewcnts	=new Array(len)
+			const newcntids   =msg.slotnewcntids	=new Array(len)
 			
-			for(var i =0;i<len;++i)
+			for(var i=0;i< len ;++i)
 			{
-                newcnts[i]  =item.spawncnt()
+                const cnt  =item.spawncnt()
 
-				super.additem( newcnts[i] )
+				super.additem( cnt )
+
+				newcntids[i]  =cnt.id
 			}
 		}
 		else    super.additem( item )

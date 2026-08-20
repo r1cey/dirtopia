@@ -5,9 +5,11 @@ import Loc	from '../../www/shared/Loc.js'
 
 import * as fs from '../fs.js'
 
-import itTps	from './items/itemTypes.js'
+import itTps	from '../items/itemTypes.js'
 
 
+/** Server side of Players handles saving and reading players from folder.
+ * Also handles creation of new players game-wise. */
 
 export default class Pls	extends ShPls
 {

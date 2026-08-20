@@ -1,9 +1,16 @@
 import Loc	from "./Loc.js"
 
+import newHold	from "./newHolder.js"
 import newAct	from "./newActionable.js"
 
 
-export default class LocCell	extends newAct( Loc )
+/** Separated this logic into a new class but now forced to create new
+ * instances to access it from regular Loc objects.
+ * Can fix item movement by moving this logic to Nav class but not actions...
+ * Temporary fix to just call Maps methods instead.
+ * For now is both Actionable and Holder. */
+
+export default class LocCell	extends newHold( newAct( Loc ))
 {
 	static
 	{
@@ -25,7 +32,7 @@ export default class LocCell	extends newAct( Loc )
 	}
 
 
-	canadditem( item ,len , nav )
+	canadditem( item ,len ,nav )
 	{
 		return nav.at(-2).loc2map(this).canadditem( this ,item ,len )
 	}

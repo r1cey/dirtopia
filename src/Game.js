@@ -77,38 +77,6 @@ export default class G	extends Game
 	////////////////////////////////////////////////////////////
 
 
-
-	newpl( plmsg )
-	{
-		console.log( `Creating new player: ${plmsg.name}` )
-
-		const map	=this.maps.gr
-		
-		var loc	=map.obj.o.spawns[0]
-
-		plmsg.loc	=loc.toJSON()
-
-		const pl	=super.newpl( plmsg )
-
-		map.adddewds4newpl( pl.loc ,this.constructor.items.dewd )
-	}
-
-
-
-	newitem( key ,prop )
-	{
-		const Tp	=this.constructor.itTps[key]
-
-		const it	=new Tp()
-
-		if( Tp.isstck && prop > 0 )	it.len	=prop
-
-		else if( Tp.iscnt && prop )	it.setuniq()
-
-		return 
-	}
-
-
 	/** @todo what if no place to move stacks too and lots of error handling!! */
 
 	additem( to ,item )
@@ -119,17 +87,6 @@ export default class G	extends Game
 
 		this.srv.sendvis( nav2loc(to) ,"itemadd" ,msg )
 	}
-}
-
-
-
-export function nav2loc( arr )
-{
-	if( arr[0] instanceof Maps )	return arr[1]
-	
-	else if( arr[0] instanceof Players )	return arr[1].loc
-	
-	else	console.error( "Game.nav2loc: GRAVE ERROR!")
 }
 
 

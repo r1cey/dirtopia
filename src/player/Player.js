@@ -285,82 +285,7 @@ Player.prototype. actonobj	=function( path, act, params )
 		this.gsrv()?.send_plactonobj( this, loc, objkey, act, params )
 }
 
-/*
-Player.prototype. additem	=function( item, len )
-{
-	var addl	=ShPl.prototype.additem. call(this, item, len )
 
-	if( addl )
-	{
-		this.cl?.send( "setclplitem" ,[ item ,addl ])
-
-		this.gsrv()?.sendplvis( this ,"setplitem" ,[ this ,item ,addl ])
-	}
-	return addl
-}
-
-
-Player.prototype. additemcnt	=function( path ,item ,len )
-{
-	var addl	=ShPl.prototype.additemcnt. call(this, path ,item, len )
-
-	/** @todo Check if any other circumstance pl.cl can be 0 and the check would return true *
-
-	if( addl )	this.cl?.send("setplitemcnt" ,[ this ,path ,item ,addl ])
-
-	return addl
-}
-
-
-/** From/To root is either a player or map location.
- * from|to{ loc, pln, boxes[str] } *
-
-Player.prototype. movitem	=function( from, item, len, to )
-{
-	/** @TODO !!! : check that to and from are viable *
-
-	var{ game ,loc }	=this
-
-	if( from.loc().disth( loc ) > 1 || to.loc().disth( loc ) > 1 )
-	{
-		return false
-	}
-	return game.movitem( from ,item ,len ,to ,this )
-
-
-	// ShPl.prototype.movitem. call(this, fromcnt, itemid, len, tocnt )
-		
-
-}*/
-
-
-/*Player.prototype. cl_send	=function( msg )
-{
-	this.cl.send( JSON.stringify(msg) )
-}*/
-
-
-/** Supply the object dict of players to search in! */
-
-
-Player.prototype. forseenpls	=function( pls, fun )
-{
-	for(var n in pls)
-	{
-		if( pls[n].seespl( this ))	fun( this, pls[n] )
-	}
-}
-/*
-Player.prototype. forisseencls	=function( fun )
-{
-	var pl	=this
-
-	pl.game.gsrv().forcls(( cl2 )=>
-	{
-		if( cl2.pl.seespl(pl) )	fun( cl2, pl )
-	})
-}
-*/
 /*
 Player.prototype. disconn	=function()
 {
@@ -374,7 +299,6 @@ Player.prototype. disconn	=function()
 	})
 }
 */
-
 
 Player.prototype. setwater	=function( lvl )
 {

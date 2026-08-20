@@ -3,6 +3,9 @@ import Map from './Map.js'
 import V from "../Vec.js"
 
 
+/** Is in charge of the upper level of game. Has branches, fruits,
+ * everything that's above player */
+
 var bmap	=
 [
 	{
@@ -52,34 +55,38 @@ var bmap	=
 ]
 
 
-/** @returns {class} */
 
-export default function( Base )
+export default( Base )=>class Tr extends Base
 {
-	class Tr extends Base
-	{
-		static Bin	=Base.newBin( 2, bmap )
-	}
+	static Bin	=Base.newBin( 2, bmap )
+
+
+	///////////////////////////////////////////////////////////////////////////////
+
+
+	/** @todo Eventually make plantable */
+
+	plantable( ic )	{return false }
 
 
 	///////////////////////////////////////////////////////////////////////////////
 
 	
 
-	Tr.prototype. setfloorty_i	=function( ic, type )
+	setfloorty_i( ic, type )
 	{
 		this.bin.setval_str( ic, Tr.Bin.bmap.floor.ty, type )
 	}
 
 
-	Tr.prototype. getfloorty_i	=function( ic )
+	getfloorty_i( ic )
 	{
 		return this.bin.getval_str( ic, Tr.Bin.bmap.floor.ty )
 	}
 
 	
 
-	Tr.prototype. setbranch_i	=function( ic, dir )
+	setbranch_i( ic, dir )
 	{
 		this.setfloorty_i( ic, "branch" )
 
@@ -89,42 +96,37 @@ export default function( Base )
 
 	/** Might not be necessary. When using ic for checking this? */
 
-	Tr.prototype. isnextbr_i	=function( ic, dir )
+	isnextbr_i( ic, dir )
 	{
 		return this.getfloorty_i(ic)==="branch" && this.getbrdir_i(ic)===dir
 	}
 
 
-	Tr.prototype. setbrdir_i	=function( ic, dir )
+	setbrdir_i( ic, dir )
 	{
 		this.bin.setval( ic, Tr.Bin.bmap.floor.branch.dir , dir )
 	}
 
-	Tr.prototype. getbrdir_i	=function( ic )
+	getbrdir_i( ic )
 	{
 		return this.bin.getval( ic, Tr.Bin.bmap.floor.branch.dir )
 	}
 
 
-	Tr.prototype. setleafl_i	=function( ic, val )
+	setleafl_i( ic, val )
 	{
 		this.bin.setval( ic, Tr.Bin.bmap.leaves.low, val )
 	}
-	Tr.prototype. setleafh_i	=function( ic, val )
+	setleafh_i( ic, val )
 	{
 		this.bin.setval( ic, Tr.Bin.bmap.leaves.top, val )
 	}
-	Tr.prototype. getleafl_i	=function( ic )
+	getleafl_i( ic )
 	{
 		return this.bin.getval( ic, Tr.Bin.bmap.leaves.low )
 	}
-	Tr.prototype. getleafh_i	=function( ic )
+	getleafh_i( ic )
 	{
 		return this.bin.getval( ic, Tr.Bin.bmap.leaves.top )
 	}
-
-	///////////////////////////////////////////////////////////////////////////////
-
-
-	return Tr
 }

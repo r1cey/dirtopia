@@ -48,7 +48,7 @@ export default class G extends ShGr
 					map.getwsr( loc ) !== "water" && ! mapo?.item )
 				{
 					/** Don't forget that server needs to be notified */
-					g.additem([ g.maps,new LocC().s(loc) ],new itTps.dewd() )
+					g.additem([ g.maps ,LocC.set(loc) ],new itTps.dewd() )
 
 					idewd ++
 

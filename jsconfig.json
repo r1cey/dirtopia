@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    // "checkJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["www/shared/*"]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "www/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+	"src/Acts.js",
+	"src/Errors.js",
+	"src/Files.js",
+	"src/firstl.js"
+  ]
+}

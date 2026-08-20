@@ -1,36 +1,48 @@
-import newBin	from "./newBin.js"
+import newBinSh	from "./newBin.js"
 
 
-export default function( id, bmap, base=newBin )
+/** 
+ * @arg id	-Is sent to newBin
+ * @arg {BmapVal[]}	bmapa	-Is sent to newBin
+ * @todo Which newBin can be sent??
+ * @return {class}	-Proper round Bin which means it can have proper
+ * 	Loc-to-index conversion. */
+
+export default( id, bmapa, newBin =newBinSh )=>class BinMap extends newBin( id ,bmapa )
 {
-	var Bin	=base( id, bmap )
+	static code	=1
 
 
-	/** Binary representation of a typical round hex map. */
+	/** Either sets a given ArrayBuffer or creates new ones.
+	 * @overload
+	 * @arg {ArrayBuffer} buf
+	 * @overload
+	 * @arg {number} radius
+	 * @arg {number} maxcells
+	 * @arg {Loc} loc */
 
-	class BM extends Bin
+	constructor( ...args )
 	{
-		static code	=1
+		super()
 
+		if( args[0] instanceof ArrayBuffer )	this.setbuf( ...args )
 
-		constructor( ...args )
-		{
-			super()
-
-			if( args[0] instanceof ArrayBuffer )	this.setbuf( ...args )
-
-			else if( args[0] > 0 || args[1] > 0 )	this.newbuf( ...args )
-		}
+		else if( args[0] > 0 || args[1] > 0 )	this.newbuf( ...args )
 	}
+
 
 
 	///////////////////////////////////////////////////////////////////////////
 
 
+	/** Has an algorithm of figuring out the size of the map.
+	 * User can give either radius or maxcells.
+	 * If both are given, the smaller one is used (check).
+	 * @arg {Loc} loc	-Coordinates of center. */
 
-	BM.prototype. newbuf	=function( r=0, maxc=0, loc )
+	newbuf( r=0, maxc=0, loc )
 	{
-		var C	=this.constructor
+		const C	=this.constructor
 
 		if( maxc>0 )
 		{
@@ -47,20 +59,19 @@ export default function( id, bmap, base=newBin )
 			
 			return
 		}
+		const c	=C.r2cells( r )
 
-		var c	=C.r2cells( r )
-
-		return Bin.prototype.newbuf. call(this, c , loc, r )
+		return super.newbuf( c , loc, r )
 	}
 
 
-	/** @ret cellsl */
+	/** @return {number} -How many cells */
 
-	BM.prototype. setbuf	=function( buf )
+	setbuf( buf )
 	{
-		var C	=this.constructor
+		const C	=this.constructor
 
-		Bin.prototype.setbuf. call(this, buf )
+		super.setbuf( buf )
 
 		if( this.cellsl !== C.r2cells( this.getr()) ) throw new Error()
 
@@ -71,25 +82,19 @@ export default function( id, bmap, base=newBin )
 	///////////////////////////////////////////////////////////////////////////
 
 
-	/** Convert loc to supergrid loc *
 
-	BM.prototype. tosupergrid	=function( loc, r )
-	{
+	/** @return {boolean}	-Is the location inside the map. */
 
-	}*/
-
-
-	///////////////////////////////////////////////////////////////////////////
-
-
-
-	BM.prototype. inside	=function( v )
+	inside( v )
 	{
 		return this.getloc().disth(v) <= this.getr()
 	}
 
 
-	BM.prototype. ic	=function( loc )
+	/** Where real magic happens. Algorithm invented by 
+	 * Anton Adelson from Israel. antonadelson@gmail.com */
+
+	ic( loc )
 	{
 		let r	=this.getr()
 
@@ -103,15 +108,20 @@ export default function( id, bmap, base=newBin )
 	}
 
 
-	/** DON'T CHANGE VALUES OF VECTOR IN FUN() !!!
-	 * If fun returns true then stop looping.
-	 * @arg {function} fun -( loc, distance, map )
+	/** Spirals from center to the outside and calls fun for each cell.
+	 * @arg {(v: Loc, distance: number, map: any )=> boolean} fun	-
+	 * 	Called for each cell inside the given radius from given center.
+	 * 	map sent is the one given in the argument or this if not given.
+	 *	DON'T CHANGE VALUES OF VECTOR IN FUN() !!!
+	 *	If fun returns true then stop looping.
 	 * @arg [r=mapRadius]
-	 * @arg [c=mapCenter]	-center from where to start looping
+	 * @arg {Loc} [c=mapCenter]	-center from where to start looping
+	 * @arg {*}	[map =this]	-Since the full map separates the binary data
+	 * 	and object data, the map argument ensures the correct context is used.
 	 * @returns {Loc}	-if fun returned true, returns the location
 	 * 		where it happened*/
 
-	BM.prototype. fore	=function( fun, r, c )
+	fore( fun, r, c ,map =this )
 	{
 		var v, ir, dir, i
 
@@ -121,7 +131,7 @@ export default function( id, bmap, base=newBin )
 
 		v	= c.c()
 
-		if( fun(v, 0, this) ) return v
+		if( fun( v ,0 ,map )) return v
 
 		for(ir=1; ir<=r; ir++)
 		{
@@ -133,9 +143,8 @@ export default function( id, bmap, base=newBin )
 				{
 					if( this.inside(v) )	// I can optimise this
 					{
-						if( fun(v, ir, this) ) return v
+						if( fun( v ,ir ,map )) return v
 					}
-
 					v.neighh(dir)
 				}
 			}
@@ -143,13 +152,15 @@ export default function( id, bmap, base=newBin )
 	}
 
 
-	/** DON'T CHANGE VALUES OF VECTOR IN FUN() !!!
+	/** Similar to fore(). Look there for more info.
+	 * Only goes through one ring.
+	 * DON'T CHANGE VALUES OF VECTOR IN FUN() !!!
 	 * If fun returns true then stop looping?
 	 * @arg {function} fun -( loc, map )
 	 * @returns {null|Loc}	-if fun returned true, returns the location
 	 * 		where it happened. */
 
-	BM.prototype. forring	=function( fun, r, c ,map )
+	forring( fun, r, c ,map )
 	{
 		map	??=this
 
@@ -183,8 +194,9 @@ export default function( id, bmap, base=newBin )
 	///////////////////////////////////////////////////////////////////////////
 
 
+	/** Take radius and return number of cells in a hexagonal map. */
 
-	BM.r2cells	=function(r)
+	static r2cells(r)
 	{
 		let cells=1
 
@@ -195,7 +207,10 @@ export default function( id, bmap, base=newBin )
 		return cells
 	}
 
-	BM.cells2r	=function(cells)
+
+	/** Take number of cells and return the radius needed to fit them. */
+
+	static cells2r(cells)
 	{
 		let r	=0
 
@@ -205,10 +220,4 @@ export default function( id, bmap, base=newBin )
 		}
 		return r
 	}
-
-	
-	///////////////////////////////////////////////////////////////////////////
-
-
-	return BM
 }

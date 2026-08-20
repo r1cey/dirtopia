@@ -4,107 +4,118 @@ import Map from './Map.js'
 
 import Loc from '../Loc.js'
 
+import vegdefs from './plants/defs.js'
+
+
+/** An intuitive way is done to access bit values in bit map.
+ * May be too slow for final product but for prototyping saves a lot of effort.
+ *  
+ * @todo Add water and rock values.
+ * 
+ * Also somehow add mulch layer to soil. Something for fungi to eat...
+ * 
+ * With high level of worms increasing soil structure.
+ * Fungi eating hard plants and bacteria softer matter. */
 
 var bmap	=
-[
+{
+	ty	:
 	{
-		name	:"wsr"
+		bits	:2
 		,
-		subd	:
-		[
-			{
-				name	:"ty"
-				,
-				bits	:2
-				,
-				valsa	:["empty", "rock", "soil", "water"]
-			},
-			{
-				name	:"lvl"
-				,
-				bits	:4
-			}
-		]
-	},
-	{
-		name	:"mine"
+		valsa	:["other", "rock", "soil", "water"]
 		,
-		subd	:
-		[
-			{ name: "n", bits	:4 },
-			{ name: "p", bits	:4 },
-			{ name: "k", bits	:4 },
-			{ name: "ca", bits	:4 },
-			{ name: "mg", bits	:4 },
-			{ name: "na", bits	:4 },
-			{ name: "fe", bits	:4 },
-			{ name: "cu", bits	:4 },
-			/*	S ?	Cl ? Zn	Mn */
-		]
-	},
-	{
-		name	:"plfl"
-		,
-		subd	:
-		[
+		_condsub	:
+		{
+			soil	:
 			{
-				name	:"ty"
+				hum	:{ bits	:4 }
 				,
-				bits	:1
+				ph	:{ bits	:2 }
 				,
-				valsa	:["plant", "floor"]
-			},
-			{
-				condsubd	:
+				textur	:{ bits	:2 }
+				,
+				struct	:{ bits	:2 }
+				,
+				fungi	:{ bits	:2 }
+				,
+				bacter	:{ bits	:2 }
+				,
+				smallorg	:{ bits	:2 }
+				,
+				worms	:{ bits	:2 }
+				,
+				plfl	:
 				{
-					"plant"	:
-					[
+					bits	:1
+					,
+					valsa	:[ "veg" ,"floor" ]
+					,
+					_condsub	:
+					{
+						veg	:
 						{
-							name	:"ty"
-							,
-							bits	:7
-							,
-							valsa	:["none","umbrtr","sandpedro",,"apple","cucumber"]
+							ty	:
+							{
+								bits	:7
+								,		
+								valsa	:
+								[
+									"none" ,"umbrtr" ,"sandpedro" , ,"apple" ,
+
+									"cucumber"
+								]
+							},
+							time	:{ bits	:12	}
 						},
+						floor	:
 						{
-							name	:"lvl"
+							floor	:{ bits	:6 }
 							,
-							bits	:5	//0-seed,1-tiny,2-walk over,3-difficult walk,
-								//4-no walk,no branch, 5-first branch
-						},
-						{
-							name	:"time"
-							,
-							bits	:7	//12 minutes * 128 = 25.6hours
+							compost	:
+							{
+								unknown	:{ bits	:13 }
+							}
 						}
-					]
+					}
+				},
+				walls	:
+				{
+					dir	:{ bits	:2 }
+					,
+					col	:{ bits	:3 }
 				}
-			}
-		]
-	},
-	{
-		name	:"walls"
-		,
-		subd	:
-		[
-			{
-				name	:"dir"
-				,
-				bits	:2
 			},
+			water	:
 			{
-				name	:"col"
-				,
-				bits	:3
+				depth	:{ bits	:3 }
 			}
-		]
+		}
+	},
+	chem	:
+	{
+		n	:{ bits	:4 },
+		p	:{ bits	:4 },
+		k	:{ bits	:4 },
+		ca	:{ bits	:4 },
+		mg	:{ bits	:4 },
+		na	:{ bits	:4 },
+		fe	:{ bits	:4 },
+		cu	:{ bits	:4 }
+		/*	S ?	Cl ? Zn	Mn */
 	}
-]
+}
 
 
-/** @returns {class} */
+/** Base class for Ground Map. Depending if it extends Map or Board it'll
+ * be able to use Locations or not.
+ * 
+ * In either case, don't use Obj since in Board it's just an array and
+ * in Map the access is through Vec strings.
+ * 
+ * @arg {Board|Map} Base */
 
-export default( Base )=>class Gr extends Base
+export default( Base )=>class Ground extends Base
 {
 	get isgr()	{return this }
 	
@@ -120,25 +131,50 @@ export default( Base )=>class Gr extends Base
 
 	nemptycell_i( ic )
 	{
-		return this.bin.getval( ic, Gr.Bin.bmap.wsr.ty )
+		return this.bin.getval( ic, Ground.Bin.bmap.wsr.ty )
 	}
 
 
 
 	plantable_i( ic )
 	{
-		return this.getwsr_i(ic) === "soil" && this.getplfl_i(ic) === "plant" &&
+		return this.issoil_i( ic) && ! this.isfloor_i( ic) &&
+
 			this.getvegty_i(ic) === "none"
 	}
 
-	
-	getwsr_i( ic )
+
+
+	hasplant_i( ic )
 	{
-		return this.bin.getval_str( ic, Gr.Bin.bmap.wsr.ty )
+		return( this.issoil_i( ic) || this.iswater_i( ic)) &&
+		
+			! this.isfloor_i( ic) && this.getvegty_i( ic) !== "none"
 	}
-	setwsr_i( ic, str )
+
+
+	getvegage_i( ic ,def )
 	{
-		this.bin.setval_str( ic, Gr.Bin.bmap.wsr.ty, str )
+		def	??=vegdefs[ this.getvegty_i( ic) ]
+
+		const fulltime	=this.getveglvl_i( ic)=this.getvegtime_i( ic)
+
+		var age	=0
+
+		for( var i =0 ; i < def.growth.length ; i++ )
+		{
+
+		}
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	issoil_i( ic )
+	{
+		return this.bin.getval_str( ic ,Ground.Bin.bmap.wsr.ty )=== "soil"
 	}
 
 
@@ -150,82 +186,111 @@ export default( Base )=>class Gr extends Base
 	}
 
 
-	issoil_i( ic )
-	{
-		return this.bin.getval_str( ic, Gr.Bin.bmap.wsr.ty ) === "soil"
-	}
-
-	
-	getsoilhum_i(ic)
-	{
-		return this.bin.getval( ic, Gr.Bin.bmap.wsr.lvl )
-	}
-	setsoilhum_i(ic, lvl )
-	{
-		this.bin.setval( ic, Gr.Bin.bmap.wsr.lvl, lvl )
-	}
-
-
 
 	setwater_i( ic, lvl )
 	{
-		this.bin.setval_str( ic, Gr.Bin.bmap.wsr.ty, "water" )
+		this.bin.setval_str( ic ,Ground.Bin.bmap.wsr.ty ,"water" )
 
-		this.bin.setval( ic, Gr.Bin.bmap.wsr.lvl, lvl - 1 )
+		this.bin.setval( ic, Ground.Bin.bmap.wsr.lvl, lvl - 1 )
 	}
 
 	
 	iswater_i( ic )
 	{
-		return this.bin.getval_str( ic, Gr.Bin.bmap.wsr.ty ) === "water"
+		return this.bin.getval_str( ic ,Ground.Bin.bmap.wsr.ty )=== "water"
+	}
+
+
+	isveg_i( ic )
+	{
+		const wsr	=this.getwsr_i( ic )
+
+		return ( wsr === "soil" || wsr === "water" )&&
+		
+			this.getplfl_i( ic) === "plant"
+	}
+
+	setveg_i( ic, type, lvl =0, time =0 )
+	{
+		this.bin.setval_str( ic, Ground.Bin.bmap.plfl.ty, "plant" )
+
+		this.bin.setval_str( ic, Ground.Bin.bmap.plfl.plant.ty, type )
+
+		this.setveglvl_i( ic, lvl )
+
+		this.bin.setval( ic, Ground.Bin.bmap.plfl.plant.time, time )
+	}
+
+
+	isfloor_i( ic )
+	{
+		return this.nemptycell_i( ic) &&
+		
+			this.bin.getval_str( ic ,Ground.Bin.bmap.plfl.ty )=== "floor"
+	}
+
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+	
+	getwsr_i( ic )
+	{
+		return this.bin.getval_str( ic, Ground.Bin.bmap.wsr.ty )
+	}
+	setwsr_i( ic, str )
+	{
+		this.bin.setval_str( ic, Ground.Bin.bmap.wsr.ty, str )
+	}
+
+	
+	getsoilhum_i(ic)
+	{
+		return this.bin.getval( ic, Ground.Bin.bmap.wsr.lvl )
+	}
+	setsoilhum_i(ic, lvl )
+	{
+		this.bin.setval( ic, Ground.Bin.bmap.wsr.lvl, lvl )
 	}
 
 
 	getwaterlvl_i( ic )
 	{
-		return this.bin.getval( ic, Gr.Bin.bmap.wsr.lvl ) + 1
-	}
-
-
-
-	setveg_i( ic, type, lvl =0, time =0 )
-	{
-		this.bin.setval_str( ic, Gr.Bin.bmap.plfl.ty, "plant" )
-
-		this.bin.setval_str( ic, Gr.Bin.bmap.plfl.plant.ty, type )
-
-		this.setveglvl_i( ic, lvl )
-
-		this.bin.setval( ic, Gr.Bin.bmap.plfl.plant.time, time )
+		return this.bin.getval( ic, Ground.Bin.bmap.wsr.lvl ) + 1
 	}
 
 
 	getplfl_i( ic )
 	{
-		return this.bin.getval_str( ic, Gr.Bin.bmap.plfl.ty )
+		return this.bin.getval_str( ic, Ground.Bin.bmap.plfl.ty )
 	}
 
 
 	getvegty_i( ic )
 	{
-		return this.bin.getval_str( ic, Gr.Bin.bmap.plfl.plant.ty )
+		return this.bin.getval_str( ic, Ground.Bin.bmap.plfl.plant.ty )
+	}
+
+	setvegty_i( ic, type )
+	{
+		this.bin.setval_str( ic, Ground.Bin.bmap.plfl.plant.ty, type )
 	}
 
 
 	getveglvl_i( ic )
 	{
-		return this.bin.getval( ic, Gr.Bin.bmap.plfl.plant.lvl )
+		return this.bin.getval( ic, Ground.Bin.bmap.plfl.plant.lvl )
 	}
 
 	setveglvl_i( ic, lvl )
 	{
-		this.bin.setval( ic, Gr.Bin.bmap.plfl.plant.lvl, lvl )
+		this.bin.setval( ic, Ground.Bin.bmap.plfl.plant.lvl, lvl )
 	}
 
 
 	getvegtime_i( ic )
 	{
-		return this.bin.getval( ic, Gr.Bin.bmap.plfl.plant.time )
+		return this.bin.getval( ic, Ground.Bin.bmap.plfl.plant.time )
 	}
 
 
@@ -238,31 +303,32 @@ export default( Base )=>class Gr extends Base
 
 	///////////////////////////////////////////////////////////////////////////
 
+
 	
 	static maxwater()
 	{
 		return ( this.maxhum() >> 1 ) + 1
 	}
 
-	static maxwat		=Gr.maxwater
+	static maxwat		=Ground.maxwater
 
 
 
 	static maxhum()
 	{
-		return this.Bin.getmaxval( Gr.Bin.bmap.wsr.lvl )
+		return this.Bin.getmaxval( Ground.Bin.bmap.wsr.lvl )
 	}
 
 
 
 	static maxveglvl()
 	{
-		return Gr.Bin.getmaxval( Gr.Bin.bmap.plfl.plant.lvl )
+		return Ground.Bin.getmaxval( Ground.Bin.bmap.plfl.plant.lvl )
 	}
 
 
 	static maxvegtime()
 	{
-		return Gr.Bin.getmaxval( Gr.Bin.bmap.plfl.plant.time )
+		return Ground.Bin.getmaxval( Ground.Bin.bmap.plfl.plant.time )
 	}
 }

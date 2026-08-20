@@ -7,6 +7,12 @@ import newInv from "./newInv.js"
 import{ key as itemk }	from "./Item.js"
 
 
+/** Class for items which hold other items. Needs unique id to differentiate
+ * between same type but with different items.
+ * One can differentiate by exact location but in client-server interaction
+ * this seems flimsy.
+ * @todo Add "dad" property to shorten the lookup test to not move a container
+ * inside another container inside of itself. */
 
 export default( Base =newInv(Item) )=>class Cnt	extends Base
 {

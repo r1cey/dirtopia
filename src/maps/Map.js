@@ -79,19 +79,6 @@ Map.prototype. save	=async function( dir ="")
 ///////////////////////////////////////////////////////////////////////////
 
 
-/*
-Map.prototype. additem	=function( loc ,item ,len )
-{
-	var addedl	=ShMap.prototype.additem. call(this, loc ,item ,len )
-
-	if( addedl > 0 )
-	{
-		this.game.server?.sendvis( loc ,"map_additem" ,[ this ,loc ,item ])
-	}
-	return addedl
-}*/
-
-
 
 Map.prototype. set_	=function( name, loc, ...vals )
 {

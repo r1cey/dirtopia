@@ -10,11 +10,6 @@ export default( Base )=>class SrvSend	extends Base
 ///////////////////////////////////////////////////////////////////////////////
 
 
-	send_mapadditem( map, loc, item )
-	{
-		this.sendvis( loc ,"additem" ,{ path :["maps",loc] ,item })
-	}
-
 /** @arg {string} act 
  * @arg {array} vals */
 /*

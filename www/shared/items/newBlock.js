@@ -9,6 +9,8 @@ export default( Base =Item )=>class Block	extends Base
 
 	static
 	{
+		/** Drag block one tile. Also moves player. */
+		
 		this.acts["drag"]	=
 		[
 			function test( nav ,pl ,dir )
@@ -19,18 +21,22 @@ export default( Base =Item )=>class Block	extends Base
 
 				const map	=nav.gmap()
 
+				// const desto	=map.obj.g( dest )
+
+				const canmov	=map.canmovblock( dest )
+
+				const plloc	=pl.loc
+
 				if( ! pl.canreach( loc ) ||
 
 					pl.hands.item ||
-				
-					map.obj.g(dest)?.item ||
+					
+					canmov === 0 ||
 
-					! map.canplmov( dest ,pl )
+					( canmov === -1 && ! plloc.eq(dest) )
 				){
 					return false
 				}
-				const plloc	=pl.loc
-
 				if( dest.eq(plloc) )
 				{
 					return map.forring(( loc )=> map.canplmov(loc) ,1 ,plloc )

@@ -168,6 +168,11 @@ Maps.prototype. canpushitem	=function( loc )
 }
 
 
+Maps.prototype. canadditem	=function( loc ,item ,len )
+{
+	return this.loc2map(loc).canadditem( loc ,item ,len )
+}
+
 
 Maps.prototype. additem	=function( loc ,item )
 {

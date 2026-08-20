@@ -1,0 +1,32 @@
+# Top level methods:
+
+* Actions
+* Game additem ,movitem ,delitem
+* Client get
+
+# Sizes
+
+ * Block items can't be picked up, can only be dragged.
+ Player can't move there. Kills plants on that cell.
+
+ * When it comes to plants:
+
+ - One size can be dragged over by block and easily stepped over by player.
+ - One size struggles the player to move over.
+ - And at some size player can't be in that cell.
+
+ * There are 4 plant types:
+
+ - Grass-like. Never grows beyond size which can be dragged over.
+ - Medium. Never grows beyond size which can be easily stepped over.
+ - Shrub. Is never climbable.
+ - Tree.
+
+# Plant growth stages
+
+0. seed
+1. seedling
+2. sapling
+3. mature
+4. old
+5. dead 
