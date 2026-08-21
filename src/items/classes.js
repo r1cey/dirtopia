@@ -3,7 +3,7 @@ import Block from "./Block.js"
 
 import newStack from "../../www/shared/items/newStackable.js"
 
-import newOrg	from "../../www/shared/items/newOrganics.js"
+import newOrg	from "../../www/shared/items/neworganics.js"
 
 import newStCnt from "../../www/shared/items/newStackCnt.js"
 

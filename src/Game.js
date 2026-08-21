@@ -1,4 +1,4 @@
-import Game	from "../www/shared/Game.js"
+import GameSh	from "../www/shared/Game.js"
 // import newPathe	from "../www/shared/newPathable.js"
 import Maps	from './maps/Maps.js'
 import Srv from './Server/Server.js'
@@ -13,29 +13,29 @@ import itTps from "./items/itemTypes.js"
 
 
 
-Function.prototype. c	=function(...args)
-{
-	this.name.split('_').forEach((n)=>
-	{
+/** Server's main point of entry.
+ * 
+ * Adds server functionality. And file loading/saving. */
 
-	})
-}
+
+/**
+ * @typedef {object} TimeLoop
+ * @property {number} int	-Interval ID from setInterval()
+ * @property {number} i	-Counter used for delaying effects. */
 
 
 // GLBLU
 
 
-/** SERVER WORRIES ABOUT THE CLIENT WHICH MADE THE ACTION.
- * THE GAME ITSELF UPDATES THE OTHER CLIENTS!
- */
 
-
-export default class G	extends Game
+export default class Game	extends GameSh
 {
 	conf	=
 	{
 		pa	:'./conf.js'
 	}
+
+	/** @type {Record<string, TimeLoop>} */
 	time	=
 	{
 		sec	:{ int	:0, i :0 }
@@ -74,7 +74,16 @@ export default class G	extends Game
 	}
 
 
-	////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
+
+
+	load()
+	{
+		
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
 
 
 	/** @todo what if no place to move stacks too and lots of error handling!! */
@@ -94,7 +103,7 @@ export default class G	extends Game
 
 
 
-G.prototype. start	=async function( confpa )
+Game.prototype. start	=async function( confpa )
 {
 	const g	=this
 
@@ -157,7 +166,7 @@ G.prototype. start	=async function( confpa )
 
 
 
-G.prototype. stop	=async function()
+Game.prototype. stop	=async function()
 {
 	var g	=this
 
@@ -176,7 +185,7 @@ G.prototype. stop	=async function()
 
 
 
-G.prototype. save	=async function()
+Game.prototype. save	=async function()
 {
 	var proms	=
 	[
@@ -194,7 +203,7 @@ G.prototype. save	=async function()
 /**@arg {Nav} from
  * @arg {Nav} to */
 
-G.prototype. movitem	=function( from ,len ,to ,mover )
+Game.prototype. movitem	=function( from ,len ,to ,mover )
 {
 	const item	=from.last()
 
@@ -213,7 +222,7 @@ G.prototype. movitem	=function( from ,len ,to ,mover )
 }
 
 
-G.prototype. delitem	=function( from ,item ,len )
+Game.prototype. delitem	=function( from ,item ,len )
 {
 	this.srv.sendvis( nav2loc(from) ,"itemdel" ,[ from ,item ,len ])
 
@@ -225,7 +234,7 @@ G.prototype. delitem	=function( from ,item ,len )
 
 
 
-G.prototype. rempls	=async function()
+Game.prototype. rempls	=async function()
 {
 	return this.conf.pls.max - (await this.files.readdir( this.conf.pls.dir )) 
 }
@@ -235,7 +244,7 @@ G.prototype. rempls	=async function()
 
 
 
-G.prototype. sec	=function()
+Game.prototype. sec	=function()
 {
 	var gr	=this.maps.gr
 
@@ -300,7 +309,7 @@ G.prototype. sec	=function()
 /** @todo I can make one loop if I make a separate 1 bit bitmap
  * for cells which were iterated over */
 
-G.prototype. min15	=function()
+Game.prototype. min15	=function()
 {
 	const g	=this
 
@@ -411,7 +420,7 @@ G.prototype. min15	=function()
 
 
 
-G.prototype. hour	=function()
+Game.prototype. hour	=function()
 {
 	var g	=this
 
@@ -429,7 +438,7 @@ G.prototype. hour	=function()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-G.prototype. getobj	=function( key )
+Game.prototype. getobj	=function( key )
 {
 	switch( key )
 	{
@@ -445,7 +454,7 @@ G.prototype. getobj	=function( key )
 }
 
 
-G.prototype. toJSON	=function()
+Game.prototype. toJSON	=function()
 {
 	return undefined
 }

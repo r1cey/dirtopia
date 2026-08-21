@@ -14,7 +14,9 @@ import Loc	from "../Loc.js"
  * 		Called bmap or bitmap. Don't confuse with BinMap class.
  * * Each cell can be spread across multiple typed arrays. Bmap is supposed
  * 		to manage that. Typed arrays can be of different size to save on space.
- * */
+ * * Inside of bmap, there can be entire chains of values dependant on the
+ * 		value of a certain property. These chains are called conditional
+ * 		subdivisions and they create a lot of complexity in bmap management. */
 
 
 
@@ -26,12 +28,12 @@ import Loc	from "../Loc.js"
 	from the property key which holds this object.
 @prop {number}	bits	-Bit length of this value.
 @prop {string[]}	[valsa]	-Ordered array of named values.
-@prop {object<valkey :string, BmapVal|BmapSubd>}	[_condsub]	-For when
-	different value calls for completely different properties of cell.
+@prop {{[condkey :string] :{[valkey :string] :BmapVal}}}	[_condsub]	-
+	For when different value calls for completely different properties of cell.
 	For example, soil and water have different properties.
 @prop {number}	[bin_i]	-Auto. Index of the typed array where the value is
 	stored.
-@prop {object<string, number>}	[valso]	-Auto. Automatically created reverse
+@prop {{[valkey :string] :val }}	[valso]	-Auto. Automatically created reverse
 	lookup of named values. Goes with "valsa".
 @prop {number}	[offset]	-Auto. Automatically calculated bit offset from the
 	beginning of cell in that typed array. */
@@ -40,30 +42,25 @@ import Loc	from "../Loc.js"
 
 /** Defines a single value inside of the binary map header.
 @typedef {[string ,number]}	HeaderVal
-@prop {string}	0 -Kye name of the value
+@prop {string}	0 -Key name of the value
 @prop {number}	1 -Valid bits number for TypedArray types. Only tested up to
 	32 bits. */
 
 
 
-/** Defines the kind of typed array ...
-@typedef {object}	BmapBin
+/** Object representing a typed array type and the bmap values that are
+ supposed to go in it. For convenience, is simply called a bin.
+@typedef {object}	TABin
 @prop {number}	size	-Size of the typed array in bits. Only tested up to 32.
 @prop {BmapVal[]}	vals	-Array of values that are stored in this typed
 	array. */
-
-
-
-/** Object representing a typed array type and the bmap values that are
- supposed to go in it. For convenience, is simply called a bin.
- @typedef {{ size :number, vals :BmapVal[] }} TABin */
 
 
 ///////////////////////////////////////////////////////////////////////////////
 
 
 /** 
- * @arg {number} id	-What kind of binary data is inside.
+ * @arg {number} id	-How binary data inside is mapped to cells and their props.
  * @arg {object<valkey :string ,BmapVal} bmapdef	-Usermade bit map. Look above.
  * @arg {HeaderVal[]} [structadd]	-Additional header values to add to the
  * 	default ones.
@@ -73,16 +70,10 @@ export default( id, bmapdef, structadd )=>class Bin	extends BinBase
 {
 	static id	=id
 
-	/** The reason it's two dimensional is because _condsub breaks down value
-	 * chain into different layers. Complicated to explain without drawing.
-	 * @type {BmapBin[][]} */
-
-	static bmapbins	=bmapdef ? build_binlayers( bmapdef) : [[]]
-	
-	static bmap	=bins2bmap( this.bmapbins ,bmapdef )
-
 	static
 	{
+		if( bmapdef )	this.setbmap( bmapdef )
+
 		if( structadd )	this._structarr	=BinBase._structarr.concat( structadd )
 
 		this.build_structo()
@@ -93,32 +84,40 @@ export default( id, bmapdef, structadd )=>class Bin	extends BinBase
 ///////////////////////////////////////////////////////////////////////////////
 
 
-/** Basic class divides the data like this:
- * [ code, id, r, loc, cells ]
- * code	-Defines the type of data inside the binary data.
-	 * 1 - BinMap
-	 * 2 - BinMapShift 
- * id	-Map type identifier.
+/** So this is the most basic class representing the binary data that goes
+ * inside a map. Most important values are headers, cells, and the bit map.
+ * 
+ * Both header and cells are stored in a single ArrayBuffer. What's not the
+ * header is divided into multiple TypedArrays of potentially different sizes.
+ * Because each cell can be split into multiple TypedArrays.
+ * 
+ * Then bit map is used to map useful properties of the map to the typarrs and
+ * the bit offset and bit length.
+ * 
+ * Derived classes can add to header but basic buffer data looks like this:
+ * [ code, id, r, loc, cells in typed array[0], cells in typed array[1], ... ]
  * r	-Radius
  * loc	-3 values for location
- * cells	-The actual cell data. */
+ * cells	-The actual cell data split into typed arrays. */
 
 class BinBase
 {
-	/**Defined in derived class.
-	@static
-	@var code */
+	/** Code for what kind of map is it?
+	 * 1 - BinMap
+	 * 2 - BinMapShift */
+	static code
 
-	/**Code for how the cell data is structured.
-	 * Defined in derived class.
-	@static
-	@var id */
+	/** Identifier for which kind of data is inside each cell.
+	 * Is the map ground or trees, for example */
+	static id
 	
-	/** Defined in derived class.
-	@static
-	@var bmap */
+	/** @type {object<valkey ,BmapVal>} */
+	static bmap
 
 	////----
+
+	/** @type {bitlen[]}	-Array of bit lengths for each Typed Array*/
+	static typarrszs
 
 	/** Array of TypedArrays pointing to the same buffer
 	 * but at offsets so don't overlap.
@@ -142,10 +141,6 @@ class BinBase
 	/** Reverse lookup for data structure values */
 	static _structo	={ }
 
-	/** Defined in derived class
-	@static
-	@prop {BmapBin[]} bmapbins */
-
 	/** tricky buffer, ONLY access it through
 	 * getloc() because it can be changed to anything.
 	 * @type {Loc} */	
@@ -153,6 +148,18 @@ class BinBase
 
 
 	///////////////////////////////////////////////////////////////////////////
+
+
+	/** Also sets bmapbins. */
+
+	static setbmap( bmapdef )
+	{
+		const layers	=build_binlayers( bmapdef )
+
+		this.typarrszs	=layers[0].map(( bin )=>bin.size )
+		
+		this.bmap	=bins2bmap( layers, bmapdef )
+	}
 
 
 
@@ -207,13 +214,13 @@ class BinBase
 
 		var offset	=Bin.headlen()
 
-		for(var i =0, len =Bin.bmapbins.length ;i<len;i++)
+		for(let i =0, len =Bin.typarrszs.length ;i<len;i++)
 		{
-			var bmbin	=Bin.bmapbins[i]
+			const bitlen	=Bin.typarrszs[i]
 
-			this.cells[i]	=new globalThis["Uint"+bmbin.size+"Array"]( buf, offset, clen )
+			this.cells[i]	=new globalThis["Uint"+bitlen+"Array"]( buf, offset, clen )
 
-			offset	+= clen * ( bmbin.size >> 3 )
+			offset	+= clen * ( bitlen >> 3 )
 		}
 		this.cellsl	=clen
 
@@ -415,15 +422,15 @@ class BinBase
 	}
 
 
-	/** @return {number} - bytes per cell */
+	/** @return {number} - BYTES per cell */
 
 	static bpc()
 	{
 		var bpc	=0
 
-		for(var bmbin of this.bmapbins )
+		for(var bitlen of this.typarrszs )
 		{
-			bpc	+= (bmbin.size >> 3)
+			bpc	+= bitlen >> 3
 		}
 		return bpc
 	}
@@ -445,6 +452,7 @@ class BinBase
 	}
 
 
+	/** this.arrs are typed arrays pointing to data in buffer header */
 
 	setarrs( buf )
 	{
@@ -505,8 +513,6 @@ function build_binlayers( bmapdef )
 	for(var bins of layers )
 	{
 		if( bins.length < maxbinslen )	break
-
-		const lastbin	=bins.at(-1)
 
 		const splitbin	=split_bin_set( bins.at(-1) ,first_splitbin )
 
@@ -625,6 +631,8 @@ function breakdown_bmapdef( bmapdef, setvals, condvals )
 				offset	:null
 				,
 				bin_i	:null
+				,
+				_condsub	:prop._condsub
 			}
 			bmapdef[k]	=val
 
@@ -632,6 +640,9 @@ function breakdown_bmapdef( bmapdef, setvals, condvals )
 		
 			if( prop._condsub )
 			{
+				// Dad is not needed it seems. May get rid of the entire
+				// surrounding object.
+
 				condvals.push(
 				{
 					dad	:val
@@ -648,6 +659,8 @@ function breakdown_bmapdef( bmapdef, setvals, condvals )
 	}
 }
 
+
+/** Duplicate a bin */
 
 function dupbin( bin )
 {
@@ -799,7 +812,7 @@ function split_bin_set( bin, splitbins )
 
 /** Just build a reverse lookup object from an array of values
  * @arg {string[]} valsa	-Array
- * @return {object<string, array_index :number>} */
+ * @return {{[valkey :string] :val }} */
 
 function build_valslookup( valsa )
 {

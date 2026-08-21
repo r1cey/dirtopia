@@ -7,63 +7,72 @@ import Loc from "../../www/shared/Loc.js"
 import JRev from "../JsonRevivr.js"
 
 
-
-
+/** Adds method for reading map json file.
+ * 
+ * Server maps also sometimes have "spawns" object to tell where to
+ * spawn new player. */
 
 export default class Obj extends ShObj
 {
-	static jrev	=new JRev().add(
-		{
-			key :"spawns"
-			,
-			fromJSON :( arr )=> arr.map(( val )=> new Loc().setj(val) )
-		}		
-	)
-
 	/*constructor( ...args )
 	{
 		super( ...args )
 	}*/
-}
 
 
-/** If successful, returns {[plname]:loc} */
+	/** Look for Map.read
+	 * @return {{pls:{[plname:string]:Loc}}} */
 
-Obj.prototype. read	=async function( path )
-{
-	const{ map }	=this
-
-	const pllocs	={}
-
-	const h	=this.map.getloc().h
-
-	const o	=await fs.readjson( path+'.json', ( key, val )=>
+	async read( path )
 	{
-		if( val?.pl )
+		const{ map }	=this
+
+		const ret	=
 		{
-			pllocs[ val.pl ]	=new Loc().setvstr( key ,h )
-
-			return val
+			pls	:{}
 		}
-		else	return this.constructor.jrev.revivr( key, val )
-	} )
-	if( ! o )	return
 
-	console.log( `Have read map obj file: ${this.map.constructor.name}`)
+		const h	=map.getloc().h
 
-	this.o	=o
+		const o	=await fs.readjson( path+'.json', ( key, val )=>
+		{
+			if( val?.pl )
+			{
+				pllocs[ val.pl ]	=new Loc().setvstr( key ,h )
 
-	return pllocs
+				return val
+			}
+			else	return jrev.revivr( key, val )
+		} )
+		if( ! o )	return
+
+		console.log( `Have read map obj file: ${this.map.constructor.name}`)
+
+		this.o	=o
+
+		return pllocs
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////////
+
+
+
+	newitem2cell( loc ,item )
+	{
+		super.newitem2cell( loc, item )
+
+		this.map.game
+	}
 }
-
 
 ///////////////////////////////////////////////////////////////////////////////
 
 
 
-Obj.prototype. newitem2cell	=function( loc ,item )
+const jrev	=new JRev().add(
 {
-	ShObj.prototype.newitem2cell. call(this ,loc, item )
-
-	this.map.game
-}
+	key :"spawns"
+	,
+	fromJSON :( arr )=> arr.map(( val )=> Loc.setj(val) )
+})

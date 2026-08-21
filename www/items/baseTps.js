@@ -6,7 +6,7 @@ import Block from "./Block.js"
 import Stack from "./Stack.js"
 // import newStack from "../shared/items/newStackable.js"
 
-import newOrg	from "../shared/items/newOrganics.js"
+import newOrg	from "../shared/items/neworganics.js"
 import newStCnt from "../shared/items/newStackCnt.js"
 
 import Cnt	from "./Cnt.js"

@@ -12,7 +12,6 @@ import newPatha from "../newPathable.js"
  * 
  * Is used as root for Nav paths. */
 
-
 export default class Maps	extends newPatha()
 {
 	game

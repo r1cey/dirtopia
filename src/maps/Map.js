@@ -12,6 +12,10 @@ import newBo	from "../../www/shared/maps/newBoard.js"
 import newBinMShift	from "../../www/shared/maps/newBinMapShift.js"
 
 
+/** Adds reading and saving functionality to the map.
+ * 
+ * Also method for creating "shiftboard" for when a player moves and needs
+ * new cells sent. */
 
 export default class Map extends ShMap
 {
@@ -29,8 +33,11 @@ export default class Map extends ShMap
 }
 
 
-/** Returns pls obj if map is read properly:
- * {[plname]:loc} */
+/** When saved, some object data is saved separately from map obj data.
+ * We need to make and return a list of these objects so we don't need
+ * to look for them again later.
+ * Please note how the location is saved in Vec(x,y) format, without h.
+ * @return {{pls:{[plname:string]:Vec}}} */
 
 Map.prototype. read	=async function( dir ="" )
 {

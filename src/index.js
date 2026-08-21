@@ -1,19 +1,25 @@
+import Game from "./Game.js"
+
 // import repl from 'node:repl'
 
-import Game from "./Game.js"
+
+
+/** Server is run from here. Modify if you know what you're doing. */
+
+
 
 global.game	=new Game( 'conf.json' )
 
-await game.start()
+game.maps.conf.dir	='./maps/desert/'
+
+await game.load()
 
 if( ! game.maps.isready() )
 	
 	game.maps.gendesert()
 
-// game.server.start()
+game.start()
 
 // game.maps.ground.printarr(0)
-
-// zen.map.randomwater()
 
 // repl.start() 
