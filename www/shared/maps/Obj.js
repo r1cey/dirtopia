@@ -1,6 +1,11 @@
-/** The associative array part of the maps and boards.
+import Loc from "./Loc.js"
+
+
+/** Holds and manages the associative array part of the maps and boards.
+ * 
  * Used properties:
-, pl */
+ * * pl
+ * * item */
 
 export default class Obj
 {
@@ -9,105 +14,136 @@ export default class Obj
 	o	={}
 
 
+
 	constructor( map )
 	{
 		this.map	=map
 	}
-}
 
 
-///////////////////////////////////////////////////////////////////////////////
+
+	///////////////////////////////////////////////////////////////////////////
 
 
-/** @return Cell object to save into. Be sure to use it if it's created fresh. */
+	/** Since, player data is sometimes received separately, we have a system
+	 * that saves these player locations for future replacement.
+	 * Works when pl property just has the player's name.
+	 * In jsonrevivr, set userd.pls={}, and then add this method to oncheck.
+	 * pls will have { playerName: Loc } data. Don't forget to add proper h
+	 * values to Loc later since we don't know the height when reviving. */
 
-Obj.prototype. set	=function( loc )
-{
-	return	this.o[loc.tovstr()]	??={}
-}
-
-Obj.prototype. s	=Obj.prototype. set
-// Bo.prototype. setcello	=Bo.prototype. scello
-
-
-/** Will NOT create a new entry if doesn't exist */
-
-Obj.prototype. get	=function(loc)
-{
-	return this.o[loc.tovstr()]
-}
-
-Obj.prototype. g	=Obj.prototype. get
-
-
-/** Returns deleted property */
-
-Obj.prototype. del	=function( loc, key ,cell )
-{
-	const str	=loc.tovstr()
-
-	cell	??=this.o[str]
-
-	const prop	=cell[key]
-
-	delete cell[key]
-
-	var isvac	=true
-
-	for( key in cell )
+	static onjsonrevive( key ,val ,userd )
 	{
-		isvac	=false
+		const pl	=val.pl
 
-		break
+		if( pl && typeof pl === "string" )
+		{
+			userd.pls[pl]	=Loc.setvstr( key ,null )
+		}
 	}
-	if( isvac )	delete this.o[str]
-
-	return prop
-}
 
 
-
-Obj.prototype. mov	=function( fromloc, key ,toloc )
-{
-	var cell	=this.g(fromloc)
-
-	this.s(toloc)[key]	=cell[key]
-
-	this.del( fromloc ,key )
-}
+	///////////////////////////////////////////////////////////////////////////
 
 
-///////////////////////////////////////////////////////////////////////////////
+	/** @return {object} -Object to save into. If cell doesn't have one, it's
+	 * created fresh. So be sure to use it in that case! */
+
+	set( loc )
+	{
+		return	this.o[loc.tovstr()]	??={}
+	}
+	static
+	{
+		this.prototype. s	=this.prototype. set
+	}
+
+
+	/** Will NOT create a new entry if doesn't exist */
+
+	get(loc)
+	{
+		return this.o[loc.tovstr()]
+	}	
+	static
+	{
+		this.prototype. g	=this.prototype. get
+	}
+
+
+	/** Returns deleted property */
+
+	del( loc, key ,cell )
+	{
+		const str	=loc.tovstr()
+
+		cell	??=this.o[str]
+
+		const prop	=cell[key]
+
+		delete cell[key]
+
+		var isvac	=true
+
+		for( key in cell )
+		{
+			isvac	=false
+
+			break
+		}
+		if( isvac )	delete this.o[str]
+
+		return prop
+	}
 
 
 
-Obj.prototype. newitem2cell	=function( loc ,item )
-{
-	this.s(loc).item	=item
-}
+	mov( fromloc, key ,toloc )
+	{
+		var cell	=this.g(fromloc)
+
+		this.s(toloc)[key]	=cell[key]
+
+		this.del( fromloc ,key )
+	}
+	static
+	{
+		this.prototype. mv	=this.prototype. mov
+	}
 
 
-Obj. setstack	=function( c ,stack )
-{
-	var arr	=c[key]
-
-	if( ! arr )	arr =c[key] =[]
-
-	arr[0]	=stack
-}
-
-Obj. getstack	=function( c ,key )
-{
-	return c[key][0]
-}
+	///////////////////////////////////////////////////////////////////////////////
 
 
-Obj.getcnts	=function( c ,key )
-{
-	return c[key][1]
-}
 
-Obj.getcnt	=function( c ,key ,id )
-{
-	return c[key][1][id]
+	newitem2cell( loc ,item )
+	{
+		this.s(loc).item	=item
+	}
+
+
+	/*static setstack( c ,stack )
+	{
+		var arr	=c[key]
+
+		if( ! arr )	arr =c[key] =[]
+
+		arr[0]	=stack
+	}
+
+	static getstack( c ,key )
+	{
+		return c[key][0]
+	}
+
+
+	static getcnts( c ,key )
+	{
+		return c[key][1]
+	}
+
+	static getcnt( c ,key ,id )
+	{
+		return c[key][1][id]
+	}*/
 }

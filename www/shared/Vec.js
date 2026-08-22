@@ -4,13 +4,16 @@ import newJable from "./newJsonable.js"
 
 export const sqr3	=Math.sqrt(3)
 
+/** 1/sqrt(3) */
 export const dsqr3	=1/sqr3
 
 export const sin60	=sqr3*0.5
 
+/** Secant of 60 degrees */
 export const sec60	=2*dsqr3
 
 
+/** x,y vector */
 
 export default class V	//extends newJable()
 {
@@ -20,6 +23,7 @@ export default class V	//extends newJable()
 
 	static rad60	=Math.PI/3
 
+	/** Delimiter for string representation */
 	static delim	='_'
 
 	static zero	=new V()	//bug, xy are set at the bottom
@@ -28,6 +32,9 @@ export default class V	//extends newJable()
 	x
 	y
 	
+
+	///////////////////////////////////////////////////////////////////////////
+
 
 
 	constructor( x =0, y =0 )
@@ -42,6 +49,23 @@ export default class V	//extends newJable()
 	}
 
 
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	static setj( arr )
+	{
+		return new this( ...arr )
+	}
+
+	static setstr( str )
+	{
+		const[ x ,y ]	=str.split(this.delim).map(Number)
+
+		return new this( x ,y )
+	}
+
+
 	setxy( x , y )
 	{
 		this.x	=x
@@ -51,10 +75,9 @@ export default class V	//extends newJable()
 	}
 
 
-	static setj( arr )
-	{
-		return new this( ...arr )
-	}
+	///////////////////////////////////////////////////////////////////////////
+
+
 
 	area()	{return this.x * this.y }
 
@@ -64,6 +87,10 @@ export default class V	//extends newJable()
 	{
 		return (v.x - this.x)**2 + (v.y - this.y)**2
 	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
 
 
 	toJSON()	{return[ this.x ,this.y ]}

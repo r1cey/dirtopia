@@ -1,4 +1,4 @@
-import JRev	from "../www/shared/JsonRevivr.js"
+import JRevSh	from "../www/shared/JsonRevivr.js"
 
 // import Pl from "./player/Player.js"
 // import Item from "../www/shared/items/Item.js"
@@ -6,9 +6,9 @@ import JRev	from "../www/shared/JsonRevivr.js"
 import itemTps from "./items/itemTypes.js"
 
 
+/** Adds item types to the JSON reviver */
 
-
-export default class extends JRev
+export default class Jrev extends JRevSh
 {
 	constructor()
 	{

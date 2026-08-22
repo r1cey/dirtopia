@@ -7,13 +7,14 @@ import Loc from "../../www/shared/Loc.js"
 import JRev from "../JsonRevivr.js"
 
 
-/** Adds method for reading map json file.
- * 
- * Server maps also sometimes have "spawns" object to tell where to
- * spawn new player. */
+/** Adds method for reading map json file and spawns array. */
 
 export default class Obj extends ShObj
 {
+	/** Server maps also sometimes have "spawns" array to tell where to
+ 	* spawn new player. */
+	spawns	=[]
+
 	/*constructor( ...args )
 	{
 		super( ...args )
@@ -21,7 +22,7 @@ export default class Obj extends ShObj
 
 
 	/** Look for Map.read
-	 * @return {{pls:{[plname:string]:Loc}}} */
+	 * @return {{pls:{[plname:string]:Vec}}} */
 
 	async read( path )
 	{
@@ -34,11 +35,11 @@ export default class Obj extends ShObj
 
 		const h	=map.getloc().h
 
-		const o	=await fs.readjson( path+'.json', ( key, val )=>
+		const o	=await fs.readjson( path+'.json' ,( key ,val )=>
 		{
 			if( val?.pl )
 			{
-				pllocs[ val.pl ]	=new Loc().setvstr( key ,h )
+				ret.pls[ val.pl ]	=new Loc().setvstr( key ,h )
 
 				return val
 			}
@@ -50,7 +51,7 @@ export default class Obj extends ShObj
 
 		this.o	=o
 
-		return pllocs
+		return ret
 	}
 
 
@@ -76,3 +77,12 @@ const jrev	=new JRev().add(
 	,
 	fromJSON :( arr )=> arr.map(( val )=> Loc.setj(val) )
 })
+
+/** Storing player locations as we encounter them.
+ * Player data is stored in separate files. */
+jrev.userd	=
+{
+	pls	:{}
+}
+
+jrev.oncheck.push( Obj.onjsonrevive )

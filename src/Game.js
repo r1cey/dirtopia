@@ -76,10 +76,53 @@ export default class Game	extends GameSh
 
 	///////////////////////////////////////////////////////////////////////////
 
+	
 
-	load()
+	async load( confpa )
 	{
-		
+		const g	=this
+
+		const{ maps ,pls }	=this
+
+		// var fs	=this.files
+
+		if( confpa )
+		{
+			try{
+				var conf	=await readjson( confpa )
+
+				if( conf.maps )
+				{
+					let conf	=conf.maps
+					
+					if( conf.dir )	maps.dir	=conf.dir
+
+					if( conf.size )	maps.size	=conf.size
+				}
+			}
+			catch(e)
+			{
+				console.error("Couldn't read conf file: "+confpa )
+			}
+		}
+		await Promise.all([ maps.start() ,pls.read() ])
+
+		const pllocs	=maps.jsonlocs.pl
+
+		pls.fore(( pl )=>
+			{
+				maps.setpl( pl )
+			}
+		)
+		for(var pln in pllocs )
+		{
+			const loc	=pllocs[pln]
+
+			const obj	=maps.loc2map(loc).obj
+			
+			if( ! obj.g(loc)?.pl?.ispl )	obj.del( loc ,"pl" )
+		}
+		maps.jsonlocs.pl	=null
 	}
 
 
@@ -105,49 +148,7 @@ export default class Game	extends GameSh
 
 Game.prototype. start	=async function( confpa )
 {
-	const g	=this
-
-	const{ maps ,pls }	=this
-
-	// var fs	=this.files
-
-	if( confpa )
-	{
-		try{
-			var conf	=await readjson( confpa )
-
-			if( conf.maps )
-			{
-				let conf	=conf.maps
-				
-				if( conf.dir )	maps.dir	=conf.dir
-
-				if( conf.size )	maps.size	=conf.size
-			}
-		}
-		catch(e)
-		{
-			console.error("Couldn't read conf file: "+confpa )
-		}
-	}
-	await Promise.all([ maps.start() ,pls.read() ])
-
-	const pllocs	=maps.jsonlocs.pl
-
-	pls.fore(( pl )=>
-		{
-			maps.setpl( pl )
-		}
-	)
-	for(var pln in pllocs )
-	{
-		const loc	=pllocs[pln]
-
-		const obj	=maps.loc2map(loc).obj
-		
-		if( ! obj.g(loc)?.pl?.ispl )	obj.del( loc ,"pl" )
-	}
-	maps.jsonlocs.pl	=null
+	
 
 	g.time.hour.int	=setInterval( g.hour.bind(g), 60*1000*60*1.5 )
 

@@ -57,10 +57,13 @@ export default( Base =Object )=>class Jable extends Base
 	}
 
 
+	/** Is called by JsonRevivr.
+	 * @arg {any} userd -User data that can be added for any custom behaviour.
+	 * 	It comes from JsonRevivr.userd . */
 
-	static fromJSON( msg ,key ,...args )
+	static fromJSON( msg ,key ,userd )
 	{
-		const inst	=new this( ...args )
+		const inst	=new this()
 
 		return inst.setj( msg )
 	}

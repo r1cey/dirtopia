@@ -13,6 +13,9 @@ import{ key as itemk }	from "./items/Item.js"
  * this class has the *template* system, where the first element of the array
  * is the correct key and the second is the value.
  * 
+ * In all cases, an interface doesn't have to be a Jable class, enough to have
+ * "key" property and "fromJSON" method.
+ * 
  * Look inside newJsonable.js for more info.
  * 
  * @borrows JR#addifacea as #adda 
@@ -22,6 +25,14 @@ import{ key as itemk }	from "./items/Item.js"
 
 export default class JR
 {
+	/** Array of methods which will be called for each reviver check.
+	 * Works a lot like even listeners. Maybe add methods to add and remove
+	 * later.
+	 * If any method returns a value,
+	 * that value will be used as the reviver result.
+	 * @type {((key :string ,val :any ,userd :any)=>any)[]} */
+	oncheck	=[]
+
 	/**
 	 * @type {{[key :string] :Jable}} */
 	ifaces	={}
@@ -31,6 +42,10 @@ export default class JR
 
 	/** Easy way to get bound reviver function for JSON.parse */
 	get fn()	{return this.revivr.bind(this) }
+
+	/** User data that can be added for any custom behaviour.
+	 * Usually for saving info while reviving a big object. */
+	userd
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -112,10 +127,12 @@ export default class JR
 
 	revivr( key, val, str )
 	{
-		/*const root	=this.root?.( key ,val ,str )
+		for(var oncheck of this.oncheck )
+		{
+			var res	=oncheck( key ,val ,this.userd )
 
-		if( root )	return root*/
-
+			if( res )	return res
+		}
 		if( this.tmpls.has(key) )
 		{
 			if( ! Array.isArray(val) )	return null
@@ -126,6 +143,6 @@ export default class JR
 		}
 		else	var iface	=this.ifaces[key]
 
-		return iface && val	? iface.fromJSON( val ,key )	: val
+		return iface && val	? iface.fromJSON( val ,key ,this.userd )	: val
 	}
 }

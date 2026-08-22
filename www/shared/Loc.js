@@ -15,6 +15,11 @@ export default class Loc extends newPatha( V )
 
 	static key	="loc"
 
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+
 	constructor( x =0, y =0, h =0 )
 	{
 		super( x, y )
@@ -23,7 +28,20 @@ export default class Loc extends newPatha( V )
 	}
 
 
+	///////////////////////////////////////////////////////////////////////////
+
+
 	get isloc()	{return true }
+
+
+	
+	///////////////////////////////////////////////////////////////////////////
+
+
+	static setvstr( str, h )
+	{
+		return new this( ...str.split(V.delim) ,h )
+	}
 
 
 
@@ -109,20 +127,6 @@ Loc.prototype. setxy	=function( x, y, l )
 	this.x	=x
 	this.y	=y
 	this.h	=l
-
-	return this
-}
-
-
-
-
-
-
-Loc.prototype. setvstr	=function( str, h )
-{
-	var a	=str.split(V.delim)
-
-	this.setxy( Number(a[0]), Number(a[1]), h)
 
 	return this
 }
