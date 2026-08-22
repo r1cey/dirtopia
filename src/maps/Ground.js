@@ -17,6 +17,9 @@ export default class G extends ShGr
 {
 	static name	='ground'
 
+	/** Where to spawn new player. */
+	spawns	=[]
+
  
 	constructor( game, trees )
 	{
