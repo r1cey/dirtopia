@@ -1,4 +1,4 @@
-import JRev	from "./shared/JsonRevivr.js"
+import JRev	from "./shared/newJsonRevivr.js"
 
 import Pl from "./player/Player.js"
 import Hands from "./player/Hands.js"

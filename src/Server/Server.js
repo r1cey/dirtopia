@@ -6,7 +6,8 @@ import { WebSocketServer, WebSocket } from "ws"
 import Cls from "./Clients.js"
 import out from './newServSend.js'
 
-import JRev from "../../www/shared/JsonRevivr.js"
+import newJRev from "../../www/shared/newJsonRevivr.js"
+import JRev	from "../JsonRevivr.js"
 
 
 
@@ -32,7 +33,7 @@ export default class Server
 
 	static out	=out //new ServSend()
 
-	static jrev	=new JRev()
+	static jrev	=new (newJRev(JRev))()
 
 
 	constructor( game, port )

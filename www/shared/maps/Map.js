@@ -10,9 +10,12 @@ import Loc from '../Loc.js'
 
 
 /** Hexagonally round version of Board.
+ * 
  * In derived classes, make sure every set..._i method
  * has a matching regular set... method. The reason is:
- * when _i is called on server, the client will be sent regulat method */
+ * when _i is called on server, the client will be sent regulat method.
+ * This needs to change. Can't rely on set_i methods to update clients.
+ * Update should happen through some other method. */
 
 export default class Map extends newBoard(newBinMap)
 {
@@ -22,9 +25,12 @@ export default class Map extends newBoard(newBinMap)
 
 	get _r()	{return this.bin.getr()}
 
-	bin2	//optional additional binmap for local calculations
+	/** Optional additional binmap for local calculations */
+	bin2
 
 
+	/** Allow derived classes to override this.
+	 * Used for obj creation in constructor. */
 	static Obj	=Obj
 
 	////
@@ -55,8 +61,10 @@ export default class Map extends newBoard(newBinMap)
 	{
 		return this.obj.g(loc)?.item
 	}
-
-	static{this.prototype. gitem	=this.prototype.getitem }
+	static
+	{
+		this.prototype. gitem	=this.prototype.getitem
+	}
 
 
 	// newcell( v )	{return new Cell( this ,v )}

@@ -6,53 +6,40 @@ import V from "../Vec.js"
 /** Is in charge of the upper level of game. Has branches, fruits,
  * everything that's above player */
 
-var bmap	=
-[
+const bmap	=
+{
+	floor	:
 	{
-		name	:"floor"
-		,
-		subd	:
-		[
+		ty	:
+		{
+			bits	:2
+			,
+			valsa	:["none", "trunk", "branch", "platform"]
+			,
+			_condsub:
 			{
-				name	:"ty"
-				,
-				bits	:2
-				,
-				valsa	:["none", "trunk", "branch", "platform"]
-			},
-			{
-				condsubd:
+				"branch"	:
 				{
-					"branch"	:
-					[
-						{
-							name	:"dir"
-							,
-							bits	:3
-						}
-					]
+					dir	:
+					{
+						bits	:3
+					}
 				}
 			}
-		]
+		}
 	},
+	leaves	:
 	{
-		name	:"leaves"
-		,
-		subd	:
-		[
-			{
-				name	:"low"
-				,
-				bits	:1
-			},
-			{
-				name	:"top"
-				,
-				bits	:1
-			}
-		]
+		low	:
+		{
+			bits	:1
+		},
+		top	:
+		{
+			bits	:1
+		}
 	}
-]
+}
 
 
 

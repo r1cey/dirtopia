@@ -1,4 +1,4 @@
-import Loc from "./Loc.js"
+import Loc from "../Loc.js"
 
 
 /** Holds and manages the associative array part of the maps and boards.
@@ -24,13 +24,16 @@ export default class Obj
 
 	///////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * @typedef {[ string ,Loc ]} ReadPlLoc
+	 * @prop {number} 0 -Player name key */
 
 	/** Since, player data is sometimes received separately, we have a system
 	 * that saves these player locations for future replacement.
-	 * Works when pl property just has the player's name.
-	 * In jsonrevivr, set userd.pls={}, and then add this method to oncheck.
-	 * pls will have { playerName: Loc } data. Don't forget to add proper h
-	 * values to Loc later since we don't know the height when reviving. */
+	 * Works when pl property just has the player's key name.
+	 * In jsonrevivr, set userd.pls=[] and add this method to oncheck.
+	 * pls will have [ playerName , Loc ] members.
+	 * Note that loc will not have h coordinate. Add height later. */
 
 	static onjsonrevive( key ,val ,userd )
 	{
@@ -38,8 +41,9 @@ export default class Obj
 
 		if( pl && typeof pl === "string" )
 		{
-			userd.pls[pl]	=Loc.setvstr( key ,null )
+			userd.pls.push([ pl ,Loc.setvstr( key ,null ) ])
 		}
+		return val
 	}
 
 

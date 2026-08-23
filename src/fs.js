@@ -2,6 +2,9 @@ import { dir } from 'console'
 import fs from 'fs/promises'
 
 
+/** Make dir if doesn't exist
+ * @return {boolean} false if error */
+
 export async function ensuredir( url )
 {
 	try

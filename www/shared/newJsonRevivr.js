@@ -16,26 +16,55 @@ import{ key as itemk }	from "./items/Item.js"
  * In all cases, an interface doesn't have to be a Jable class, enough to have
  * "key" property and "fromJSON" method.
  * 
- * Look inside newJsonable.js for more info.
- * 
+ * Look inside newJsonable.js for more info. */
+
+
+/** To save on memory and not have a number of interface duplicates around,
+ * Anton decided to put the ifaces in static and then add on top of it
+ * dynamically using Object.create()
+ * How does it work? For first derived class just call with Base undefined.
+ * Then consecutive derived classes call this function and give the
+ * previous derived class as Base.
+ * @arg {JRBase} [Base] -Previous derived class.
+ * @arg {...function} constr	-Constructor functions to add more interfaces
+ * 	and templates. Don't lock-in "this". */
+
+export default( Base =JRBase ,...constr )=>class JR extends Base
+{
+	static ifaces	=Object.create( super.ifaces )
+
+	constructor()
+	{
+		super()
+
+		for(var fun of constr ) fun.call( this )
+	}
+}
+
+
+/** 
  * @borrows JR#addifacea as #adda 
  * @borrows JR#addifaceo as #addo
  * @borrows JR#addtmplkey as #addtmpl
  * @borrows JR#addiface as #add */
 
-export default class JR
+class JRBase
 {
 	/** Array of methods which will be called for each reviver check.
 	 * Works a lot like even listeners. Maybe add methods to add and remove
 	 * later.
 	 * If any method returns a value,
 	 * that value will be used as the reviver result.
+	 * If null is returned, this whole property will be ignored and deleted
+	 * from the result.
+	 * Context of the method is the JsonRevivr instance.
 	 * @type {((key :string ,val :any ,userd :any)=>any)[]} */
 	oncheck	=[]
 
-	/**
+	/** This is defined as static to save on memory. In derived class
+	 * use: Object.create() to add to the object without creating new one.
 	 * @type {{[key :string] :Jable}} */
-	ifaces	={}
+	static ifaces	={}
 
 	/** @type {Set<string>} */
 	tmpls	=new Set()
@@ -110,7 +139,7 @@ export default class JR
 
 	addiface( iface )
 	{
-		this.ifaces[iface.key]	=iface
+		this.constructor.ifaces[iface.key]	=iface
 
 		return this
 	}
@@ -129,19 +158,23 @@ export default class JR
 	{
 		for(var oncheck of this.oncheck )
 		{
-			var res	=oncheck( key ,val ,this.userd )
+			var res	=oncheck.call( this ,key ,val ,this.userd )
 
 			if( res )	return res
+
+			else if( res === null )	return undefined
 		}
+		const ifaces	=this.constructor.ifaces
+
 		if( this.tmpls.has(key) )
 		{
 			if( ! Array.isArray(val) )	return null
 
-			var iface	=this.ifaces[val[0]]
+			var iface	=ifaces[val[0]]
 
 			val	=val[1]
 		}
-		else	var iface	=this.ifaces[key]
+		else	var iface	=ifaces[key]
 
 		return iface && val	? iface.fromJSON( val ,key ,this.userd )	: val
 	}

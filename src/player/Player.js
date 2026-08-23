@@ -11,11 +11,10 @@ import * as fs	from '../fs.js'
 
 // import items from '../itemTypes.js'
 import JRev from "../JsonRevivr.js"
+import newJRev from "../../www/shared/newJsonRevivr.js"
 
 
-// var jsontr	=newjsontrans()
-
-
+/** Scratch loc vectors */
 const scrloc	=new Loc()
 const scrl2	=new Loc()
 
@@ -63,11 +62,6 @@ export default class Player extends PlBase
 {	
 	static Hands	=Hands
 	
-	static jrev	=new JRev().add(
-		{
-			key :"cl" , fromJSON :()=> null
-		}
-	)
 	/*static
 	{
 		this.dupacts()
@@ -127,12 +121,16 @@ export default class Player extends PlBase
 	///////////////////////////////////////////////////////////////////////////
 
 
+	/** Just reads and revives json.
+	 * @arg {string} name - Player name key
+	 * @return {Player|false} */
+
 	static async read( dir ,name ,pls )
 	{
 		const pa	=dir+name+'.json'
 	
-		const plo	=await fs.readjson( pa, this.jrev.fn )
-					
+		const plo	=await fs.readjson( pa, jrev.fn )
+
 		if( ! plo )
 		{
 			console.error( "Error reading player: "+name )
@@ -375,3 +373,12 @@ Player. fromJSON	=function( val )
 		default:	return val
 	}
 }*/
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+/** @todo Check what's the story with cl */
+const jrev	=new (newJRev(JRev ,function(){ this.add(
+	{
+		key :"cl" , fromJSON :()=> null
+	})}))()

@@ -30,3 +30,10 @@
 3. mature
 4. old
 5. dead 
+
+
+# What to do when loading players
+
+Anton wants to keep player files even if somehow they were deleted
+from the map data. The question is whether to put them on map automatically
+or wait for player to log in? Waiting to login feels the best.

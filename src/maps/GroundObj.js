@@ -7,10 +7,30 @@ import Loc from "../Loc.js"
 
 export default class GroundObj extends Obj
 {
-	static
+	constructor( ...args )
 	{
-		this.jrev.add({	key :"spawns" ,
+		super( ...args )
 
-			fromJSON :( arr )=> arr.map(( val )=> Loc.setj(val) )})
+		const spawns	=this.jrev.userd.spawns	=[]
+
+		this.jrev.add(
+		{
+			key :"spawns"
+			,
+			fromJSON :( arr )=>
+			{
+				for(var loca of arr ) spawns.push(Loc.setj(loca) )
+
+				return
+			}
+		})
 	}
+
+
+	/** @return {{pls:{[plname:string]:Vec}, spawns:Loc[]}} *
+
+	async read( path  )
+	{
+		return super.read( path )
+	}*/
 }

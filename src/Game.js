@@ -76,7 +76,17 @@ export default class Game	extends GameSh
 
 	///////////////////////////////////////////////////////////////////////////
 
-	
+
+	/** Throws errors */
+
+	async init()
+	{
+		await Promise.all([ this.maps.init() ,this.pls.init() ])
+	}
+
+
+	/** Load maps and players properly.
+	 * Exits if maps didn't load. */
 
 	async load( confpa )
 	{
@@ -105,24 +115,15 @@ export default class Game	extends GameSh
 				console.error("Couldn't read conf file: "+confpa )
 			}
 		}
-		await Promise.all([ maps.start() ,pls.read() ])
+		const pllocs	=await maps.load()
 
-		const pllocs	=maps.jsonlocs.pl
+		if( ! maps.isready() )	return
 
-		pls.fore(( pl )=>
-			{
-				maps.setpl( pl )
-			}
-		)
-		for(var pln in pllocs )
-		{
-			const loc	=pllocs[pln]
+		const failedplload	=await pls.load( pllocs )
 
-			const obj	=maps.loc2map(loc).obj
-			
-			if( ! obj.g(loc)?.pl?.ispl )	obj.del( loc ,"pl" )
-		}
-		maps.jsonlocs.pl	=null
+		for(const entry of failedplload )	maps.delpl( entry[1] ,entry[0] )
+
+		pls.fore(( pl )=>	maps.setpl( pl ))
 	}
 
 

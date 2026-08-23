@@ -32,26 +32,38 @@ export default class Ms extends shMaps
 	///////////////////////////////////////////////////////////////////////////
 
 
-	/** Returns obj with correct player locations.
-	 * { [plname] :loc } */
+	/** Call if you're not sure if the correct folders are made.
+	 * Throws error. */
+
+	async init()
+	{
+		if( ! await ensuredir( this.conf.dir ))
+		{
+			throw new Error( `Could not make map dir: ${this.conf.dir}` )
+		}
+	}
+
+
+	/** If somehow canopy data was lost but ground exists, for now
+	 * it's possible to generate canopy automatically from ground.
+	 * @return {ReadPlLoc[]|undefined} -array with player locations if
+	 * 	they exist. */
 
 	async load()
 	{
 		const dir	=this.conf.dir
 
-		if( ! (await ensuredir(dir) /*&& await this.game.pls.init()*/ ))
-		{
-			return false
-		}
-		const pllocs	=await Promise.all(
+		const loadres	=await Promise.all(
 			[
-				this.gr.read( this.conf.dir )
+				this.gr.load( dir )
 				,
-				this.trees.read( this.conf.dir )
+				this.trees.load( dir )
 			])
 		if( ! this.gr.bin )
 		{
-			// console.log( `Ground files were not found` )
+			console.warn( `Ground files were not found` )
+
+			return
 		}
 		else if( ! this.trees.bin )
 		{
@@ -61,25 +73,9 @@ export default class Ms extends shMaps
 
 			this.trees.save(this.conf.dir)
 		}
-		const errorlocs	=Ms.mergepllocs( pllocs )
-
-		const errormaps	=new Set()
-
-		for(const[ pln ,plloc ] of errorlocs )
-		{
-			const map	=this.loc2map( plloc )
-
-			errormaps.add( map )
-
-			map.obj.del( plloc ,"pl" )
-		}
-		for(const map of errormaps )
-		{
-			map.save( this.conf.dir )
-		}
-		Object.assign( this.jsonlocs.pl ,pllocs[0] )
+		const pllocs	=loadres.filter(Boolean).flatMap(( lr )=> lr.pls )
 		
-		// return pllocs[0]
+		return pllocs
 	}
 
 
@@ -133,32 +129,6 @@ export default class Ms extends shMaps
 
 	///////////////////////////////////////////////////////////////////////////////
 
-
-	/** @arg [] pllocs
-	 * Merges locs into first array member. Returns errorlocs if conflicts happen. */
-
-	static mergepllocs( pllocs )
-	{
-		const errlocs	=[]
-
-		const root	=pllocs[0]
-
-		for(var i= 1 ;i< pllocs.length ;i++)
-		{
-			for( pln in pllocs[i] )
-			{
-				if( root[pln] )
-				{
-					errlocs.push([ pln ,pllocs[i][pln] ])
-				}
-				else
-				{
-					root[pln]	=pllocs[i][pln]
-				}
-			}
-		}
-		return errlocs
-	}
 
 	
 	///////////////////////////////////////////////////////////////////////////

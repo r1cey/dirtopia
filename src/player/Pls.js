@@ -36,6 +36,72 @@ export default class Pls	extends ShPls
 	//////////////////////////////////////////////////////////////
 
 
+	/** Build pls dir if doesn't exist.
+	 * Throws error. */
+
+	async init()
+	{
+		if( ! await fs.ensuredir( this.conf.dir ))
+		{
+			throw new Error( `Could not make pls dir: ${this.conf.dir}` )
+		}
+	}
+
+
+	/**
+	 * @arg {ReadPlLoc[]|undefined} pllocs -array of players and
+	 * 	their locations to load.
+	 * Players which couldn't be read are deleted from Maps.
+	 * @return {ReadPlLoc[]} -array of players and their locations
+	 * 	which couldn't be read. */
+
+	async load( pllocs )
+	{
+		if( ! pllocs )	return
+
+		const proms	=[]
+
+		// const files	=await fs.readdir( this.conf.dir )
+
+		for(var plval of pllocs )
+		{
+			proms.push( this.readpl( plval[0] ))
+		}
+		const pls	=await Promise.all( proms )
+
+		const failed	=[]
+
+		const maps	=this.gmaps()
+
+		for(var i =0;i< pllocs.length ;i++)
+		{
+			const[ plk ,loc ]	=pllocs[i]
+
+			const pl	=pls[i]
+
+			if( ! pl )
+			{
+				console.error( "Couldn't read player: "+plk )
+
+				failed.push( pllocs[i] )
+
+				continue
+			}
+			pl.loc.set( loc )
+
+			this.s( pl )
+		}
+		return failed
+	}
+
+
+
+	async readpl( name )
+	{
+		return this.constructor.Player.read( this.conf.dir ,name ,this )
+	}
+
+
 	/** As usual, updates both itself and maps.
 	 * Gets starting location from map.
 	 * Adds inventory items and map tools.
@@ -73,78 +139,6 @@ export default class Pls	extends ShPls
 		
 		return pl
 	}
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-Pls.prototype. init	=async function()
-{
-	if( ! fs.ensuredir( this.conf.dir ))
-	{
-		return false
-	}
-	return true
-}
-
-
-/**@returns Array of player names which couldn't be read. */
-
-Pls.prototype. read	=async function( /*pllocs*/ )
-{
-	const proms	=[]
-
-	const files	=await fs.readdir( this.conf.dir )
-
-	for(var fn of files )
-	{
-		if( ! fn.endsWith(".json") )
-		{
-			continue
-		}
-		proms.push( this.readpl( fn.slice( 0 ,-5 )))
-	}
-	const pls	=await Promise.all( proms )
-
-	for(var pl of pls )
-	{
-		this.s( pl )
-	}
-}
-	/*const failpls	=[]
-
-	for(const pln in pllocs )
-	{
-		const loc	=pllocs[pln]
-
-		proms.push((async()=>
-		{
-			const pl	=await this.readpl( pln )
-
-			if( ! pl )
-			{
-				failpls.push( pln )
-			}
-			else
-			{
-				pl.loc.set( loc )
-
-				this.s(pl)
-			}
-		})())
-	}
-	await Promise.all(proms)
-
-	return failpls
-}*/
-
-
-/** Just reads and revives json */
-
-Pls.prototype. readpl	=async function( name )
-{
-	return await this.constructor.Player.read( this.conf.dir ,name ,this )
 }
 
 

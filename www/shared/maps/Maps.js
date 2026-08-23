@@ -49,32 +49,15 @@ export default class Maps	extends newPatha()
 	}
 
 
+	/** Make sure the pl.loc is set properly. */
 
 	setpl( pl )
 	{
-		var loc	=this.jsonlocs.pl?.[pl.name]
-
-		if( loc )	pl.loc.set( loc )
-
-		else loc	=pl.loc
+		const loc	=pl.loc
 
 		const map	=this.loc2map( loc )
 
-		var cell	=map.obj.g(loc)
-
-		const ismatch	=cell?.pl === pl.name
-
-		if( ! ismatch )
-		{
-			loc	=map.getloc4pl( pl.loc ,pl )
-
-			cell	=map.obj.s(loc)
-
-			pl.loc.set(loc)
-		}
-		cell.pl	=pl
-
-		return ismatch
+		map.obj.set( loc ).pl	=pl
 	}
 
 
@@ -187,12 +170,19 @@ Maps.prototype. delitem	=function( loc ,item ,len )
 
 
 
-Maps.prototype. delpls	=function( pls )
+Maps.prototype. delpl	=function( loc ,plk )
 {
-	for(var[ pln ,plloc ] of pls )
+	const map	=this.loc2map(loc)
+
+	const cello	=map.obj.g(loc)
+
+	if( ! ( cello?.pl?.name === plk ))
 	{
-		delete this.loc2map(plloc).g(plloc).pl
+		console.warn( "Maps.delpl:", plk, loc )
+
+		return
 	}
+	delete cello.pl
 }
 
 

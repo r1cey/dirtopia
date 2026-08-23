@@ -19,69 +19,78 @@ import newBinMShift	from "../../www/shared/maps/newBinMapShift.js"
 
 export default class Map extends ShMap
 {
-	/** define in derived class
-	@static
-	@var name */
+	/** Used when saving and reading map files.
+	 * Define in derived classes.
+	@static	@var name */
 
 	static Obj	=Obj
+
 
 
 	/*constructor( maps )
 	{
 		super( maps ,Obj )
 	}*/
-}
 
 
-/** When saved, some object data is saved separately from map obj data.
- * We need to make and return a list of these objects so we don't need
- * to look for them again later.
- * Please note how the location is saved in Vec(x,y) format, without h.
- * @return {{pls:{[plname:string]:Vec}}} */
+	/** When saved, some object data is saved separately from map obj data.
+	 * We need to make and return a list of these objects so we don't need
+	 * to look for them again later.
+	 * Also note that because map location is stored in binary data,
+	 * we need to add the height to locations read from obj data.
+	 * Returns nothing if binary data was not loaded.
+	 * @return {{pls:ReadPlLoc[]}|undefined} */
 
-Map.prototype. read	=async function( dir ="" )
-{
-	var pa	=dir + this.constructor.name
-
-	var buf	=await fs.readbuf( pa+".bin")
-
-	if( buf )
+	async load( dir ="" )
 	{
-		console.log('Has read bin map: '+this.constructor.name )
+		const pa	=dir + this.constructor.name
 
-		this.setbuf( buf )
+		const[ buf ,objres ]	=await Promise.allSettled([
+			
+			fs.readbuf( pa+".bin" ), this.obj.read( pa )])
 
-		return await this.obj.read( pa )
-	}
-	// return buf
-}
-
-
-
-Map.prototype. save	=async function( dir ="")
-{
-	var pa	=dir+this.constructor.name
-
-	var buf	=this.bin.getbuf()
-
-	var proms	=[]
-
-	if( buf )	proms[0]	=fs.savebuf( pa+'.bin', buf )
-
-	proms[1]	=fs.savejson( pa+'.json' , this.obj.o ,( key, val )=>
+		if( buf )
 		{
-			switch( key )
+			console.log('Has read bin map: '+this.constructor.name )
+
+			this.setbuf( buf )
+
+			const loc	=this.getloc()
+
+			for(let plval of objres.pls )
 			{
-				case 'pl' :
-
-					return val.name
+				plval[1].h	=loc.h
 			}
-			return val
-		})
+			return objres
+		}
+	}
 
-	return await Promise.allSettled( proms )
+
+
+	async save( dir ="")
+	{
+		var pa	=dir+this.constructor.name
+
+		var buf	=this.bin.getbuf()
+
+		var proms	=[]
+
+		if( buf )	proms[0]	=fs.savebuf( pa+'.bin', buf )
+
+		proms[1]	=fs.savejson( pa+'.json' , this.obj.o ,( key, val )=>
+			{
+				switch( key )
+				{
+					case 'pl' :
+
+						return val.name
+				}
+				return val
+			})
+
+		return await Promise.allSettled( proms )
+	}
 }
-
 
 ///////////////////////////////////////////////////////////////////////////
 

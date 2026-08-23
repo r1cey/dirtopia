@@ -4,6 +4,7 @@ import * as fs	from '../fs.js'
 
 import Loc from "../../www/shared/Loc.js"
 // import items from "../itemTypes.js"
+import newJRev from "../../www/shared/newJsonRevivr.js"
 import JRev from "../JsonRevivr.js"
 
 
@@ -11,57 +12,40 @@ import JRev from "../JsonRevivr.js"
 
 export default class Obj extends ShObj
 {
-	static jrev	=new JRev()
+	jrev	=new (newJRev(JRev))()
 
-	static
+
+
+	constructor( ...args )
 	{
+		super( ...args )
+
 		/** Storing player locations as we encounter them.
-		 * Player data is stored in separate files. */
+		 * Because Player data is stored in separate files. */
 		this.jrev.userd	=
 		{
-			pls	:{}
+			pls	:[]
 		}
-		this.jrev.oncheck.push( this.onjsonrevive )
+		this.jrev.oncheck.push( this.constructor.onjsonrevive )
 	}
 
 
-
-	/*constructor( ...args )
-	{
-		super( ...args )
-	}*/
-
-
-	/** Look for Map.read
-	 * @return {{pls:{[plname:string]:Vec}}} */
+	/** Look for more info at Map.read
+	 * @return jrev.userd object if read properly */
 
 	async read( path  )
 	{
 		const{ map }	=this
 
-		const ret	=
-		{
-			pls	:{}
-		}
-		const h	=map.getloc().h
+		const o	=await fs.readjson( path+'.json' , this.jrev.fn )
 
-		const o	=await fs.readjson( path+'.json' ,( key ,val )=>
-		{
-			if( val?.pl )
-			{
-				ret.pls[ val.pl ]	=new Loc().setvstr( key ,h )
-
-				return val
-			}
-			else	return jrev.revivr( key, val )
-		} )
 		if( ! o )	return
 
 		console.log( `Have read map obj file: ${this.map.constructor.name}`)
 
 		this.o	=o
 
-		return ret
+		return this.jrev.userd
 	}
 
 
@@ -76,6 +60,3 @@ export default class Obj extends ShObj
 		this.map.game
 	}
 }
-
-///////////////////////////////////////////////////////////////////////////////
-

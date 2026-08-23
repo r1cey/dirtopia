@@ -17,7 +17,7 @@ import vegdefs from './plants/defs.js'
  * With high level of worms increasing soil structure.
  * Fungi eating hard plants and bacteria softer matter. */
 
-var bmap	=
+const bmap	=
 {
 	ty	:
 	{
