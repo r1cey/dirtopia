@@ -1,3 +1,5 @@
+import{ calc_bmap_typarrs }from "./newBin.js"
+
 import Map from './Map.js'
 
 import V from "../Vec.js"
@@ -41,11 +43,13 @@ const bmap	=
 	}
 }
 
+const typarrszs	=calc_bmap_typarrs( bmap )
+
 
 
 export default( Base )=>class Tr extends Base
 {
-	static Bin	=Base.newBin( 2, bmap )
+	static Bin	=Base.newBin( 2, bmap, typarrszs )
 
 
 	///////////////////////////////////////////////////////////////////////////////

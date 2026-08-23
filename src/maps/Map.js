@@ -45,7 +45,7 @@ export default class Map extends ShMap
 	{
 		const pa	=dir + this.constructor.name
 
-		const[ buf ,objres ]	=await Promise.allSettled([
+		const[ buf ,objres ]	=await Promise.all([
 			
 			fs.readbuf( pa+".bin" ), this.obj.read( pa )])
 

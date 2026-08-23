@@ -3,12 +3,15 @@ import newBinSh	from "./newBin.js"
 
 /** 
  * @arg id	-Is sent to newBin
- * @arg {BmapVal[]}	bmapa	-Is sent to newBin
- * @todo Which newBin can be sent??
+ * @arg {bmap}	bmap	-Is sent to newBin
+ * @arg {bitlen[]} typarrszs	-Is sent to newBin
+ * @arg {class} [newBin]	-Which newBin to use. Default is newBinShift.
  * @return {class}	-Proper round Bin which means it can have proper
  * 	Loc-to-index conversion. */
 
-export default( id, bmapa, newBin =newBinSh )=>class BinMap extends newBin( id ,bmapa )
+export default( id, bmap, typarrszs, newBin =newBinSh )=>
+	
+	class BinMap extends newBin( id ,bmap, typarrszs )
 {
 	static code	=1
 

@@ -2,7 +2,7 @@ import Loc	from "../Loc.js"
 
 
 /** This file is the root of working with maps.
- * Each map has binary data and a map of objects.
+ * Each map has binary data and a JS object.
  * Specifically this file deals with binary data.
  * There are two kinds of binary maps: round and just an array.
  * By round we mean hex shaped map wth a radius.
@@ -16,7 +16,9 @@ import Loc	from "../Loc.js"
  * 		to manage that. Typed arrays can be of different size to save on space.
  * * Inside of bmap, there can be entire chains of values dependant on the
  * 		value of a certain property. These chains are called conditional
- * 		subdivisions and they create a lot of complexity in bmap management. */
+ * 		subdivisions and they create a lot of complexity in bmap management.
+ *  * To use this system use calc_bmap_typarrs function. And then give the data
+ * 		when building Bin class. */
 
 
 
@@ -61,18 +63,21 @@ import Loc	from "../Loc.js"
 
 /** 
  * @arg {number} id	-How binary data inside is mapped to cells and their props.
- * @arg {object<valkey :string ,BmapVal} bmapdef	-Usermade bit map. Look above.
+ * @arg {bmap} bmap	-Fully calculated bit-map object.
+ * @arg {bitlen[]} typarrszs	-Array of bit lengths for each Typed Array.
  * @arg {HeaderVal[]} [structadd]	-Additional header values to add to the
- * 	default ones.
+ * 	default ones. For example, Map Shifts have "dir" value added to the header.
  * @return {Bin}	-Unique class for this bitmap. */
 
-export default( id, bmapdef, structadd )=>class Bin	extends BinBase
+export default( id, bmap, typarrszs, structadd )=>class Bin	extends BinBase
 {
 	static id	=id
 
 	static
 	{
-		if( bmapdef )	this.setbmap( bmapdef )
+		if( bmap )	this.bmap	=bmap
+
+		if( typarrszs )	this.typarrszs	=typarrszs
 
 		if( structadd )	this._structarr	=BinBase._structarr.concat( structadd )
 
@@ -148,18 +153,6 @@ class BinBase
 
 
 	///////////////////////////////////////////////////////////////////////////
-
-
-	/** Also sets bmapbins. */
-
-	static setbmap( bmapdef )
-	{
-		const layers	=build_binlayers( bmapdef )
-
-		this.typarrszs	=layers[0].map(( bin )=>bin.size )
-		
-		this.bmap	=bins2bmap( layers, bmapdef )
-	}
 
 
 
@@ -482,6 +475,24 @@ class BinBase
 ///////////////////////////////////////////////////////////////////////////////
 
 
+/** There's no need to return bitmap since we reuse the bmapdef object.
+ * @return {bitlen[]} -Array of bit lengths for each Typed Array */
+
+export function calc_bmap_typarrs( bmapdef )
+{
+	const layers	=build_binlayers( bmapdef )
+
+	const typarrszs	=layers[0].map(( bin )=>bin.size )
+	
+	bins2bmap( layers, bmapdef )
+
+	return typarrszs
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
 /** Complicated function. First we build bins at the maximum size.
  * Then we check if the last bin in the largest layer can be split into smaller
  * bins. If it can, we split it and then check if the other layers can be split
@@ -670,7 +681,7 @@ function dupbin( bin )
 		,
 		vals	:bin.vals.slice()
 		,
-		bitsused	:bin.bitsused
+		bits	:bin.bits
 	}
 }
 

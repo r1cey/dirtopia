@@ -33,7 +33,7 @@ export async function readjson	( url, reviver )
 	}
 	catch(err)
 	{
-		console.error("Couldn't read JSON: "+url, err)
+		console.error("Couldn't read JSON: "+url )
 	}
 	return o
 }

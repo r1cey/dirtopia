@@ -1,4 +1,4 @@
-import Bin from "./newBin.js"
+import{ calc_bmap_typarrs } from "./newBin.js"
 import Board from "./newBoard.js"
 import Map from './Map.js'
 
@@ -106,6 +106,8 @@ const bmap	=
 	}
 }
 
+const typarrszs	=calc_bmap_typarrs( bmap )
+
 
 /** Base class for Ground Map. Depending if it extends Map or Board it'll
  * be able to use Locations or not.
@@ -120,7 +122,7 @@ export default( Base )=>class Ground extends Base
 	get isgr()	{return this }
 	
 
-	static Bin	=Base.newBin( 1, bmap )
+	static Bin	=Base.newBin( 1, bmap ,typarrszs )
 
 	static bmap	=this.Bin.bmap
 

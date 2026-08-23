@@ -1,9 +1,9 @@
 import newBin	from "./newBin.js"
 
 
-export default function( id, bmap )
+export default function( id, bmap ,typarrszs )
 {
-	var Bin	=newBin( id, bmap, [["dir",8]] )
+	var Bin	=newBin( id, bmap, typarrszs ,[["dir",8]] )
 
 	/**Everytime player moves, new revealed cells are sent to him.
 	 * This class represents the binary data sent.
