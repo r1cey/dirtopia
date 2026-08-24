@@ -28,8 +28,8 @@ import Loc	from "../Loc.js"
 @typedef {object}	CoreBmapFld
 @prop {string}	[k]	-Key name of the value. Can be created automatically
 	from the property key which holds this object.
-@prop {BmapFld}	[dad]	-Parent field. Used in reverse checking of conditional
-	fields. Notice how it MUST be a field and not just a collection.
+@prop {BmapFld|Bmap}	[dad]	-Parent object. Used in reverse checking of conditional
+	fields.
 @prop {number}	bits	-Bit length of this value.
 @prop {string[]}	[valsa]	-Ordered array of named values.
 @prop {{[condkey :string] :{[valkey :string] :BmapFld}}}	[_condsub]	-
@@ -52,8 +52,16 @@ import Loc	from "../Loc.js"
  * @typedef {CoreBmapFld & {[condkey :string] :BmapFld}}	BmapFld */
 
 
+/** We need this to be able to reverse check conditional fields.
+ * These properties must be non-enumerable so they don't get used
+ * when building the typarr bins.
+@typedef {object}	BmapCore
+@prop {string}	k	-Key name of the property.
+@prop {BmapFld|Bmap}	dad	-Parent object. */
+
+
 /** The object which holds BmapFields (can also hold other Bmap objects)
-@typedef {{[fldkey :string] :BmapFld|Bmap}}	Bmap */
+@typedef {BmapCore & {[key :string] :BmapFld|Bmap}}	Bmap */
 
 
 
@@ -615,10 +623,9 @@ function bins2bmap( bmapbins ,bmap )
  * optmized.
  * Recursive. First bins set is empty
  * @arg {Bmap} bmapdef
- * @arg {TABin[]} [bins =[]]
- * @arg {BmapFld} [dad =null] */
+ * @arg {TABin[]} [bins =[]] */
 
-function build_bigbinlayers( bmapdef ,bins =[] ,dad =null )
+function build_bigbinlayers( bmapdef ,bins =[] )
 {
 	const layers	=[]
 
@@ -627,7 +634,7 @@ function build_bigbinlayers( bmapdef ,bins =[] ,dad =null )
 
 	const condbmaps	=[]
 
-	breakdown_bmapdef( bmapdef, setfields, condbmaps ,dad )
+	breakdown_bmapdef( bmapdef, setfields, condbmaps )
 
 	if( ! fit_in_bins( bins ,setfields ,32 ))
 	{
@@ -639,13 +646,13 @@ function build_bigbinlayers( bmapdef ,bins =[] ,dad =null )
 	}
 	if( condbmaps.length )
 	{
-		for(const[ bmap ,conddad ]of condbmaps )
+		for(const condbmap of condbmaps )
 		{
 			// Duplicate the bins so we don't overwrite the original ones.
 
 			const binsdup	=bins.map(( bin )=>dupbin( bin ))
 
-			layers.push( ...build_bigbinlayers( bmap ,binsdup ,conddad ))
+			layers.push( ...build_bigbinlayers( condbmap ,binsdup ))
 		}
 	}
 	else	layers.push( bins )
@@ -659,13 +666,9 @@ function build_bigbinlayers( bmapdef ,bins =[] ,dad =null )
 
 /** Bmapdef gets fixed with properly and fully defined {BmapField} objects.
  * Also every {Bmap} gets a dad.
- * @arg {Bmap} bmapdef
- * @arg {BmapFld[]} setfields	-Array of fields which are set and not conditioned
- * @arg {[Bmap,BmapFld][]} condbmaps	-Array of conditional maps and their
- * 	parent fields
  * @arg {BmapFld} dad */
 
-function breakdown_bmapdef( bmapdef, setfields, condbmaps ,dad )
+function breakdown_bmapdef( bmapdef, setfields, condbmaps )
 {
 	for(var k in bmapdef )
 	{
@@ -677,7 +680,7 @@ function breakdown_bmapdef( bmapdef, setfields, condbmaps ,dad )
 			{
 				k	:{ value :k ,writable :false ,enumerable :true }
 				,
-				dad	:{ value :dad ,enumerable :true }
+				dad	:{ value :bmapdef ,enumerable :true }
 				,
 				valso	:{ value :build_valslookup( prop.valsa )}
 				,
@@ -695,7 +698,15 @@ function breakdown_bmapdef( bmapdef, setfields, condbmaps ,dad )
 				{
 					if( field[valkey] )
 					{
-						condbmaps.push([ field[valkey] , field ])
+						const condbmap	=Object.create( field[valkey] ,
+						{
+							k	:{ value :valkey }
+							,
+							dad	:{ value :field }
+						})
+						field[valkey]	=condbmap
+
+						condbmaps.push( condbmap )
 					}
 				}
 			}
@@ -703,7 +714,15 @@ function breakdown_bmapdef( bmapdef, setfields, condbmaps ,dad )
 		// Then a collection of values.
 		else
 		{
-			breakdown_bmapdef( prop, setfields, condbmaps )
+			const bmap	=Object.create( prop ,
+			{
+				k	:{ value :k }
+				,
+				dad	:{ value :bmapdef }
+			})
+			bmapdef[k]	=bmap
+
+			breakdown_bmapdef( bmap, setfields, condbmaps )
 		}
 	}
 }
