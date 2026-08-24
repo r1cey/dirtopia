@@ -25,71 +25,65 @@ const bmap	=
 		,
 		valsa	:["other", "rock", "soil", "water"]
 		,
-		_condsub	:
+		soil	:
 		{
-			soil	:
+			hum	:{ bits	:4 }
+			,
+			ph	:{ bits	:2 }
+			,
+			textur	:{ bits	:2 }
+			,
+			struct	:{ bits	:2 }
+			,
+			fungi	:{ bits	:2 }
+			,
+			bacter	:{ bits	:2 }
+			,
+			smallorg	:{ bits	:2 }
+			,
+			worms	:{ bits	:2 }
+			,
+			plfl	:
 			{
-				hum	:{ bits	:4 }
+				bits	:1
 				,
-				ph	:{ bits	:2 }
+				valsa	:[ "veg" ,"floor" ]
 				,
-				textur	:{ bits	:2 }
-				,
-				struct	:{ bits	:2 }
-				,
-				fungi	:{ bits	:2 }
-				,
-				bacter	:{ bits	:2 }
-				,
-				smallorg	:{ bits	:2 }
-				,
-				worms	:{ bits	:2 }
-				,
-				plfl	:
+				veg	:
 				{
-					bits	:1
-					,
-					valsa	:[ "veg" ,"floor" ]
-					,
-					_condsub	:
+					ty	:
 					{
-						veg	:
-						{
-							ty	:
-							{
-								bits	:7
-								,		
-								valsa	:
-								[
-									"none" ,"umbrtr" ,"sandpedro" , ,"apple" ,
+						bits	:7
+						,		
+						valsa	:
+						[
+							"none" ,"umbrtr" ,"sandpedro" , ,"apple" ,
 
-									"cucumber"
-								]
-							},
-							time	:{ bits	:12	}
-						},
-						floor	:
-						{
-							floor	:{ bits	:6 }
-							,
-							compost	:
-							{
-								unknown	:{ bits	:13 }
-							}
-						}
-					}
+							"cucumber"
+						]
+					},
+					time	:{ bits	:12	}
 				},
-				walls	:
+				floor	:
 				{
-					dir	:{ bits	:2 }
+					floor	:{ bits	:6 }
 					,
-					col	:{ bits	:3 }
+					compost	:
+					{
+						unknown	:{ bits	:13 }
+					}
 				}
 			},
-			water	:
+			walls	:
 			{
-				depth	:{ bits	:3 }
+				dir	:{ bits	:2 }
+				,
+				col	:{ bits	:3 }
 			}
+		},
+		water	:
+		{
+			depth	:{ bits	:3 }
 		}
 	},
 	chem	:
@@ -180,11 +174,11 @@ export default( Base )=>class Ground extends Base
 	}
 
 
-	setsoil_i( ic, lvl )
+	setsoil_i( ic, hum =0 )
 	{
-		this.setwsr_i( ic, "soil" )
+		this.settype_i( ic, "soil" )
 
-		this.setsoilhum_i( ic, lvl )
+		this.setsoilhum_i( ic, hum )
 	}
 
 
@@ -205,7 +199,7 @@ export default( Base )=>class Ground extends Base
 
 	isveg_i( ic )
 	{
-		const wsr	=this.getwsr_i( ic )
+		const wsr	=this.gettype_i( ic )
 
 		return ( wsr === "soil" || wsr === "water" )&&
 		
@@ -236,23 +230,23 @@ export default( Base )=>class Ground extends Base
 	///////////////////////////////////////////////////////////////////////////
 
 	
-	getwsr_i( ic )
+	gettype_i( ic )
 	{
-		return this.bin.getval_str( ic, Ground.Bin.bmap.wsr.ty )
+		return this.bin.getval_str( ic, bmap.ty )
 	}
-	setwsr_i( ic, str )
+	settype_i( ic, str )
 	{
-		this.bin.setval_str( ic, Ground.Bin.bmap.wsr.ty, str )
+		this.bin.setval_str( ic, bmap.ty, str )
 	}
 
 	
 	getsoilhum_i(ic)
 	{
-		return this.bin.getval( ic, Ground.Bin.bmap.wsr.lvl )
+		return this.bin.tryval( ic, bmap.ty.soil.hum )
 	}
 	setsoilhum_i(ic, lvl )
 	{
-		this.bin.setval( ic, Ground.Bin.bmap.wsr.lvl, lvl )
+		this.bin.setval( ic, bmap.ty.soil.hum, lvl )
 	}
 
 

@@ -101,7 +101,7 @@ export default( Map )=>class GroundMap extends newGround(Map)
 
 	canaddblock( dest )
 	{
-		switch( this.getwsr(dest) )
+		switch( this.gettype(dest) )
 		{
 			case "water" :
 			
@@ -138,7 +138,7 @@ export default( Map )=>class GroundMap extends newGround(Map)
 		{
 			return 0
 		}
-		switch( this.getwsr(loc) )
+		switch( this.gettype(loc) )
 		{
 			case "water" :
 			
@@ -217,7 +217,7 @@ export default( Map )=>class GroundMap extends newGround(Map)
 	{
 		var ic	=this.ic(loc)
 
-		return (this.getwsr_i(ic) === "water") * this.getwaterlvl_i(ic)
+		return (this.gettype_i(ic) === "water") * this.getwaterlvl_i(ic)
 	}
 
 
@@ -225,13 +225,13 @@ export default( Map )=>class GroundMap extends newGround(Map)
 
 
 
-	getwsr( loc )
+	gettype( loc )
 	{
-		return this.getwsr_i(this.ic(loc))
+		return this.gettype_i(this.ic(loc))
 	}
-	setwsr( loc, str )
+	settype( loc, str )
 	{
-		return this.setwsr_i(this.ic(loc), str )
+		return this.settype_i(this.ic(loc), str )
 	}
 
 	

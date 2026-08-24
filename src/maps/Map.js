@@ -95,6 +95,9 @@ export default class Map extends ShMap
 ///////////////////////////////////////////////////////////////////////////
 
 
+/** Not sure whether to use these methods. They're just to send data to
+ * clients. But maybe have a higher level system where there are set actions
+ * and they change bulk data and send the action to clients. */
 
 Map.prototype. set_	=function( name, loc, ...vals )
 {

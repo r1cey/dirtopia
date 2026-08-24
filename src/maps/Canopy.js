@@ -58,7 +58,7 @@ T.prototype. gentrees	=function()
 
 			var vegty	=gr.getvegty_i( ic )
 
-			if( gr.getwsr_i(ic)==="soil" && gr.getplfl_i(ic)==="plant" &&
+			if( gr.gettype_i(ic)==="soil" && gr.getplfl_i(ic)==="plant" &&
 				(vegty==="apple"||vegty==="umbrtr") && gr.getveglvl_i(ic)>=lvl )
 			{
 				this.growtree( loc, vegty )

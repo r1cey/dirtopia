@@ -83,7 +83,7 @@ Gr.prototype. drawhex	=function( can, loc, plh, vsq, ic )
 
 	var lvl
 
-	switch( map.getwsr_i( ic ) )
+	switch( map.gettype_i( ic ) )
 	{
 		case "soil" :
 

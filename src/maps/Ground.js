@@ -73,7 +73,7 @@ export default class G extends ShGr
 
 				if( ! map.getshade( loc ) && map.canplmov( loc ) &&
 				
-					map.getwsr( loc ) !== "water" && ! mapo?.item )
+					map.gettype( loc ) !== "water" && ! mapo?.item )
 				{
 					/** Don't forget that server needs to be notified */
 					g.additem([ g.maps ,LocC.set(loc) ],new itTps.dewd() )
@@ -136,7 +136,7 @@ G.prototype. wet	=function( loc )
 }
 G.prototype. wet_i	=function( ic, loc )
 {
-	if( this.getwsr_i(ic) === "soil" )
+	if( this.gettype_i(ic) === "soil" )
 	{
 		let lvl	=this.getsoilhum_i( ic )
 
@@ -224,7 +224,7 @@ G.prototype. genriver	=function( r, maxc )
 	{
 		ic	=gr.ic(loc)
 
-		switch( gr.getwsr_i( ic ))
+		switch( gr.gettype_i( ic ))
 		{
 			case "water" :
 		
@@ -251,10 +251,11 @@ G.prototype. genriver	=function( r, maxc )
 ///////////////////////////////////////////////////////////////////////////////
 
 
+/** Atm sets driest soil */
 
 G.prototype. allsoil	=function()
 {
-	// var maxhum	=G.maxhum()
+	/** @todo We can do this through iterating over i directly */
 
 	this.fore(( loc )=>
 	{

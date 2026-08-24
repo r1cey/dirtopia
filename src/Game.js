@@ -54,6 +54,10 @@ export default class Game	extends GameSh
 
 	// con	=new Con(this)
 
+	/** Only one mode for now. Tells to create dewds for new players.
+	 * @type {"desert"|null} */
+	mode
+
 
 	static Maps	=Maps
 
@@ -325,7 +329,7 @@ Game.prototype. min15	=function()
 	{
 		const ic	=gr.ic(loc)
 
-		switch( gr.getwsr_i( ic ))
+		switch( gr.gettype_i( ic ))
 		{
 			case "soil" :
 

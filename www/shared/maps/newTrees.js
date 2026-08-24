@@ -18,14 +18,11 @@ const bmap	=
 			,
 			valsa	:["none", "trunk", "branch", "platform"]
 			,
-			_condsub:
+			"branch"	:
 			{
-				"branch"	:
+				dir	:
 				{
-					dir	:
-					{
-						bits	:3
-					}
+					bits	:3
 				}
 			}
 		}

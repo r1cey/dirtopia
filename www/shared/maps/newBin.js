@@ -22,15 +22,17 @@ import Loc	from "../Loc.js"
 
 
 
-/** Has all of the data to work with one value inside of each cell of the
- * binary map.
+/** Has all of the meta data to work with one value inside of each cell of
+ * the binary map.
  * A lot of the optional values are calculated when creating Bin class.
-@typedef {object}	BmapVal
-@prop {string}	[key]	-Key name of the value. Can be created automatically
+@typedef {object}	CoreBmapFld
+@prop {string}	[k]	-Key name of the value. Can be created automatically
 	from the property key which holds this object.
+@prop {BmapFld}	[dad]	-Parent field. Used in reverse checking of conditional
+	fields. Notice how it MUST be a field and not just a collection.
 @prop {number}	bits	-Bit length of this value.
 @prop {string[]}	[valsa]	-Ordered array of named values.
-@prop {{[condkey :string] :{[valkey :string] :BmapVal}}}	[_condsub]	-
+@prop {{[condkey :string] :{[valkey :string] :BmapFld}}}	[_condsub]	-
 	For when different value calls for completely different properties of cell.
 	For example, soil and water have different properties.
 @prop {number}	[bin_i]	-Auto. Index of the typed array where the value is
@@ -39,6 +41,19 @@ import Loc	from "../Loc.js"
 	lookup of named values. Goes with "valsa".
 @prop {number}	[offset]	-Auto. Automatically calculated bit offset from the
 	beginning of cell in that typed array. */
+
+
+/** Now, different values sometimes call for completely different properties
+ * of the cell. For example, soil and water have different properties.
+ * So we have a system of conditional subdivisions. When a certain value is
+ * set, it can call for a completely different set of properties to be used.
+ * To use this we extend CoreBmapFld with additional properties which
+ * have to be identical to the possible values present in the "valsa" array.
+ * @typedef {CoreBmapFld & {[condkey :string] :BmapFld}}	BmapFld */
+
+
+/** The object which holds BmapFields (can also hold other Bmap objects)
+@typedef {{[fldkey :string] :BmapFld|Bmap}}	Bmap */
 
 
 
@@ -54,7 +69,7 @@ import Loc	from "../Loc.js"
  supposed to go in it. For convenience, is simply called a bin.
 @typedef {object}	TABin
 @prop {number}	size	-Size of the typed array in bits. Only tested up to 32.
-@prop {BmapVal[]}	vals	-Array of values that are stored in this typed
+@prop {BmapFld[]}	vals	-Array of values that are stored in this typed
 	array. */
 
 
@@ -63,7 +78,7 @@ import Loc	from "../Loc.js"
 
 /** 
  * @arg {number} id	-How binary data inside is mapped to cells and their props.
- * @arg {bmap} bmap	-Fully calculated bit-map object.
+ * @arg {Bmap} bmap	-Fully calculated bit-map object.
  * @arg {bitlen[]} typarrszs	-Array of bit lengths for each Typed Array.
  * @arg {HeaderVal[]} [structadd]	-Additional header values to add to the
  * 	default ones. For example, Map Shifts have "dir" value added to the header.
@@ -116,7 +131,7 @@ class BinBase
 	 * Is the map ground or trees, for example */
 	static id
 	
-	/** @type {object<valkey ,BmapVal>} */
+	/** @type {Bmap} */
 	static bmap
 
 	////----
@@ -276,7 +291,7 @@ class BinBase
 
 
 	/**
-	 * @arg {BmapVal} bmapv */
+	 * @arg {BmapFld} bmapv */
 
 	setval_str( ic, bmapv, valstr )
 	{
@@ -285,13 +300,40 @@ class BinBase
 
 
 	/** Similar to getval
-	 * @arg {BmapVal} bmapv */
+	 * @arg {BmapFld} bmapv */
 
 	setval( ic, bmapv, val )
 	{
 		var data	=this.cells[bmapv.bin_i][ic]
 
-		this.cells[bmapv.bin_i][ic]	=Bin.sval( data, bmapv.offset, bmapv.bits, val )
+		this.cells[bmapv.bin_i][ic]	=
+		
+			BinBase.sval( data, bmapv.offset, bmapv.bits, val )
+	}
+
+
+	/** Runs getval but checks if the request fits bmap structure first.
+	 * If doesn't, return null.
+	 * @return {number|null} */
+
+	tryval( ic, field )
+	{
+		var curfld	=field
+
+		while( true )
+		{
+			var dad	=curfld.dad
+
+			if( ! dad )	return this.getval( ic, field )
+
+			if( dad.valso && curfld.k in dad.valso &&
+				
+				this.getval( ic, dad ) !== dad.valso[curfld.k] )
+			{
+				return null
+			}
+			curfld	=dad
+		}
 	}
 
 
@@ -301,7 +343,7 @@ class BinBase
 
 	getval( ic ,bmapv )
 	{
-		return Bin.gval( this.cells[bmapv.bin_i][ic], bmapv.offset, bmapv.bits )
+		return BinBase.gval( this.cells[bmapv.bin_i][ic], bmapv.offset, bmapv.bits )
 	}
 	static
 	{
@@ -394,7 +436,7 @@ class BinBase
 
 		code	&= mask
 
-		return code	|= Bin.gval(val,0,len) << start
+		return code	|= BinBase.gval(val,0,len) << start
 	}
 
 
@@ -498,8 +540,8 @@ export function calc_bmap_typarrs( bmapdef )
  * bins. If it can, we split it and then check if the other layers can be split
  * in the same way. If they can, we split them too. If not, we return the
  * original layers.
- * @arg {object<valkey ,BmapVal>} bmapdef	-Usermade bit map. Is fixed with
- * 	proper BmapVal objects.
+ * @arg {Bmap} bmapdef	-Usermade bit map. Method fixes it
+ * 	with proper BmapFld objects.
  * @return {BmapBin[][]} -Array of arrays of bins. Each array is a layer of
  * 	bins. Multiple layers happen whenever conditional split occurs. */
 
@@ -535,12 +577,12 @@ function build_binlayers( bmapdef )
 }
 
 
-/** Sets offsets, bin indices, stuff like that.
- * Since bins' vals already has pointrs to bmap vals, we don't need a dedicated
- * bmap instance. We just return it for convenience.
+/** Sets: offsets, bin indices, stuff like that.
+ * Since bins' vals already has pointers to bmap vals, we don't need
+ * a dedicated bmap instance. We just return it for convenience.
  * @arg {TABin[][]} bmapbins
- * @arg bmap
- * @return bmap */
+ * @arg {Bmap} bmap
+ * @return {Bmap} */
 
 function bins2bmap( bmapbins ,bmap )
 {
@@ -569,24 +611,25 @@ function bins2bmap( bmapbins ,bmap )
 ///////////////////////////////////////////////////////////////////////////////
 
 
-/** Build data catching bin layers. The bins used are full sized, not fully
+/** Build data-catching bin layers. The bins used are full sized, not fully
  * optmized.
  * Recursive. First bins set is empty
- * @arg {object<valkey ,BmapVal>} bmapdef
- * @arg {TABin[]} [bins =[]] */
+ * @arg {Bmap} bmapdef
+ * @arg {TABin[]} [bins =[]]
+ * @arg {BmapFld} [dad =null] */
 
-function build_bigbinlayers( bmapdef ,bins =[] )
+function build_bigbinlayers( bmapdef ,bins =[] ,dad =null )
 {
 	const layers	=[]
 
-	/** The values which are set and not conditioned */
-	const setvals	=[]
+	/** The fields which are set and not conditioned */
+	const setfields	=[]
 
-	const condvals	=[]
+	const condbmaps	=[]
 
-	breakdown_bmapdef( bmapdef, setvals, condvals )
+	breakdown_bmapdef( bmapdef, setfields, condbmaps ,dad )
 
-	if( ! fit_in_bins( bins ,setvals ,32 ))
+	if( ! fit_in_bins( bins ,setfields ,32 ))
 	{
 		console.error("build_bigbinlayers - error: values don't fit in bins" ,
 			
@@ -594,20 +637,15 @@ function build_bigbinlayers( bmapdef ,bins =[] )
 
 		return layers
 	}
-	if( condvals.length )
+	if( condbmaps.length )
 	{
-		for(var condval of condvals )
+		for(const[ bmap ,conddad ]of condbmaps )
 		{
-			for(var valk in condval.def )
-			{
-				const def	=condval.def[valk]
+			// Duplicate the bins so we don't overwrite the original ones.
 
-				// Duplicate the bins so we don't overwrite the original ones.
+			const binsdup	=bins.map(( bin )=>dupbin( bin ))
 
-				const binsdup	=bins.map(( bin )=>dupbin( bin ))
-
-				layers.push( ...build_bigbinlayers( def ,binsdup ))
-			}
+			layers.push( ...build_bigbinlayers( bmap ,binsdup ,conddad ))
 		}
 	}
 	else	layers.push( bins )
@@ -619,9 +657,15 @@ function build_bigbinlayers( bmapdef ,bins =[] )
 ///////////////////////////////////////////////////////////////////////////////
 
 
-/** Bmapdef gets replaced with properly defined objects */
+/** Bmapdef gets fixed with properly and fully defined {BmapField} objects.
+ * Also every {Bmap} gets a dad.
+ * @arg {Bmap} bmapdef
+ * @arg {BmapFld[]} setfields	-Array of fields which are set and not conditioned
+ * @arg {[Bmap,BmapFld][]} condbmaps	-Array of conditional maps and their
+ * 	parent fields
+ * @arg {BmapFld} dad */
 
-function breakdown_bmapdef( bmapdef, setvals, condvals )
+function breakdown_bmapdef( bmapdef, setfields, condbmaps ,dad )
 {
 	for(var k in bmapdef )
 	{
@@ -629,43 +673,37 @@ function breakdown_bmapdef( bmapdef, setvals, condvals )
 
 		if( prop.bits )
 		{
-			const val	=
+			const field	=Object.create( prop ,
 			{
-				k
+				k	:{ value :k ,writable :false ,enumerable :true }
 				,
-				bits	:prop.bits
+				dad	:{ value :dad ,enumerable :true }
 				,
-				valsa	:prop.valsa
+				valso	:{ value :build_valslookup( prop.valsa )}
 				,
-				valso	:build_valslookup( prop.valsa )
+				offset	:{ value :null ,writable :true ,enumerable :true }
 				,
-				offset	:null
-				,
-				bin_i	:null
-				,
-				_condsub	:prop._condsub
-			}
-			bmapdef[k]	=val
+				bin_i	:{ value :null ,writable :true ,enumerable :true }
+			})
+			bmapdef[k]	=field
 
-			setvals.push( val )
-		
-			if( prop._condsub )
+			setfields.push( field )
+
+			if( field.valsa )
 			{
-				// Dad is not needed it seems. May get rid of the entire
-				// surrounding object.
-
-				condvals.push(
+				for(const valkey of field.valsa )
 				{
-					dad	:val
-					,
-					def	:prop._condsub
-				})
+					if( field[valkey] )
+					{
+						condbmaps.push([ field[valkey] , field ])
+					}
+				}
 			}
 		}
 		// Then a collection of values.
 		else
 		{
-			breakdown_bmapdef( prop, setvals, condvals )
+			breakdown_bmapdef( prop, setfields, condbmaps )
 		}
 	}
 }

@@ -26,9 +26,11 @@ await game.load()
 
 if( ! game.maps.isready() )
 {	
-	game.maps.gendesert()
+	// game.maps.gendesert()
 }
-game.start()
+// game.start()
+
+game.server.start()
 
 // game.maps.ground.printarr(0)
 
