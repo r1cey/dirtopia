@@ -144,3 +144,17 @@ export function nonenum( obj, key, val )
 		}
 	)
 }
+
+
+/** Array sum not including the last index. */
+
+export function arsum( arr ,first =0 ,last =arr.length )
+{
+	var sum	=0
+
+	for(var i= first ;i< last ;i++)
+	{
+		sum	+= arr[i]
+	}
+	return sum
+}

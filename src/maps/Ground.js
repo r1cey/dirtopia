@@ -1,15 +1,19 @@
 import newShGr	from '../../www/shared/maps/newGroundMap.js'
 import Map	from './Map.js'
 import GrObj	from './GroundObj.js'
-// import SG	from "../../www/shared/maps/Supergrid.js"
+import SG	from "../../www/shared/maps/Supergrid.js"
 
-// import Loc from  '../../www/shared/Loc.js'
+import Loc from  '../../www/shared/Loc.js'
 // import Vec from  '../../www/shared/Vec.js'
 
 import { rnd } from "../../www/shared/utils.js"
 
 import itTps	from '../items/itemTypes.js'
 import LocC	from '../LocCell.js'
+
+import vegdefs	from '../../www/shared/maps/plantdefs.js'
+import{ arsum }	from "../../wwww/shared/utils.js"
+
 
 
 var ShGr	=newShGr(Map)
@@ -567,23 +571,24 @@ G.prototype. gentree	=function( loc, lvl, ic )
 
 G.prototype. genumbrtrees	=function()
 {
-	var minr	=30
+	const minr	=30
 
-	var trsize	={ min :13, range :5 }
+	const brsize	={ min :15, range :6 }
 
-	var r	=this._r >> 1
+	const r	=this._r >> 1
 
-	var sg	=new SG( r, minr, this.getloc() )
+	const sg	=new SG( r, minr, this.getloc() )
 
-	var trn	=Math.ceil(this.bin.cellsl / G.Bin.r2cells( minr * 5 ))	//trees count
+	/** trees count */
+	const trlen	=Math.ceil(this.bin.cellsl / G.Bin.r2cells( minr * 5 ))
 
-	var loc	=this.getloc().c()
+	const loc	=this.getloc().c()
 
-	var loct	=new Loc()	// tile location
+	const loct	=new Loc()	// tile location
 
-	this.obj.o.spawns	=[]
+	const spawns	=this.spawns
 
-	main: for(var i =0;i< trn ;i++)
+	main: for(var i =0;i< trlen ;i++)
 	{
 		var j	=0
 
@@ -598,9 +603,9 @@ G.prototype. genumbrtrees	=function()
 
 		sg.setx( loct, 1 )
 
-		this.obj.o.spawns.push( loc.c() )
+		spawns.push( loc.c() )
 		
-		this.genumbrtree( loc, trsize.min + rnd(trsize.range) )
+		this.genumbrtree( loc, brsize.min + rnd(brsize.range) )
 	}
 }
 
@@ -608,19 +613,19 @@ G.prototype. genumbrtrees	=function()
 
 G.prototype. gencacti	=function()
 {
-	var r	=10
+	const r	=10
 
-	var sg	=new SG( this._r, r, this.getloc() )
+	const sg	=new SG( this._r, r, this.getloc() )
 
-	var loc	=this.getloc().c()
+	const loc	=this.getloc().c()
 
-	var randv	=new Loc()
+	const randv	=new Loc()
 
 	sg.fore(( loct )=>
 	{
 		var j	=0
 
-		var size	=2 + rnd(15)
+		const size	=2 + rnd(15)
 
 		do{
 			sg.tosub( loc.set(loct) )
@@ -634,30 +639,40 @@ G.prototype. gencacti	=function()
 }
 
 
-G.prototype. genumbrtree	=function( loc, size )
+/** Use this to generate special spawn tree for players.
+ * It needs to be adult and will never die (same as spawn loc).
+ * @arg {num}	brsize	-branch size */
+
+G.prototype. genumbrtree	=function( loc, brsize )
 {
-	var ic	=this.ic(loc)
+	const ic	=this.ic(loc)
 
-	if( !( this.plantable_i( ic ) && this.canplmov(loc) ))	return false
+	if( ! this.plantable( loc ))	return false
 
-	var time	=rnd( G.maxvegtime() )
+	const utdef	=vegdefs.umbrtr
+
+	var time	=arsum( utdef.growth ,0 ,4 )
+
+	time	+=utdef.br_pulse * brsize
 	
-	this.setveg_i( ic, "umbrtr", size, time )
+	this.setveg_i( ic ,"umbrtr" ,time )
 
 	return true
 }
 
 
+/** At the moment size is irrelevant since we don't have mechanics
+ * for its' growth as an adult yet. */
 
 G.prototype. gensanpedro	=function( loc, size )
 {
 	var ic	=this.ic(loc)
 
-	if( !( this.plantable_i( ic ) && this.canplmov(loc) ))	return false
+	if( ! this.plantable( loc ))	return false
 
-	var time	=rnd( G.maxvegtime() )
+	var time	=arsum( vegdefs.sanped.growth )
 	
-	this.setveg_i( ic, "sandpedro", size, time )
+	this.setveg_i( ic, "sanped", time + 1 )
 
 	return true
 }

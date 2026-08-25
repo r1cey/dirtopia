@@ -4,7 +4,7 @@ import Map from './Map.js'
 
 import Loc from '../Loc.js'
 
-import vegdefs from './plants/defs.js'
+import vegdefs from './plantdefs.js'
 
 
 /** An intuitive way is done to access bit values in bit map.
@@ -17,7 +17,7 @@ import vegdefs from './plants/defs.js'
  * With high level of worms increasing soil structure.
  * Fungi eating hard plants and bacteria softer matter. */
 
-const bmap	=
+export const bmap	=
 {
 	ty	:
 	{
@@ -127,25 +127,24 @@ export default( Base )=>class Ground extends Base
 
 	nemptycell_i( ic )
 	{
-		return this.bin.getval( ic, Ground.Bin.bmap.wsr.ty )
+		return this.bin.getval( ic, bmap.ty )
 	}
 
 
 
 	plantable_i( ic )
 	{
-		return this.issoil_i( ic) && ! this.isfloor_i( ic) &&
-
-			this.getvegty_i(ic) === "none"
+		return this.bin.tryval_s( ic ,bmap.ty.soil.plfl.veg.ty ) === "none"
 	}
 
 
+	/** @todo Might not be needed. Check if used. */
 
 	hasplant_i( ic )
 	{
-		return( this.issoil_i( ic) || this.iswater_i( ic)) &&
-		
-			! this.isfloor_i( ic) && this.getvegty_i( ic) !== "none"
+		const val	=this.bin.tryval_s( ic ,bmap.ty.soil.plfl.veg.ty )
+
+		return val != null && val !== "none"
 	}
 
 
@@ -206,15 +205,19 @@ export default( Base )=>class Ground extends Base
 			this.getplfl_i( ic) === "plant"
 	}
 
-	setveg_i( ic, type, lvl =0, time =0 )
+	setsoilveg_i( ic ,type ,time =0 )
 	{
-		this.bin.setval_str( ic, Ground.Bin.bmap.plfl.ty, "plant" )
+		const{ bin }	=this
 
-		this.bin.setval_str( ic, Ground.Bin.bmap.plfl.plant.ty, type )
+		const{ bmap }	=Ground.Bin
 
-		this.setveglvl_i( ic, lvl )
+		bin.setval_str( ic ,bmap.ty ,"soil" )
 
-		this.bin.setval( ic, Ground.Bin.bmap.plfl.plant.time, time )
+		bin.setval_str( ic, bmap.ty.soil.plfl, "plant" )
+
+		bin.setval_str( ic, bmap.ty.soil.plfl.veg.ty, type )
+
+		bin.setval( ic, bmap.ty.soil.plfl.veg.time, time )
 	}
 
 
@@ -240,11 +243,11 @@ export default( Base )=>class Ground extends Base
 	}
 
 	
-	getsoilhum_i(ic)
+	getsoilhum_i( ic )
 	{
 		return this.bin.tryval( ic, bmap.ty.soil.hum )
 	}
-	setsoilhum_i(ic, lvl )
+	setsoilhum_i( ic ,lvl )
 	{
 		this.bin.setval( ic, bmap.ty.soil.hum, lvl )
 	}

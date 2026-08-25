@@ -4,7 +4,7 @@ import Loc from "../Loc.js";
 import V	from "../Vec.js";
 
 
-export default class SG extends newBinMap( 0,0, BitM )
+export default class SG extends newBinMap( 0,0,0, BitM )
 {
 	cellr
 

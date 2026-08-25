@@ -134,18 +134,28 @@ Map.prototype. inside	=function( loc )
 
 
 /** Can player move there?
- *Can optimize by making special case for server maps by testing for
- *distance from 0,0 */
+ * Can optimize by making special case for server maps by testing for
+ * distance from 0,0
+ * @todo Different sized items should have different max amount
+ * @arg {Player} [pl] */
 
 Map.prototype. canplmov	=function( dest, pl )
 {
-	/*if( ! this.inside(dest) )	return false
+	const o	=this.obj.g(dest)
 
-	var c	=this.obj.g(dest)
-
-	if( !c )	return true
-
-	var areaS	=0
+	return this.inside(dest) &&
+	! (
+		o &&
+		(
+			( o.pl && o.pl !== pl && o.pl !== pl?.name )
+			||
+			( o.item &&
+			
+				( o.item.isblock || ( o.item.isstck && o.item.len > 10 ))
+			)
+		)
+	)
+	/*var areaS	=0
 
 	for(var k in c )
 	{
@@ -161,20 +171,7 @@ Map.prototype. canplmov	=function( dest, pl )
 		{
 			return false
 		}
-	}
-	return true*/
-
-	const o	=this.obj.g(dest)
-
-	return this.inside(dest) &&
-	(
-		!o ||
-		(
-			( !o.pl || o.pl === pl || o.pl === pl?.name )
-			&&
-			( !o.item || !o.item.isblock )
-		)
-	)
+	}*/
 }
 
 

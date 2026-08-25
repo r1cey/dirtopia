@@ -8,7 +8,7 @@ import V from "../Vec.js"
 /** Is in charge of the upper level of game. Has branches, fruits,
  * everything that's above player */
 
-const bmap	=
+export const bmap	=
 {
 	floor	:
 	{

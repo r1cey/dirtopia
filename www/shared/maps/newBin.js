@@ -109,6 +109,15 @@ export default( id, bmap, typarrszs, structadd )=>class Bin	extends BinBase
 }
 
 
+/** Get the maximum value that can be stored in bin map.
+ * Note how it's number of values minus 1. */
+
+export function getmaxval( bmapfld )
+{
+	return (1 << bmapfld.bits ) - 1
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -320,6 +329,15 @@ class BinBase
 	}
 
 
+
+	tryval_s( ic ,field )
+	{
+		const val	=this.tryval( ic, field )
+
+		return val == null ? val : field.valsa[val]
+	}
+
+
 	/** Runs getval but checks if the request fits bmap structure first.
 	 * If doesn't, return null.
 	 * @return {number|null} */
@@ -371,13 +389,8 @@ class BinBase
 	}
 
 
-	/** Get the maximum value that can be stored in bin map.
-	 * Note how it's number of values minus 1. */
 
-	static getmaxval	=function( bmapv )
-	{
-		return ( 1 << bmapv.bits ) - 1
-	}
+	static getmaxval	=getmaxval
 
 
 	/** this.arrs and valarr must have same length

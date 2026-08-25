@@ -2,7 +2,7 @@ import newGround	from "./newGround.js"
 
 import BoMS	from "./BoardMShift.js"
 
-import vegdefs	from "./plants/defs.js"
+import vegdefs	from "./plantdefs.js"
 
 
 /** Complete Ground class.
@@ -168,14 +168,7 @@ export default( Map )=>class GroundMap extends newGround(Map)
 
 	plantable( loc )
 	{
-		const mapo	=this.obj.g(loc)
-
-		const item	=mapo?.item
-
-		return this.plantable_i( this.ic( loc )) && !mapo?.pl &&
-			! (
-				item &&( item.isblock ||( item.isstck && item.len > 10 ))
-			)
+		return this.plantable_i( this.ic( loc )) && this.canplmov( loc )
 	}
 
 

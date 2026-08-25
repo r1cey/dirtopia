@@ -1,4 +1,4 @@
-import newShTrees	from '../../www/shared/maps/newTreesMap.js'
+import newShCnpy	from '../../www/shared/maps/newTreesMap.js'
 import Map	from './Map.js'
 
 import Loc from  '../../www/shared/Loc.js'
@@ -6,15 +6,15 @@ import V from  '../../www/shared/Vec.js'
 
 import Gr	from './Ground.js'
 
-import * as trees from "./trees.js"
+import * as Trees from "./Trees.js"
 
 
 ///////////////////////////////////////////////////////////////////////////////
 
 
-var ShTrees	=newShTrees(Map)
+var ShCnpy	=newShCnpy(Map)
 
-export default class T extends ShTrees
+export default class Canopy extends ShCnpy
 {
 	static name	='trees'
 
@@ -32,19 +32,19 @@ export default class T extends ShTrees
 
 
 
-T.prototype. gen	=function( gr )
+Canopy.prototype. gen	=function( gr )
 {
 	this.ground	=gr
 
 	this.build( gr._r, 0, new Loc( 0, 0, 1 ))
 
-	this.gentrees()
+	// this.gentrees()
 }
 
 
 
 
-T.prototype. gentrees	=function()
+Canopy.prototype. gentrees	=function()
 {
 	var gr	=this.ground
 
@@ -73,7 +73,7 @@ T.prototype. gentrees	=function()
 /** @arg [ic]
  * @arg [lvl] */
 
-T.prototype. gentree	=function( loc, gr, ic, lvl )
+Canopy.prototype. gentree	=function( loc, gr, ic, lvl )
 {
 	ic	??= this.ic(loc)
 
@@ -98,7 +98,7 @@ T.prototype. gentree	=function( loc, gr, ic, lvl )
  * @arg [ic]
  * @return if grew or not */
 
-T.prototype. growtree	=function( loc, type, brs, ic )
+Canopy.prototype. growtree	=function( loc, type, brs, ic )
 {
 	var m	=this
 
@@ -130,7 +130,7 @@ T.prototype. growtree	=function( loc, type, brs, ic )
 			return false
 		}
 	}
-	return new trees[type]( this, loc ).grow()
+	return new Trees[type]( this, loc ).grow()
 }
 
 
@@ -138,7 +138,7 @@ T.prototype. growtree	=function( loc, type, brs, ic )
 
 
 
-T.prototype. newbranch	=function( loc, brs, vbuf )
+Canopy.prototype. newbranch	=function( loc, brs, vbuf )
 {
 	var v	=vbuf
 
@@ -208,7 +208,7 @@ T.prototype. newbranch	=function( loc, brs, vbuf )
 
 /** Unneeded */
 
-T.prototype. closestbr	=function( loc, ploc )
+Canopy.prototype. closestbr	=function( loc, ploc )
 {
 	var map	=this
 
