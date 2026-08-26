@@ -393,9 +393,9 @@ Game.prototype. min15	=function()
 
 				if( vegty === "none" )	break
 
-				let time	=gr.getvegtime_i( ic )
+				let age	=gr.getvegage_i( ic )
 
-				if( time === itime )
+				if( age === itime )
 				{
 					let veglvl	=gr.getveglvl_i( ic )
 
@@ -421,7 +421,7 @@ Game.prototype. min15	=function()
 				}
 		}
 	})
-	g.time.min15.i	=itime < gr.constructor.maxvegtime()-1 ? ++itime : 0
+	g.time.min15.i	=itime < gr.constructor.maxvegage()-1 ? ++itime : 0
 }
 
 

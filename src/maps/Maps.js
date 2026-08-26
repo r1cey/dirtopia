@@ -89,7 +89,7 @@ export default class Ms extends shMaps
 
 
 	/** Generate a new desert map. */
-	
+
 	gendesert()
 	{
 		this.game.mode	="desert"
@@ -98,7 +98,7 @@ export default class Ms extends shMaps
 
 		this.tr.gen( this.gr )
 
-		this.save()
+		// this.save()
 	}
 
 

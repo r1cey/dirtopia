@@ -12,7 +12,7 @@ import itTps	from '../items/itemTypes.js'
 import LocC	from '../LocCell.js'
 
 import vegdefs	from '../../www/shared/maps/plantdefs.js'
-import{ arsum }	from "../../wwww/shared/utils.js"
+import{ arsum }	from "../../www/shared/utils.js"
 
 
 
@@ -52,7 +52,7 @@ export default class G extends ShGr
 	{
 		const res	=await super.load( dir )
 
-		this.spawns	=res?.spawns
+		if( res?.spawns )	this.spawns	=res.spawns
 
 		return res
 	}
@@ -161,7 +161,7 @@ G.prototype. grow	=function( loc, ic, type, lvl )
 	{
 		if( this.getplfl_i( ic) !== "plant" )	return
 
-		type	=this.getvegty_i( ic)
+		type	=this.getsoilvegty_i( ic)
 
 		if( type === "none" )	return
 	}
@@ -261,10 +261,12 @@ G.prototype. allsoil	=function()
 {
 	/** @todo We can do this through iterating over i directly */
 
-	this.fore(( loc )=>
+	// this.fore(( loc )=>
+
+	for(var i =0; i < this.bin.cellsl; i++ )
 	{
-		this.set_("soil", loc, 0)//Math.floor(Math.random()*maxhum) )
-	})
+		this.setsoil_i( i, 0)//Math.floor(Math.random()*maxhum) )
+	}
 }
 
 
@@ -647,15 +649,15 @@ G.prototype. genumbrtree	=function( loc, brsize )
 {
 	const ic	=this.ic(loc)
 
-	if( ! this.plantable( loc ))	return false
+	if( ! this.plantable_i( ic ))	return false
 
 	const utdef	=vegdefs.umbrtr
 
-	var time	=arsum( utdef.growth ,0 ,4 )
+	var age	=arsum( utdef.growth ,0 ,4 )
 
-	time	+=utdef.br_pulse * brsize
+	age	+=utdef.br_pulse * brsize
 	
-	this.setveg_i( ic ,"umbrtr" ,time )
+	this.setsoilveg_i( ic ,"umbrtr" ,age )
 
 	return true
 }
@@ -668,11 +670,11 @@ G.prototype. gensanpedro	=function( loc, size )
 {
 	var ic	=this.ic(loc)
 
-	if( ! this.plantable( loc ))	return false
+	if( ! this.plantable_i( ic ))	return false
 
-	var time	=arsum( vegdefs.sanped.growth )
+	var age	=arsum( vegdefs.sanped.growth )
 	
-	this.setveg_i( ic, "sanped", time + 1 )
+	this.setsoilveg_i( ic, "sanped", age + 1 )
 
 	return true
 }

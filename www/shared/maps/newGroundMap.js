@@ -37,25 +37,21 @@ export default( Map )=>class GroundMap extends newGround(Map)
 	{
 		const ic	=this.ic(dest)
 
-		const plfl	=GroundMap.Bin.bmap.plfl
-
-		const vegty	=this.bin.getval_str( ic, plfl.plant.ty )
-
 		if( ! this.nemptycell_i(ic) || ! super.canplmov( dest, pl ))
 		{
 			return false
 		}
-		if( this.issoil_i(ic) && this.hasplant_i( ic))
+		const vegty	=this.issoilplant_i( ic )
+		
+		if( vegty )
 		{
-			const vegty	=this.getvegty_i( ic)
-
 			const vegdef	=vegdefs[vegty]
 
 			switch( vegdef.sz )
 			{
 				case "tree" :
 
-					const age	=this.getvegage_i( ic ,vegdef )
+					const age	=this.getsoilvegstage_i( ic ,vegdef )
 
 					if( age > 3 )	return false
 
@@ -72,7 +68,7 @@ export default( Map )=>class GroundMap extends newGround(Map)
 	{
 		var ic	=this.ic(loc)
 
-		return this.getvegty_i(ic) === "apple" && this.getveglvl_i(ic) > 3
+		return this.getsoilvegty_i(ic) === "apple" && this.getveglvl_i(ic) > 3
 	}
 
 
@@ -239,9 +235,9 @@ export default( Map )=>class GroundMap extends newGround(Map)
 
 
 
-	setveg( loc, type, lvl, time )
+	setveg( loc, type, lvl, age )
 	{
-		this.setveg_i(this.ic(loc), type, lvl, time )
+		this.setveg_i(this.ic(loc), type, lvl, age )
 	}
 
 
@@ -251,28 +247,24 @@ export default( Map )=>class GroundMap extends newGround(Map)
 	{
 		const ic	=this.ic(loc)
 
-		return this.isveg_i( ic) && this.getvegty_i( ic)
+		return this.isveg_i( ic) && this.getsoilvegty_i( ic)
 	}
+
 
 	/**@returns If not a plant, returns -1 */
 
-	getveglvl( loc )
+	getsoilvegage( loc )
 	{
 		const m	=this
 
-		const ic	=m.ic(loc)
+		const ic	=m.ic( loc)
 
-		return m.isveg_i( ic)	? m.getveglvl_i( ic) :-1
+		return m.issoilplant_i( ic)	? m.getsoilvegage_i( ic) :-1
 	}
 
 	setveglvl( loc, lvl )
 	{
 		this.setveglvl_i( this.ic(loc), lvl )
-	}
-
-	getvegtime( loc )
-	{
-		return this.getvegtime_i( this.ic(loc) )
 	}
 
 

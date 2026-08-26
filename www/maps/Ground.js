@@ -115,7 +115,7 @@ Gr.prototype. drawhex	=function( can, loc, plh, vsq, ic )
 			{
 				case "plant" :
 
-					switch( map.getvegty_i( ic ) )
+					switch( map.getsoilvegty_i( ic ) )
 					{
 						case "apple" :
 						

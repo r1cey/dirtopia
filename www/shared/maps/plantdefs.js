@@ -23,7 +23,7 @@ const max	=(1<<12) - 1
  * 	collision detection.
  * @prop {num} fruits	-How many ticks for each fruit to appear.
  * @prop {bool}	isimmort	-If true, plant will never die of old age.
- * 	Means mature and old stage times are irrelevant.
+ * 	Means mature and old stage ages are irrelevant.
  * @prop {num}	br_pulse	-For trees. How many ticks to grow a branch
  * 	on an adult tree. */
 
@@ -57,7 +57,7 @@ export default{
 		,
 		sz	:"tree"
 		,
-		br_pulse	:Math.round( this.growth[4] / 32 )
+		br_pulse	:Math.round( max- (17*day) / 32 )
 	},
 	sanped	:
 	{

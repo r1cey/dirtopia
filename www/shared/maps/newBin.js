@@ -329,8 +329,10 @@ class BinBase
 	}
 
 
+	/** Similar to tryval but returns the string value.
+	 * @return {string|null} */
 
-	tryval_s( ic ,field )
+	tryval_str( ic ,field )
 	{
 		const val	=this.tryval( ic, field )
 

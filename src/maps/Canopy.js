@@ -8,6 +8,8 @@ import Gr	from './Ground.js'
 
 import * as Trees from "./Trees.js"
 
+import vegdefs	from '../../www/shared/maps/vegdefs.js'
+
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -31,6 +33,7 @@ export default class Canopy extends ShCnpy
 ///////////////////////////////////////////////////////////////////////////////
 
 
+/** Generates new canopy based on ground layer. */
 
 Canopy.prototype. gen	=function( gr )
 {
@@ -38,34 +41,47 @@ Canopy.prototype. gen	=function( gr )
 
 	this.build( gr._r, 0, new Loc( 0, 0, 1 ))
 
-	// this.gentrees()
+	this.gentrees()
 }
 
 
-
+/** Generates canopies based on set ground layer.
+ * Assumes buffer is ready. */
 
 Canopy.prototype. gentrees	=function()
 {
-	var gr	=this.ground
+	const gr	=this.ground
 
-	// var trs	=[]
+	const trees	=[]
 
-	for(var lvl	=Gr.maxveglvl() ; lvl >= 4 ; lvl -- )
+	gr.fore(( loc)=>
 	{
-		gr.fore(( loc )=>
+		const ic	=gr.ic( loc)
+
+		const vegty	=gr.issoilplant_i( ic)
+
+		if( vegty &&vegdefs[vegty].sz ==="tree" &&
+			
+			gr.getsoilvegstage_i( ic, vegty) >3 )
 		{
-			var ic	=gr.ic( loc )
+			trees.push( loc.c( ))
+		}
 
-			var vegty	=gr.getvegty_i( ic )
+	})
+	trees.sort(( loc1, loc2)=>
+		
+		gr.getsoilvegage( loc2) -gr.getsoilvegage( loc1))
 
-			if( gr.gettype_i(ic)==="soil" && gr.getplfl_i(ic)==="plant" &&
-				(vegty==="apple"||vegty==="umbrtr") && gr.getveglvl_i(ic)>=lvl )
-			{
-				this.growtree( loc, vegty )
-			}
-		})
+	var age	=gr.getsoilvegage( trees[0])
+	
+	const minage	=gr.getsoilvegage( trees.at( -1))
 
-		// trs.length	=0
+	for(; age >minage ; --age)
+	{
+		for(var treeloc of trees)
+		{
+			this.growtree( treeloc)
+		}
 	}
 }
 

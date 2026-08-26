@@ -62,7 +62,7 @@ export const bmap	=
 							"cucumber"
 						]
 					},
-					time	:{ bits	:12	}
+					age	:{ bits	:12	}
 				},
 				floor	:
 				{
@@ -134,32 +134,38 @@ export default( Base )=>class Ground extends Base
 
 	plantable_i( ic )
 	{
-		return this.bin.tryval_s( ic ,bmap.ty.soil.plfl.veg.ty ) === "none"
+		return this.bin.tryval_str( ic ,bmap.ty.soil.plfl.veg.ty ) === "none"
 	}
 
 
-	/** @todo Might not be needed. Check if used. */
+	/** @return {string|null} -The plant type if present, otherwise null. */
 
-	hasplant_i( ic )
+	issoilplant_i( ic )
 	{
-		const val	=this.bin.tryval_s( ic ,bmap.ty.soil.plfl.veg.ty )
+		const ty	=this.bin.tryval_str( ic ,bmap.ty.soil.plfl.veg.ty )
 
-		return val != null && val !== "none"
+		return ty && ty !== "none" ? ty : null
 	}
 
 
-	getvegage_i( ic ,def )
+	/** Return the current growth stage of the soil plant.
+	 * Look in vegdefs.json for more info. */
+
+	getsoilvegstage_i( ic ,vegty =this.getsoilvegty_i( ic ))
 	{
-		def	??=vegdefs[ this.getvegty_i( ic) ]
+		stages	=vegdefs[vegty].growth
 
-		const fulltime	=this.getveglvl_i( ic)=this.getvegtime_i( ic)
+		const curage	=this.getsoilvegage_i( ic )
 
-		var age	=0
+		var age =0
 
-		for( var i =0 ; i < def.growth.length ; i++ )
+		for( var i =0 ; i < stages.length ; i++ )
 		{
+			age	+= stages[i]
 
+			if( age > curage )	return i
 		}
+		return i
 	}
 
 
@@ -169,7 +175,7 @@ export default( Base )=>class Ground extends Base
 
 	issoil_i( ic )
 	{
-		return this.bin.getval_str( ic ,Ground.Bin.bmap.wsr.ty )=== "soil"
+		return this.bin.tryval_str( ic ,bmap.ty )=== "soil"
 	}
 
 
@@ -196,16 +202,7 @@ export default( Base )=>class Ground extends Base
 	}
 
 
-	isveg_i( ic )
-	{
-		const wsr	=this.gettype_i( ic )
-
-		return ( wsr === "soil" || wsr === "water" )&&
-		
-			this.getplfl_i( ic) === "plant"
-	}
-
-	setsoilveg_i( ic ,type ,time =0 )
+	setsoilveg_i( ic ,type ,age =0 )
 	{
 		const{ bin }	=this
 
@@ -217,7 +214,7 @@ export default( Base )=>class Ground extends Base
 
 		bin.setval_str( ic, bmap.ty.soil.plfl.veg.ty, type )
 
-		bin.setval( ic, bmap.ty.soil.plfl.veg.time, time )
+		bin.setval( ic, bmap.ty.soil.plfl.veg.age, age )
 	}
 
 
@@ -245,7 +242,7 @@ export default( Base )=>class Ground extends Base
 	
 	getsoilhum_i( ic )
 	{
-		return this.bin.tryval( ic, bmap.ty.soil.hum )
+		return this.bin.getval( ic, bmap.ty.soil.hum )
 	}
 	setsoilhum_i( ic ,lvl )
 	{
@@ -255,41 +252,24 @@ export default( Base )=>class Ground extends Base
 
 	getwaterlvl_i( ic )
 	{
-		return this.bin.getval( ic, Ground.Bin.bmap.wsr.lvl ) + 1
+		return this.bin.getval( ic, bmap.ty.water.depth ) + 1
 	}
 
 
-	getplfl_i( ic )
+	trysoilvegty_i( ic )
 	{
-		return this.bin.getval_str( ic, Ground.Bin.bmap.plfl.ty )
+		return this.bin.tryval_str( ic, bmap.ty.soil.plfl.veg.ty )
+	}
+	getsoilvegty_i( ic )
+	{
+		return this.bin.getval_str( ic, bmap.ty.soil.plfl.veg.ty )
 	}
 
 
-	getvegty_i( ic )
+
+	getsoilvegage_i( ic )
 	{
-		return this.bin.getval_str( ic, Ground.Bin.bmap.plfl.plant.ty )
-	}
-
-	setvegty_i( ic, type )
-	{
-		this.bin.setval_str( ic, Ground.Bin.bmap.plfl.plant.ty, type )
-	}
-
-
-	getveglvl_i( ic )
-	{
-		return this.bin.getval( ic, Ground.Bin.bmap.plfl.plant.lvl )
-	}
-
-	setveglvl_i( ic, lvl )
-	{
-		this.bin.setval( ic, Ground.Bin.bmap.plfl.plant.lvl, lvl )
-	}
-
-
-	getvegtime_i( ic )
-	{
-		return this.bin.getval( ic, Ground.Bin.bmap.plfl.plant.time )
+		return this.bin.getval( ic, bmap.ty.soil.plfl.veg.age )
 	}
 
 
@@ -326,8 +306,8 @@ export default( Base )=>class Ground extends Base
 	}
 
 
-	static maxvegtime()
+	static maxvegage()
 	{
-		return Ground.Bin.getmaxval( Ground.Bin.bmap.plfl.plant.time )
+		return Ground.Bin.getmaxval( Ground.Bin.bmap.plfl.plant.age )
 	}
 }

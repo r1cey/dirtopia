@@ -313,10 +313,11 @@ Map.prototype. slice	=function( c, r )
 ///////////////////////////////////////////////////////////////////////////////
 
 
+/** Look into {BinMap}.fore */
 
 Map.prototype. fore	=function( fun, r, c )
 {
-	return this.bin.fore( fun, r, c )
+	return this.bin.fore( fun, r, c ,this )
 }
 
 
