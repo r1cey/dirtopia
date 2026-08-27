@@ -8,7 +8,7 @@ import Gr	from './Ground.js'
 
 import * as Trees from "./Trees.js"
 
-import vegdefs	from '../../www/shared/maps/vegdefs.js'
+import vegdefs ,{ isbrgrow}	from '../../www/shared/maps/plantdefs.js'
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -72,15 +72,22 @@ Canopy.prototype. gentrees	=function()
 		
 		gr.getsoilvegage( loc2) -gr.getsoilvegage( loc1))
 
-	var age	=gr.getsoilvegage( trees[0])
+	var age	=gr.getsoilvegage( trees[0]) -1
 	
 	const minage	=gr.getsoilvegage( trees.at( -1))
 
-	for(; age >minage ; --age)
+	for(; age >=minage ; --age)
 	{
 		for(var treeloc of trees)
 		{
-			this.growtree( treeloc)
+			const curage =gr.getsoilvegage( treeloc)
+
+			const ty	=gr.getsoilvegtype( treeloc)
+
+			if( curage >age && isbrgrow( ty ,curage))
+			{
+				this.growtree( treeloc)
+			}
 		}
 	}
 }
@@ -116,37 +123,36 @@ Canopy.prototype. gentree	=function( loc, gr, ic, lvl )
 
 Canopy.prototype. growtree	=function( loc, type, brs, ic )
 {
-	var m	=this
+	const m	=this
 
-	type	??=this.ground.getvegty( loc )
+	type	??=this.ground.getsoilvegty( loc)
 
-	ic	??=m.ic(loc)
+	ic	??=m.ic( loc)
 	{
-		let t	=m.getfloorty_i( ic )
+		let ty	=m.getfloorty_i( ic)
 	
-		if( t === "none" )
+		if( ty === "none")
 		{
-			m.set_ic_("floorty", ic, loc, "trunk" )
+			m.setfloorty_i( ic ,loc ,"trunk")
 
 			switch( type )
 			{
 				case "apple" :
 
-					m.set_("newleaves", loc )
+					m.setnewleaves( loc)
 				break
 				case "umbrtr" :
 
-					m.set_("newleaves", loc, true )
+					m.setnewleaves( loc ,true)
 			}
-
 			return true
 		}
-		else if( t !== "trunk" )
+		else if( ty !== "trunk" )
 		{
 			return false
 		}
 	}
-	return new Trees[type]( this, loc ).grow()
+	return new Trees[type]( this ,loc).grow()
 }
 
 

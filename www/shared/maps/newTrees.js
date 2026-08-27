@@ -63,13 +63,13 @@ export default( Base )=>class Tr extends Base
 
 	setfloorty_i( ic, type )
 	{
-		this.bin.setval_str( ic, Tr.Bin.bmap.floor.ty, type )
+		this.bin.setval_str( ic, bmap.floor.ty, type )
 	}
 
 
 	getfloorty_i( ic )
 	{
-		return this.bin.getval_str( ic, Tr.Bin.bmap.floor.ty )
+		return this.bin.getval_str( ic, bmap.floor.ty )
 	}
 
 	

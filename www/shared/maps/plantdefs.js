@@ -27,7 +27,7 @@ const max	=(1<<12) - 1
  * @prop {num}	br_pulse	-For trees. How many ticks to grow a branch
  * 	on an adult tree. */
 
-export default{
+const defs	={
 
 	cucumber	:
 	{
@@ -57,7 +57,7 @@ export default{
 		,
 		sz	:"tree"
 		,
-		br_pulse	:Math.round( max- (17*day) / 32 )
+		br_pulse	:max- (17*day )/32
 	},
 	sanped	:
 	{
@@ -68,3 +68,18 @@ export default{
 		isimmort	:true
 	}
 }
+
+
+/** Doesn't check anything!! Barebone */
+
+export function isbrgrow( ty ,age )
+{
+	const def	=defs[ty]
+
+	const gr	=def.growth
+
+	return Math.round( ( gr[5] -gr[4]) %def.br_pulse +gr[4]) ===age
+}
+
+
+export default defs

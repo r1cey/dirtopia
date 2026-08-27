@@ -105,7 +105,7 @@ export default function( Map )
 		{
 			this.setleafl( loc, 1 )
 		}
-		, 1, loc )
+		,1 ,loc )
 
 		isflat ? null : this.setleafh( loc, 1 )
 	}

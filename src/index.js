@@ -25,7 +25,7 @@ catch(e)
 await game.load()
 
 if( ! game.maps.isready() )
-{	
+{
 	game.maps.gendesert()
 }
 // game.start()
