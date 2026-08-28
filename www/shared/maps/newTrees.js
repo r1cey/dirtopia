@@ -92,12 +92,12 @@ export default( Base )=>class Tr extends Base
 
 	setbrdir_i( ic, dir )
 	{
-		this.bin.setval( ic, Tr.Bin.bmap.floor.branch.dir , dir )
+		this.bin.setval( ic, bmap.floor.ty.branch.dir , dir )
 	}
 
 	getbrdir_i( ic )
 	{
-		return this.bin.getval( ic, Tr.Bin.bmap.floor.branch.dir )
+		return this.bin.getval( ic, bmap.floor.ty.branch.dir )
 	}
 
 

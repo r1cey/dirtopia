@@ -5,6 +5,12 @@ import branches from "./branches.js"
 import { WM } from "../../www/shared/utils.js"
 
 
+
+/** Has the logic for tree growth at least.
+ * 
+ * @todo Change set_ functions! */
+
+
 ///////////////////////////////////////////////////////////////////////////////
 
 

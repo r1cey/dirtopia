@@ -19,6 +19,8 @@ const max	=(1<<12) - 1
  * @prop {[]} sprout.texture	-Combination of texture and structure
  * 	to break through the ground.
  * @prop {[]} growth	-[ baby ,kid ,teen ,mature ,old ,dead ]
+ * 	User defines first how many ticks each stage takes and then the module
+ * 	automatically changes values to the sums.
  * @prop {"grass"|"medium"|"shrub"|"tree"} sz	-Size of plant. Used for
  * 	collision detection.
  * @prop {num} fruits	-How many ticks for each fruit to appear.
@@ -57,7 +59,7 @@ const defs	={
 		,
 		sz	:"tree"
 		,
-		br_pulse	:max- (17*day )/32
+		br_pulse	:( max -17*day) /32
 	},
 	sanped	:
 	{
@@ -83,3 +85,25 @@ export function isbrgrow( ty ,age )
 
 
 export default defs
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+
+for(const vegk in defs)
+{
+	const def	=defs[vegk]
+
+	if( def.growth)
+	{
+		let sum	=0
+
+		def.growth.forEach(( val ,i ,arr)=>
+		{
+			sum =val +sum
+
+			arr[i]	=/*Math.round*/( sum)
+		})
+	}
+}

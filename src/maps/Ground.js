@@ -642,7 +642,7 @@ G.prototype. gencacti	=function()
 
 
 /** Use this to generate special spawn tree for players.
- * It needs to be adult and will never die (same as spawn loc).
+ * It needs to be adult and will never die (same loc as spawn loc).
  * @arg {num}	brsize	-branch size */
 
 G.prototype. genumbrtree	=function( loc, brsize )
@@ -653,7 +653,9 @@ G.prototype. genumbrtree	=function( loc, brsize )
 
 	const utdef	=vegdefs.umbrtr
 
-	var age	=arsum( utdef.growth ,0 ,4 )
+	// var age	=arsum( utdef.growth ,0 ,4 )
+
+	var age	=utdef.growth[3]
 
 	age	+=utdef.br_pulse * brsize
 	

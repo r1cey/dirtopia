@@ -153,17 +153,17 @@ export default( Base )=>class Ground extends Base
 
 	getsoilvegstage_i( ic ,vegty =this.getsoilvegty_i( ic ))
 	{
-		stages	=vegdefs[vegty].growth
+		const stages	=vegdefs[vegty].growth
 
 		const curage	=this.getsoilvegage_i( ic )
 
-		var age =0
+		// var age =0
 
-		for( var i =0 ; i < stages.length ; i++ )
+		for(var i=0,len= stages.length ;i<len;i++)
 		{
-			age	+= stages[i]
+			// age	+= stages[i]
 
-			if( age > curage )	return i
+			if( stages[i] >curage)	return i
 		}
 		return i
 	}

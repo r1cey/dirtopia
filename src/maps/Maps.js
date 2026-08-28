@@ -94,9 +94,9 @@ export default class Ms extends shMaps
 	{
 		this.game.mode	="desert"
 
-		this.gr.gendesert( this.conf.size.r, this.conf.size.maxcells )
+		this.gr.gendesert( this.conf.size.r ,this.conf.size.maxcells)
 
-		this.tr.gen( this.gr )
+		this.tr.gen( this.gr)
 
 		// this.save()
 	}

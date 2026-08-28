@@ -60,6 +60,10 @@ Canopy.prototype. gentrees	=function()
 
 		const vegty	=gr.issoilplant_i( ic)
 
+		if( vegty )
+			
+			console.log( vegty )
+
 		if( vegty &&vegdefs[vegty].sz ==="tree" &&
 			
 			gr.getsoilvegstage_i( ic, vegty) >3 )
@@ -68,6 +72,12 @@ Canopy.prototype. gentrees	=function()
 		}
 
 	})
+	if( ! trees.length )
+	{
+		console.warn( "Canopy.gentrees: No trees were found.")
+
+		return
+	}
 	trees.sort(( loc1, loc2)=>
 		
 		gr.getsoilvegage( loc2) -gr.getsoilvegage( loc1))
