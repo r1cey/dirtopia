@@ -256,6 +256,12 @@ export default( Base )=>class Ground extends Base
 	}
 
 
+	getplfl_i( ic)
+	{
+		return this.bin.getval_str( ic, bmap.ty.soil.plfl )
+	}
+
+
 	trysoilvegty_i( ic )
 	{
 		return this.bin.tryval_str( ic, bmap.ty.soil.plfl.veg.ty )
@@ -284,30 +290,23 @@ export default( Base )=>class Ground extends Base
 
 
 	
-	static maxwater()
+	static maxwaterlvl()
 	{
-		return ( this.maxhum() >> 1 ) + 1
+		return this.Bin.getmaxval( bmap.ty.water.depth) +1
 	}
 
 	static maxwat		=Ground.maxwater
 
 
 
-	static maxhum()
+	static maxsoilhum()
 	{
-		return this.Bin.getmaxval( Ground.Bin.bmap.wsr.lvl )
-	}
-
-
-
-	static maxveglvl()
-	{
-		return Ground.Bin.getmaxval( Ground.Bin.bmap.plfl.plant.lvl )
+		return this.Bin.getmaxval( bmap.ty.soil.hum)
 	}
 
 
 	static maxvegage()
 	{
-		return Ground.Bin.getmaxval( Ground.Bin.bmap.plfl.plant.age )
+		return Ground.Bin.getmaxval( bmap.ty.soil.plfl.veg.age )
 	}
 }

@@ -10,7 +10,8 @@ import newJRev from "../../www/shared/newJsonRevivr.js"
 import JRev	from "../JsonRevivr.js"
 
 
-
+/** WebSocket based communication.
+ * Add client to this.cls only after full login. */
 
 export default class Server
 {
@@ -36,7 +37,7 @@ export default class Server
 	static jrev	=new (newJRev(JRev))()
 
 
-	constructor( game, port )
+	constructor( game ,port)
 	{
 		// super()
 
@@ -47,241 +48,246 @@ export default class Server
 
 
 	toJSON()	{return undefined }
-}
 
 
-///////////////////////////////////////////////////////////////////////////////
-
-
-
-Server.prototype. start	=async function( port )
-{	
-	if( port )	this.conf.port	=port
-
-	var srv	=this
-	
-	srv.wss	=new WebSocketServer({ port:this.conf.port/*, clientTracking: true */})
-	
-	srv.wss.on( 'connection', srv.onconn. bind(srv))
-	
-	console.log(`WS server started on ${this.conf.port} port...`)
-}
+	///////////////////////////////////////////////////////////////////////////
 
 
 
-Server.prototype. stop	=function()
-{
-	console.log(`Server shutting down.`)
+	start( port)
+	{	
+		if( port)	this.conf.port	=port
 
-	for(var cl of this.wss.clients )
-	{
-		cl.close( 4801 )
+		const srv	=this
+		
+		srv.wss	=new WebSocketServer({ port:this.conf.port/*, clientTracking: true */})
+		
+		srv.wss.on( 'connection' ,srv.onconn .bind( srv))
+		
+		console.log(`WS server started on ${this.conf.port} port...`)
 	}
-	this.wss.close()
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
 
 
 
-Server.prototype. send	=function( fnk ,...args )
-{
-	// Server.out[fnk]. apply(this, args )
-
-	this["em_"+fnk]( ...args )
-}
-
-
-
-Server.prototype. sendvis	=function( loc ,funk ,arg ,replcr )
-{
-	const dict	=this.cls.o
-
-	for(var n in dict )
+	stop()
 	{
-		var cl	=dict[n]
+		console.log(`Server shutting down.`)
 
-		if( cl.pl.sees(loc) )
+		for(const cl of this.wss.clients)
 		{
-			cl.send( funk ,arg ,replcr )
+			cl.close( 4801)
+		}
+		this.wss.close()
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////////
+
+
+
+	send( fnk ,...args)
+	{
+		// Server.out[fnk]. apply(this, args )
+
+		this["em_"+fnk]( ...args )
+	}
+
+
+
+	sendvis( loc ,funk ,arg ,replcr)
+	{
+		const dict	=this.cls.o
+
+		for(var n in dict )
+		{
+			var cl	=dict[n]
+
+			if( cl.pl.sees(loc) )
+			{
+				cl.send( funk ,arg ,replcr )
+			}
 		}
 	}
-}
 
 
-Server.prototype. sendplvis	=function( pl ,fnk ,...args )
-{
-	var dict	=this.cls.o
-
-	for(var n in dict )
+	sendplvis( pl ,fnk ,...args)
 	{
-		var cl	=dict[n]
+		var dict	=this.cls.o
 
-		if( cl.pl.seespl(pl) )
+		for(var n in dict )
 		{
-			cl.send( fnk ,...args )
+			var cl	=dict[n]
+
+			if( cl.pl.seespl(pl) )
+			{
+				cl.send( fnk ,...args )
+			}
 		}
 	}
-}
 
-Server.prototype. sendvis2	=function( loc1, loc2 ,fnk ,arg )
-{
-	var dict	=this.cls.o
-
-	for(var n in dict )
+	sendvis2( loc1, loc2 ,fnk ,arg)
 	{
-		var cl	=dict[n]
+		var dict	=this.cls.o
 
-		if( cl.pl.sees(loc1) || cl.pl.sees(loc2) )
+		for(var n in dict )
 		{
-			cl.send( fnk ,arg )
+			var cl	=dict[n]
+
+			if( cl.pl.sees(loc1) || cl.pl.sees(loc2) )
+			{
+				cl.send( fnk ,arg )
+			}
 		}
 	}
-}
 
-Server.prototype. sendplvis2	=function( loc1 ,loc2 ,pl ,fnk ,arg )
-{
-	const dict	=this.cls.o
-
-	for(var n in dict )
+	sendplvis2( loc1 ,loc2 ,pl ,fnk ,arg)
 	{
-		var cl	=dict[n]
+		const dict	=this.cls.o
 
-		var pl2	=cl.pl
-
-		if( pl2 !== pl &&( pl2.sees(loc1) || pl2.sees(loc2) ))
+		for(var n in dict )
 		{
-			cl.send( fnk ,arg )
+			var cl	=dict[n]
+
+			var pl2	=cl.pl
+
+			if( pl2 !== pl &&( pl2.sees(loc1) || pl2.sees(loc2) ))
+			{
+				cl.send( fnk ,arg )
+			}
 		}
 	}
-}
 
-Server.prototype. sendplvis3	=function( loc1 ,loc2 ,loc3 ,pl ,fnk ,arg )
-{
-	const dict	=this.cls.o
-
-	for(var n in dict )
+	sendplvis3( loc1 ,loc2 ,loc3 ,pl ,fnk ,arg)
 	{
-		var cl	=dict[n]
+		const dict	=this.cls.o
 
-		var pl2	=cl.pl
-
-		if( pl2 !== pl &&( pl2.sees(loc1) || pl2.sees(loc2) || pl2.sees(loc3) ))
+		for(var n in dict )
 		{
-			cl.send( fnk ,arg )
+			var cl	=dict[n]
+
+			var pl2	=cl.pl
+
+			if( pl2 !== pl &&( pl2.sees(loc1) || pl2.sees(loc2) || pl2.sees(loc3) ))
+			{
+				cl.send( fnk ,arg )
+			}
 		}
 	}
-}
 
 
-Server.prototype. senditemmoved	=function( from ,item ,to ,mover )
-{
-	var cls	=new Set()
-
-	var dict	=this.cls.o
-
-	for(var n in dict )
+	senditemmoved( from ,item ,to ,mover)
 	{
-		var cl	=dict[n]
+		var cls	=new Set()
 
-		var pl	=cl.pl
+		var dict	=this.cls.o
 
-		if( pl.seesnavf( from ))	cls.add(cl)
+		for(var n in dict )
+		{
+			var cl	=dict[n]
 
-		if( pl.seesnavf( to ))	cls.add( cl )
+			var pl	=cl.pl
+
+			if( pl.seesnavf( from ))	cls.add(cl)
+
+			if( pl.seesnavf( to ))	cls.add( cl )
+		}
+		for(var cl of cls )
+		{
+			cl.send("itemmoved" ,[ from ,item ,len ,to ,mover ])
+		}
 	}
-	for(var cl of cls )
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+	/** Fires on new WebSocket connection request. */
+
+	onconn( ws ,req)
 	{
-		cl.send("itemmoved" ,[ from ,item ,len ,to ,mover ])
+		const ip	=req.socket.remoteAddress
+
+		console.log( `Client connected from ${ip}`)
+
+		const g	=this.game
+
+	/*	if(this.wss.clients.size > this.conf.maxcls)
+		{
+			console.error( 'Too many clients!')
+
+			ws.close( 4808 )
+
+			return
+		}*/
+		ws.on( 'message' ,this.onmsg .bind(this ,ws ,ip))
+
+		ws.on( 'error' ,console.warn)
+
+		ws.on( 'close' ,( code ,reason)=>
+		{
+			console.log(`Client ${ip} disconnected: code-${code}, reason-${reason}.`)
+		})
 	}
-}
 
 
-///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
 
 
+	/** Server handles messages here until player fully logs in. Then the
+	 * new created Client instance takes over.
+	 * So far the only messages have { name ,newpl} structure.
+	 * With newpl data added if creating a new player.
+	 * 
+	 * @todo Add trying to read player data if player isn't found and
+	 * before requesting to create a new one. */
 
-Server.prototype. onconn	=function( ws, req )
-{
-	var ip	=req.socket.remoteAddress
-
-	console.log( `Client connected from ${ip}`)
-
-	var g	=this.game
-
-/*	if(this.wss.clients.size > this.conf.maxcls)
+	onmsg( ws, ip, data, isbin)
 	{
-		console.error( 'Too many clients!')
+		const str	=data.toString()
 
-		ws.close( 4808 )
+		console.log(`Srv msg from ${ip}: ${str}`)
 
-		return
-	}*/
+		try
+		{
+			var msg	=JSON.parse( str ,this.constructor.jrev.fn)
+		}
+		catch( err)
+		{
+			return
+		}
+		const pln	=msg.name
 
-	ws.on( 'message', this.onmsg. bind(this, ws, ip ))
+		if(	this.cls.o[pln])
+		{
+			ws.close( 4123, 'Player already connected!' )
 
-	ws.on( 'error', console.log )
+			return
+		}
+		var pl	=this.game.pls.g( pln)
 
-	ws.on( 'close', ( code, reason )=>
-	{
-		console.log(`Client ${ip} disconnected: code-${code}, reason-${reason}.`)
-	})
-}
+		if( pl)
+		{
+			console.log("Connecting player: " +pln)
 
+			this.cls.new( ws ,pl)
+		}
+		else if( this.game.pls.rem() <=0)
+		{
+			console.log("Too many players on server :(")
 
-///////////////////////////////////////////////////////////////////////////////
+			ws.close( 4124 ,"Too many players on server :(")
+		}
+		else if( msg.newpl)
+		{
+			this.cls.new( ws ,this.game.pls.new( msg.newpl))
+		}
+		else
+		{
+			console.log(`No ${pln} player found. Create new.`)
 
-
-/** [ name, newpl ] */
-
-Server.prototype. onmsg	=function( ws, ip, data, isbin )
-{
-	var str	=data.toString()
-
-	console.log( `Srv msg from ${ip}: ${str}`)
-
-	try
-	{
-		var plmsg	=JSON.parse( str, this.constructor.jrev.fn )
+			ws.send( `["createpl","${pln}"]`)
+		}
 	}
-	catch(err)
-	{
-		return
-	}
-	var pln	=plmsg.name
-
-	if(	this.cls.o[pln] )
-	{
-		ws.close( 4123, 'Player already connected!' )
-
-		return
-	}
-	var pl	=this.game.pls.o[pln]
-
-	if( pl )
-	{
-		console.log( "Connecting player: "+pln )
-
-		this.cls.new( ws, pl )
-	}
-	else if( this.game.pls.rem() <= 0 )
-	{
-		console.log("Too many players on server :(")
-
-		ws.close( 4124, "Too many players on server :(")
-	}
-	else if( plmsg.col  )
-	{
-		this.cls.new( ws, this.game.pls.new( plmsg ) )
-	}
-	else
-	{
-		console.log( `No ${pln} player found. Create new.`)
-
-		ws.send( `["createpl", ["${pln}"]]` )
-	}
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -588,6 +594,6 @@ Server.prototype. plmoving	=function( pln, newloc, pl )
 	, true)
 }
 */
-
+}
 
 ///////////////////////////////////////////////////////////////////////////////

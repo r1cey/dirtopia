@@ -52,20 +52,22 @@ Gr.prototype. draw	=function( can )
 ///////////////////////////////////////////////////////////////////////////////
 
 
+/** Slops is not implemented at all right now. But used to be. So Anton
+ * kept the code here in case anyone wants to implement it again. */
 
-Gr.prototype. drawhex	=function( can, loc, plh, vsq, ic )
+Gr.prototype. drawhex	=function( can ,loc ,plh ,vsq ,ic)
 {
 	const map	=this
 
-	vsq.set(loc).tosqc(can)
+	vsq.set( loc).tosqc( can)
 
-	ic	??=map.i(loc)
+	ic	??=map.ic( loc)
 
-	const{ r, h2 }	=can.units
+	const{ r ,h2}	=can.units
 
 	const h	=h2>>1
 
-	if( can.showslopes )
+	if( can.showslopes)
 	{
 		var dir
 		
@@ -83,68 +85,68 @@ Gr.prototype. drawhex	=function( can, loc, plh, vsq, ic )
 
 	var lvl
 
-	switch( map.gettype_i( ic ) )
+	switch( map.gettype_i( ic))
 	{
 		case "soil" :
 
-			lvl	=map.getsoilhum_i( ic )
+			lvl	=map.getsoilhum_i( ic)
 
-			if( lvl === 0 )
+			if( lvl ===0)
 			{
 				/** @todo get rid of new vec? */
 
-				can.drawimg( loc, can.imgs().o.sand3, 1, new V() )
+				can.drawimg( loc ,can.imgs().o.sand3 ,1 ,new V())
 			}
 			else
 			{
-				col.sethsl( 57, 16, 42)	// 2, 47, 10
+				col.sethsl( 57 ,16 ,42)	// 2, 47, 10
 
-				max	=Gr.maxhum()
+				max	=Gr.maxsoilhum()
 
 				col.add( lvl*(-55)/max, lvl*(31)/max, lvl*(-32)/max )
 
-				can.fillhex( vsq, col.str() )
+				can.fillhex( vsq ,col.str())
 			}
-			if( can.showlvls )
+			if( can.showlvls)
 			{
 				can.ctx.fillStyle="#FFFFFF"
 
 				can.ctx.fillText( lvl, vsq.x, vsq.y )
 			}
-			switch( map.getplfl_i( ic ))
+			switch( map.getplfl_i( ic))
 			{
-				case "plant" :
+				case "veg" :
 
-					switch( map.getsoilvegty_i( ic ) )
+					switch( map.getsoilvegty_i( ic))
 					{
 						case "apple" :
 						
 						case "umbrtr" :
 
-							map.drawstem( can, loc, vsq, ic, col )
+							map.drawstem( can ,loc ,vsq ,ic ,col)
 						break
 						case "sandpedro" :
 
-							map.drawcactus( can, loc, vsq, ic )
+							map.drawcactus( can ,loc ,vsq ,ic)
 					}
 			}
 		break
 
 		case "water" :
 
-			lvl =map.getwaterlvl_i(ic)
+			lvl =map.getwaterlvl_i( ic)
 		
-			col.sethsl( 179, 34, 45 )	// 269, 45, 10
+			col.sethsl( 179 ,34 ,45)	// 269 ,45 ,10
 
-			max	=Gr.maxwater()-1
+			max	=Gr.maxwaterlvl() -1
 
 			lvl--
 
-			col.add( lvl*90/max, lvl*11/max, lvl*(-35)/max )
+			col.add( lvl *90 /max ,lvl *11 /max ,lvl *(-35) /max)
 
-			can.fillhex( vsq, col.str() )
+			can.fillhex( vsq ,col.str())
 
-			if( can.showlvls )
+			if( can.showlvls)
 			{
 				can.ctx.fillStyle="#FFFFFF"
 
@@ -152,7 +154,7 @@ Gr.prototype. drawhex	=function( can, loc, plh, vsq, ic )
 			}
 	}
 
-	if( can.showslopes )
+	if( can.showslopes)
 	{
 		dir	=map.getdir( loc )
 

@@ -58,6 +58,18 @@ export default class G extends ShGr
 	}
 
 
+	/** Add spawns to obj.o and then deelte. */
+
+	async save( dir)
+	{
+		this.obj.o.spawns	=this.spawns
+
+		await super.save( dir)
+
+		delete this.obj.o.spawns
+	}
+
+
 	/** Add 3 dewds for player to get water from. 
 	 * @todo change radius for search? */
 

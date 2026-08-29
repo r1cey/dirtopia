@@ -60,9 +60,9 @@ Canopy.prototype. gentrees	=function()
 
 		const vegty	=gr.issoilplant_i( ic)
 
-		if( vegty )
+		// if( vegty )
 			
-			console.log( vegty )
+			// console.log( vegty )
 
 		if( vegty &&vegdefs[vegty].sz ==="tree" &&
 			

@@ -69,26 +69,27 @@ export default class Map extends ShMap
 
 	async save( dir ="")
 	{
-		var pa	=dir+this.constructor.name
+		const pabase	=dir +this.constructor.name
 
-		var buf	=this.bin.getbuf()
+		const buf	=this.bin.getbuf()
 
-		var proms	=[]
+		const proms	=[]
 
-		if( buf )	proms[0]	=fs.savebuf( pa+'.bin', buf )
+		if( buf)	proms[0]	=fs.savebuf( pabase +'.bin' ,buf)
 
-		proms[1]	=fs.savejson( pa+'.json' , this.obj.o ,( key, val )=>
+		/**@todo Do a proper toJSON solution for saving player names */
+
+		proms[1]	=fs.savejson( pabase +'.json' ,this.obj.o ,( key ,val)=>
 			{
-				switch( key )
+				switch( key)
 				{
-					case 'pl' :
+					case 'pl':
 
 						return val.name
 				}
 				return val
 			})
-
-		return await Promise.allSettled( proms )
+		return await Promise.allSettled( proms)
 	}
 }
 

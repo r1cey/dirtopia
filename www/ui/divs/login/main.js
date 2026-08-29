@@ -1,6 +1,9 @@
 import DivGo from "../../DivGameObj.js"
 
 
+/** Is the login div.
+ * GameObj that it's attached to is the server. */
+
 export default class Login extends DivGo
 {
 	get elbut()
@@ -9,34 +12,39 @@ export default class Login extends DivGo
 	}
 
 
+
 	constructor( ...args )
 	{
 		super( ...args )
 
 		this.start()
 	}
-}
 
-Login.prototype. start	=function()
-{
-	const srv	=this.gobj
 
-	this.elbut.onclick	=( ev )=>
+
+	start()
 	{
-		const elinp	=this.el.querySelector('input')
+		const srv	=this.gobj
 
-		ev.currentTarget.disabled	=true
+		this.elbut.onclick	=( ev )=>
+		{
+			const elinp	=this.el.querySelector( 'input')
 
-		srv.sendlogin({ name: elinp.value })
+			ev.currentTarget.disabled	=true
 
-		return false
+			srv.sendlogin( { name :elinp.value})
+
+			return false
+		}
+		// this.show()
+
+		// document.body.insertBefore( this.el, document.body.firstChild )
 	}
-	// this.show()
 
-	// document.body.insertBefore( this.el, document.body.firstChild )
-}
 
-Login.prototype. reset	=function()
-{
-	this.elbut.disabled	=false
+
+	reset()
+	{
+		this.elbut.disabled	=false
+	}
 }

@@ -5,27 +5,21 @@ import Loc from '../shared/Loc.js'
 import Maps	from '../maps/Maps.js'
 
 
-
-// export default( Base )=>class SG extends Base
-export default {
-
-	// constructor(...args)	{ super(...args) }
-
-///////////////////////////////////////////////////////////////////////////////
-
-
 /********
 	FRIENDLY REMINDER THAT ALL MESSAGES WILL COME AFTER JSON REVIVER!
- * ***/
 
+	Also, these methods will be called with Server inst. as "this".
+* ***/
 
-/** Player with [name] doesn't exist and needs to be created. */
+export default{
 
-	createpl( name )
+	/** Player with name doesn't exist and needs to be created. */
+
+	createpl( name)
 	{
 		// this.cl.ui.newplcreate( name ,this )
 
-		this.cl.ui.setpage( "createpl" ,this ,name )
+		this.cl.ui.setpage( "createpl" ,this ,name)
 	}
 ,
 

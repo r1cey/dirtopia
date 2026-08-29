@@ -16,6 +16,10 @@ import JRev from "../JsonRevivr.js"
 ///////////////////////////////////////////////////////////////////////////////
 
 
+/** Reminder that main communication happens in the format of
+ * [ actk ,arg] */
+
+
 
 export default newSS( class Server
 {
@@ -60,7 +64,7 @@ export default newSS( class Server
 	}
 
 
-///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
 
 
 
@@ -72,7 +76,7 @@ export default newSS( class Server
 
 	/** @arg	o	- whatever is sent to server */
 
-	sendlogin( o )
+	sendlogin( o)
 	{
 		try
 		{
@@ -166,18 +170,14 @@ export default newSS( class Server
 		}
 		else if(typeof msg === 'string')
 		{
-			const[ act, arg ]	=JSON.parse(ev.data, this.jrev.fn )
-			
-			console.log( act ,arg )
+			const[ act ,arg]	=JSON.parse( ev.data ,this.jrev.fn)
 
-			on[act].call( this ,arg )
+			console.log( act ,arg)
+
+			on[act].call( this ,arg)
 		}
 	}
 })
-
-	///////////////////////////////////////////////////////////////////////////////
-
-
 
 
 ///////////////////////////////////////////////////////////////////////////////

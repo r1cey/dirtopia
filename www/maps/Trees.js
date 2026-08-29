@@ -8,17 +8,21 @@ import Col	from "../shared/Color.js"
 
 
 
+/** This Canopy class has additional bitmap storing helper data.
+ * Like branch size which saves on calculation every frame. */
+
+
+
 const TrBase	=newShTrM( Map )
 
 
-var bmap	=
-[
+const bmap	=
+{
+	"size"	:
 	{
-		name	:"size"
-		,
-		bits	:Gr.Bin.bmap.plfl.plant.lvl.bits
+		bits	:Gr.Bin.bmap.ty.soil.plfl.veg.age.bits
 	}
-]
+}
 
 
 export default class Tr extends TrBase
@@ -32,7 +36,7 @@ export default class Tr extends TrBase
 
 	static Bincl	=newBinM( 0, bmap )
 
-	static maxbrlvl	=Gr.maxveglvl()/3
+	static maxbrlvl	=Gr.maxveglvl()
 }
 
 

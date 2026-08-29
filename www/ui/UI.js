@@ -105,7 +105,7 @@ export default class Interface
 
             case "createpl" :
 
-                div =await this.html.loaddiv( pagen ,args ,pagen ,true )
+                div =await this.html.loaddiv( pagen ,args ,pagen ,true)
             break
             case "clplinv" :
 
