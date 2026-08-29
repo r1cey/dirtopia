@@ -17,18 +17,22 @@ import vegdefs	from "../shared/maps/vegdefs.js"
 
 
 
+const grbmap	=Gr.Bin.bmap
+
 const TrBase	=newShTrM( Map )
 
 
 const bmap	=
 {
-	"size"	:
+	size	:
 	{
-		bits	:Gr.Bin.bmap.ty.soil.plfl.veg.age.bits
+		bits	:grbmap.ty.soil.plfl.veg.age.bits
 	},
 	vegty	:
 	{
-		bits	:Gr.Bin.bmap.ty.soil.plfl.veg.ty.bits
+		bits	:grbmap.ty.soil.plfl.veg.ty.bits
+		,
+		valsa	:grbmap.ty.soil.plfl.veg.ty.valsa
 	}
 }
 
@@ -38,117 +42,146 @@ export default class Tr extends TrBase
 	/** Additional binary map for faster client drawing. */
 	bin2
 
-	can	=new OffscreenCanvas(0,0)
+	can	=new OffscreenCanvas( 0 ,0)
 	
-	ctx	=this.can.getContext('2d')
+	ctx	=this.can.getContext( '2d')
 
 	static Bincl	=newBinM( 0 ,bmap ,calc_bmap_typarrs( bmap))
 
 	// static maxbrlvl	=Gr.maxvegage()
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
 
 
 
-Tr.prototype. setbin	=function( bin )
-{
-	var map	=this
-
-	TrBase.prototype.setbin. call(this, bin )
-
-	this.bin2	=new Tr.Bincl( this._r, bin.cellsl, this.getloc() )
-
-	var v	=new V()
-
-	map.fore(( loc )=>
+	setvegty( loc ,ty)
 	{
-		this.updatefloorty( loc, v )
-	})
-	return map
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-
-Tr.prototype. draw	=function( can, pl )
-{
-	var map	=this
-
-	let plh	=pl?.pos.h	|| 0
-
-	var col	=new Col()
-
-	can.forcell(( loc )=>
-	{
-		if( ! this.inside(loc) )	return
-
-		if( map.getleafl( loc ))
-		{
-			map.drawleaves( can, loc, 0, plh )
-		}
-	})
-	can.ctx.shadowColor = 'transparent'
-
-	can.forcell(( loc )=>
-	{
-		if( ! this.inside(loc) )	return
-
-		var ic	=map.ic( loc )
-
-		// vsq.set(loc).tosqc( can )
-
-		switch( map.getfloorty_i( ic ))
-		{
-			case "trunk" :
-
-				can.maps.gr.drawstem( can, loc, null, ic, col )
-			break;
-			case "branch" :
-
-				map.drawbranch( can, loc, plh, ic, col )
-			break;
-		}
-	})
-	if( plh === 1 )
-	{
-		can.drawclpl()
+		this.bin2.setval_str( this.ic( loc) ,bmap.vegty ,ty)
 	}
-	can.forcell(( loc )=>
+
+	getvegty( loc)
 	{
-		if( ! this.inside(loc) )	return
+		return this.getvegty_i( this.ic( loc))
+	}
 
-		if( map.getleafh( loc ))
+	getvegty_i( ic)
+	{
+		return this.bin2.getval_str( ic ,bmap.vegty)
+	}
+
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+	/** Set the proper binary data plus create bin2 helper buffer and
+	 * update it. */
+
+	setbin( bin )
+	{
+		const map	=this
+
+		super.setbin( bin)
+
+		this.bin2	=new Tr.Bincl( this._r ,bin.cellsl ,this.getloc())
+
+		const v	=new V()
+
+		map.fore(( loc)=>
 		{
-			map.drawleaves( can, loc, 1, plh )
+			// this.updatefloorty( loc, v )
+
+			const type	=this.getfloorty( loc)
+			
+			switch( type )
+			{
+				case "branch" :
+
+					this.eval_endbr_upd( loc ,v)
+				break
+			}
+		})
+		return map
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	draw( can ,pl)
+	{
+		const map	=this
+
+		let plh	=pl?.pos.h	|| 0
+
+		const col	=new Col()
+
+		can.forcell(( loc)=>
+		{
+			if( ! this.inside( loc))	return
+
+			if( map.getleafl( loc))
+			{
+				map.drawleaves( can ,loc ,0 ,plh)
+			}
+		})
+		can.ctx.shadowColor = 'transparent'
+
+		can.forcell(( loc)=>
+		{
+			if( ! this.inside( loc))	return
+
+			const ic	=map.ic( loc)
+
+			// vsq.set(loc).tosqc( can )
+
+			switch( map.getfloorty_i( ic))
+			{
+				case "trunk" :
+
+					can.maps.gr.drawstem( can ,loc ,null ,ic ,col)
+				break;
+				case "branch" :
+
+					map.drawbranch( can ,loc ,plh ,ic ,col)
+				break;
+			}
+		})
+		if( plh === 1 )
+		{
+			can.drawclpl()
 		}
-	})
-	can.ctx.globalAlpha	=1
+		can.forcell(( loc )=>
+		{
+			if( ! this.inside(loc) )	return
 
-	can.ctx.shadowColor ='transparent'
+			if( map.getleafh( loc ))
+			{
+				map.drawleaves( can, loc, 1, plh )
+			}
+		})
+		can.ctx.globalAlpha	=1
 
-	// can.ctx.drawImage( map.can.transferToImageBitmap(), can._crn.x,can._crn.y)
-}
+		can.ctx.shadowColor ='transparent'
+
+		// can.ctx.drawImage( map.can.transferToImageBitmap(), can._crn.x,can._crn.y)
+	}
 
 
-///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
 
 
-Tr.prototype. setbranch	=function( loc, dir )
+setbranch( loc ,dir)
 {
-	TrBase.prototype.setbranch. call(this, loc, dir )
+	super.setbranch( loc, dir )
 
 	this.updatefloorty( loc ,new V(), "branch" )
 }
 
 /** @todo check if loc is inside */
 
-Tr.prototype. setfloorty	=function( loc, type )
+setfloorty( loc, type )
 {
-	TrBase.prototype.setfloorty. call(this, loc, type )
+	super.setfloorty( loc, type )
 
 	this.updatefloorty( loc ,new V(), type )
 }
@@ -158,7 +191,7 @@ Tr.prototype. setfloorty	=function( loc, type )
 
 
 
-Tr.prototype. updatefloorty	=function( loc, vbuf, type )
+updatefloorty( loc, vbuf, type )
 {
 	type	??=this.getfloorty( loc )
 		
@@ -166,7 +199,7 @@ Tr.prototype. updatefloorty	=function( loc, vbuf, type )
 	{
 		case "branch" :
 
-			this.endbranchcalc( loc, vbuf )
+			this.eval_endbr_upd( loc, vbuf )
 
 		case "trunk" :
 
@@ -175,102 +208,60 @@ Tr.prototype. updatefloorty	=function( loc, vbuf, type )
 }
 
 
-///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 
 
 
-Tr.prototype. setbrsize	=function( loc, size )
+setbrsize( loc, size )
 {
 	this.setbrsize_i( this.ic(loc), size )
 }
-Tr.prototype. setbrsize_i	=function( ic, size )
+
+setbrsize_i( ic, size )
 {
-	this.bin2.setval( ic, Tr.Bincl.bmap.size, size )
+	this.bin2.setval( ic, bmap.size, size )
 }
 
 
 
 
-Tr.prototype. getbrsize	=function( loc )
+getbrsize( loc)
 {
 	return this.getbrsize_i(this.ic(loc))
 }
-Tr.prototype. getbrsize_i	=function( ic )
+getbrsize_i( ic)
 {
-	return this.bin2.getval( ic, Tr.Bincl.bmap.size )
+	return this.bin2.getval( ic ,bmap.size)
 }
 
 
+/** Calculate branch sizes and types at the newly revealed branches */
 
-/*
-Tr.prototype. setleaves	=function( loc, val )
+shift( dir ,...args)
 {
-	this.setleaves_i( this.ic(loc), val )
-}
-Tr.prototype. setleaves_i	=function( ic, val )
-{
-	this.bin2.setval( ic, Tr.Bincl.bmap.lvs, val )
-}
+	super.shift( dir ,...args)
 
+	const map	=this
 
+	const v	=new V()
 
-
-Tr.prototype. getleaves	=function( loc )
-{
-	return this.getleaves_i( this.ic(loc) )
-}
-Tr.prototype. getleaves_i	=function( ic )
-{
-	return this.bin2.getval( ic, Tr.Bincl.bmap.lvs )
-}*/
-
-
-/** Calculate branch sizes at the newly revealed branches */
-
-Tr.prototype. shift	=function( dir, ...args )
-{
-	TrBase.prototype.shift.call( this, dir, ...args )
-
-	var map	=this
-
-	var v	=new V()
-
-	map.fordiredge(( loc )=>
+	map.fordiredge(( loc)=>
 	{
-		var ic	=map.ic(loc)
+		const ic	=map.ic( loc)
 		
-		switch( map.getfloorty_i( ic ) )
+		switch( map.getfloorty_i( ic))
 		{
-			case "none" :
+			case "none":
 
-				for(var dir=0; dir<6; dir++)
-				{
-					if( ! map.inside( v.set(loc).neighh(dir) ))	continue
-
-					switch( map.getfloorty( v ))
-					{
-						case "trunk" :
-						case "branch" :
-
-							// map.setleaves_i( ic, 1 )
-
-							break
-					}
-				}
 			break
-			case "trunk" :
+			case "trunk":
 
-				// map.paintleaves( loc, v )
 			break
-			case "branch" :
+			case "branch":
 
-				// map.paintleaves( loc, v )
-
-				if( map.getbrsize_i(ic) )	break
-
-				if( ! map.endbranchcalc( loc, v ))
+				if( map.eval_endbr_upd( loc ,v) ===1)
 				{
-					map.calcbrsizes( v.set(loc) )
+					map.calcbrsizes( v.set( loc))
 				}
 			break		
 		}
@@ -280,110 +271,119 @@ Tr.prototype. shift	=function( dir, ...args )
 
 
 
-///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 
 
+/** Check if it's the end of a branch. If yes, do all of the calculations
+ * and data storing.
+ * Specifically set branch sizes and set vegty for the entire branch.
+ * @arg {Vec}	v -scratch Vec
+ * @return {number}	-0 if end of branch,
+ * 	1 if not end and is not set, 2 is not end and is already set. */
 
-/** Just paint around. Don't check source v. 
- * v is just empty Vec *
-
-Tr.prototype. paintleaves	=function( loc, v )
+eval_endbr_upd( loc ,v)
 {
-	this.setleaves( loc , 1 )
+	const map	=this
 
-	for(var dir=0; dir<6; dir++)
-	{
-		if( this.inside( v.set(loc).neighh(dir) ))
-		{
-			var ic	=this.ic(v)
-
-			// if( this.getbranchti( ic ) === Tr.e.branch.none )
-			{
-				this.setleaves_i( ic , 1 )
-			}
-		}
-	}
-}*/
-
-
-
-/** v is just empty Vec */
-
-Tr.prototype. endbranchcalc	=function( loc, v )
-{
-	var map	=this
+	if( map.getbrsize( loc))	return 2
 
 	for(var dir=0; dir<6; dir++ )
 	{
-		if( map.isnextbr( v.set(loc).neighh(dir), dir ))
+		if( map.br_doescont( v.set( loc) ,dir))
 		{
-			return false
+			return 1
 		}
 	}
-	v.set( loc )
+	v.set( loc)
 
 	var size	=1
 
-	do
+	const brs	=[]
+
+	var treety
+
+	while( true)
 	{
-		map.setbrsize( v, size )
+		map.setbrsize( v ,size)
 
-		v.neighh( V.rotopph( map.getbrdir( v )))
+		brs.push( v.clone())
 
-		if( ! map.inside(v) ) break
+		map.br_goback( v)
 
-		if( map.getfloorty( v ) !== "branch" )	break
+		const ic	=map.ic( v)
 
+		if( ! map.inside( v)) break
+
+		const floorty	=map.getfloorty_i( ic)
+		
+		if( floorty !=="branch")
+		{
+			if( floorty ==="trunk")	treety	=map.gr.getsoilvegty( v)
+
+			break
+		}
+		else if( ! treety)
+		{
+			const vegty	=map.getvegty_i( ic)
+
+			if( vegty !=="none")	treety	=vegty
+		}
 		size ++
 
-		if( map.getbrsize( v ) >= size )	break
+		if( map.getbrsize_i( ic) >=size)	break
 	}
-	while(true)
-
-	return true
+	if( treety)
+	{
+		for(const locbr of brs)
+		{
+			map.setvegty( locbr ,treety)
+		}
+	}
+	return 0
 }
 
 
 
 /** Is used by map.shift()
- * loc is returned back */
+ * Loc is NOT changed */
 
-Tr.prototype. calcbrsizes	=function( loc )
+calcbrsizes( loc)
 {
-	var map	=this
+	const map	=this
+
+	const loc2	=loc.c()
 
 	var size	=1
 
-	for(var dir=0; dir<6; dir++)
+	for(var dir =0;dir< 6 ;dir++)
 	{
-		if( ! map.inside( loc.neighh(dir) ))	continue
+		loc2.s( loc).neighh( dir)
 
-		var ic	=map.i( loc )
+		if( ! map.inside( loc2))	continue
 
-		if( map.isnextbr_i( ic, dir ))
+		const ic	=map.ic( loc)
+
+		if( map.isnextbr_i( ic ,dir))
 		{
-			var size2	=map.getbrsize_i( ic ) || map.calcbrsizes( loc )
+			const size2	=map.getbrsize_i( ic) || map.calcbrsizes( loc2)
 
-			if( size2 >= size )
+			if( size2 >=size)
 			{
-				size	=size2 + 1
+				size	=size2 +1
 			}
 		}
-
-		loc.neighh( V.rotopph( dir ))
 	}
-
-	map.setbrsize( loc, size )
+	map.setbrsize( loc ,size)
 
 	return size
 }
 
 
-///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 
 
 
-Tr.prototype. drawbranch	=function( can, loc, plh, ic, colbuf ,ty)
+drawbranch( can ,loc ,plh ,ic ,colbuf ,ty)
 {
 	var map	=this
 

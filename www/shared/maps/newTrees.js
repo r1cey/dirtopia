@@ -5,8 +5,13 @@ import Map from './Map.js'
 import V from "../Vec.js"
 
 
+
 /** Is in charge of the upper level of game. Has branches, fruits,
  * everything that's above player */
+
+
+
+/** @prop floor.ty.branch.dir -The opposite direction from where it grew. */
 
 export const bmap	=
 {
@@ -69,7 +74,7 @@ export default( Base )=>class Tr extends Base
 
 	getfloorty_i( ic )
 	{
-		return this.bin.getval_str( ic, bmap.floor.ty )
+		return this.bin.getval_str( ic ,bmap.floor.ty)
 	}
 
 	

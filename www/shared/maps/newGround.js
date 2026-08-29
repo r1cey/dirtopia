@@ -54,7 +54,10 @@ export const bmap	=
 					ty	:
 					{
 						bits	:7
-						,		
+						,
+						/** Make sure that "none" is zero index.
+						 * Needed to calculate type in canopy map on
+						 * Client machine*/
 						valsa	:
 						[
 							"none" ,"umbrtr" ,"sandpedro" , ,"apple" ,
@@ -264,11 +267,11 @@ export default( Base )=>class Ground extends Base
 
 	trysoilvegty_i( ic )
 	{
-		return this.bin.tryval_str( ic, bmap.ty.soil.plfl.veg.ty )
+		return this.bin.tryval_str( ic ,bmap.ty.soil.plfl.veg.ty)
 	}
 	getsoilvegty_i( ic )
 	{
-		return this.bin.getval_str( ic, bmap.ty.soil.plfl.veg.ty )
+		return this.bin.getval_str( ic ,bmap.ty.soil.plfl.veg.ty)
 	}
 
 

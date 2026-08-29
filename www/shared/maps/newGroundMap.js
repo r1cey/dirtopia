@@ -243,11 +243,11 @@ export default( Map )=>class GroundMap extends newGround(Map)
 
 	/** Can return "none" if not a plant */
 
-	getvegty( loc )
+	getsoilvegty( loc )
 	{
 		const ic	=this.ic(loc)
 
-		return this.isveg_i( ic) && this.getsoilvegty_i( ic)
+		return this.getsoilvegty_i( ic)
 	}
 
 

@@ -15,6 +15,23 @@ export default function( Map )
 		get gr()	{return this.ground }
 
 		static MapShiftBo	=newTrees( BoMS )
+
+
+		/** Does the branch extend in that direction?
+		 * CHANGES LOC!!! */
+
+		br_doescont( loc ,dir)
+		{
+			return this.isnextbr( loc.neighh(dir) ,dir)
+		}
+
+
+		/** Change location of branch node closer to root */
+
+		br_goback( loc )
+		{
+			loc.neighh( V.rotopph( this.getbrdir( loc)))
+		}
 	}
 
 
@@ -81,6 +98,7 @@ export default function( Map )
 	}
 
 
+	/** Also checks if loc is inside the map. */
 
 	TM.prototype.isnextbr	=function( loc, dir )
 	{
