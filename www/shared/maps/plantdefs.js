@@ -1,3 +1,7 @@
+import{ arsum }	from "../utils.js"
+
+
+
 /** How many minutes each growth tick */
 const tick	=11.25
 
@@ -19,8 +23,7 @@ const max	=(1<<12) - 1
  * @prop {[]} sprout.texture	-Combination of texture and structure
  * 	to break through the ground.
  * @prop {[]} growth	-[ baby ,kid ,teen ,mature ,old ,dead ]
- * 	User defines first how many ticks each stage takes and then the module
- * 	automatically changes values to the sums.
+ * 	How many ticks does it take to reach the next stage.
  * @prop {"grass"|"medium"|"shrub"|"tree"} sz	-Size of plant. Used for
  * 	collision detection.
  * @prop {num} fruits	-How many ticks for each fruit to appear.
@@ -72,15 +75,27 @@ const defs	={
 }
 
 
-/** Doesn't check anything!! Barebone */
+/** Gets tree type and age, and tells whether it's the time to spawn a branch.
+ * NO ERROR CHECKING! */
 
-export function isbrgrow( ty ,age )
+export function isbrgrow( ty ,age)
 {
 	const def	=defs[ty]
 
 	const gr	=def.growth
 
-	return Math.round( ( gr[5] -gr[4]) %def.br_pulse +gr[4]) ===age
+	return Math.round( gr[4] %def.br_pulse +arsum( gr ,0 ,4)) ===age
+}
+
+
+/** How many branches can a tree spawn at most?
+ * NO ERROR CHECKING! */
+
+export function maxbrlvl( ty)
+{
+	const def	=defs[ty]
+
+	return Math.floor( def.growth[4] /def.br_pulse)
 }
 
 
@@ -90,6 +105,9 @@ export default defs
 ///////////////////////////////////////////////////////////////////////////////
 
 
+
+/* Used to sum ticks. Decided not to because then I'd need to reduce for
+calculating branch growth.
 
 for(const vegk in defs)
 {
@@ -103,7 +121,7 @@ for(const vegk in defs)
 		{
 			sum =val +sum
 
-			arr[i]	=/*Math.round*/( sum)
+			arr[i]	=/*Math.round*( sum)
 		})
 	}
-}
+}*/

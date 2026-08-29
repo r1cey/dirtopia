@@ -657,21 +657,19 @@ G.prototype. gencacti	=function()
  * It needs to be adult and will never die (same loc as spawn loc).
  * @arg {num}	brsize	-branch size */
 
-G.prototype. genumbrtree	=function( loc, brsize )
+G.prototype. genumbrtree	=function( loc, brsize)
 {
-	const ic	=this.ic(loc)
+	const ic	=this.ic( loc)
 
-	if( ! this.plantable_i( ic ))	return false
+	if( ! this.plantable_i( ic))	return false
 
 	const utdef	=vegdefs.umbrtr
 
-	// var age	=arsum( utdef.growth ,0 ,4 )
+	var age	=arsum( utdef.growth ,0 ,4)
 
-	var age	=utdef.growth[3]
-
-	age	+=utdef.br_pulse * brsize
+	age	+=Math.round( utdef.br_pulse *brsize)
 	
-	this.setsoilveg_i( ic ,"umbrtr" ,age )
+	this.setsoilveg_i( ic ,"umbrtr" ,age)
 
 	return true
 }

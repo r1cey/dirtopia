@@ -5,7 +5,7 @@ import newBinSh	from "./newBin.js"
  * @arg id	-Is sent to newBin
  * @arg {bmap}	bmap	-Is sent to newBin
  * @arg {bitlen[]} typarrszs	-Is sent to newBin
- * @arg {class} [newBin]	-Which newBin to use. Default is newBinShift.
+ * @arg {class} [newBin]	-Which newBin to use.
  * @return {class}	-Proper round Bin which means it can have proper
  * 	Loc-to-index conversion. */
 

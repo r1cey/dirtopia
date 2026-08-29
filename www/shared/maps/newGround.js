@@ -157,13 +157,13 @@ export default( Base )=>class Ground extends Base
 
 		const curage	=this.getsoilvegage_i( ic )
 
-		// var age =0
+		var age =0
 
 		for(var i=0,len= stages.length ;i<len;i++)
 		{
-			// age	+= stages[i]
+			age	+= stages[i]
 
-			if( stages[i] >curage)	return i
+			if( age >curage)	return i
 		}
 		return i
 	}

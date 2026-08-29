@@ -6,6 +6,10 @@ import Gr from "./Ground.js"
 import V	from "../shared/Vec.js"
 import Col	from "../shared/Color.js"
 
+import{ calc_bmap_typarrs }	from "../shared/maps/newBin.js"
+
+import vegdefs	from "../shared/maps/vegdefs.js"
+
 
 
 /** This Canopy class has additional bitmap storing helper data.
@@ -21,6 +25,10 @@ const bmap	=
 	"size"	:
 	{
 		bits	:Gr.Bin.bmap.ty.soil.plfl.veg.age.bits
+	},
+	vegty	:
+	{
+		bits	:Gr.Bin.bmap.ty.soil.plfl.veg.ty.bits
 	}
 }
 
@@ -34,9 +42,9 @@ export default class Tr extends TrBase
 	
 	ctx	=this.can.getContext('2d')
 
-	static Bincl	=newBinM( 0, bmap )
+	static Bincl	=newBinM( 0 ,bmap ,calc_bmap_typarrs( bmap))
 
-	static maxbrlvl	=Gr.maxveglvl()
+	// static maxbrlvl	=Gr.maxvegage()
 }
 
 
@@ -217,7 +225,7 @@ Tr.prototype. getleaves_i	=function( ic )
 }*/
 
 
-
+/** Calculate branch sizes at the newly revealed branches */
 
 Tr.prototype. shift	=function( dir, ...args )
 {
@@ -312,7 +320,6 @@ Tr.prototype. endbranchcalc	=function( loc, v )
 			return false
 		}
 	}
-
 	v.set( loc )
 
 	var size	=1
@@ -376,7 +383,7 @@ Tr.prototype. calcbrsizes	=function( loc )
 
 
 
-Tr.prototype. drawbranch	=function( can, loc, plh, ic, colbuf )
+Tr.prototype. drawbranch	=function( can, loc, plh, ic, colbuf ,ty)
 {
 	var map	=this
 
@@ -474,9 +481,9 @@ Tr.prototype. drawbranch	=function( can, loc, plh, ic, colbuf )
 
 
 
-	function w(lvl)
+	function w( lvl ,ty)
 	{
-		var brminw	=0.2	//out of units.h
+		const brminw	=0.2	//out of units.h
 
 		return	lvl<1 ? 0	: Tr.calcy( 1,brminw, Tr.maxbrlvl,0.5, lvl) //h*(4*lvl+max-5)/(5*max-5)
 	}
