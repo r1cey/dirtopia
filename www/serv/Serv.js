@@ -3,7 +3,7 @@ import newSS from './newServSend.js'
 import on	from "./newServGet.js"
 
 import Gr from '../maps/Ground.js'
-import Tr from '../maps/Trees.js'
+import Canopy from '../maps/Trees.js'
 import Pl from "../player/Player.js"
 import Loc from "../shared/Loc.js"
 
@@ -204,7 +204,7 @@ Buf.prototype. addbinbuf	=function( bbuf, code )
 {
 	var id	=Gr.Bin.getid( bbuf )
 
-	for(var Class of [Gr, Tr] )
+	for(var Class of [Gr, Canopy] )
 	{
 		if( Class.Bin.id === id )	break
 	}

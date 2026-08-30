@@ -12,7 +12,6 @@ import itTps	from '../items/itemTypes.js'
 import LocC	from '../LocCell.js'
 
 import vegdefs	from '../../www/shared/maps/plantdefs.js'
-import{ arsum }	from "../../www/shared/utils.js"
 
 
 
@@ -663,11 +662,7 @@ G.prototype. genumbrtree	=function( loc, brsize)
 
 	if( ! this.plantable_i( ic))	return false
 
-	const utdef	=vegdefs.umbrtr
-
-	var age	=arsum( utdef.growth ,0 ,4)
-
-	age	+=Math.round( utdef.br_pulse *brsize)
+	const age	=vegdefs.umbrtr.brlvl2age( brsize)
 	
 	this.setsoilveg_i( ic ,"umbrtr" ,age)
 
@@ -684,9 +679,9 @@ G.prototype. gensanpedro	=function( loc, size )
 
 	if( ! this.plantable_i( ic ))	return false
 
-	var age	=arsum( vegdefs.sanped.growth )
+	var age	=vegdefs.sanped.st2age( 5) -1
 	
-	this.setsoilveg_i( ic, "sanped", age + 1 )
+	this.setsoilveg_i( ic ,"sanped" ,age)
 
 	return true
 }

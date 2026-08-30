@@ -1,6 +1,6 @@
 import DivGo from './DivGameObj.js'
 import Con from './Console.js'
-import Can from './canvas/Canvas.js'
+import Canvas from './canvas/Canvas.js'
 import Menu	from "./Menu.js"
 // import ContextMenu	from "./ContextMenu.js"
 import Div	from "./Div.js"
@@ -44,7 +44,7 @@ export default class Html	extends DivGo
 
 		ui.can	=this.adddiv(
 			
-			new Can( game.maps ,this ,document.getElementById("can") ), "can"
+			new Canvas( game.maps ,this ,document.getElementById("can") ), "can"
 		)
 		ui.con	=this.adddiv(
 

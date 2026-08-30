@@ -51,9 +51,9 @@ export default( Map )=>class GroundMap extends newGround(Map)
 			{
 				case "tree" :
 
-					const age	=this.getsoilvegstage_i( ic ,vegdef )
+					const stage	=this.getsoilvegstage_i( ic ,vegty)
 
-					if( age > 3 )	return false
+					if( stage > 3 )	return false
 
 				/** @todo Add bush */
 			}

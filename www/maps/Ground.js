@@ -4,8 +4,7 @@ import Map	from './Map.js'
 import V	from "../shared/Vec.js"
 import Col	from "../shared/Color.js"
 
-import vegdefs ,{ getbrlvl ,maxbrlvl}	from "../shared/maps/vegdefs.js"
-
+import vegdefs	from "../shared/maps/vegdefs.js"
 
 
 
@@ -197,15 +196,17 @@ Gr.prototype. drawstem	=function( can ,loc ,vsq ,ic ,col ,ty ,stage)
 
 	stage	??=map.getsoilvegstage_i( ic ,ty ,age)
 
+	const vegdef	=vegdefs[ty]
+
 	var lvl
 
 	if( stage ===3)	lvl	=3
 
 	else
 	{
-		lvl	=4 +getbrlvl( ty ,age)
+		lvl	=4 +vegdef.getbrlvl( age)
 	}
-	const max	=maxbrlvl( ty)
+	const max	=vegdef.maxbrlvl()
 
 	const h	=can.units.h2>>1
 	
@@ -231,17 +232,17 @@ Gr.prototype. drawstem	=function( can ,loc ,vsq ,ic ,col ,ty ,stage)
 
 Gr.prototype. drawcactus	=function( can, loc, vsq, ic )
 {
-	var map	=this
+	const map	=this
 
-	vsq	??=new V().set(loc).tosqc(can)
+	vsq	??=new V().set( loc).tosqc( can)
 
-	ic	??=map.i(loc)
+	ic	??=map.ic( loc)
 
-	var lvl	=map.getveglvl_i(ic)
+	var age	=map.getsoilvegage( ic)
 
-	var max	=Gr.maxveglvl()
+	const max	=Gr.maxsoilvegage()
 
-	can.drawimg( loc, can.imgs().o.cactus, lvl/max, new V() )
+	can.drawimg( loc ,can.imgs().o.cactus ,age /max ,new V())
 }
 
 

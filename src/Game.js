@@ -421,7 +421,7 @@ Game.prototype. min15	=function()
 				}
 		}
 	})
-	g.time.min15.i	=itime < gr.constructor.maxvegage()-1 ? ++itime : 0
+	g.time.min15.i	=itime < gr.constructor.maxsoilvegage()-1 ? ++itime : 0
 }
 
 

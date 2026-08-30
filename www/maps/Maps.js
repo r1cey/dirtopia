@@ -3,7 +3,7 @@ import Map	from '../shared/maps/Map.js'
 import Trees	from './Trees.js'
 import Ground	from './Ground.js'
 
-import Can from '../ui/canvas/Canvas.js'
+import Canvas from '../ui/canvas/Canvas.js'
 
 
 

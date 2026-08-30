@@ -14,7 +14,12 @@ const rad60	=Math.PI/3
 const scrv	=new V()
 
 
-export default class Can	extends DivGo
+
+/** Main UI class. Holds the main sizing units as well as
+ * the main drawing canvas. */
+
+
+export default class Canvas	extends DivGo
 {
 	imgs()	{return this.ui().imgs }
 
@@ -22,8 +27,8 @@ export default class Can	extends DivGo
 
 	ui()	{return this.dad.ui }
 
-	w2()	{return this.el.width>>1 }
-	h2()	{return this.el.height>>1 }
+	w2()	{return this.el.width >>1}
+	h2()	{return this.el.height >>1}
 
 	ctx
 
@@ -31,20 +36,24 @@ export default class Can	extends DivGo
 
 	units	=
 	{
-		r	:40	// side of hex
+		/* Side of hexagon in pixels. Main settable unit. */
+		r	:40
 		,
-		h2	:70	// calc cache	// distance from one center to next
+		/** Distance from one center to the next */
+		h2	:70	// calc cache
 		,
-		dh2	:1/70	// calc cache	// 1/h2
+		/** 1/h2 */
+		dh2	:1/70	// calc cache
 		,
-		calc	:function(r)
+		update( r)
 		{
 			this.r	=r
-			this.h2	=r * V.sin60 * 2
-			this.dh2	=1 / this.h2
+			this.h2	=r *V.sin60 *2
+			this.dh2	=1 /this.h2
 		}
 		,
-		dsq	:function(){return this._dsq.setxy((this.r>>1)*3, this.h2) }
+		/**@return {V}	-Distance vector from one cell to next */
+		dsq()	{return this._dsq.setxy((this.r >>1) *3 ,this.h2)}
 		,
 		_dsq	:new V()
 	}
@@ -88,7 +97,7 @@ export default class Can	extends DivGo
 
 		this.ctx	=this.el.getContext('2d' ,{ alpha :false })
 
-		this.units.calc(40)
+		this.units.update(40)
 
 		this.resize()
 
@@ -219,7 +228,7 @@ export default class Can	extends DivGo
 
 
 
-Can.prototype. runtouch	=function()
+Canvas.prototype. runtouch	=function()
 {
 	const can	=this
 
@@ -252,9 +261,9 @@ Can.prototype. runtouch	=function()
 
 
 
-Can.prototype. zoom	=function( x )
+Canvas.prototype. zoom	=function( x )
 {
-	this.units.calc( this.units.r * x )
+	this.units.update( this.units.r * x )
 
 	var cntr	=this.gpos()
 
@@ -268,7 +277,7 @@ Can.prototype. zoom	=function( x )
 
 
 
-Can.prototype. clear	=function()
+Canvas.prototype. clear	=function()
 {
 	const crn	=this.calcsqcrn()
 
@@ -279,7 +288,7 @@ Can.prototype. clear	=function()
 
 
 
-Can.prototype. setpos	=function( pos )
+Canvas.prototype. setpos	=function( pos )
 {
 	this.crn.set( pos ).subv( this.size2 )
 
@@ -287,7 +296,7 @@ Can.prototype. setpos	=function( pos )
 }
 
 
-Can.prototype. gpos	=function()
+Canvas.prototype. gpos	=function()
 {
 	return this.crn.c().addv( this.size2 )
 }
@@ -295,7 +304,7 @@ Can.prototype. gpos	=function()
 
 
 
-Can.prototype. draw	=function( dt )
+Canvas.prototype. draw	=function( dt )
 {
 	const can	=this
 
@@ -390,7 +399,7 @@ Can.prototype. draw	=function( dt )
 
 /**  */
 
-Can.prototype. clicked	=function( possqel )
+Canvas.prototype. clicked	=function( possqel )
 {
 	const can	=this
 
@@ -405,7 +414,7 @@ Can.prototype. clicked	=function( possqel )
 
 
 
-Can.prototype. trnsfrm	=function()
+Canvas.prototype. trnsfrm	=function()
 {
 	const crn	=this.calcsqcrn()
 
@@ -428,7 +437,7 @@ Can.prototype. trnsfrm	=function()
 
 
 
-Can.prototype. drawgrid	=function()
+Canvas.prototype. drawgrid	=function()
 {
 	var { ctx, units:u }	=this
 
@@ -477,7 +486,7 @@ Can.prototype. drawgrid	=function()
 
 
 
-Can.prototype. drawclpl	=function()
+Canvas.prototype. drawclpl	=function()
 {
 	var can	=this
 
@@ -514,7 +523,7 @@ Can.prototype. drawclpl	=function()
 
 
 
-Can.prototype. drawpl	=function( pl )
+Canvas.prototype. drawpl	=function( pl )
 {
 	var can	=this
 
@@ -542,7 +551,7 @@ Can.prototype. drawpl	=function( pl )
 
 
 
-Can.prototype. drawbargui	=function( i, val,  col )
+Canvas.prototype. drawbargui	=function( i, val,  col )
 {
 	const can	=this
 
@@ -577,7 +586,7 @@ Can.prototype. drawbargui	=function( i, val,  col )
 
 
 
-Can.prototype. resize	=function()
+Canvas.prototype. resize	=function()
 {
 	const newsizesq	=new V( document.documentElement.clientWidth ,
 						document.documentElement.clientHeight )
@@ -609,7 +618,7 @@ Can.prototype. resize	=function()
 /** fun( loc, can ) 
  * Don't change loc in fun! */
 
-Can.prototype. forcell	=function( fun )
+Canvas.prototype. forcell	=function( fun )
 {
 	/*
 	var crn	=this.crn.c().roundh().add(-1,0)
@@ -669,7 +678,7 @@ Can.prototype. forcell	=function( fun )
 
 /** v is changed */
 
-Can.prototype. isvis	=function( v )
+Canvas.prototype. isvis	=function( v )
 {
 	// var crn	=this.crn.c().add(-1,0)
 
@@ -685,7 +694,7 @@ Can.prototype. isvis	=function( v )
 
 
 
-Can.prototype. drawopt	=function( i )
+Canvas.prototype. drawopt	=function( i )
 {
 	var can	=this
 
@@ -696,7 +705,7 @@ Can.prototype. drawopt	=function( i )
 	ctx.fillText( menu.opts[i], pos.x, pos.y + i*menu.height )
 }
 
-Can.prototype. drawmenu	=function()
+Canvas.prototype. drawmenu	=function()
 {
 	var can	=this
 
@@ -713,7 +722,7 @@ Can.prototype. drawmenu	=function()
 
 /** @arg {Vec} c	- in global pixels!*/
 
-Can.prototype. fillhex	=function( c, col="#888888" )
+Canvas.prototype. fillhex	=function( c, col="#888888" )
 {
 	var ctx	=this.ctx
 	var r	=this.units.r,	h	=this.units.h2>>1
@@ -736,7 +745,7 @@ Can.prototype. fillhex	=function( c, col="#888888" )
 
 
 
-Can.prototype. drawimg	=function( loc, img, size =1, vbuf )
+Canvas.prototype. drawimg	=function( loc, img, size =1, vbuf )
 {
 	var{ r, h2 }	=this.units
 
@@ -749,7 +758,7 @@ Can.prototype. drawimg	=function( loc, img, size =1, vbuf )
 
 /** @arg v	- in pixels */
 
-Can.prototype. drawarrow	=function( v, w2, h, dir, col="#888888" )
+Canvas.prototype. drawarrow	=function( v, w2, h, dir, col="#888888" )
 {
 	var angl	=rad60 + rad60*dir
 
@@ -779,7 +788,7 @@ Can.prototype. drawarrow	=function( v, w2, h, dir, col="#888888" )
 
 
 
-Can.prototype. fillcirc	=function( x, y, r, col, colstrok )
+Canvas.prototype. fillcirc	=function( x, y, r, col, colstrok )
 {
 	var ctx	=this.ctx
 
@@ -798,7 +807,7 @@ Can.prototype. fillcirc	=function( x, y, r, col, colstrok )
 
 
 
-Can.prototype. drawl	=function( x1, y1, x2, y2 )
+Canvas.prototype. drawl	=function( x1, y1, x2, y2 )
 {
 	var ctx	=this.ctx
 
@@ -812,7 +821,7 @@ Can.prototype. drawl	=function( x1, y1, x2, y2 )
 
 
 
-Can.prototype. drawdbug	=function(x, y)
+Canvas.prototype. drawdbug	=function(x, y)
 {
 	var { ctx }	=this
 
@@ -829,7 +838,7 @@ Can.prototype. drawdbug	=function(x, y)
 
 /** Canvas related pixels to map location. */
 
-Can.prototype. cansq2loc	=function( vcansq )
+Canvas.prototype. cansq2loc	=function( vcansq )
 {
 	const loc	=new Loc().set( vcansq )
 

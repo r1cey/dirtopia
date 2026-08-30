@@ -8,7 +8,7 @@ import Gr	from './Ground.js'
 
 import * as Trees from "./Trees.js"
 
-import vegdefs ,{ isbrgrow}	from '../../www/shared/maps/plantdefs.js'
+import vegdefs	from '../../www/shared/maps/plantdefs.js'
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -66,13 +66,13 @@ Canopy.prototype. gentrees	=function()
 
 		if( vegty &&vegdefs[vegty].sz ==="tree" &&
 			
-			gr.getsoilvegstage_i( ic, vegty) >3 )
+			gr.getsoilvegstage_i( ic ,vegty) >3)
 		{
 			trees.push( loc.c( ))
 		}
 
 	})
-	if( ! trees.length )
+	if( ! trees.length)
 	{
 		console.warn( "Canopy.gentrees: No trees were found.")
 
@@ -94,7 +94,7 @@ Canopy.prototype. gentrees	=function()
 
 			const ty	=gr.getsoilvegtype( treeloc)
 
-			if( curage >age && isbrgrow( ty ,curage))
+			if( curage >age && vegdefs[ty].isbrgrow( curage))
 			{
 				this.growtree( treeloc)
 			}

@@ -152,23 +152,16 @@ export default( Base )=>class Ground extends Base
 
 
 	/** Return the current growth stage of the soil plant.
-	 * Look in vegdefs.json for more info. */
+	 * Look in vegdefs.json for more info.
+	 * @arg {num}	ic	- The index of the cell.
+	 * @arg {string}	[vegty]	- The type of the plant.
+	 * @arg {num}	[curage]	- The current age of the plant. */
 
 	getsoilvegstage_i( ic ,vegty =this.getsoilvegty_i( ic ) ,curage)
 	{
-		const stages	=vegdefs[vegty].growth
-
 		curage	??=this.getsoilvegage_i( ic )
 
-		var age =0
-
-		for(var i=0,len= stages.length ;i<len;i++)
-		{
-			age	+= stages[i]
-
-			if( age >curage)	return i
-		}
-		return i
+		return vegdefs[vegty].getstage( curage)
 	}
 
 
@@ -308,7 +301,7 @@ export default( Base )=>class Ground extends Base
 	}
 
 
-	static maxvegage()
+	static maxsoilvegage()
 	{
 		return Ground.Bin.getmaxval( bmap.ty.soil.plfl.veg.age )
 	}
