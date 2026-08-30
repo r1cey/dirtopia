@@ -4,6 +4,8 @@ import Map	from './Map.js'
 import V	from "../shared/Vec.js"
 import Col	from "../shared/Color.js"
 
+import vegdefs ,{ getbrlvl ,maxbrlvl}	from "../shared/maps/vegdefs.js"
+
 
 
 
@@ -117,22 +119,25 @@ Gr.prototype. drawhex	=function( can ,loc ,plh ,vsq ,ic)
 			{
 				case "veg" :
 
-					switch( map.getsoilvegty_i( ic))
+					const ty	=map.getsoilvegty_i( ic)
+
+					if( ty ==="none")	break
+
+					const stage	=map.getsoilvegstage_i( ic ,ty)
+
+					// if( stage ===0)	map.drawseeds()
+
+					if( stage ===2 && ty ==="sanped")
 					{
-						case "apple" :
-						
-						case "umbrtr" :
-
-							map.drawstem( can ,loc ,vsq ,ic ,col)
-						break
-						case "sandpedro" :
-
-							map.drawcactus( can ,loc ,vsq ,ic)
+						map.drawcactus( can ,loc ,vsq ,ic)
+					}
+					else if( stage >2 && vegdefs[ty].type ==="tree")
+					{
+						map.drawstem( can ,loc ,vsq ,ic ,col ,ty ,stage)
 					}
 			}
 		break
-
-		case "water" :
+		case "water":
 
 			lvl =map.getwaterlvl_i( ic)
 		
@@ -178,33 +183,43 @@ Gr.prototype. drawhex	=function( can ,loc ,plh ,vsq ,ic)
 
 
 
-Gr.prototype. drawstem	=function( can, loc, vsq, ic, col )
+Gr.prototype. drawstem	=function( can ,loc ,vsq ,ic ,col ,ty ,stage)
 {
-	var map	=this
+	const map	=this
 
-	vsq	??=new V().set(loc).tosqc(can)
+	vsq	??=new V().set( loc).tosqc( can)
 
-	ic	??=map.i(loc)
+	ic	??=map.ic( loc)
 
-	var lvl	=map.getveglvl_i(ic)
+	ty	??=map.getsoilvegty_i( ic)
 
-	var max	=Gr.maxveglvl()
+	const age	=map.getsoilvegage_i( ic)
 
-	var h	=can.units.h2>>1
+	stage	??=map.getsoilvegstage_i( ic ,ty ,age)
+
+	var lvl
+
+	if( stage ===3)	lvl	=3
+
+	else
+	{
+		lvl	=4 +getbrlvl( ty ,age)
+	}
+	const max	=maxbrlvl( ty)
+
+	const h	=can.units.h2>>1
 	
 	// col.sethsl( 112, 44, 61 )	//46, 34, 34
 
 	// col.add( lvl*(-66)/max, lvl*(-10)/max, lvl*(-27)/max )
 
-	Gr.treecol( lvl, col )
+	Gr.treecol( lvl ,col)
 
 	var r	=lvl<3	?(lvl*h)>>3	:Gr.calcy( 3,h>>1,max,h,lvl ) //h*(lvl+max-6)/(2*max-6)
 
-	can.fillcirc( vsq.x, vsq.y, r,
-		
-		col.str(), "#000000" )
+	can.fillcirc( vsq.x ,vsq.y ,r ,col.str() ,"#000000")
 
-	if( can.showtrlvls )
+	if( can.showtrlvls)
 	{
 		can.ctx.fillStyle="#FFFFFF"
 

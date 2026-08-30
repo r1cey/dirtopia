@@ -154,11 +154,11 @@ export default( Base )=>class Ground extends Base
 	/** Return the current growth stage of the soil plant.
 	 * Look in vegdefs.json for more info. */
 
-	getsoilvegstage_i( ic ,vegty =this.getsoilvegty_i( ic ))
+	getsoilvegstage_i( ic ,vegty =this.getsoilvegty_i( ic ) ,curage)
 	{
 		const stages	=vegdefs[vegty].growth
 
-		const curage	=this.getsoilvegage_i( ic )
+		curage	??=this.getsoilvegage_i( ic )
 
 		var age =0
 

@@ -99,6 +99,18 @@ export function maxbrlvl( ty)
 }
 
 
+/** How many times have the tree spawned a new branch?
+ * NO ERROR CHECKING!
+ * @todo Check if the tree is old? Old trees don't spawn new branches. */
+
+export function getbrlvl( ty ,age)
+{
+	const def	=defs[ty]
+
+	return Math.floor(( age -arsum( def.growth ,0 ,4)) /def.br_pulse)
+}
+
+
 export default defs
 
 
