@@ -74,7 +74,7 @@ export default newSS( class Server
 	}
 
 
-	/** @arg	o	- whatever is sent to server */
+	/** @arg {{name}} o	 	- whatever is sent to server */
 
 	sendlogin( o)
 	{
@@ -98,7 +98,7 @@ export default newSS( class Server
 
 			this.cl.ui.html.ks.login?.reset()
 		}
-		ws.onopen	=this.sendjson. bind(this, o )
+		ws.onopen	=this.sendjson. bind(this, ["login" ,o])
 
 		ws.onmessage	=this.onmsg. bind(this)
 

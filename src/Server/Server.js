@@ -60,8 +60,14 @@ export default class Server
 
 		const srv	=this
 		
-		srv.wss	=new WebSocketServer({ port:this.conf.port/*, clientTracking: true */})
-		
+		srv.wss	=new WebSocketServer(
+			{
+				port :this.conf.port
+				,
+				clientTracking :false
+				,
+				maxPayload :1024 *10
+			})
 		srv.wss.on( 'connection' ,srv.onconn .bind( srv))
 		
 		console.log(`WS server started on ${this.conf.port} port...`)
@@ -205,6 +211,11 @@ export default class Server
 
 	onconn( ws ,req)
 	{
+		// 1. DOS PROTECTION: Attach Auth Timeout
+  		// If the client does not complete auth within 5 seconds,
+		// drop the connection.
+		const connTimeout	=
+
 		const ip	=req.socket.remoteAddress
 
 		console.log( `Client connected from ${ip}`)
@@ -219,6 +230,16 @@ export default class Server
 
 			return
 		}*/
+		const conn	=
+			{
+				ws	:ws
+				,
+				ip	:ip
+				,
+				isAlive	:true
+				,
+				timeoutid	:0
+			}
 		ws.on( 'message' ,this.onmsg .bind(this ,ws ,ip))
 
 		ws.on( 'error' ,console.warn)
@@ -235,8 +256,7 @@ export default class Server
 
 	/** Server handles messages here until player fully logs in. Then the
 	 * new created Client instance takes over.
-	 * So far the only messages have { name ,newpl} structure.
-	 * With newpl data added if creating a new player.
+	 * So far the only messages have [action ,arg] structure.
 	 * 
 	 * @todo Add trying to read player data if player isn't found and
 	 * before requesting to create a new one. */
@@ -255,37 +275,50 @@ export default class Server
 		{
 			return
 		}
-		const pln	=msg.name
-
-		if(	this.cls.o[pln])
+		if( !( Array.isArray( msg) &&msg.length >1))
 		{
-			ws.close( 4123, 'Player already connected!' )
+			ws.close( 1678 ,'Invalid message format.')
 
 			return
 		}
-		var pl	=this.game.pls.g( pln)
-
-		if( pl)
+		switch( msg[0])
 		{
-			console.log("Connecting player: " +pln)
+			case "login":
 
-			this.cls.new( ws ,pl)
-		}
-		else if( this.game.pls.rem() <=0)
-		{
-			console.log("Too many players on server :(")
+				const pln	=msg[1].name
 
-			ws.close( 4124 ,"Too many players on server :(")
-		}
-		else if( msg.newpl)
-		{
-			this.cls.new( ws ,this.game.pls.new( msg.newpl))
-		}
-		else
-		{
-			console.log(`No ${pln} player found. Create new.`)
+				if(	this.cls.o[pln])
+				{
+					ws.close( 4123, 'Player already connected!' )
 
-			ws.send( `["createpl","${pln}"]`)
+					return
+				}
+				let pl	=this.game.pls.g( pln)
+
+				if( pl)
+				{
+					console.log("Connecting player: " +pln)
+
+					this.cls.new( ws ,pl)
+				}
+				else if( this.game.pls.rem() <=0)
+				{
+					console.log("Too many players on server :(")
+
+					ws.close( 4124 ,"Too many players on server :(")
+				}
+				else
+				{
+					console.log(`No ${pln} player found. Create new.`)
+
+					ws.send( `["createpl","${pln}"]`)
+				}
+			break
+			case "createpl":
+
+				const plmsg	=msg[1]
+		
+				this.cls.new( ws ,this.game.pls.new( plmsg))
 		}
 	}
 

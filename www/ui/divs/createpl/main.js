@@ -43,7 +43,7 @@ CreatePl.prototype. start	=function( name )
 
 	el.querySelector('button').onclick	=(ev)=>
 	{
-		srv.sendjson({ name, col: this.arr() })
+		srv.sendjson( ["createpl" ,{name ,col :this.arr()}])
 
 		ev.currentTarget.disabled	=true
 	}
