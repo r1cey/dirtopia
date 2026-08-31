@@ -207,15 +207,15 @@ export default class Server
 	///////////////////////////////////////////////////////////////////////////
 
 
-	/** Fires on new WebSocket connection request. */
+	/** Fires on new WebSocket connection request.
+	 * 
+	 * Server handles messages until player fully logs in. Then the
+	 * new created Client instance takes over.
+	 * 
+	 * There are two states for now: login and reg.	*/
 
 	onconn( ws ,req)
 	{
-		// 1. DOS PROTECTION: Attach Auth Timeout
-  		// If the client does not complete auth within 5 seconds,
-		// drop the connection.
-		const connTimeout	=
-
 		const ip	=req.socket.remoteAddress
 
 		console.log( `Client connected from ${ip}`)
@@ -236,11 +236,21 @@ export default class Server
 				,
 				ip	:ip
 				,
-				isAlive	:true
+				isalive	:true
 				,
-				timeoutid	:0
+				toutid	:0
+				,
+				state	:0
+				,
+				srvr	:this
+				,
+				onmsg	:null
 			}
-		ws.on( 'message' ,this.onmsg .bind(this ,ws ,ip))
+		conn.toutid	=setTimeout( Server.timeout .bind( conn) ,5000)
+
+		conn.onmsg	=Server.onmsg .bind( conn)
+
+		ws.on( 'message' ,conn.onmsg)
 
 		ws.on( 'error' ,console.warn)
 
@@ -254,27 +264,45 @@ export default class Server
 	///////////////////////////////////////////////////////////////////////////
 
 
-	/** Server handles messages here until player fully logs in. Then the
-	 * new created Client instance takes over.
-	 * So far the only messages have [action ,arg] structure.
-	 * 
+	/** 
 	 * @todo Add trying to read player data if player isn't found and
 	 * before requesting to create a new one. */
 
-	onmsg( ws, ip, data, isbin)
+	static onmsg( data ,isbin)
 	{
+		const conn	=this
+
 		const str	=data.toString()
 
-		console.log(`Srv msg from ${ip}: ${str}`)
+		console.log(`Srv msg from ${conn.ip}: ${str}`)
 
 		try
 		{
-			var msg	=JSON.parse( str ,this.constructor.jrev.fn)
+			var msg	=JSON.parse( str ,conn.srvr.constructor.jrev.fn)
 		}
 		catch( err)
 		{
 			return
 		}
+		switch( conn.state)
+		{
+			case 0:	// login
+
+				clearTimeout( conn.toutid)
+
+				Server.onlogin.call( conn ,msg)
+			break
+			case 1:	// reg
+
+				clearTimeout( conn.toutid)
+
+				Server.onreg.call( conn ,msg)
+			break
+		}
+	}
+
+
+
 		if( !( Array.isArray( msg) &&msg.length >1))
 		{
 			ws.close( 1678 ,'Invalid message format.')
@@ -326,7 +354,18 @@ export default class Server
 ///////////////////////////////////////////////////////////////////////////////
 
 
+	/** this is conn */
 
+	static timeout()
+	{
+		const{ ws }	=this
+		
+		if( ! this.isalive)	return
+
+		ws.close( 4001 ,'Authentication Timeout')
+
+		ws.terminate()
+	}
 
 
 ///////////////////////////////////////////////////////////////////////////////
