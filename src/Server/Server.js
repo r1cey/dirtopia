@@ -236,8 +236,6 @@ export default class Server
 				,
 				ip	:ip
 				,
-				isalive	:true
-				,
 				toutid	:0
 				,
 				state	:0
@@ -254,19 +252,13 @@ export default class Server
 
 		ws.on( 'error' ,console.warn)
 
-		ws.on( 'close' ,( code ,reason)=>
-		{
-			console.log(`Client ${ip} disconnected: code-${code}, reason-${reason}.`)
-		})
+		ws.on( 'close' ,Server.onwsclose .bind( conn))
 	}
 
 
 	///////////////////////////////////////////////////////////////////////////
 
 
-	/** 
-	 * @todo Add trying to read player data if player isn't found and
-	 * before requesting to create a new one. */
 
 	static onmsg( data ,isbin)
 	{
@@ -286,68 +278,87 @@ export default class Server
 		}
 		switch( conn.state)
 		{
-			case 0:	// login
+			case 0:
 
-				clearTimeout( conn.toutid)
-
-				Server.onlogin.call( conn ,msg)
+				Server.onlogin .call( conn ,msg)
 			break
-			case 1:	// reg
+			case 1:
 
-				clearTimeout( conn.toutid)
-
-				Server.onreg.call( conn ,msg)
+				Server.onreg .call( conn ,msg)
 			break
 		}
 	}
 
 
 
-		if( !( Array.isArray( msg) &&msg.length >1))
+	/** 
+	 * @todo Add trying to read player data if player isn't found and
+	 * before requesting to create a new one. */
+
+	static onlogin( msg)
+	{
+		const{ srvr ,ws }	=this
+
+		if( !( msg?.[0] ==="login" && typeof msg[1]?.name ==="string"
+			
+			&& msg[1].name.length <100))
 		{
-			ws.close( 1678 ,'Invalid message format.')
+			ws.close( 4122, 'Invalid login message!')
 
 			return
 		}
-		switch( msg[0])
+		const pln	=msg[1].name
+
+		if(	srvr.cls.o[pln])
 		{
-			case "login":
+			ws.close( 4123, 'Player already connected!' )
 
-				const pln	=msg[1].name
-
-				if(	this.cls.o[pln])
-				{
-					ws.close( 4123, 'Player already connected!' )
-
-					return
-				}
-				let pl	=this.game.pls.g( pln)
-
-				if( pl)
-				{
-					console.log("Connecting player: " +pln)
-
-					this.cls.new( ws ,pl)
-				}
-				else if( this.game.pls.rem() <=0)
-				{
-					console.log("Too many players on server :(")
-
-					ws.close( 4124 ,"Too many players on server :(")
-				}
-				else
-				{
-					console.log(`No ${pln} player found. Create new.`)
-
-					ws.send( `["createpl","${pln}"]`)
-				}
-			break
-			case "createpl":
-
-				const plmsg	=msg[1]
-		
-				this.cls.new( ws ,this.game.pls.new( plmsg))
+			return
 		}
+		var pl	=srvr.game.pls.g( pln)
+
+		if( pl)
+		{
+			console.log("Connecting player: " +pln)
+
+			clearTimeout( this.toutid)
+
+			srvr.cls.new( ws ,pl)
+		}
+		else if( srvr.game.pls.rem() <=0)
+		{
+			console.log("Too many players on server :(")
+
+			ws.close( 4124 ,"Too many players on server :(")
+		}
+		else
+		{
+			console.log(`No ${pln} player found. Create new.`)
+
+			clearTimeout( this.toutid)
+
+			this.state	=1
+
+			ws.send( `["createpl","${pln}"]`)
+		}
+	}
+
+
+	static onreg( msg)
+	{
+		const{ srvr ,ws }	=this
+
+		if( !( msg?.[0] ==="createpl" && typeof msg[1]?.name ==="string"
+			
+			&& msg[1].name.length <100))
+		{
+			ws.close( 4188, 'Invalid new pl!')
+
+			return
+		}
+		const plmsg	=msg[1]
+	
+		srvr.cls.new( ws ,srvr.game.pls.new( plmsg))
 	}
 
 
@@ -359,12 +370,18 @@ export default class Server
 	static timeout()
 	{
 		const{ ws }	=this
-		
-		if( ! this.isalive)	return
 
 		ws.close( 4001 ,'Authentication Timeout')
 
 		ws.terminate()
+	}
+
+
+	static onwsclose( code ,reason)
+	{
+		clearTimeout( this.toutid)
+
+		console.log(`Client ${this.ip} disconnected: code-${code}, reason-${reason}.`)
 	}
 
 
