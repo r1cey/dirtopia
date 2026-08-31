@@ -4,7 +4,7 @@ import Map	from './Map.js'
 import V	from "../shared/Vec.js"
 import Col	from "../shared/Color.js"
 
-import vegdefs	from "../shared/maps/vegdefs.js"
+import vegdefs	from "../shared/maps/plantdefs.js"
 
 
 

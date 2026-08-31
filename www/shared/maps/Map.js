@@ -390,18 +390,18 @@ Map.prototype. copycell	=function( loc, map2, loc2 )
 
 /**@todo handle if can't find */
 
-Map.prototype. getloc4pl	=function( loc ,pl )
+Map.prototype. getloc4pl	=function( loc)
 {
 	const map	=this
 
-	return map.fore(( loc2 )=>
+	return map.fore(( loc2)=>
 		{
-			if( map.canplmov( loc2 ,pl ) )
+			if( map.canplmov( loc2))
 			{
 				return true
 			}
 		}
-		, null, loc
+		,undefined ,loc
 	)
 }
 

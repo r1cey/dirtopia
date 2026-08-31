@@ -107,15 +107,32 @@ export default class Pls	extends ShPls
 	 * Adds inventory items and map tools.
 	 * @todo Put new players under a new tree once enough are created. */
 
-	new( plmsg )
+	new( plmsg)
 	{
-		console.log( `Creating new player: ${plmsg.name}` )
+		console.log(`Creating new player: ${plmsg.name}`)
 
 		const map	=this.game.maps.gr
-		
-		const loc	=map.obj.o.spawns[0]
 
-		plmsg.loc	=loc.toJSON()
+		const loc	=new Loc(0,0,0)
+
+		if( ! map.spawns?.length)
+		{
+			loc.set( map.getloc4pl( loc))
+		}
+		else
+		{
+			for(var sploc of map.spawns)
+			{
+				if( map.countpls( sploc ,80) <3)
+				{
+					loc.s( sploc)
+
+					break
+				}
+			}
+			if( ! loc)	loc	=map.spawns[0]
+		}
+		// plmsg.loc	=loc.toJSON()
 
 		const pl	=super.new( plmsg )
 

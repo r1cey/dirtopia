@@ -128,7 +128,7 @@ export default( id, bmap, typarrszs, newBin =newBinSh )=>
 	{
 		var v, ir, dir, i
 
-		r	??=this.getr()
+		if( ! r)	r	=this.getr()
 
 		c	??=this.getloc()
 

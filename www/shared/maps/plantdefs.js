@@ -72,79 +72,22 @@ const defs	={
 
 
 
-class Tree	extends VegDef
-{
-	sz	="tree"
-
-	/** For trees. How many ticks to grow a branch on an adult tree. */
-	br_pulse	=0
-
-
-	///////////////////////////////////////////////////////////////////////////
-
-
-	/** How many branches can a tree spawn at most?
-	 * NO ERROR CHECKING! */
-
-	maxbrlvl()
-	{
-		const def	=this
-
-		return Math.floor( def.growth[4] /def.br_pulse)
-	}
-
-
-	/** Gets age, and tells whether it's the time to spawn a branch.
-	 * NO ERROR CHECKING! */
-
-	isbrgrow( age)
-	{
-		const def	=this
-
-		const gr	=def.growth
-
-		return Math.round( gr[4] %def.br_pulse +def.st2age( 4)) ===age
-	}
-
-
-	/** How many times have the tree spawned a new branch?
-	 * NO ERROR CHECKING!
-	 * @todo Check if the tree is old? Old trees don't spawn new branches. */
-
-	getbrlvl( age)
-	{
-		const def	=this
-
-		return Math.floor(( age -def.st2age( 4)) /def.br_pulse)
-	}
-
-
-	brlvl2age( brlvl)
-	{
-		const def	=this
-
-		return Math.round( def.br_pulse *brlvl +def.st2age( 4))
-	}
-}
-
-
-
 class VegDef
 {
 	/** What conditions are ideal for sprouting.
  	 * Each property is an array of [lvl, importance/5] values. */
 	sprout	=
 	{
-		temp
+		temp	:[,]
 		,
-		water
+		water	:[,]
 		,
-		oxy
+		oxy	:[,]
 		,
-		ph
+		ph	:[,]
 		,
 		/** Combination of texture and structure to break through the ground.*/
-		texture
+		texture	:[,]
 	}
 
 	/** [ baby ,kid ,teen ,mature ,old ,dead ]
@@ -207,6 +150,63 @@ class VegDef
 	st2age( stage)
 	{
 		return Math.round( arsum( this.growth ,0 ,stage))
+	}
+}
+
+
+
+class Tree	extends VegDef
+{
+	sz	="tree"
+
+	/** For trees. How many ticks to grow a branch on an adult tree. */
+	br_pulse	=0
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+	/** How many branches can a tree spawn at most?
+	 * NO ERROR CHECKING! */
+
+	maxbrlvl()
+	{
+		const def	=this
+
+		return Math.floor( def.growth[4] /def.br_pulse)
+	}
+
+
+	/** Gets age, and tells whether it's the time to spawn a branch.
+	 * NO ERROR CHECKING! */
+
+	isbrgrow( age)
+	{
+		const def	=this
+
+		const gr	=def.growth
+
+		return Math.round( gr[4] %def.br_pulse +def.st2age( 4)) ===age
+	}
+
+
+	/** How many times have the tree spawned a new branch?
+	 * NO ERROR CHECKING!
+	 * @todo Check if the tree is old? Old trees don't spawn new branches. */
+
+	getbrlvl( age)
+	{
+		const def	=this
+
+		return Math.floor(( age -def.st2age( 4)) /def.br_pulse)
+	}
+
+
+	brlvl2age( brlvl)
+	{
+		const def	=this
+
+		return Math.round( def.br_pulse *brlvl +def.st2age( 4))
 	}
 }
 

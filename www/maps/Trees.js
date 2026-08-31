@@ -8,7 +8,7 @@ import Col	from "../shared/Color.js"
 
 import{ calc_bmap_typarrs }	from "../shared/maps/newBin.js"
 
-import vegdefs ,{ maxbrlvl}	from "../shared/maps/vegdefs.js"
+import vegdefs	from "../shared/maps/plantdefs.js"
 
 
 
