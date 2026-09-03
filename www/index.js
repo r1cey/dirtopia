@@ -8,6 +8,9 @@ cl.srv.url	='ws://deoraita.co.il:8043'
 
 cl.start()
 
+cl.srv.test().then(( res)=>console.log('Is server up: '+res))
+
+
 // cl.html.can.drawgrid()
 
 // cl.html.menu.setopts( { symb :"a" } )

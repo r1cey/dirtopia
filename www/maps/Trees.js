@@ -402,7 +402,7 @@ export default class Canopy	extends TrBase
 
 		var lvl	=map.getbrsize_i(ic)
 
-		const maxlvl	=maxbrlvl( ty)
+		const maxlvl	=vegdefs[ty].maxbrlvl()
 
 		// if(lvl===1)	debugger
 

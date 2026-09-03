@@ -8,6 +8,7 @@ import Pl from "../player/Player.js"
 import Loc from "../shared/Loc.js"
 
 // import Hands	from "./player/Hands.js"
+import newJR	from "../shared/newJsonRevivr.js"
 import JRev from "../JsonRevivr.js"
 
 // import Acts	from "./Acts.js"
@@ -31,7 +32,7 @@ export default newSS( class Server
 
 	ws
 
-	jrev	//json reviver
+	jrev	=new (newJR( JRev))()
 
 	buf	=new Buf(this)
 
@@ -45,32 +46,25 @@ export default newSS( class Server
 
 		this.cl	=client
 
-		this.jrev	=new JRev().add(
-			{
-				key	:"pl"
-				,
-				fromJSON	:( val )=> typeof val==="string" ? 
-
-					val	: new Pl.Vis(val,client)
-			}
-		)
-		this.jrev.root	=( key ,val )=>
+		this.jrev.add(
 		{
-			if( val?.pl && typeof val.pl === "string" )
-			{
-				client.maps.jsonlocs.pl[val.pl]	=new Loc().setvstr( key ,0 )
-			}
-		}
+			key	:"pl"
+			,
+			fromJSON	:( val )=> typeof val==="string" ? 
+
+				val	: new Pl.Vis(val,client)
+		})
 	}
 
 
 	///////////////////////////////////////////////////////////////////////////
 
 
+	/**@return {Promise<boolean>} */
 
-	test()
+	async test()
 	{
-
+		return fetch( this.url+'/ping').then( r =>r.ok).catch( ()=>false)
 	}
 
 

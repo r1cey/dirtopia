@@ -1,10 +1,17 @@
-import JRev	from "./shared/newJsonRevivr.js"
+import newJR	from "./shared/newJsonRevivr.js"
 
-import Pl from "./player/Player.js"
-import Hands from "./player/Hands.js"
+// import Pl from "./player/Player.js"
+// import Hands from "./player/Hands.js"
 import itTps from "./items/itemTps.js"
 
-export default class extends JRev
+
+/** Adds item types to the JSON reviver */
+
+export default newJR( undefined ,function(){ this.addo( itTps)})
+
+
+/*
+export default class extends newJR
 {
 	cl
 

@@ -1,4 +1,5 @@
 import { WebSocketServer, WebSocket } from "ws"
+import http	from "http"
 // import * as fs from './Files.js'
 // import Col from '../www/shared/Color.js'
 // import Vec from '../www/shared/Vec.js'
@@ -23,6 +24,8 @@ export default class Server
 		,
 		maxcls	:1000
 	}
+	/** HTTP server is used for status checks */
+	httpsrv
 
 	wss
 
@@ -59,9 +62,25 @@ export default class Server
 		if( port)	this.conf.port	=port
 
 		const srv	=this
-		
+
+		srv.httpsrv	=http.createServer(( req ,res )=>
+			{
+				if( req.url ==='/ping')
+				{
+					res.writeHead(200)
+
+					res.end()
+
+					return
+				}
+				res.writeHead( 404)
+
+				res.end()
+			})
 		srv.wss	=new WebSocketServer(
 			{
+				server	:srv.httpsrv
+				,
 				port :this.conf.port
 				,
 				clientTracking :false
