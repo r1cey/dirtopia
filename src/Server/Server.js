@@ -81,13 +81,13 @@ export default class Server
 			{
 				server	:srv.httpsrv
 				,
-				port :this.conf.port
-				,
 				clientTracking :false
 				,
 				maxPayload :1024 *10
 			})
 		srv.wss.on( 'connection' ,srv.onconn .bind( srv))
+
+		srv.httpsrv.listen( this.conf.port)
 		
 		console.log(`WS server started on ${this.conf.port} port...`)
 	}
@@ -362,6 +362,8 @@ export default class Server
 		}
 	}
 
+
+	/** @todo Check again if player name already exists. */
 
 	static onreg( msg)
 	{

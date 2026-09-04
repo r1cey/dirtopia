@@ -35,15 +35,14 @@ export default class Obj
 	 * pls will have [ playerName , Loc ] members.
 	 * Note that loc will not have h coordinate. Add height later. */
 
-	static onjsonrevive( key ,val ,userd )
+	static onjsonrevive( key ,val ,userd)
 	{
 		const pl	=val.pl
 
-		if( pl && typeof pl === "string" )
+		if( pl && typeof pl ==="string")
 		{
-			userd.pls.push([ pl ,Loc.setvstr( key ,null ) ])
+			userd.pls.push([ pl ,Loc.setvstr( key ,null)])
 		}
-		return val
 	}
 
 

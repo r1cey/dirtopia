@@ -64,7 +64,7 @@ export default newSS( class Server
 
 	async test()
 	{
-		return fetch( this.url+'/ping').then( r =>r.ok).catch( ()=>false)
+		return fetch(`http://${this.url}/ping`).then( r =>r.ok).catch( ()=>false)
 	}
 
 
@@ -74,7 +74,7 @@ export default newSS( class Server
 	{
 		try
 		{
-			this.ws	=new WebSocket(this.url)
+			this.ws	=new WebSocket(`ws://${this.url}`)
 		}
 		catch(err)
 		{

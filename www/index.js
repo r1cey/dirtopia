@@ -4,7 +4,7 @@ import Client from "./Client.js"
 
 window.cl	=new Client()
 
-cl.srv.url	='ws://deoraita.co.il:8043'
+cl.srv.url	='127.0.0.1:8043'
 
 cl.start()
 

@@ -111,28 +111,28 @@ export default class Pls	extends ShPls
 	{
 		console.log(`Creating new player: ${plmsg.name}`)
 
-		const map	=this.game.maps.gr
+		const gr	=this.game.maps.gr
 
-		const loc	=new Loc(0,0,0)
+		var loc
 
-		if( ! map.spawns?.length)
+		if( ! gr.spawns?.length)
 		{
-			loc.set( map.getloc4pl( loc))
+			loc	=gr.getloc4pl( new Loc(0,0,0))
 		}
 		else
 		{
-			for(var sploc of map.spawns)
+			for(var sploc of gr.spawns)
 			{
-				if( map.countpls( sploc ,80) <3)
+				if( gr.countpls( sploc ,80) <3)
 				{
-					loc.s( sploc)
+					loc	=sploc.c()
 
 					break
 				}
 			}
-			if( ! loc)	loc	=map.spawns[0]
+			if( ! loc)	loc	=gr.spawns[0].c()
 		}
-		// plmsg.loc	=loc.toJSON()
+		plmsg.loc	=loc
 
 		const pl	=super.new( plmsg )
 
@@ -152,7 +152,7 @@ export default class Pls	extends ShPls
 		}
 		pl.save( this.conf.dir )
 
-		map.addstuff4newpl( pl.loc ,this.constructor.items.dewd )
+		gr.addstuff4newpl( pl.loc ,this.constructor.items.dewd )
 		
 		return pl
 	}

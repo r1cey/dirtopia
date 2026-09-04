@@ -35,4 +35,3 @@ export default class extends newJR
 
 		return inst
 	}*/
-}
