@@ -58,7 +58,7 @@ Canopy.prototype. gentrees	=function()
 	{
 		const ic	=gr.ic( loc)
 
-		const vegty	=gr.issoilplant_i( ic)
+		const vegty	=gr.issoilveg_i( ic)
 
 		// if( vegty )
 			

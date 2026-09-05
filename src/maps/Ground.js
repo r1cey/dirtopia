@@ -20,7 +20,7 @@ var ShGr	=newShGr(Map)
 
 /**  */
 
-export default class G extends ShGr
+export default class Ground extends ShGr
 {
 	static name	='ground'
 
@@ -90,17 +90,17 @@ export default class G extends ShGr
 
 				const ic	=gr.ic( loc)
 
+				const nav	=new g.constructor.Nav([ g.maps ,loc])
+
 				if( ! gr.getshade( loc) &&
 					
-					loc.testact("spawnitem" ,[ g.maps ,loc] ,null ,dewd) &&
+					loc.testact("spawnitem" ,nav ,null ,dewd) &&
 
 					gr.issolid_i( ic) && ! gr.issoilveg_i( ic))
 				{
 					/** Don't forget that server needs to be notified */
 
-					
-
-					g.additem([ g.maps ,LocC.set(loc) ],new itTps.dewd() )
+					g.runact( nav ,"spawnitem" ,null ,dewd)
 
 					++ idewd
 
@@ -121,7 +121,7 @@ export default class G extends ShGr
 
 
 
-G.prototype. rain	=function()
+Ground.prototype. rain	=function()
 {
 	this.fore(( loc )=>
 	{
@@ -132,18 +132,18 @@ G.prototype. rain	=function()
 
 
 
-G.prototype. addwater	=function( loc )
+Ground.prototype. addwater	=function( loc )
 {
 	this.addwateri( this.i( loc ), loc )
 }
 
 
 
-G.prototype. dry	=function( loc )
+Ground.prototype. dry	=function( loc )
 {
 	this.dry_i( this.ic(loc), loc )
 }
-G.prototype. dry_i	=function( ic, loc )
+Ground.prototype. dry_i	=function( ic, loc )
 {
 	var lvl	=this.getsoilhum_i( ic )
 	
@@ -154,17 +154,17 @@ G.prototype. dry_i	=function( ic, loc )
 }
 
 
-G.prototype. wet	=function( loc )
+Ground.prototype. wet	=function( loc )
 {
 	this.wet_i( this.ic(loc), loc )
 }
-G.prototype. wet_i	=function( ic, loc )
+Ground.prototype. wet_i	=function( ic, loc )
 {
 	if( this.gettype_i(ic) === "soil" )
 	{
 		let lvl	=this.getsoilhum_i( ic )
 
-		if( lvl < G.maxhum() )
+		if( lvl < Ground.maxhum() )
 		{
 			this.set_ic_( "soilhum", ic, loc, ++ lvl )
 		}
@@ -173,7 +173,7 @@ G.prototype. wet_i	=function( ic, loc )
 
 
 
-G.prototype. grow	=function( loc, ic, type, lvl )
+Ground.prototype. grow	=function( loc, ic, type, lvl )
 {
 	ic	??=this.ic(loc)
 
@@ -187,7 +187,7 @@ G.prototype. grow	=function( loc, ic, type, lvl )
 	}
 	lvl	??=this.getveglvl_i( ic )
 
-	if( lvl >= G.maxveglvl() )	return
+	if( lvl >= Ground.maxveglvl() )	return
 
 	this.set_ic_( "veglvl", ic, loc, ++ lvl )
 
@@ -202,7 +202,7 @@ G.prototype. grow	=function( loc, ic, type, lvl )
 
 /** Generate new procedural map */
 
-G.prototype. gendesert	=function( r, maxc )
+Ground.prototype. gendesert	=function( r, maxc )
 {
 	this.build( r, maxc, new Loc(0,0,0) )
 
@@ -214,7 +214,7 @@ G.prototype. gendesert	=function( r, maxc )
 }
 
 
-G.prototype. genriver	=function( r, maxc )
+Ground.prototype. genriver	=function( r, maxc )
 {
 	var gr	=this
 
@@ -277,7 +277,7 @@ G.prototype. genriver	=function( r, maxc )
 
 /** Atm sets driest soil */
 
-G.prototype. allsoil	=function()
+Ground.prototype. allsoil	=function()
 {
 	/** @todo We can do this through iterating over i directly */
 
@@ -292,7 +292,7 @@ G.prototype. allsoil	=function()
 
 
 
-G.prototype. makeriver	=function( maindir =1 , w =0 )
+Ground.prototype. makeriver	=function( maindir =1 , w =0 )
 {
 	var m	=this
 
@@ -503,7 +503,7 @@ G.prototype. makeriver	=function( maindir =1 , w =0 )
 
 /** @arg [ic] */
 
-G.prototype. genwaterdepth	=function( loc, ic )
+Ground.prototype. genwaterdepth	=function( loc, ic )
 {
 	var m	=this
 
@@ -513,7 +513,7 @@ G.prototype. genwaterdepth	=function( loc, ic )
 
 	m.fore(( locd, r )=>
 	{
-		if( m.issoil( locd ) || r >= G.maxwater() )
+		if( m.issoil( locd ) || r >= Ground.maxwater() )
 		{
 			lvl	=r
 
@@ -528,7 +528,7 @@ G.prototype. genwaterdepth	=function( loc, ic )
 
 /** @arg [ic] */
 
-G.prototype. genhum	=function( loc, ic )
+Ground.prototype. genhum	=function( loc, ic )
 {
 	var m	=this
 
@@ -536,7 +536,7 @@ G.prototype. genhum	=function( loc, ic )
 
 	var lvl	=0
 
-	var max	=G.maxhum()
+	var max	=Ground.maxhum()
 
 	m.fore(( locd, r )=>
 	{
@@ -558,7 +558,7 @@ G.prototype. genhum	=function( loc, ic )
 /** @arg [lvl]
  * @arg [ic] */
 
-G.prototype. gentree	=function( loc, lvl, ic )
+Ground.prototype. gentree	=function( loc, lvl, ic )
 {
 	ic	??=this.ic(loc)
 
@@ -577,7 +577,7 @@ G.prototype. gentree	=function( loc, lvl, ic )
 			}
 			,2 ,loc ))
 		{
-			lvl	=Math.floor(Math.random()*( G.maxveglvl() + 1 ))
+			lvl	=Math.floor(Math.random()*( Ground.maxveglvl() + 1 ))
 
 			this.set_ic_("veg", ic, loc, "apple", lvl )
 
@@ -591,7 +591,7 @@ G.prototype. gentree	=function( loc, lvl, ic )
 
 /** Used by desert mode. Adds the trees as spawn points. */
 
-G.prototype. genumbrtrees	=function()
+Ground.prototype. genumbrtrees	=function()
 {
 	const minr	=30
 
@@ -602,7 +602,7 @@ G.prototype. genumbrtrees	=function()
 	const sg	=new SG( r, minr, this.getloc() )
 
 	/** trees count */
-	const trlen	=Math.ceil(this.bin.cellsl / G.Bin.r2cells( minr * 5 ))
+	const trlen	=Math.ceil(this.bin.cellsl / Ground.Bin.r2cells( minr * 5 ))
 
 	const loc	=this.getloc().c()
 
@@ -633,7 +633,7 @@ G.prototype. genumbrtrees	=function()
 
 
 
-G.prototype. gencacti	=function()
+Ground.prototype. gencacti	=function()
 {
 	const r	=10
 
@@ -665,7 +665,7 @@ G.prototype. gencacti	=function()
  * It needs to be adult and will never die (same loc as spawn loc).
  * @arg {num}	brsize	-branch size */
 
-G.prototype. genumbrtree	=function( loc, brsize)
+Ground.prototype. genumbrtree	=function( loc, brsize)
 {
 	const ic	=this.ic( loc)
 
@@ -682,7 +682,7 @@ G.prototype. genumbrtree	=function( loc, brsize)
 /** At the moment size is irrelevant since we don't have mechanics
  * for its' growth as an adult yet. */
 
-G.prototype. gensanpedro	=function( loc, size )
+Ground.prototype. gensanpedro	=function( loc, size )
 {
 	var ic	=this.ic(loc)
 

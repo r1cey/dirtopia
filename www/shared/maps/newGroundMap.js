@@ -41,7 +41,7 @@ export default( Map )=>class GroundMap extends newGround(Map)
 		{
 			return false
 		}
-		const vegty	=this.issoilplant_i( ic )
+		const vegty	=this.issoilveg_i( ic )
 		
 		if( vegty )
 		{
@@ -271,7 +271,7 @@ export default( Map )=>class GroundMap extends newGround(Map)
 
 		const ic	=m.ic( loc)
 
-		return m.issoilplant_i( ic)	? m.getsoilvegage_i( ic) :-1
+		return m.issoilveg_i( ic)	? m.getsoilvegage_i( ic) :-1
 	}
 
 	setveglvl( loc, lvl )

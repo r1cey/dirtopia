@@ -13,9 +13,12 @@ import itTps from "./items/itemTypes.js"
 
 
 
-/** Server's main point of entry.
+/****************************************************
+ *  Server's main class.
  * 
- * Adds server functionality. And file loading/saving. */
+ * For the actual point of entry look up index.js
+ * 
+ ***************************************************/
 
 
 /**
@@ -27,6 +30,7 @@ import itTps from "./items/itemTypes.js"
 // GLBLU
 
 
+/** Adds server functionality. And file loading/saving. */
 
 export default class Game	extends GameSh
 {
@@ -134,7 +138,16 @@ export default class Game	extends GameSh
 	///////////////////////////////////////////////////////////////////////////
 
 
-	/** @todo what if no place to move stacks too and lots of error handling!! */
+
+	runact( nav ,actk ,pl ,arg)
+	{
+		const res	=super.runact( nav ,actk ,pl ,arg)
+
+		this.srv.sendact( nav ,actk ,pl ,arg ,res)
+	}
+
+
+	/** @todo what if no place to move stacks too and lots of error handling!! *
 
 	additem( to ,item )
 	{
@@ -143,7 +156,7 @@ export default class Game	extends GameSh
 		super.additem( item ,to ,msg )
 
 		this.srv.sendvis( nav2loc(to) ,"itemadd" ,msg )
-	}
+	}*/
 }
 
 

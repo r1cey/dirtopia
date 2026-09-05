@@ -3,7 +3,21 @@ import newAct	from "./newActionable.js"
 import Maps from "./maps/Maps.js"
 import Players from "./player/Players.js"
 
-import Nav from "./Nav.js"
+import Nav	from "./Nav.js"
+import Loc	from "./Loc.js"
+
+
+
+/************************************************
+ * 
+ * This is the ROOT file of the entire game. Start your familiarization
+ * from here!
+ * 
+ * Look up Game.js on /src for server-side extensions,
+ * and at /www for client-side extension.
+ * 
+ **************************************************/
+
 
 
 /** Since back and front-end are done in JS, this shared directory
@@ -12,7 +26,7 @@ import Nav from "./Nav.js"
  * 
  * Anton is considering making it a God object or even a global variable. */
 
-export default newAct( class Game
+export default class Game
 {
 	maps	=new this.constructor.Maps( this )
 
@@ -25,10 +39,17 @@ export default newAct( class Game
 
 	static Pls	=Players
 
+	static Nav	=Nav
+
+	static Loc	=Loc
+
 	/** Anton is considering attaching item types collection to Game obj. */
 
 	/** @static
 	@var itTps	 */
+
+
+	///////////////////////////////////////////////////////////////////////////
 
 
 
@@ -44,6 +65,16 @@ export default newAct( class Game
 	}
 
 
+	/** It's here just so we can extend it on server and client side 
+	 * to also communicate the action.
+	 * @return {*}	-Whatever the action returns. */
+
+	runact( nav ,actk ,pl ,arg)
+	{
+		return nav.at(-1).runact( nav ,actk ,pl ,arg)
+	}
+
+
 
 	additem( to ,item )
 	{	
@@ -54,6 +85,7 @@ export default newAct( class Game
 	///////////////////////////////////////////////////////////////////////////
 
 
+	/** Specifically creates a new Nav from a MESSAGE array! (strings) */
 
 	newnav( arr )
 	{
@@ -61,4 +93,4 @@ export default newAct( class Game
 
 		return nav
 	}
-})
+}

@@ -119,6 +119,35 @@ export default class Server
 
 
 
+	sendact( nav ,actk ,pl ,arg ,runres)
+	{
+		const dict	=this.cls.o
+
+		for(var n in dict)
+		{
+			var cl	=dict[n]
+
+			if( cl.pl.sees( nav.gloc()) ||
+				
+				( runres.loc && cl.pl.sees( runres.loc)))
+			{
+				cl.sendjson(["act" ,[ nav ,actk ,pl ,arg ,runres?.data]])
+			}
+			if( runres.locs )
+			{
+				for(var loc of runres.locs)
+				{
+					if( cl.pl.sees( loc))
+					{
+						cl.sendjson(["act" ,[ nav ,actk ,pl ,arg ,runres?.data]])
+					}
+				}
+			}
+		}
+	}
+
+
+
 	sendvis( loc ,funk ,arg ,replcr)
 	{
 		const dict	=this.cls.o

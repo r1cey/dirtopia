@@ -62,7 +62,7 @@ export default class Loc extends newHold( newPatha( V))
 			[
 				function test( nav ,pl ,item)
 				{
-					return this.canadditem( item ,item.len ?? 1 ,nav)
+					return this.canadditem( item ,item.glen() ,nav)
 				},
 				function run( nav ,pl ,item)
 				{
@@ -98,7 +98,7 @@ export default class Loc extends newHold( newPatha( V))
 	}
 
 
-	additem( item ,nav ,msg)
+	additem( item ,nav)
 	{
 		nav.at(-2).loc2map(this).setitem( this ,item)
 	}
@@ -128,7 +128,7 @@ export default class Loc extends newHold( newPatha( V))
 
 	cnt2stck( cnt ,nav )
 	{
-		nav[0].loc2map(this).setitem( this ,cnt.newstck() )
+		nav.at(0).loc2map(this).setitem( this ,cnt.newstck() )
 	}
 
 

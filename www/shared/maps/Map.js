@@ -194,19 +194,24 @@ export default class Map extends newBoard(newBinMap)
 	/** Handle-all main method to check if an item can be added at a location.
 	 * Derived maps need to calculate how many or which
 	 * items exactly can be added.
+	 * @todo Allow to add items it player present
 	 @arg curitem	-Derived classes might do additional checks so they can
 		provide curitem to save on time.
 	@return {len}	-If there's an appropriate stack at destination already
 		return the length of the stack. Otherwise, either return full
 		length or zero. */
 
-	canadditem( loc ,item ,len ,curitem )
+	canadditem( loc ,item ,len ,curitem)
 	{
-		curitem	??=this.obj.g(loc)?.item
+		const objo	=this.obj.g(loc)
 
-		if( curitem )
+		if( objo.pl)	return 0
+
+		curitem	??=objo?.item
+
+		if( curitem)
 		{
-			if( curitem.isstck && curitem.gkey() === item.gkey() )
+			if( curitem.isstck && curitem.gkey() ===item.gkey())
 			{
 				return curitem.len
 			}

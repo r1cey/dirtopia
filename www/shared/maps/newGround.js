@@ -143,11 +143,11 @@ export default( Base )=>class Ground extends Base
 
 	/** @return {string|null} -The plant type if present, otherwise null. */
 
-	issoilplant_i( ic )
+	issoilveg_i( ic)
 	{
-		const ty	=this.bin.tryval_str( ic ,bmap.ty.soil.plfl.veg.ty )
+		const ty	=this.bin.tryval_str( ic ,bmap.ty.soil.plfl.veg.ty)
 
-		return ty && ty !== "none" ? ty : null
+		return ty && ty !=="none" ? ty : null
 	}
 
 
@@ -162,6 +162,16 @@ export default( Base )=>class Ground extends Base
 		curage	??=this.getsoilvegage_i( ic )
 
 		return vegdefs[vegty].getstage( curage)
+	}
+
+
+	/** Is solid ground? */
+
+	issolid_i( ic)
+	{
+		const ty	=this.gettype_i( ic)
+
+		return ty ==="soil" || ty ==="rock"
 	}
 
 
