@@ -9,7 +9,7 @@ import Loc from  '../../www/shared/Loc.js'
 import { rnd } from "../../www/shared/utils.js"
 
 import itTps	from '../items/itemTypes.js'
-import LocC	from '../LocCell.js'
+// import LocC	from '../LocCell.js'
 
 import vegdefs	from '../../www/shared/maps/plantdefs.js'
 
@@ -74,7 +74,7 @@ export default class G extends ShGr
 
 	addstuff4newpl( spawnloc )
 	{
-		const map	=this
+		const gr	=this
 
 		const g	=this.game
 
@@ -82,18 +82,27 @@ export default class G extends ShGr
 
 		let idewd =0
 
-		map.fore(( loc )=>
-			{
-				const mapo	=map.obj.g(loc)
+		let dewd	=new itTps.dewd()
 
-				if( ! map.getshade( loc ) && map.canplmov( loc ) &&
-				
-					map.gettype( loc ) !== "water" && ! mapo?.item )
+		gr.fore(( loc)=>
+			{
+				const mapo	=gr.obj.g( loc)
+
+				const ic	=gr.ic( loc)
+
+				if( ! gr.getshade( loc) &&
+					
+					loc.testact("spawnitem" ,[ g.maps ,loc] ,null ,dewd) &&
+
+					gr.issolid_i( ic) && ! gr.issoilveg_i( ic))
 				{
 					/** Don't forget that server needs to be notified */
+
+					
+
 					g.additem([ g.maps ,LocC.set(loc) ],new itTps.dewd() )
 
-					idewd ++
+					++ idewd
 
 					if( idewd >= 3)	return true
 				}

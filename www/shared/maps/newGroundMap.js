@@ -92,28 +92,40 @@ export default( Map )=>class GroundMap extends newGround(Map)
 	}
 
 	/**
+	 * @todo Handle rock type.
 	@returns	-If player is the only thing potentially stopping the block
 		return -1. Otherwise return 1 or 0.*/
 
 	canaddblock( dest )
 	{
-		switch( this.gettype(dest) )
+		const ic	=this.ic( dest)
+
+		switch( this.gettype_i( ic))
 		{
 			case "water" :
 			
 			case "none" :
 
 				return 0
+
+			case "rock"	:
+
+				return 1
+
+			case "soil" :
+		
+				const vegstage	=this.getsoilvegstage_i( ic)
+
+				if( vegstage >1)	return 0
+
+				const desto	=this.obj.g(dest)
+
+				if( desto?.item)	return 0
+
+				if( desto?.pl)	return -1
+
+				return 1
 		}
-		const veglvl	=this.getveglvl(dest)
-
-		const desto	=this.obj.g(dest)
-
-		if( veglvl > 1 || desto?.item )	return 0
-
-		if( desto?.pl )	return -1
-
-		return 1
 	}
 
 
@@ -235,9 +247,9 @@ export default( Map )=>class GroundMap extends newGround(Map)
 
 
 
-	setveg( loc, type, lvl, age )
+	setsoilveg( loc ,type ,age )
 	{
-		this.setveg_i(this.ic(loc), type, lvl, age )
+		this.setsoilveg_i( this.ic( loc) ,type ,age)
 	}
 
 

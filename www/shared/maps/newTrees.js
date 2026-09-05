@@ -108,18 +108,18 @@ export default( Base )=>class Tr extends Base
 
 	setleafl_i( ic, val )
 	{
-		this.bin.setval( ic, Tr.Bin.bmap.leaves.low, val )
+		this.bin.setval( ic, bmap.leaves.low, val )
 	}
 	setleafh_i( ic, val )
 	{
-		this.bin.setval( ic, Tr.Bin.bmap.leaves.top, val )
+		this.bin.setval( ic, bmap.leaves.top, val )
 	}
 	getleafl_i( ic )
 	{
-		return this.bin.getval( ic, Tr.Bin.bmap.leaves.low )
+		return this.bin.getval( ic, bmap.leaves.low )
 	}
 	getleafh_i( ic )
 	{
-		return this.bin.getval( ic, Tr.Bin.bmap.leaves.top )
+		return this.bin.getval( ic, bmap.leaves.top )
 	}
 }

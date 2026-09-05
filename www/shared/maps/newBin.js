@@ -336,7 +336,7 @@ class BinBase
 	{
 		const val	=this.tryval( ic, field )
 
-		return val == null ? val : field.valsa[val]
+		return val === null ? null : field.valsa[val]
 	}
 
 
@@ -348,11 +348,11 @@ class BinBase
 	{
 		var curfld	=field
 
-		while( true )
+		while( true)
 		{
 			var dad	=curfld.dad
 
-			if( ! dad )	return this.getval( ic, field )
+			if( ! dad)	return this.getval( ic, field )
 
 			if( dad.valso && curfld.k in dad.valso &&
 				

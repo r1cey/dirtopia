@@ -1,58 +1,77 @@
 import Loc	from "./Loc.js"
 
 import newHold	from "./newHolder.js"
-import newAct	from "./newActionable.js"
+// import newAct	from "./newActionable.js"
 
 
-/** Separated this logic into a new class but now forced to create new
- * instances to access it from regular Loc objects.
- * Can fix item movement by moving this logic to Nav class but not actions...
- * Temporary fix to just call Maps methods instead.
- * For now is both Actionable and Holder. */
 
-export default class LocCell	extends newHold( newAct( Loc ))
+/*************************************
+ * Migrated to Loc class. This is outdated.
+ ***************************************/
+
+
+
+export default class LocCell	extends newHold( Loc)
 {
 	static
 	{
-		this.acts.plant	=
-		[
-			function test( nav ,pl )
-			{
-				return pl.canreach( this ) && pl.hands.item?.plantable &&
-				
-					nav.at(0).loc2map(this).plantable( this )
-			},
-			function run( nav ,pl ,time =0 )
-			{
-				const map	=nav.at(0).loc2map(this)
-				
-				map.setveg( this ,"cucumber" ,0 ,time )
-			}
-		]
+		this.prototype. acts	=
+		{
+			spawnitem	:
+			[
+				function test( nav ,pl ,item)
+				{
+					return this.canadditem( item ,item.len ?? 1 ,nav)
+				},
+				function run( nav ,pl ,item)
+				{
+					return this.additem( item ,nav)
+				}
+			],
+			plant	:
+			[
+				function test( nav ,pl)
+				{
+					return pl.canreach( this ) && pl.hands.item?.plantable &&
+					
+						nav.at(0).loc2map(this).plantable( this )
+				},
+				function run( nav ,pl)
+				{
+					const map	=nav.at(0).loc2map( this)
+					
+					map.setsoilveg( this ,"cucumber" ,0)
+				}
+			]
+		}
+	}
+	
+	
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	canadditem( item ,len ,nav)
+	{
+		return nav.at(-2).loc2map(this).canadditem( this ,item ,len)
 	}
 
 
-	canadditem( item ,len ,nav )
+	additem( item ,nav ,msg)
 	{
-		return nav.at(-2).loc2map(this).canadditem( this ,item ,len )
+		nav.at(-2).loc2map(this).setitem( this ,item)
 	}
 
 
-	additem( item ,nav ,msg )
+	delitem( item ,len ,nav)
 	{
-		nav.at(-2).loc2map(this).setitem( this ,item )
+		nav.at(-2).loc2map(this).delitem( this ,item ,len)
 	}
 
 
-	delitem( item ,len ,nav )
+	canchildadd( item ,len ,nav ,_i)
 	{
-		nav.at(-2).loc2map(this).delitem( this ,item ,len )
-	}
-
-
-	canchildadd( item ,len ,nav ,_i )
-	{
-		return nav.at(-2).loc2map(this).canchildadd( this ,item ,len )
+		return nav.at(-2).loc2map(this).canchildadd( this ,item ,len)
 	}
 
 

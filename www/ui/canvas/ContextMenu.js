@@ -5,7 +5,7 @@ import CtxM	from "../ContextMenu.js"
 import Nav	from "../../shared/Nav.js"
 
 import Loc from '../../shared/Loc.js'
-import LocC	from '../../shared/LocCell.js'
+// import LocC	from '../../shared/LocCell.js'
 
 
 

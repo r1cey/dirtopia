@@ -134,25 +134,25 @@ export default class Pls	extends ShPls
 		}
 		plmsg.loc	=loc
 
-		const pl	=super.new( plmsg )
+		const pl	=super.new( plmsg)
 
 		/** add starter items */
 		{
-			let belt	=new itTps.belt( 1 )
+			let belt	=new itTps.belt( 1)
 			
-			belt.additem( new itTps.multi() )
+			belt.additem( new itTps.multi())
 			
 			pl.additem( belt )
 
-			let sbag	=new itTps.seedbag( 1 )
+			let sbag	=new itTps.seedbag( 1)
 			
-			sbag.additem( new itTps.cuc_seeds( 15 ))
+			sbag.additem( new itTps.cuc_seeds( 15))
 
-			pl.additem( sbag )
+			pl.additem( sbag)
 		}
-		pl.save( this.conf.dir )
+		pl.save( this.conf.dir)
 
-		gr.addstuff4newpl( pl.loc ,this.constructor.items.dewd )
+		gr.addstuff4newpl( pl.loc)
 		
 		return pl
 	}

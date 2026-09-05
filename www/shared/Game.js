@@ -1,3 +1,5 @@
+import newAct	from "./newActionable.js"
+
 import Maps from "./maps/Maps.js"
 import Players from "./player/Players.js"
 
@@ -10,7 +12,7 @@ import Nav from "./Nav.js"
  * 
  * Anton is considering making it a God object or even a global variable. */
 
-export default class Game
+export default newAct( class Game
 {
 	maps	=new this.constructor.Maps( this )
 
@@ -59,4 +61,4 @@ export default class Game
 
 		return nav
 	}
-}
+})

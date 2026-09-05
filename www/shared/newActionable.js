@@ -1,40 +1,21 @@
 export default( Base =Object )=>class Actionable extends Base
 {
-	/** acts[key] =[ test(nav ,pl ,arg ), run(nav ,pl ,arg ,testres)] 
+	/** Define inside .prototype. property of class!
+	 * acts[key] =[ test(nav ,pl ,arg ), run(nav ,pl ,arg ,testres)] 
 	 * Run gets testres only if it's not a boolean or undefined.
-	 * Test function return argument for failure as [ false ,arg ] */
-	static acts	={}
+	 * Test function return argument for failure as [ false ,arg ] 
+	@static @prop {obj} acts	*/
 
 
-	gact( key )
+
+	actrun( key ,nav ,pl ,arg)
 	{
-		return this.constructor.acts[key]
+		return this.acts[key][1].call( this ,nav ,pl ,arg)
 	}
+	static{this.prototype. runact	=this.prototype. actrun}
 
-
-	/** Can only be run dy derived class
-	 * to preserve the original when modified */
-
-	static dupacts()
+	testact( key ,nav ,pl ,arg)
 	{
-		const acts	={}
-
-		for(var k in this.acts )
-		{
-			acts[k]	=[ ...this.acts[k] ]
-		}
-		this.acts	=acts
-	}
-
-
-	actrun( key ,nav ,pl ,args )
-	{
-		return this.constructor.acts[key][1].call( this ,nav ,pl ,args )
-	}
-	static{this.prototype. runact	=this.prototype. actrun }
-
-	testact( key ,nav ,pl ,args )
-	{
-		return this.constructor.acts[key][0].call( this ,nav ,pl ,args )
+		return this.acts[key][0].call( this ,nav ,pl ,arg)
 	}
 }

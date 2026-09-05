@@ -1,10 +1,10 @@
-// import PObj from "./newPathable.js";
+import newAct from "./newActionable.js"
 
 
 /** Important class for moving items!
  * Specifies the protocol for adding and removing items. */
 
-export default( Base )=>class Holder	extends Base
+export default( Base )=>class Holder	extends newAct( Base)
 {
 	/** @todo Still undecided on whether to use method or static var */
 
@@ -56,4 +56,13 @@ export default( Base )=>class Holder	extends Base
 	/** A way to iterate over all items in holder. Shallow.
 	 
 	@method fore(fun) */
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	/** Acts which holders have. Look up Actionable class.
+	@prop {obj}	acts
+	@prop {Act}	acts.spawnitem ( item ) */
 }

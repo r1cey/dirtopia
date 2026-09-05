@@ -1,6 +1,6 @@
 import Loc from "../Loc.js"
 
-import LocC	from "../LocCell.js"
+// import LocC	from "../LocCell.js"
 
 import newPatha from "../newPathable.js"
 
@@ -61,6 +61,9 @@ export default class Maps	extends newPatha()
 	}
 
 
+	///////////////////////////////////////////////////////////////////////////
+
+
 
 	movobjp( from ,key ,to )
 	{
@@ -71,7 +74,7 @@ export default class Maps	extends newPatha()
 		return prop
 	}
 
-	pmsg2obj( locj )	{return LocC.setj( locj )}
+	pmsg2obj( locj )	{return Loc.setj( locj )}
 
 
 	toJSON()	{return undefined }
