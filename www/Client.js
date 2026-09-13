@@ -11,6 +11,16 @@ import Loc	from "./shared/Loc.js"
 
 
 
+/**********************************************
+ * 
+ * Client's main class.
+ * 
+ * Look up index.js for the actual point of entry.
+ * 
+ *********************************************/
+
+
+
 export default class Client	extends Game
 {
 	ui	=new UI( this )
@@ -62,6 +72,46 @@ export default class Client	extends Game
 	///////////////////////////////////////////////////////////////////////////
 
 
+	/** @arg plmsg -Arrives directly from Server but after JSON reviver. */
+
+	setpl( plmsg)
+	{
+		// this.ui.html.deldiv('createpl')
+
+		this.ui.setpage()
+
+		const pl	=this.pl	=this.pls.new( plmsg )
+
+		this.ui.newclplinv( pl)
+
+		const can	=this.ui.can
+
+		can.setpl( pl )
+
+		can.draw()
+
+		if( this.maps.isready())	this.plmapsloaded()
+	/*	{
+			let map	=this.maps.loc2map(pl.loc)
+
+			let cell	=map.obj.g(pl.loc)
+
+			if( ! cell || ! cell.pl )
+			{
+				console.error( "setpl:" ,plmsg )
+
+				cell	=map.obj.s(pl.loc)
+			}
+			cell.pl	=pl
+
+			can.start()
+		}*/
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+
 
 	movitem( from ,len ,to ,mover ,newcnt ,pushed2loc ,slotnewcnts )
 	{
@@ -80,14 +130,16 @@ export default class Client	extends Game
 	///////////////////////////////////////////////////////////////////////////
 
 
+	/** Fire when both the player data and the map data have been received and
+	 * loaded to properly start the game. */
 
 	plmapsloaded()
 	{
 		const ui	=this.ui
 
-		this.maps.setpl( this.pl )
+		this.maps.setpl( this.pl)
 
-		this.maps.jsonlocs.pl	=null
+		this.maps.jsonlocs.pl	={}
 
 		ui.can.runani()
 
@@ -120,43 +172,6 @@ export default class Client	extends Game
 
 
 ///////////////////////////////////////////////////////////////////////////////
-
-
-
-Client.prototype. setpl	=async function( plmsg )
-{
-	// this.ui.html.deldiv('createpl')
-
-	this.ui.setpage()
-
-	const pl	=this.pl	=this.pls.new( plmsg )
-
-	this.ui.newclplinv( pl )
-
-	const can	=this.ui.can
-
-	can.setpl( pl )
-
-	can.draw()
-
-	if( this.maps.isready() )	this.plmapsloaded()
-/*	{
-		let map	=this.maps.loc2map(pl.loc)
-
-		let cell	=map.obj.g(pl.loc)
-
-		if( ! cell || ! cell.pl )
-		{
-			console.error( "setpl:" ,plmsg )
-
-			cell	=map.obj.s(pl.loc)
-		}
-		cell.pl	=pl
-
-		can.start()
-	}*/
-}
-
 
 
 

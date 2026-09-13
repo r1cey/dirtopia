@@ -77,6 +77,7 @@ export function isarreq( a1 ,a2 )
 }
 
 
+/** System for managing unique IDs */
 
 export class IdPool
 {
@@ -107,6 +108,16 @@ export class IdPool
     	// If you want safety, see the “safe mode” notes below.
     	this.free.push(id)
   	}
+
+
+	set( inipool)
+	{
+		this.next	=inipool.next
+
+		this.free	=inipool.free
+		
+		return this
+	}
 }
 
 

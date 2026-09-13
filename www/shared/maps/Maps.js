@@ -24,8 +24,8 @@ export default class Maps	extends newPatha()
 
 	get tr()	{return this.trees }
 
-	/** When getting map obj from JSON, save certain locations here */
-
+	/** When getting map obj from JSON, save certain locations here
+	 * @todo Might not be necessary any more. Check if used. */
 	jsonlocs	=
 	{
 		pl	:{}

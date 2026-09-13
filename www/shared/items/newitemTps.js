@@ -42,14 +42,14 @@ export default({ Block ,Stack ,Organic ,StackCnt ,Bag ,Box ,SoftRcpt ,HardRcpt }
 
 		static
 		{
-			this.acts["rot"]	=
+			/*this.acts["rot"]	=
 			[
 				function( nav ,pl ,ddir )
 				{
 					return	pl.canreach( nav.gloc() )&& ! pl.hands.item
 				},
 				function( nav ,pl ,ddir ){ this.dir =V.roth( this.dir ,ddir )}
-			]
+			]*/
 		}
 
 		constructor()

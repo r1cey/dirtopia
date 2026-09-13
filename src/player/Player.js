@@ -189,31 +189,6 @@ Player.prototype. save	=async function( dir )
 }
 
 
-/**  *
-
-Player.prototype. conncl	=function( cl )
-{
-	this.cl	=cl
-
-	cl.send("setclpl")
-
-	cl.send("setmap")
-
-	this.game.gsrv?.sendplvis( this ,"plconn" ,[ this ,true ])
-}*/
-
-
-/*
-Player.prototype. clclosed	=function()
-{
-	this.gsrv()?.cls.del( this.name )
-
-	this.cl	=null
-
-	this.gsrv()?.send.plconn( this )
-}*/
-
-
 ///////////////////////////////////////////////////////////////////////////////
 
 

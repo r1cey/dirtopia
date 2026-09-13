@@ -7,7 +7,7 @@ export default class Block	extends Base
 {
 	static
 	{
-		this.dupacts()
+		/*this.dupacts()
 
 		this.acts.drag[1]	=function run( nav ,pl ,dir ,newplloc )
 		{
@@ -35,6 +35,6 @@ export default class Block	extends Base
 					pl ,"actpl" ,[ pl.name ,nav ,"drag" ,dir ,newplloc ]
 				)
 			}
-		}
+		}*/
 	}
 }

@@ -8,7 +8,7 @@ export default class Block	extends ShBlock
 {
 	static
 	{
-		this.dupacts()
+		/*this.dupacts()
 
 		this.acts.drag[1]	=function( nav ,pl ,dir ,newplloca )
 		{
@@ -20,6 +20,6 @@ export default class Block	extends ShBlock
 			{
 				pl.forcemov( pl.loc )
 			}
-		}
+		}*/
 	}
 }

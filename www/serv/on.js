@@ -5,13 +5,21 @@ import Loc from '../shared/Loc.js'
 import Maps	from '../maps/Maps.js'
 
 
-/********
+
+/***************************
+ * 
+ * Here be the methods which are called by {Msg} (look into Serv.js)
+ * 
 	FRIENDLY REMINDER THAT ALL MESSAGES WILL COME AFTER JSON REVIVER!
 
 	Also, these methods will be called with Server inst. as "this".
-* ***/
+
+* *****************************/
+
+
 
 export default{
+
 
 	/** Player with name doesn't exist and needs to be created. */
 
@@ -21,38 +29,35 @@ export default{
 
 		this.cl.ui.setpage( "createpl" ,this ,name)
 	}
-,
+	,
 
 	///////////////////////////////////////////////////////////////////////////////
 
 
+	/** This is your player.
+	 * This and setmap are the first things which fire after login.	*/
 
-	/** This is your player. */
-
-	setclpl( plmsg )
+	setclpl( plmsg)
 	{
 		// debugger
 
 		console.log(plmsg)
 		
-
-		this.cl.setpl( plmsg )
+		this.cl.setpl( plmsg)
 	}
-,
-
+	,
 
 	/** This is what you see.
-	* @arg msg
-	* @arg o.loc
-	* @arg o.r
-	* @arg {obj} o.obj	-{gr, tr}
-	*/
+	* @arg {Array} msg -[obj, loca, r]
+	* @arg {{ gr ,tr}}	msg.0	-The object data of the map
+	* @arg msg.1	-Center location. Redundancy found in the bin data.
+	* @arg msg.2	-Radius. Also found in the bin data. */
 
 	setmap([ obj, loca, r ])
 	{
-		this.buf.addobj( obj, new Loc().setj(loca), r )
+		this.buf.addobj( obj, Loc.setj(loca), r )
 	}
-	
+	,
 
 	/**	This are the units that you see. 
 	* @arg o
@@ -68,8 +73,11 @@ export default{
 		}
 	}*/
 
-	,
-	act([ nava ,actk ,arg ,testres ])
+	
+	/** OK, so main game communication happens through here.
+	 * It's the Action system handler. */
+
+	act([ nava ,actk ,arg ,actres ,testres])
 	{
 		const nav	=this.cl.newnav( nava )
 
@@ -378,9 +386,9 @@ export default{
 
 
 	,
-	error( actid ,msg )
+	error( msg )
 	{
-		this.acts.del( actid )
+		// this.acts.del( actid )
 
 		if( msg )	console.error( "error" ,msg )
 	}

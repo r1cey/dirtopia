@@ -4,7 +4,7 @@ import * as fs	from '../fs.js'
 
 import Loc from "../../www/shared/Loc.js"
 // import items from "../itemTypes.js"
-import newJRev from "../../www/shared/newJsonRevivr.js"
+// import newJRev from "../../www/shared/newJsonRevivr.js"
 import JRev from "../JsonRevivr.js"
 
 
@@ -12,7 +12,7 @@ import JRev from "../JsonRevivr.js"
 
 export default class Obj extends ShObj
 {
-	jrev	=new (newJRev(JRev))()
+	jrev	=new JRev()
 
 
 

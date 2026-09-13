@@ -4,8 +4,8 @@ import http	from "http"
 // import Col from '../www/shared/Color.js'
 // import Vec from '../www/shared/Vec.js'
 // import Player from './Player.js'
-import Cls from "./Clients.js"
-import out from './newServSend.js'
+import Clients from "./Clients.js"
+// import out from './newServSend.js'
 
 import newJRev from "../../www/shared/newJsonRevivr.js"
 import JRev	from "../JsonRevivr.js"
@@ -29,13 +29,13 @@ export default class Server
 
 	wss
 
-	cls	=new Cls(this)
+	cls	=new Clients(this)
 
 	// g	=new Get(this)
 
 	// send	=new Send(this)
 
-	static out	=out //new ServSend()
+	// static out	=out //new ServSend()
 
 	static jrev	=new (newJRev(JRev))()
 
@@ -163,18 +163,23 @@ export default class Server
 		}
 	}
 
+	
+	/** Send to all who can see player, except the player itself.
+	 * Is used exlusively in those cases where data sent to player
+	 * is different from data sent to other players.
+	 * Like during connection. */
 
-	sendplvis( pl ,fnk ,...args)
+	sendplvis( pl ,fnk ,arg)
 	{
-		var dict	=this.cls.o
+		const dict	=this.cls.o
 
-		for(var n in dict )
+		for(var n in dict)
 		{
 			var cl	=dict[n]
 
-			if( cl.pl.seespl(pl) )
+			if( cl.pl !==pl && cl.pl.seespl( pl))
 			{
-				cl.send( fnk ,...args )
+				cl.send( fnk ,arg)
 			}
 		}
 	}

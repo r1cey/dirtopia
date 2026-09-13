@@ -1,6 +1,19 @@
+import Client from "./Client.js"
+
 // import './utils.js'
 
-import Client from "./Client.js"
+
+
+/*****************************************
+ * 
+ * Main entry point for the web application.
+ * 
+ * Client-side's Game class is extended in Client
+ * class. 
+ * 
+ ***********************************************/
+
+
 
 window.cl	=new Client()
 

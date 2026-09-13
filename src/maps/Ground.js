@@ -84,13 +84,15 @@ export default class Ground extends ShGr
 
 		let dewd	=new itTps.dewd()
 
+		const nav	=new g.constructor.Nav([ g.maps ,spawnloc])
+
 		gr.fore(( loc)=>
 			{
 				const mapo	=gr.obj.g( loc)
 
 				const ic	=gr.ic( loc)
 
-				const nav	=new g.constructor.Nav([ g.maps ,loc])
+				nav.a[1]	=loc
 
 				if( ! gr.getshade( loc) &&
 					
@@ -105,6 +107,8 @@ export default class Ground extends ShGr
 					++ idewd
 
 					if( idewd >= 3)	return true
+
+					else	dewd	=new itTps.dewd()
 				}
 			},
 			null, spawnloc

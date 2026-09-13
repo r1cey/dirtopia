@@ -14,7 +14,7 @@ import Loc	from "./Loc.js"
  * from here!
  * 
  * Look up Game.js on /src for server-side extensions,
- * and at /www for client-side extension.
+ * and Client.js in /www for client-side extension.
  * 
  **************************************************/
 

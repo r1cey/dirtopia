@@ -2,6 +2,8 @@ import newContainer from "../../www/shared/items/newContainer.js"
 
 import{ IdPool }	from "../../www/shared/utils.js"
 
+import{ savejson ,readjson}	from "../fs.js"
+
 
 
 export default class Cnt	extends newContainer()
@@ -31,10 +33,25 @@ export default class Cnt	extends newContainer()
 
 	setuniq()	{ this.id	=Cnt.idpool.new() ;return this }
 
-	su	=this.setuniq
+	static
+	{
+		this.prototype.su	=this.prototype.setuniq
+	}
 
 	deluniq()	{ Cnt.idpool.del( this.id )}
 
 
-	
+
+	static async save( dir)
+	{
+		return savejson(`${dir}idpool.json` ,Cnt.idpool)
+	}
+
+
+	static async load( dir)
+	{
+		const inipool	=await readjson(`${dir}idpool.json`)
+
+		if( inipool)	this.idpool.set( inipool)
+	}
 }

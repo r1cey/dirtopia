@@ -10,6 +10,7 @@ import Loc	from './Loc.js'
 import Nav	from '../www/shared/Nav.js'
 // import Pl from "../www/shared/player/Player.js"
 import itTps from "./items/itemTypes.js"
+import Cnt	from "./items/Container.js"
 
 
 
@@ -36,20 +37,24 @@ export default class Game	extends GameSh
 {
 	conf	=
 	{
-		pa	:'./conf.js'
+		fn	:'conf.js'
+		,
+		/** Folder for save data. */
+		stash	:'./stash/'
 	}
 
+	/**
+	 * @typedef TimeLoop
+	 * @prop {number}	int	-Interval ID from setInterval() */
 	/** @type {Record<string, TimeLoop>} */
 	time	=
 	{
-		sec	:{ int	:0, i :0 }
+		sec	:{ int	:0}
 		,
-		min15	:{ int	:0, i :0 }
+		min15	:{ int	:0}
 		,
-		hour	:{ int	:0, i :0 }
+		hour	:{ int	:0}
 	}
-	mode	=null
-
 	// admin	=new Admin( this )
 	
 	srv	=new Srv( this)
@@ -94,7 +99,9 @@ export default class Game	extends GameSh
 
 
 	/** Load maps and players properly.
-	 * Exits if maps didn't load. */
+	 * Exits if maps didn't load.
+	 * @todo Make it so maps and players load simultaneously and
+	 * then players list is changed accordingly. */
 
 	async load( confpa )
 	{
@@ -104,7 +111,7 @@ export default class Game	extends GameSh
 
 		// var fs	=this.files
 
-		if( confpa )
+		if( confpa)
 		{
 			try{
 				var conf	=await readjson( confpa )
@@ -123,15 +130,34 @@ export default class Game	extends GameSh
 				console.error("Couldn't read conf file: "+confpa )
 			}
 		}
-		const pllocs	=await maps.load()
+		return Promise.all( [(async ()=>
+			{
+				const pllocs	=await maps.load()
 
-		if( ! maps.isready() )	return
+				if( ! maps.isready() )	return
 
-		const failedplload	=await pls.load( pllocs )
+				const failedplload	=await pls.load( pllocs )
 
-		for(const entry of failedplload )	maps.delpl( entry[1] ,entry[0] )
+				for(const entry of failedplload )	maps.delpl( entry[1] ,entry[0] )
 
-		pls.fore(( pl )=>	maps.setpl( pl ))
+				pls.fore(( pl )=>	maps.setpl( pl ))
+			})(),
+			Cnt.load( this.conf.stash)
+		])
+	}
+
+
+	async save()
+	{
+		const proms	=
+		[
+			this.maps.save()
+			,
+			this.pls.save()
+			,
+			Cnt.save( this.conf.stash)
+		]
+		return Promise.allSettled( proms)
 	}
 
 
@@ -166,15 +192,15 @@ export default class Game	extends GameSh
 
 Game.prototype. start	=async function( confpa )
 {
-	
+	const g	=this
 
 	g.time.hour.int	=setInterval( g.hour.bind(g), 60*1000*60*1.5 )
 
 	g.time.min15.int	=setInterval(g.min15.bind(g), 12*60*1000)
 
-	g.time.sec.int	=setInterval( this.sec.bind(this), 1000*60/73)
+	g.time.sec.int	=setInterval( g.sec.bind(g), 1000*60/73)
 
-	this.server.start()
+	g.srv.start()
 
 	console.log(`Game had started!`)
 
@@ -203,17 +229,6 @@ Game.prototype. stop	=async function()
 ////////////////////////////////////////////////////////////////
 
 
-
-Game.prototype. save	=async function()
-{
-	var proms	=
-	[
-		this.maps.save()
-		,
-		this.pls.save()
-	]
-	return await Promise.allSettled( proms )
-}
 
 
 ///////////////////////////////////////////////////////////////////////////////

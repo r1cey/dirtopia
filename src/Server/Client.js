@@ -9,7 +9,7 @@ import MapG	from "../maps/Ground.js"
 import JRev from '../JsonRevivr.js'
 
 
-
+/** Represents a connected client. */
 
 export default class Client //extends newClS()
 {
@@ -34,30 +34,31 @@ export default class Client //extends newClS()
 	static jrev	=new JRev()
 
 
+	/** Main logic is here */
 
 	constructor(ws, pl, srv )
 	{
 		// super()
 
-		Object.assign(this,{ srv, ws, pl })
+		Object.assign( this ,{ srv ,ws ,pl})
 
-		if( pl && ws )
+		if( pl && ws)
 		{
 			let cl	=this
 
 			pl.cl	=cl
 
-			cl.send("setclpl")
+			cl.send( "setclpl")
 
-			cl.send("setmap")
+			cl.send( "setmap")
 
-			srv.sendplvis( pl ,"plconn" ,pl ,true )
+			srv.sendplvis( pl ,"plconn" ,[ pl ,true])
 		}
-		ws.removeAllListeners( 'message' )
+		ws.removeAllListeners( 'message')
 
-		ws.on( 'message', this.onmsg. bind(this))
+		ws.on( 'message' ,this.onmsg. bind(this))
 
-		ws.on('close', this.onclose. bind(this))
+		ws.on('close' ,this.onclose. bind(this))
 
 		// this.jsonrev	=json.newrevivr()
 	}
@@ -90,8 +91,6 @@ export default class Client //extends newClS()
 ///////////////////////////////////////////////////////////////////////////////
 
 
-	/** @todo Can shorten comm by responding with "act" code instead of
-	 * entire action. Obviously needs unique code implementation at client. */
 
 	onmsg( data, isbin )
 	{
@@ -105,12 +104,7 @@ export default class Client //extends newClS()
 
 		if( fun )
 		{
-			const res	=fun.call( this, arg )
-
-			if( res )
-			{
-				this.sendjson( msg )
-			}
+			fun.call( this, arg )
 		}
 		else
 		{
@@ -122,7 +116,7 @@ export default class Client //extends newClS()
 
 	onclose( code, reason /*, wsclosed =false*/ )
 	{
-		var pl	=this.pl
+		const pl	=this.pl
 
 		console.log( `Client ${pl.name} disconnected: code=${code}, reason=${reason}.` )
 
@@ -130,7 +124,7 @@ export default class Client //extends newClS()
 
 		pl.cl	=null
 
-		this.srv.sendplvis( pl ,"plconn" ,[ pl, false ])
+		this.srv.sendplvis( pl ,"plconn" ,[ pl ,false])
 
 		for(var cl2 of this.rtcstate)
 		{

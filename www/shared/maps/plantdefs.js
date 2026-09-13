@@ -114,6 +114,8 @@ class VegDef
 	set( def)
 	{
 		Object.assign( this ,def)
+
+		return this
 	}
 
 

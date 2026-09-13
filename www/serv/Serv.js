@@ -1,6 +1,6 @@
 // import Acts	from "../shared/Acts.js"
 import newSS from './newServSend.js'
-import on	from "./newServGet.js"
+import on	from "./on.js"
 
 import Gr from '../maps/Ground.js'
 import Canopy from '../maps/Trees.js'
@@ -8,39 +8,53 @@ import Pl from "../player/Player.js"
 import Loc from "../shared/Loc.js"
 
 // import Hands	from "./player/Hands.js"
-import newJR	from "../shared/newJsonRevivr.js"
+// import newJR	from "../shared/newJsonRevivr.js"
 import JRev from "../JsonRevivr.js"
 
-// import Acts	from "./Acts.js"
 
 
-///////////////////////////////////////////////////////////////////////////////
-
-
-/** Reminder that main communication happens in the format of
- * [ actk ,arg] */
+/**********************************************
+ * 
+ * The root for handling communication to game server.
+ * 
+ * Custom methods for receiving and sending are split into
+ * on.js and emit.js
+ * 
+ * Reminder that main communication happens in the format of
+ * @typedef {[ fnk ,arg]}	Msg
+ * @property {str}	0 -Which method to call in on.js?
+ * @property {*}	1 -If there are multiple arguments put
+ *   into an array or a dict, the fnk should handle it.
+ *
+ * **************************************************/
 
 
 
 export default newSS( class Server
 {
+	/** @prop {Client} */
 	cl
 
+	/** @return {Console} */
 	con()	{ return this.cl.ui.con }
 
 	url	="ws://127.0.0.1:8043"
 
+	/** @prop {WebSocket} */
 	ws
 
-	jrev	=new (newJR( JRev))()
+	/** @prop {JsonRevivr} */
+	jrev	=new JRev()
 
-	buf	=new Buf(this)
-
-	// acts	=new Acts( this )
-
+	/** @prop {Buf} */
+	buf	=new Buf( this)
 
 
-	constructor(client)
+	///////////////////////////////////////////////////////////////////////////
+
+
+
+	constructor( client)
 	{
 		// super()
 
@@ -110,48 +124,59 @@ export default newSS( class Server
 
 
 	/** @todo Get rid of "em_"
-	 * Function can return an array: [val ,replcl ]	*/
+	 * Function can return an array: [ val ,replcr]	*/
 
-	send( fn, ...args )
+	send( fn, ...args)
 	{
-		const res	=this["em_"+fn]( ...args )
+		const res	=this["em_"+fn]( ...args)
 
-		if( res )	this.sendjson([ fn, res[0] ], res[1] )
+		if( res )	this.sendjson([ fn ,res[0]] ,res[1])
 	}
 
 
-	senda( nav ,actk ,arg )
-	{
-		// const id	=this.acts.add([ nav ,actk ,args ])
+	/** Send an Action to the server */
 
-		this.sendjson([ "act" ,[ nav ,actk ,arg ]])
+	senda( nav ,actk ,arg)
+	{
+		this.sendjson([ "act" ,[ nav ,actk ,arg]])
 	}
 
 
 	///////////////////////////////////////////////////////////////////////////////
 
 
+	/** The most basic sending method.
+	 * @arg {*}	msg -The message to send to the server.
+	 * @arg {function}	[replcr] -Optional replacer function for JSON.stringify. */
 
-	sendjson( o, replcr )
+	sendjson( msg, replcr )
 	{
-		this.ws.send(JSON.stringify( o, replcr ))
+		this.ws.send(JSON.stringify( msg, replcr ))
 	}
 
 
+	/** Root receiving method for handling incoming WebSocket messages.
+	 * Data can come in two forms: ArrayBuffer or string.
+	 * Look inside for more comments info.
+	 * @arg {MessageEvent} ev - The WebSocket message event. */
 
 	onmsg( ev )
 	{	
-		let msg	=ev.data
+		const msg	=ev.data
 
 		// console.log( 'Recvd: '+msg)
 
-		var cl	=this.cl
+		const{ cl }	=this
+
+		/** If msg is binary, at the moment it can only be map data.
+		 * So it's sent to a custom class which collects all map data
+		 * and sends it further once it's complete. */
 
 		if(msg instanceof ArrayBuffer)
 		{
 			// debugger
 
-			let code	=Gr.Bin.getcode( msg )
+			const code	=Gr.Bin.getcode( msg )
 
 			switch( code )
 			{
@@ -162,6 +187,10 @@ export default newSS( class Server
 					this.buf.addbinbuf( msg, code )
 			}
 		}
+		/** If msg is a string, it's expected to be JSON-encoded in
+		 * {Msg} format. Just call appropriate method in "on.js"
+		 * Also, message is revived first before sent on. */
+		 
 		else if(typeof msg === 'string')
 		{
 			const[ act ,arg]	=JSON.parse( ev.data ,this.jrev.fn)

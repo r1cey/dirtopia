@@ -9,7 +9,7 @@ export default( Base =Item )=>class Block	extends Base
 
 	static
 	{
-		/** Drag block one tile. Also moves player. */
+		/** Drag block one tile. Also moves player. *
 		
 		this.acts["drag"]	=
 		[
@@ -55,6 +55,6 @@ export default( Base =Item )=>class Block	extends Base
 
 				pl.mov( newplloc )
 			}
-		]
+		]*/
 	}	
 }
