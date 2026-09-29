@@ -205,7 +205,7 @@ export default class Map extends newBoard(newBinMap)
 	{
 		const objo	=this.obj.g(loc)
 
-		if( objo.pl)	return 0
+		if( objo?.pl)	return 0
 
 		curitem	??=objo?.item
 
