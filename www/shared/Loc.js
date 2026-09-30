@@ -100,7 +100,7 @@ export default class Loc extends newHold( newPatha( V))
 
 	additem( item ,nav)
 	{
-		nav.at(-2).loc2map(this).setitem( this ,item)
+		nav.at(-2).additem( this ,item)
 	}
 
 

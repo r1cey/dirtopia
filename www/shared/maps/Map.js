@@ -50,12 +50,6 @@ export default class Map extends newBoard(newBinMap)
 	isplantable( loc )	{return false }
 
 
-	/** The method which updates other map properties depending on item */
-
-	setitem( loc ,item )
-	{
-		this.obj.s(loc).item	=item
-	}
 
 	getitem( loc )
 	{
@@ -194,7 +188,7 @@ export default class Map extends newBoard(newBinMap)
 	/** Handle-all main method to check if an item can be added at a location.
 	 * Derived maps need to calculate how many or which
 	 * items exactly can be added.
-	 * @todo Allow to add items it player present
+	 * @todo Allow to add items if player present
 	 @arg curitem	-Derived classes might do additional checks so they can
 		provide curitem to save on time.
 	@return {len}	-If there's an appropriate stack at destination already
@@ -203,21 +197,41 @@ export default class Map extends newBoard(newBinMap)
 
 	canadditem( loc ,item ,len ,curitem)
 	{
-		const objo	=this.obj.g(loc)
+		const cobj	=this.obj.g(loc)
 
-		if( objo?.pl)	return 0
+		if( cobj?.pl)	return 0
 
-		curitem	??=objo?.item
+		curitem	??=cobj?.item
 
 		if( curitem)
 		{
 			if( curitem.isstck && curitem.gkey() ===item.gkey())
 			{
-				return curitem.len
+				return curitem.glen()
 			}
 			else	return 0
 		}
 		return len
+	}
+
+
+	/** If there's an incompatible item already at the location,
+	 * replace it with the new item. */
+
+	additem( loc ,item )
+	{
+		const curitem	=this.getitem( loc)
+
+		if( curitem && curitem.isstck && curitem.gkey() === item.gkey())
+		{
+			curitem.add( item)
+
+			return
+		}
+		else
+		{
+			this.setitem( loc ,item)
+		}
 	}
 
 

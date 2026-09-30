@@ -159,9 +159,9 @@ export default( Base )=>class Ground extends Base
 
 	getsoilvegstage_i( ic ,vegty =this.getsoilvegty_i( ic ) ,curage)
 	{
-		curage	??=this.getsoilvegage_i( ic )
-
-		return vegdefs[vegty].getstage( curage)
+		curage	??=this.getsoilvegage_i( ic)
+ 
+		return vegdefs[vegty]?.getstage( curage)
 	}
 
 

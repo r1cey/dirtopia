@@ -71,7 +71,7 @@ export default class Game
 
 	runact( nav ,actk ,pl ,arg)
 	{
-		return nav.at(-1).runact( nav ,actk ,pl ,arg)
+		return nav.at(-1).runact( actk ,nav ,pl ,arg)
 	}
 
 

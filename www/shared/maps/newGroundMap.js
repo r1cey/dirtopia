@@ -96,11 +96,13 @@ export default( Map )=>class GroundMap extends newGround(Map)
 	@returns	-If player is the only thing potentially stopping the block
 		return -1. Otherwise return 1 or 0.*/
 
-	canaddblock( dest )
+	canaddblock( dest ,ic ,ctype ,vegstage)
 	{
-		const ic	=this.ic( dest)
+		ic	??=this.ic( dest)
 
-		switch( this.gettype_i( ic))
+		ctype	??=this.gettype_i( ic)
+
+		switch( ctype)
 		{
 			case "water" :
 			
@@ -114,7 +116,7 @@ export default( Map )=>class GroundMap extends newGround(Map)
 
 			case "soil" :
 		
-				const vegstage	=this.getsoilvegstage_i( ic)
+				vegstage	??=this.getsoilvegstage_i( ic)
 
 				if( vegstage >1)	return 0
 
@@ -136,17 +138,23 @@ export default( Map )=>class GroundMap extends newGround(Map)
 
 	canadditem( loc ,item ,len )
 	{
+		if( item.isblock)
+		{
+			const canlen	=this.canaddblock( loc)
+
+			return canlen <= 0 ? 0 : canlen
+		}
 		const cello	=this.obj.g(loc)
 
 		const curitem	=cello?.item
 
-		if( ! super.canadditem( loc, item, len, curitem ) ||
-
-			( item.isblock && this.canaddblock(loc) <= 0 ))
+		if( ! super.canadditem( loc ,item ,len ,curitem))
 		{
 			return 0
 		}
-		switch( this.gettype(loc) )
+		const ctype	=this.gettype( loc)
+
+		switch( ctype)
 		{
 			case "water" :
 			
@@ -154,15 +162,19 @@ export default( Map )=>class GroundMap extends newGround(Map)
 
 				return 0
 		}
-		const veglvl	=this.getveglvl(loc)
+		if( ctype ==="soil")
+		{
+			const veglvl	=this.getsoilvegstage( loc)
 
-		if( veglvl > 3 )	return 0
-
+			if( veglvl > 3 )	return 0
+		}
 		var max	=99
 
-		if( cello?.pl  || veglvl > 0 )	max	=10
- 
-		if( curitem )	max	-= curitem.len
+		if( cello?.pl  || ( ctype === "soil" && veglvl > 0))
+		{
+			max	=10
+		}
+		if( curitem)	max	-= curitem.glen()
 
 		return Math.min( len, max < 0 ? 0 : max )
 	}
