@@ -185,52 +185,59 @@ export default class Map extends newBoard(newBinMap)
 	}
 
 
-	/** Handle-all main method to check if an item can be added at a location.
-	 * Derived maps need to calculate how many or which
-	 * items exactly can be added.
-	 * @todo Allow to add items if player present
-	 @arg curitem	-Derived classes might do additional checks so they can
-		provide curitem to save on time.
-	@return {len}	-If there's an appropriate stack at destination already
-		return the length of the stack. Otherwise, either return full
-		length or zero. */
+	/** Enforce basic item adding limitations:
+	 * (Don't forget that different maps have different binary data
+	 * but certain object data is universal)
+	 * * Items of different types cannot be in one cell.
+	 * * @todo How many items can be on a flat empty cell? 
+	 * Derived maps will need to use more data to finetune the algorithm.
+	 @arg {CellObj|undefined} [cobj]	-Derived classes might do additional checks so they can
+		provide cell obj to save on time. */
 
-	canadditem( loc ,item ,len ,curitem)
+	canadditem( loc ,item ,len ,cobj)
 	{
-		const cobj	=this.obj.g(loc)
+		cobj	??=this.obj.g( loc)
 
-		if( cobj?.pl)	return 0
-
-		curitem	??=cobj?.item
+		const curitem	=cobj?.item
 
 		if( curitem)
 		{
-			if( curitem.isstck && curitem.gkey() ===item.gkey())
+			if( curitem.isstck && curitem.gkey() === item.gkey())
 			{
-				return curitem.glen()
+				return 100 - curitem.glen()
 			}
-			else	return 0
+			return 0
 		}
-		return len
+		// if no curitem
+		if( cobj?.pl)
+		{
+			if( item.isblock)	return 0
+
+			return Math.min( 10 ,len)
+		}
+		// if no curitem and no player
+		return Math.min( 100 ,len)
 	}
 
 
-	/** If there's an incompatible item already at the location,
-	 * replace it with the new item. */
+	/** If a different item already present, do nothing. Maybe change? */
 
 	additem( loc ,item )
 	{
-		const curitem	=this.getitem( loc)
+		const cobj	=this.obj.s( loc)
 
-		if( curitem && curitem.isstck && curitem.gkey() === item.gkey())
+		const curitem	=cobj.item
+
+		if( curitem)
 		{
-			curitem.add( item)
-
-			return
+			if( curitem.isstck && curitem.gkey() === item.gkey())
+			{
+				curitem.len	+= item.len
+			}
 		}
 		else
 		{
-			this.setitem( loc ,item)
+			cobj.item	=item
 		}
 	}
 

@@ -91,69 +91,17 @@ export default( Map )=>class GroundMap extends newGround(Map)
 		}
 	}
 
-	/**
-	 * @todo Handle rock type.
-	@returns	-If player is the only thing potentially stopping the block
-		return -1. Otherwise return 1 or 0.*/
-
-	canaddblock( dest ,ic ,ctype ,vegstage)
-	{
-		ic	??=this.ic( dest)
-
-		ctype	??=this.gettype_i( ic)
-
-		switch( ctype)
-		{
-			case "water" :
-			
-			case "none" :
-
-				return 0
-
-			case "rock"	:
-
-				return 1
-
-			case "soil" :
-		
-				vegstage	??=this.getsoilvegstage_i( ic)
-
-				if( vegstage >1)	return 0
-
-				const desto	=this.obj.g(dest)
-
-				if( desto?.item)	return 0
-
-				if( desto?.pl)	return -1
-
-				return 1
-		}
-	}
-
 
 	/////////////////////////////////////////////////////////////////////////////
 
 
-	/** @todo How many items can be put on ground? */
 
-	canadditem( loc ,item ,len )
+	canadditem( loc ,item ,len)
 	{
-		if( item.isblock)
-		{
-			const canlen	=this.canaddblock( loc)
+		const ic	=this.ic(loc)
 
-			return canlen <= 0 ? 0 : canlen
-		}
-		const cello	=this.obj.g(loc)
-
-		const curitem	=cello?.item
-
-		if( ! super.canadditem( loc ,item ,len ,curitem))
-		{
-			return 0
-		}
-		const ctype	=this.gettype( loc)
-
+		const ctype	=this.gettype_i( ic)
+		
 		switch( ctype)
 		{
 			case "water" :
@@ -161,22 +109,31 @@ export default( Map )=>class GroundMap extends newGround(Map)
 			case "none" :
 
 				return 0
-		}
-		if( ctype ==="soil")
-		{
-			const veglvl	=this.getsoilvegstage( loc)
 
-			if( veglvl > 3 )	return 0
-		}
-		var max	=99
+			case "rock" :
 
-		if( cello?.pl  || ( ctype === "soil" && veglvl > 0))
-		{
-			max	=10
-		}
-		if( curitem)	max	-= curitem.glen()
+				return super.canadditem( loc ,item ,len)
 
-		return Math.min( len, max < 0 ? 0 : max )
+			case "soil" :
+
+				const veglvl	=this.getsoilvegstage_i( ic)
+
+				if( veglvl > 3)	return 0
+
+				else if( veglvl > 1)
+				{
+					if( item.isblock)	return 0
+
+					return Math.min( 10 ,super.canadditem( loc ,item ,len))
+				}
+				else if( veglvl > 0)
+				{
+					if( item.isblock)	return 1
+
+					return Math.min( 10 ,super.canadditem( loc ,item ,len))
+				}
+				return super.canadditem( loc ,item ,len)
+		}
 	}
 
 
