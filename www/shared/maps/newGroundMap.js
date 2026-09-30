@@ -75,23 +75,6 @@ export default( Map )=>class GroundMap extends newGround(Map)
 	///////////////////////////////////////////////////////////////////////////
 
 
-	/** Kill plant if block item is set */
-
-	setitem( loc ,item )
-	{
-		super.setitem( loc ,item )
-
-		const ic	=this.ic(loc)
-
-		if( item?.isblock && this.isdryplant_i( ic) && this.getveglvl_i( ic) > 0 )
-		{
-			/** @todo Return nutrients to ground */
-
-			this.setvegty_i( ic ,"none" )
-		}
-	}
-
-
 	/////////////////////////////////////////////////////////////////////////////
 
 
@@ -133,6 +116,23 @@ export default( Map )=>class GroundMap extends newGround(Map)
 					return Math.min( 10 ,super.canadditem( loc ,item ,len))
 				}
 				return super.canadditem( loc ,item ,len)
+		}
+	}
+
+
+	/** Kill plant if block item is set */
+
+	additem( loc ,item)
+	{
+		super.additem( loc ,item)
+
+		const ic	=this.ic( loc)
+
+		if( item?.isblock && this.isdryplant_i( ic) && this.getveglvl_i( ic) > 0 )
+		{
+			/** @todo Return nutrients to ground */
+
+			this.setvegty_i( ic ,"none" )
 		}
 	}
 

@@ -128,7 +128,9 @@ export default class Loc extends newHold( newPatha( V))
 
 	cnt2stck( cnt ,nav )
 	{
-		nav.at(0).loc2map(this).setitem( this ,cnt.newstck() )
+		const loc	=this
+
+		nav.at(0).loc2map(loc).obj.s(loc).item	=cnt.newstck()
 	}
 
 
