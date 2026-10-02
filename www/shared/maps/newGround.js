@@ -164,6 +164,13 @@ export default( Base )=>class Ground extends Base
 		return vegdefs[vegty]?.getstage( curage)
 	}
 
+	trysoilvegstage_i( ic ,vegty =this.trysoilvegty_i( ic) ,curage)
+	{
+		if( ! vegty)	return vegty
+
+		return this.getsoilvegstage_i( ic ,vegty ,curage)
+	}
+
 
 	/** Is solid ground? */
 
@@ -214,13 +221,13 @@ export default( Base )=>class Ground extends Base
 
 		const{ bmap }	=Ground.Bin
 
-		bin.setval_str( ic ,bmap.ty ,"soil" )
+		bin.setval_str( ic ,bmap.ty ,"soil")
 
-		bin.setval_str( ic, bmap.ty.soil.plfl, "plant" )
+		bin.setval_str( ic ,bmap.ty.soil.plf ,"plant")
 
-		bin.setval_str( ic, bmap.ty.soil.plfl.veg.ty, type )
+		bin.setval_str( ic ,bmap.ty.soil.plfl.veg.ty ,type)
 
-		bin.setval( ic, bmap.ty.soil.plfl.veg.age, age )
+		bin.setval( ic ,bmap.ty.soil.plfl.veg.age ,age)
 	}
 
 

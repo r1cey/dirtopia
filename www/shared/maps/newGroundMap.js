@@ -124,15 +124,15 @@ export default( Map )=>class GroundMap extends newGround(Map)
 
 	additem( loc ,item)
 	{
-		super.additem( loc ,item)
-
 		const ic	=this.ic( loc)
 
-		if( item?.isblock && this.isdryplant_i( ic) && this.getveglvl_i( ic) > 0 )
+		super.additem( loc ,item)
+
+		if( item.isblock && this.trysoilvegstage_i( ic) > 0)
 		{
 			/** @todo Return nutrients to ground */
 
-			this.setvegty_i( ic ,"none" )
+			this.setsoilveg_i( ic ,"none")
 		}
 	}
 
@@ -232,7 +232,7 @@ export default( Map )=>class GroundMap extends newGround(Map)
 	}
 
 
-	/**@returns If not a plant, returns -1 */
+	/**@returns If not a plant, returns -1 *
 
 	getsoilvegage( loc )
 	{
@@ -243,10 +243,10 @@ export default( Map )=>class GroundMap extends newGround(Map)
 		return m.issoilveg_i( ic)	? m.getsoilvegage_i( ic) :-1
 	}
 
-	setveglvl( loc, lvl )
+	/*setveglvl( loc, lvl )
 	{
 		this.setveglvl_i( this.ic(loc), lvl )
-	}
+	}*/
 
 
 	getshade( loc )
