@@ -188,12 +188,12 @@ class BinBase
 
 
 
-	getcode( buf )
+	static getcode( buf )
 	{
 		return new DataView( buf )["getUint"+this._structarr[0][1]](0, true)
 	}
 
-	getid( buf )
+	static getid( buf )
 	{
 		return new DataView( buf, this._structarr[0][1]>>3 )["getUint"+this._structarr[1][1]](0, true)
 	}

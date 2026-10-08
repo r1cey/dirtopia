@@ -26,14 +26,14 @@ export async function ensuredir( url )
 
 export async function readjson	( url, reviver )
 {
-	console.log("Reading json: "+url )
+	console.log("Reading json: "+url)
 	try
 	{
-		var o	=JSON.parse(await fs.readFile(url, 'utf8'), reviver )
+		var o	=JSON.parse(await fs.readFile(url, 'utf8') ,reviver)
 	}
 	catch(err)
 	{
-		console.error("Couldn't read JSON: "+url )
+		console.error("Couldn't read JSON: "+url ,err)
 	}
 	return o
 }

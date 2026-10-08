@@ -15,7 +15,7 @@ export const sec60	=2*dsqr3
 
 /** x,y vector */
 
-export default class V	//extends newJable()
+export default class V	extends newJable()
 {
 	static sin60	=sin60
 
@@ -26,7 +26,9 @@ export default class V	//extends newJable()
 	/** Delimiter for string representation */
 	static delim	='_'
 
-	static zero	=new V()	//bug, xy are set at the bottom
+	static zero	=new V(0,0)	//bug, xy are set at the bottom
+
+	static key	="vec"
 
 
 	x
@@ -39,6 +41,8 @@ export default class V	//extends newJable()
 
 	constructor( x =0, y =0 )
 	{
+		super()
+
 		this.setxy( x ,y )
 		/*
 		if( Array.isArray( args[0] ) )	this.fromJSON( args[0] )

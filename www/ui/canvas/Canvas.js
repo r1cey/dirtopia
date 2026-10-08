@@ -720,7 +720,7 @@ Canvas.prototype. drawmenu	=function()
 
 
 
-/** @arg {Vec} c	- in global pixels!*/
+/** @arg {V} c	- in global pixels!*/
 
 Canvas.prototype. fillhex	=function( c, col="#888888" )
 {

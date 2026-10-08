@@ -41,7 +41,7 @@ export default{
 	{
 		// debugger
 
-		console.log(plmsg)
+		// console.log(plmsg)
 		
 		this.cl.setpl( plmsg)
 	}

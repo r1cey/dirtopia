@@ -13,7 +13,7 @@ import Loc	from "./shared/Loc.js"
 
 /**********************************************
  * 
- * Client's main class.
+ * Client's main class. Extends Game.
  * 
  * Look up index.js for the actual point of entry.
  * 

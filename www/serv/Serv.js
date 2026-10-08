@@ -22,7 +22,7 @@ import JRev from "../JsonRevivr.js"
  * 
  * Reminder that main communication happens in the format of
  * @typedef {[ fnk ,arg]}	Msg
- * @property {str}	0 -Which method to call in on.js?
+ * @property {str}	0 -Which method to call in on.js
  * @property {*}	1 -If there are multiple arguments put
  *   into an array or a dict, the fnk should handle it.
  *
@@ -47,7 +47,7 @@ export default newSS( class Server
 	jrev	=new JRev()
 
 	/** @prop {Buf} */
-	buf	=new Buf( this)
+	buf	=new InBufAss( this)
 
 
 	///////////////////////////////////////////////////////////////////////////
@@ -206,98 +206,152 @@ export default newSS( class Server
 ///////////////////////////////////////////////////////////////////////////////
 
 
+/** Input Buffer for single map data transfer.
+ * @typedef {Object} InBuf
+ * @property {Loc} loc
+ * @property {number} r
+ * @property {number} dir	--1 if not directional map
+ * @property {Gr.Bin} Gr
+ * @property {Canopy.Bin} Canopy
+ * @property {Object} obj	-Cell data object */
 
-class Buf
+
+/** Input Buffer Assembler.
+ * This class knows how to collect map data and determine when it's complete. */
+
+class InBufAss
 {
-	a	=[]
+	/** @type {InBuf[]} */
+	inbufs	=[]
 
 	srv
+
+
+	static InBuf	=class
+	{
+		loc	=null
+		r	=0
+		dir	=-1
+		gr	=null
+		tr	=null
+		obj	=null
+
+		constructor( loc ,r ,dir)
+		{
+			Object.assign( this, { loc ,r ,dir })
+		}
+
+		ismatch( loc ,r ,dir)
+		{
+			return this.loc.eq( loc) && this.r === r && this.dir === dir
+		}
+
+		iscomplete()
+		{
+			return this.gr && this.tr && this.obj
+		}
+	}
+	static maptps	=new Map([
+		[Gr ,"gr"],
+		[Canopy ,"tr"]
+	])
 
 	
 	constructor( srv )
 	{
 		this.srv	=srv
 	}
-}
 
 
-/** @todo Check what's happening with the array. Can it fill up? */
+	/**
+	 * @arg bbuf	-The full binary buffer.
+	 * @arg code	-Is given because it's already calculated by the caller. 
+	 * @todo Check what's happening with the array. Can it fill up? */
 
-Buf.prototype. addbinbuf	=function( bbuf, code )
-{
-	var id	=Gr.Bin.getid( bbuf )
-
-	for(var Class of [Gr, Canopy] )
+	addbinbuf( bbuf, code )
 	{
-		if( Class.Bin.id === id )	break
+		const id	=Gr.Bin.getid( bbuf)
+
+		const{ maptps ,InBuf }	=this.constructor
+
+		for( var[ MapTp ,mapkey] of maptps)
+		{
+			if( MapTp.Bin.id === id)	break
+		}
+		const Bins	=[ MapTp.Bin ,MapTp.MapShiftBo.Bin]
+
+		for( var Bin of Bins)
+		{
+			if( Bin.code === code)	break
+		}
+		const bin	=new Bin( bbuf)
+
+		const loc	=bin.getloc( new Loc())
+
+		const r	=bin.get( "r")
+
+		const dir	=code === Bins[1].code	? bin.get("dir")	: -1
+
+		for(var i=0,len= this.inbufs.length ;i<len;i++)
+		{
+			const inbuf	=this.inbufs[i]
+
+			if( inbuf.ismatch( loc ,r ,dir))
+			{
+				inbuf[mapkey]	=bin
+
+				return this.iscomplete( i ,inbuf)
+			}
+		}
+		const inbuf	=new InBuf( loc ,r ,dir)
+		
+		inbuf[mapkey]	=bin
+
+		this.inbufs.push( inbuf)
 	}
 
-	var Bins	=[ Class.Bin, Class.MapShiftBo.Bin ]
 
-	for(var Bin of Bins )
+
+	addobj( obj ,loc ,r ,dir)
 	{
-		if( Bin.code === code )	break
+		dir	??=-1
+
+		for(var i=0,len= this.inbufs.length ;i<len;i++)
+		{
+			const inbuf	=this.inbufs[i]
+
+			if( inbuf.ismatch( loc ,r ,dir))
+			{
+				inbuf.obj	=obj
+
+				return this.iscomplete( i ,inbuf)
+			}
+		}
+		const inbuf	=new this.constructor.InBuf( loc ,r ,dir)
+
+		inbuf.obj	=obj
+
+		this.inbufs.push( inbuf)
 	}
 
-	var bin	=new Bin(bbuf)
 
-	var loc	=bin.getloc(new Loc())
 
-	var r	=bin.get("r")
-
-	var dir	=code === Bins[1].code ? bin.get("dir") : -1
-
-	for(var i=0,len= this.a.length ;i<len;i++)
+	iscomplete( i, inbuf)
 	{
-		var buf	=this.a[i]
+		// const{ cl }	=this.srv
 
-		if( loc.eq(buf.loc) && r === buf.r && dir === buf.dir )
+		if( inbuf.iscomplete())
 		{
-			buf[Class.name]	=bin
-
-			return this.iscomplete( i, buf )
+			if( inbuf.dir >= 0 )
+			{
+				this.srv.cl.shiftmap( inbuf.dir ,[ inbuf.gr ,inbuf.obj.gr ,inbuf.tr ,inbuf.obj.tr])
+			}
+			else
+			{
+				this.srv.cl.setmaps( inbuf.gr ,inbuf.obj.gr ,inbuf.tr ,inbuf.obj.tr)
+			}
+			this.inbufs.splice( i, 1 )
 		}
-	}
-	this.a.push({ loc, r, dir, [Class.name] : bin })
-}
-
-
-
-Buf.prototype. addobj	=function( obj, loc, r, dir )
-{
-	dir	??=-1
-
-	for(var i=0,len= this.a.length ;i<len;i++)
-	{
-		var buf	=this.a[i]
-
-		if( loc.eq(buf.loc) && r === buf.r && dir === buf.dir )
-		{
-			buf.obj	=obj
-
-			return this.iscomplete( i, buf )
-		}
-	}
-	this.a.push({ loc, r, dir, obj })
-}
-
-
-
-Buf.prototype. iscomplete	=function( i, buf )
-{
-	// const{ cl }	=this.srv
-
-	if( buf.Gr && buf.Tr && buf.obj )
-	{
-		if( buf.dir >= 0 )
-		{
-			this.srv.cl.shiftmap( buf.dir ,[ buf.Gr ,buf.obj.gr ,buf.Tr ,buf.obj.tr ])
-		}
-		else
-		{
-			this.srv.cl.setmaps( buf.Gr ,buf.obj.gr ,buf.Tr ,buf.obj.tr )
-		}
-		this.a.splice( i, 1 )
 	}
 }
 

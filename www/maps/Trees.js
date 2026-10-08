@@ -277,7 +277,7 @@ export default class Canopy	extends TrBase
 	/** Check if it's the end of a branch. If yes, do all of the calculations
 	 * and data storing.
 	 * Specifically set branch sizes and set vegty for the entire branch.
-	 * @arg {Vec}	v -scratch Vec
+	 * @arg {V}	v -scratch Vec
 	 * @return {number}	-0 if end of branch,
 	 * 	1 if not end and is not set, 2 is not end and is already set. */
 

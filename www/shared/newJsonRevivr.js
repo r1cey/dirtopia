@@ -176,6 +176,11 @@ class JRBase
 		}
 		else	var iface	=ifaces[key]
 
+		/*if( key === "col" )
+		{
+			console.log()
+		}*/
+
 		return iface && val	? iface.fromJSON( val ,key ,this.userd )	: val
 	}
 }
