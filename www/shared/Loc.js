@@ -140,7 +140,7 @@ export default class Loc extends newHold( newPatha( V))
 
 	static setvstr( str, h )
 	{
-		return new this( ...str.split(V.delim) ,h )
+		return new this( ...str.split(V.delim).map(Number) ,h )
 	}
 
 
