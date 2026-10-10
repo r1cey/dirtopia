@@ -53,7 +53,7 @@ Gr.prototype. draw	=function( can )
 ///////////////////////////////////////////////////////////////////////////////
 
 
-/** Slops is not implemented at all right now. But used to be. So Anton
+/** Slopes are not implemented at all right now. But used to be. So Anton
  * kept the code here in case anyone wants to implement it again. */
 
 Gr.prototype. drawhex	=function( can ,loc ,plh ,vsq ,ic)
@@ -130,7 +130,7 @@ Gr.prototype. drawhex	=function( can ,loc ,plh ,vsq ,ic)
 					{
 						map.drawcactus( can ,loc ,vsq ,ic)
 					}
-					else if( stage >2 && vegdefs[ty].type ==="tree")
+					else if( stage >2 && vegdefs[ty].sz ==="tree")
 					{
 						map.drawstem( can ,loc ,vsq ,ic ,col ,ty ,stage)
 					}
